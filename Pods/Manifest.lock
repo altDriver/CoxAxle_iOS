@@ -1,0 +1,36 @@
+PODS:
+  - Alamofire (3.4.1)
+  - EAIntroView (2.9.0):
+    - EARestrictedScrollView (~> 1.1.0)
+  - EARestrictedScrollView (1.1.0)
+  - IQKeyboardManagerSwift (4.0.4)
+  - JSONModel (1.4.0)
+  - JTMaterialSwitch (1.1)
+  - REFrostedViewController (2.4.8)
+  - SMFloatingLabelTextField (0.2.0)
+  - YLProgressBar (3.10.0)
+
+DEPENDENCIES:
+  - Alamofire (~> 3.4)
+  - EAIntroView (~> 2.9.0)
+  - IQKeyboardManagerSwift
+  - JSONModel
+  - JTMaterialSwitch
+  - REFrostedViewController (~> 2.4)
+  - SMFloatingLabelTextField
+  - YLProgressBar (~> 3.10.0)
+
+SPEC CHECKSUMS:
+  Alamofire: 01a82e2f6c0f860ade35534c8dd88be61bdef40c
+  EAIntroView: 76f68cc56242f2e25359419e6ecc2344ee7e1756
+  EARestrictedScrollView: b0c2a3f92fb2610bb44d71c5e4893777c89e45ef
+  IQKeyboardManagerSwift: e0964d04d6a29b71016fd346dca13ecb80a2823a
+  JSONModel: 58fe3f8c29ff95ed94e7ee7dde87e807f5da5371
+  JTMaterialSwitch: cad8093c3773ff9f6c60005c98d269eb869b5e04
+  REFrostedViewController: a893b4979ba1f200c547aef9ff4c3fd5a18f5923
+  SMFloatingLabelTextField: 0ba68e9fbb58186effade627beff866e20bf78fb
+  YLProgressBar: 40a0627522dc1b536e02bf082a1b1ce3085b4668
+
+PODFILE CHECKSUM: 5ce07f260edce9e0c3258a86b0ff394adc5007ec
+
+COCOAPODS: 1.0.1

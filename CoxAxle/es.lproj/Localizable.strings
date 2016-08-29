@@ -1,0 +1,75 @@
+/* 
+  Localizable.strings
+  CoxAxle
+
+  Created by Prudhvi on 21/07/16.
+  Copyright © 2016 Prudhvi. All rights reserved.
+*/
+
+//MARK:- VIEWCONTROLLER
+
+"Login" = "Iniciar sesión";
+"Continue as Guest" = "Continua como invitado";
+"Don’t have an account? Sign up" = "No tienes una cuenta? Regístrate";
+"Loading" = "Cargando";
+
+//MARK:- LOGIN SCREEN
+
+"Email" = "Correo Electrónico";
+"Password" = "contraseña";
+"Login" = "Iniciar sesión";
+"Don’t have an account? Sign up" = "No tienes una cuenta? Regístrate";
+"Remember me" = "Recuérdame";
+"Forgot Password" = "Se te olvidó tu contraseña";
+"Please enter your email address" = "Por favor, introduzca su dirección de correo electrónico";
+"OK" = "DE ACUERDO";
+"Email address cannot be empty" = "Dirección de correo electrónico no puede estar vacío";
+"Cancel" = "Cancelar";
+"Invalid email id" = "Inválida correo electrónico de identificación";
+"Please enter your username" = "Por favor, ingrese su nombre de usuario";
+"Please enter your password" = "Por favor, introduzca su contraseña";
+"No Internet Connection" = "Sin conexión a Internet";
+"Make sure your device is connected to the internet." = "Asegúrese de que su dispositivo está conectado a internet.";
+"Success" = "Éxito";
+
+//MARK:- REGISTER SCREEN
+
+"Register" = "Registro";
+"Personal Information" = "Informacion Personal";
+"Vehicle Information" = "Información del vehículo";
+"Address" = "Dirección";
+"Name" = "Nombre";
+"Email or Phone Number" = "Correo electrónico o número de teléfono";
+"Password" = "Contraseña";
+"VIN" = "VIN";
+"Dongle Details (Optional)" = "Detalles dongle ( Opcional )";
+"Warranty (Optional)" = "Garantía ( Opcional )";
+"Extended Warranty (Optional)" = "Garantía extendida ( Opcional )";
+"Loan Amount Details (Optional)" = "Préstamo Detalles N ( Opcional )";
+"Finance / Lease / Own Vehicle" = "Finanzas / arrendamiento / Vehículo propio";
+"Tag Renewal Date (Optional)" = "Renovación Tag Fecha ( Opcional )";
+"Make" = "Hacer";
+"Model" = "Modelo";
+"Year" = "Año";
+"Color" = "Color";
+"Trim" = "Recortar";
+"Mileage" = "Kilometraje";
+"Zip Code" = "Código postal";
+
+//MARK:- HOME SCREEN
+
+"Home" = "Casa";
+"Dealer Services" = "Servicios del distribuidor";
+"Schedule Appointment" = "Programar una cita";
+"Service History" = "Historia de servicio";
+"My Cars" = "Mis Carros";
+"Dealer Inventory" = "inventario de los distribuidores";
+"Search New and Used Cars" = "Buscar coches nuevos";
+"Saved Cars" = "Guardadas Coches";
+"Call Us" = "Llamanos";
+"Email Us" = "Envíanos";
+"Direction" = "Dirección";
+
+//MARK:- VEHICLE DETAILS SCREEN
+
+"password address cannot be empty" = "dirección de contraseña no puede estar vacío";

@@ -1,0 +1,6 @@
+framework module Pods_CoxAxle {
+  umbrella header "Pods-CoxAxle-umbrella.h"
+
+  export *
+  module * { export * }
+}

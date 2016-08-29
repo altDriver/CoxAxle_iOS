@@ -1,0 +1,76 @@
+/* 
+  Localizable.strings
+  CoxAxle
+
+  Created by Prudhvi on 21/07/16.
+  Copyright © 2016 Prudhvi. All rights reserved.
+*/
+
+//MARK:- VIEWCONTROLLER
+
+"Login" = "Log in";
+"Continue as Guest" = "Continue as Guest";
+"Don’t have an account? Sign up" = "Don’t have an account? Sign up";
+"Loading" = "Loading";
+
+//MARK:- LOGIN SCREEN
+
+"Email" = "Username";
+"Password" = "Password";
+"Login" = "Log in";
+"Don’t have an account? Sign up" = "Don’t have an account? Sign up";
+"Remember me" = "Remember me";
+"Forgot Password" = "Forgot Password";
+"Please enter your email address" = "Please enter your email address";
+"OK" = "OK";
+"Email address cannot be empty" = "Email address cannot be empty";
+"Cancel" = "Cancel";
+"Invalid email id" = "Invalid email id";
+"Please enter your username" = "Please enter your username";
+"Please enter your password" = "Please enter your password";
+"No Internet Connection" = "No Internet Connection";
+"Make sure your device is connected to the internet." = "Make sure your device is connected to the internet.";
+"Success" = "Success";
+
+//MARK:- REGISTER SCREEN
+
+"Register" = "Register";
+"Personal Information" = "Personal Information";
+"Vehicle Information" = "Vehicle Information";
+"Address" = "Address";
+"Name" = "Name";
+"Email or Phone Number" = "Email or Phone Number";
+"Password" = "Password";
+"VIN" = "VIN";
+"Dongle Details (Optional)" = "Dongle Details (Optional)";
+"Warranty (Optional)" = "Warranty (Optional)";
+"Extended Warranty (Optional)" = "Extended Warranty (Optional)";
+"Loan Amount Details (Optional)" = "Loan Amount Details (Optional)";
+"Finance / Lease / Own Vehicle" = "Finance / Lease / Own Vehicle";
+"Tag Renewal Date (Optional)" = "Tag Renewal Date (Optional)";
+"Make" = "Make";
+"Model" = "Model";
+"Year" = "Year";
+"Color" = "Color";
+"Trim" = "Trim";
+"Mileage" = "Mileage";
+"Zip Code" = "Zip Code";
+
+//MARK:- HOME SCREEN
+
+"Home" = "Home";
+"Dealer Services" = "Dealer Services";
+"Schedule Appointment" = "Schedule Appointment";
+"Service History" = "Service History";
+"My Cars" = "My Cars";
+"Dealer Inventory" = "Dealer Inventory";
+"Search New and Used Cars" = "Search New and Used Cars";
+"Saved Cars" = "Saved Cars";
+"Call Us" = "Call Us";
+"Email Us" = "Email Us";
+"Direction" = "Direction";
+
+
+//MARK:- VEHICLE DETAILS SCREEN
+
+"password address cannot be empty" = "password address cannot be empty";

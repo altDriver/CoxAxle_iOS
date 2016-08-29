@@ -1,0 +1,18 @@
+
+/* Class = "UILabel"; text = "Remember me"; ObjectID = "4tn-wB-KNB"; */
+"4tn-wB-KNB.text" = "Remember me";
+
+/* Class = "UITextField"; placeholder = "Username"; ObjectID = "YW5-h2-46r"; */
+"YW5-h2-46r.placeholder" = "Username";
+
+/* Class = "UITextField"; placeholder = "Password"; ObjectID = "bHn-ah-4qt"; */
+"bHn-ah-4qt.placeholder" = "Password";
+
+/* Class = "UIButton"; normalTitle = "Login"; ObjectID = "nUT-iH-L5Y"; */
+"nUT-iH-L5Y.normalTitle" = "Login";
+
+/* Class = "UIButton"; normalTitle = "Continue as Guest"; ObjectID = "nox-7a-PSm"; */
+"nox-7a-PSm.normalTitle" = "Continue as Guest";
+
+/* Class = "UIButton"; normalTitle = "Create an Account"; ObjectID = "oCK-XX-aNP"; */
+"oCK-XX-aNP.normalTitle" = "Create an Account";

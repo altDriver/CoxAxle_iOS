@@ -1,0 +1,1067 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		02D2E54FE5B4A5D79DC9A17C /* Pods_CoxAxleTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 31070A670C2D64BD4CAC3FF6 /* Pods_CoxAxleTests.framework */; };
+		7B65998F9BD7CC13000FD3BF /* Pods_CoxAxle.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 42F8E92CBF22346B553F154A /* Pods_CoxAxle.framework */; };
+		CE1C8FBD1D66EF8D004C3123 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE1C8FBC1D66EF8D004C3123 /* SettingsViewController.swift */; };
+		CE1C8FBF1D671430004C3123 /* UserDetails.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE1C8FBE1D671430004C3123 /* UserDetails.swift */; };
+		CE5231CA1D50A63100C51AC0 /* Alamofire.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CE5231C91D50A63100C51AC0 /* Alamofire.framework */; };
+		CE96F3B91D5C5B720026037A /* VehicleDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE96F3B81D5C5B720026037A /* VehicleDetailsViewController.swift */; };
+		CE96F3BC1D5C68640026037A /* VehicleDetailsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE96F3BB1D5C68640026037A /* VehicleDetailsTableViewCell.swift */; };
+		CE96F3BE1D5C687C0026037A /* VehicleDetailsCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE96F3BD1D5C687C0026037A /* VehicleDetailsCollectionViewCell.swift */; };
+		CE9CE95A1D6475C1007DA809 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CE9CE9591D6475C1007DA809 /* MapKit.framework */; };
+		CE9CE95C1D6486AE007DA809 /* AddVehicleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE9CE95B1D6486AE007DA809 /* AddVehicleViewController.swift */; };
+		CE9CE9641D649F23007DA809 /* VehiclesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE9CE9631D649F23007DA809 /* VehiclesViewController.swift */; };
+		CEA8BAB31D6C706300331D27 /* demo.docx in Resources */ = {isa = PBXBuildFile; fileRef = CEA8BAB21D6C706300331D27 /* demo.docx */; };
+		CEACB8B11D700BE300464844 /* SessionExpireViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEACB8B01D700BE300464844 /* SessionExpireViewController.swift */; };
+		CEACB8B41D702D4F00464844 /* Logout.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEACB8B31D702D4F00464844 /* Logout.swift */; };
+		CEACB8B81D7048EC00464844 /* UIDevice+DeviceType.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEACB8B71D7048EC00464844 /* UIDevice+DeviceType.swift */; };
+		CEB2995B1D65B883009F3015 /* Login.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEB2995A1D65B883009F3015 /* Login.swift */; };
+		CEB2995D1D65C0AA009F3015 /* Register.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEB2995C1D65C0AA009F3015 /* Register.swift */; };
+		CEB2995F1D65C4EA009F3015 /* AddVehicle.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEB2995E1D65C4EA009F3015 /* AddVehicle.swift */; };
+		CEB299611D65C54A009F3015 /* VehicleDetails.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEB299601D65C54A009F3015 /* VehicleDetails.swift */; };
+		CEB299631D65C5D6009F3015 /* VehiclesList.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEB299621D65C5D6009F3015 /* VehiclesList.swift */; };
+		CEB299651D65D544009F3015 /* EditVehicles.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEB299641D65D544009F3015 /* EditVehicles.swift */; };
+		CEB4FBD41D744BE0002788AA /* KNCirclePercentView.m in Sources */ = {isa = PBXBuildFile; fileRef = CEB4FBD11D744BE0002788AA /* KNCirclePercentView.m */; };
+		CEB4FBD51D744BE0002788AA /* KNPercentLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = CEB4FBD31D744BE0002788AA /* KNPercentLabel.m */; };
+		CEB4FBDA1D744EB8002788AA /* VehicleProgressTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEB4FBD91D744EB8002788AA /* VehicleProgressTableViewCell.swift */; };
+		CEB587041D6304FE00683A0D /* XtimeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEB587031D6304FE00683A0D /* XtimeViewController.swift */; };
+		CEB6857B1D6B0EC9008FE232 /* UpdateUserDetails.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEB6857A1D6B0EC9008FE232 /* UpdateUserDetails.swift */; };
+		CEB6857D1D6B22BB008FE232 /* DealersList.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEB6857C1D6B22BB008FE232 /* DealersList.swift */; };
+		CEB7BC521D42029500A6A251 /* KSideMenuVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEB7BC511D42029500A6A251 /* KSideMenuVC.swift */; };
+		CEB7BC581D423C1500A6A251 /* UIAlertController+UIAlertView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEB7BC571D423C1500A6A251 /* UIAlertController+UIAlertView.swift */; };
+		CEB7D7B11D58C3190096BC50 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CEB7D7B01D58C3190096BC50 /* Assets.xcassets */; };
+		CEB7D7BF1D58CACD0096BC50 /* BannerCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEB7D7BD1D58CACD0096BC50 /* BannerCollectionViewCell.swift */; };
+		CEC03D881D6D80A400ED74D9 /* VehiclesListCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEC03D871D6D80A400ED74D9 /* VehiclesListCollectionViewCell.swift */; };
+		CEC07E511D5B467B0018AE19 /* MyCarsLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEC07E501D5B467B0018AE19 /* MyCarsLayout.swift */; };
+		CEC309A51D48A6740015D6A9 /* UIActivityIndicatorView+ActivityClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEC309A41D48A6740015D6A9 /* UIActivityIndicatorView+ActivityClass.swift */; };
+		CEC309A71D48DC090015D6A9 /* NSString+ValidationClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEC309A61D48DC090015D6A9 /* NSString+ValidationClass.swift */; };
+		CEC502701D408E0000DDC19E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEC5026F1D408E0000DDC19E /* AppDelegate.swift */; };
+		CEC502721D408E0000DDC19E /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEC502711D408E0000DDC19E /* ViewController.swift */; };
+		CEC502751D408E0100DDC19E /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CEC502731D408E0100DDC19E /* Main.storyboard */; };
+		CEC502781D408E0100DDC19E /* CoxAxle.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = CEC502761D408E0100DDC19E /* CoxAxle.xcdatamodeld */; };
+		CEC5027D1D408E0100DDC19E /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CEC5027B1D408E0100DDC19E /* LaunchScreen.storyboard */; };
+		CEC502881D408E0100DDC19E /* CoxAxleTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEC502871D408E0100DDC19E /* CoxAxleTests.swift */; };
+		CEC502931D408E0100DDC19E /* CoxAxleUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEC502921D408E0100DDC19E /* CoxAxleUITests.swift */; };
+		CEC502A41D40993700DDC19E /* Reachability.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEC502A31D40993700DDC19E /* Reachability.swift */; };
+		CEC502A81D40A65600DDC19E /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEC502A71D40A65600DDC19E /* Constants.swift */; };
+		CEC502AA1D40A9EF00DDC19E /* UIColor+ColorClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEC502A91D40A9EF00DDC19E /* UIColor+ColorClass.swift */; };
+		CEC502AC1D40AA4700DDC19E /* UIFont+FontClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEC502AB1D40AA4700DDC19E /* UIFont+FontClass.swift */; };
+		CEC502B91D40AB4100DDC19E /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = CEC502BB1D40AB4100DDC19E /* Localizable.strings */; };
+		CEC502C01D40AB6A00DDC19E /* StringExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEC502BF1D40AB6A00DDC19E /* StringExtension.swift */; };
+		CEC502CC1D40E5DD00DDC19E /* CreateAccount.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEC502CB1D40E5DD00DDC19E /* CreateAccount.swift */; };
+		CEC502CE1D40EA3D00DDC19E /* LandingScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEC502CD1D40EA3D00DDC19E /* LandingScreen.swift */; };
+		CEC502D01D4102E600DDC19E /* RootVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEC502CF1D4102E600DDC19E /* RootVC.swift */; };
+		CEC502D21D41036F00DDC19E /* NavigationVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEC502D11D41036F00DDC19E /* NavigationVC.swift */; };
+		CEC502D41D4103D100DDC19E /* SideMenuVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEC502D31D4103D100DDC19E /* SideMenuVC.swift */; };
+		CEE3F1961D5A0CC3001FFE02 /* MyCarsCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEE3F1951D5A0CC3001FFE02 /* MyCarsCollectionViewCell.swift */; };
+		CEE3F1981D5A10CD001FFE02 /* BannerTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEE3F1971D5A10CD001FFE02 /* BannerTableViewCell.swift */; };
+		CEE3F19A1D5A10E6001FFE02 /* MyCarsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEE3F1991D5A10E6001FFE02 /* MyCarsTableViewCell.swift */; };
+		CEE3F19C1D5A1527001FFE02 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CEE3F19B1D5A1527001FFE02 /* QuartzCore.framework */; };
+		CEFDE9961D5DD16A00A3044B /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEFDE9951D5DD16A00A3044B /* LoginViewController.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		CEC502841D408E0100DDC19E /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = CEC502641D408E0000DDC19E /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = CEC5026B1D408E0000DDC19E;
+			remoteInfo = CoxAxle;
+		};
+		CEC5028F1D408E0100DDC19E /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = CEC502641D408E0000DDC19E /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = CEC5026B1D408E0000DDC19E;
+			remoteInfo = CoxAxle;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		31070A670C2D64BD4CAC3FF6 /* Pods_CoxAxleTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_CoxAxleTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		42F8E92CBF22346B553F154A /* Pods_CoxAxle.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_CoxAxle.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		86B344B8661DD972F657713B /* Pods-CoxAxle.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CoxAxle.release.xcconfig"; path = "Pods/Target Support Files/Pods-CoxAxle/Pods-CoxAxle.release.xcconfig"; sourceTree = "<group>"; };
+		92331C94559E8A78182F6475 /* Pods-CoxAxleTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CoxAxleTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-CoxAxleTests/Pods-CoxAxleTests.debug.xcconfig"; sourceTree = "<group>"; };
+		BC0EF8C433B954FD118ECA81 /* Pods-CoxAxle.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CoxAxle.debug.xcconfig"; path = "Pods/Target Support Files/Pods-CoxAxle/Pods-CoxAxle.debug.xcconfig"; sourceTree = "<group>"; };
+		CE1C8FBC1D66EF8D004C3123 /* SettingsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
+		CE1C8FBE1D671430004C3123 /* UserDetails.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserDetails.swift; sourceTree = "<group>"; };
+		CE5231C91D50A63100C51AC0 /* Alamofire.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Alamofire.framework; path = "../../../Library/Developer/Xcode/DerivedData/CoxAxle-getleldjrqfjnrazmgxijnkndhcu/Build/Products/Debug-iphonesimulator/Alamofire/Alamofire.framework"; sourceTree = "<group>"; };
+		CE96F3B81D5C5B720026037A /* VehicleDetailsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VehicleDetailsViewController.swift; sourceTree = "<group>"; };
+		CE96F3BB1D5C68640026037A /* VehicleDetailsTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VehicleDetailsTableViewCell.swift; sourceTree = "<group>"; };
+		CE96F3BD1D5C687C0026037A /* VehicleDetailsCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VehicleDetailsCollectionViewCell.swift; sourceTree = "<group>"; };
+		CE9CE9591D6475C1007DA809 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
+		CE9CE95B1D6486AE007DA809 /* AddVehicleViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddVehicleViewController.swift; sourceTree = "<group>"; };
+		CE9CE9631D649F23007DA809 /* VehiclesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VehiclesViewController.swift; sourceTree = "<group>"; };
+		CEA8BAB21D6C706300331D27 /* demo.docx */ = {isa = PBXFileReference; lastKnownFileType = file; path = demo.docx; sourceTree = "<group>"; };
+		CEACB8B01D700BE300464844 /* SessionExpireViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SessionExpireViewController.swift; sourceTree = "<group>"; };
+		CEACB8B31D702D4F00464844 /* Logout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Logout.swift; sourceTree = "<group>"; };
+		CEACB8B71D7048EC00464844 /* UIDevice+DeviceType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIDevice+DeviceType.swift"; sourceTree = "<group>"; };
+		CEB2995A1D65B883009F3015 /* Login.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Login.swift; sourceTree = "<group>"; };
+		CEB2995C1D65C0AA009F3015 /* Register.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Register.swift; sourceTree = "<group>"; };
+		CEB2995E1D65C4EA009F3015 /* AddVehicle.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddVehicle.swift; sourceTree = "<group>"; };
+		CEB299601D65C54A009F3015 /* VehicleDetails.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VehicleDetails.swift; sourceTree = "<group>"; };
+		CEB299621D65C5D6009F3015 /* VehiclesList.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VehiclesList.swift; sourceTree = "<group>"; };
+		CEB299641D65D544009F3015 /* EditVehicles.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditVehicles.swift; sourceTree = "<group>"; };
+		CEB4FBD01D744BE0002788AA /* KNCirclePercentView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KNCirclePercentView.h; sourceTree = "<group>"; };
+		CEB4FBD11D744BE0002788AA /* KNCirclePercentView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KNCirclePercentView.m; sourceTree = "<group>"; };
+		CEB4FBD21D744BE0002788AA /* KNPercentLabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KNPercentLabel.h; sourceTree = "<group>"; };
+		CEB4FBD31D744BE0002788AA /* KNPercentLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KNPercentLabel.m; sourceTree = "<group>"; };
+		CEB4FBD91D744EB8002788AA /* VehicleProgressTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VehicleProgressTableViewCell.swift; sourceTree = "<group>"; };
+		CEB587031D6304FE00683A0D /* XtimeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = XtimeViewController.swift; sourceTree = "<group>"; };
+		CEB6857A1D6B0EC9008FE232 /* UpdateUserDetails.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UpdateUserDetails.swift; sourceTree = "<group>"; };
+		CEB6857C1D6B22BB008FE232 /* DealersList.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DealersList.swift; sourceTree = "<group>"; };
+		CEB7BC511D42029500A6A251 /* KSideMenuVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KSideMenuVC.swift; sourceTree = "<group>"; };
+		CEB7BC571D423C1500A6A251 /* UIAlertController+UIAlertView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIAlertController+UIAlertView.swift"; sourceTree = "<group>"; };
+		CEB7D7B01D58C3190096BC50 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		CEB7D7BD1D58CACD0096BC50 /* BannerCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BannerCollectionViewCell.swift; sourceTree = "<group>"; };
+		CEC03D871D6D80A400ED74D9 /* VehiclesListCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VehiclesListCollectionViewCell.swift; sourceTree = "<group>"; };
+		CEC07E501D5B467B0018AE19 /* MyCarsLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyCarsLayout.swift; sourceTree = "<group>"; };
+		CEC309A41D48A6740015D6A9 /* UIActivityIndicatorView+ActivityClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIActivityIndicatorView+ActivityClass.swift"; sourceTree = "<group>"; };
+		CEC309A61D48DC090015D6A9 /* NSString+ValidationClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSString+ValidationClass.swift"; sourceTree = "<group>"; };
+		CEC5026C1D408E0000DDC19E /* CoxAxle.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CoxAxle.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		CEC5026F1D408E0000DDC19E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		CEC502711D408E0000DDC19E /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		CEC502741D408E0100DDC19E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		CEC502771D408E0100DDC19E /* CoxAxle.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = CoxAxle.xcdatamodel; sourceTree = "<group>"; };
+		CEC5027C1D408E0100DDC19E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		CEC5027E1D408E0100DDC19E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		CEC502831D408E0100DDC19E /* CoxAxleTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CoxAxleTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		CEC502871D408E0100DDC19E /* CoxAxleTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoxAxleTests.swift; sourceTree = "<group>"; };
+		CEC502891D408E0100DDC19E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		CEC5028E1D408E0100DDC19E /* CoxAxleUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CoxAxleUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		CEC502921D408E0100DDC19E /* CoxAxleUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoxAxleUITests.swift; sourceTree = "<group>"; };
+		CEC502941D408E0100DDC19E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		CEC502A31D40993700DDC19E /* Reachability.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Reachability.swift; sourceTree = "<group>"; };
+		CEC502A71D40A65600DDC19E /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
+		CEC502A91D40A9EF00DDC19E /* UIColor+ColorClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIColor+ColorClass.swift"; sourceTree = "<group>"; };
+		CEC502AB1D40AA4700DDC19E /* UIFont+FontClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIFont+FontClass.swift"; sourceTree = "<group>"; };
+		CEC502AF1D40AAEB00DDC19E /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/Main.strings; sourceTree = "<group>"; };
+		CEC502B01D40AAEB00DDC19E /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
+		CEC502BD1D40AB4400DDC19E /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/Localizable.strings; sourceTree = "<group>"; };
+		CEC502BF1D40AB6A00DDC19E /* StringExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StringExtension.swift; sourceTree = "<group>"; };
+		CEC502C61D40BD8E00DDC19E /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
+		CEC502C71D40D17E00DDC19E /* CoxAxle-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "CoxAxle-Bridging-Header.h"; sourceTree = "<group>"; };
+		CEC502CB1D40E5DD00DDC19E /* CreateAccount.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CreateAccount.swift; sourceTree = "<group>"; };
+		CEC502CD1D40EA3D00DDC19E /* LandingScreen.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LandingScreen.swift; sourceTree = "<group>"; };
+		CEC502CF1D4102E600DDC19E /* RootVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RootVC.swift; sourceTree = "<group>"; };
+		CEC502D11D41036F00DDC19E /* NavigationVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NavigationVC.swift; sourceTree = "<group>"; };
+		CEC502D31D4103D100DDC19E /* SideMenuVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SideMenuVC.swift; sourceTree = "<group>"; };
+		CEE3F1951D5A0CC3001FFE02 /* MyCarsCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyCarsCollectionViewCell.swift; sourceTree = "<group>"; };
+		CEE3F1971D5A10CD001FFE02 /* BannerTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BannerTableViewCell.swift; sourceTree = "<group>"; };
+		CEE3F1991D5A10E6001FFE02 /* MyCarsTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyCarsTableViewCell.swift; sourceTree = "<group>"; };
+		CEE3F19B1D5A1527001FFE02 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
+		CEFDE9951D5DD16A00A3044B /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
+		E25E3C4BF7F075A0C02D0762 /* Pods-CoxAxleTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CoxAxleTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-CoxAxleTests/Pods-CoxAxleTests.release.xcconfig"; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		CEC502691D408E0000DDC19E /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				CE9CE95A1D6475C1007DA809 /* MapKit.framework in Frameworks */,
+				CEE3F19C1D5A1527001FFE02 /* QuartzCore.framework in Frameworks */,
+				CE5231CA1D50A63100C51AC0 /* Alamofire.framework in Frameworks */,
+				7B65998F9BD7CC13000FD3BF /* Pods_CoxAxle.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		CEC502801D408E0100DDC19E /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				02D2E54FE5B4A5D79DC9A17C /* Pods_CoxAxleTests.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		CEC5028B1D408E0100DDC19E /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		623815C8477EF90895DD97A3 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				CE9CE9591D6475C1007DA809 /* MapKit.framework */,
+				CEE3F19B1D5A1527001FFE02 /* QuartzCore.framework */,
+				CE5231C91D50A63100C51AC0 /* Alamofire.framework */,
+				42F8E92CBF22346B553F154A /* Pods_CoxAxle.framework */,
+				31070A670C2D64BD4CAC3FF6 /* Pods_CoxAxleTests.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		C175FD1584617003A5186F31 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				BC0EF8C433B954FD118ECA81 /* Pods-CoxAxle.debug.xcconfig */,
+				86B344B8661DD972F657713B /* Pods-CoxAxle.release.xcconfig */,
+				92331C94559E8A78182F6475 /* Pods-CoxAxleTests.debug.xcconfig */,
+				E25E3C4BF7F075A0C02D0762 /* Pods-CoxAxleTests.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
+		CE10C3161D4B5DB100EE2A2D /* ModalClasses */ = {
+			isa = PBXGroup;
+			children = (
+				CEB6857C1D6B22BB008FE232 /* DealersList.swift */,
+				CEB2995A1D65B883009F3015 /* Login.swift */,
+				CEB2995C1D65C0AA009F3015 /* Register.swift */,
+				CEB2995E1D65C4EA009F3015 /* AddVehicle.swift */,
+				CEB299601D65C54A009F3015 /* VehicleDetails.swift */,
+				CEB299621D65C5D6009F3015 /* VehiclesList.swift */,
+				CEB299641D65D544009F3015 /* EditVehicles.swift */,
+				CE1C8FBE1D671430004C3123 /* UserDetails.swift */,
+				CEB6857A1D6B0EC9008FE232 /* UpdateUserDetails.swift */,
+				CEACB8B31D702D4F00464844 /* Logout.swift */,
+			);
+			name = ModalClasses;
+			sourceTree = "<group>";
+		};
+		CE1C8FBB1D66EF12004C3123 /* Settings */ = {
+			isa = PBXGroup;
+			children = (
+				CE1C8FBC1D66EF8D004C3123 /* SettingsViewController.swift */,
+			);
+			name = Settings;
+			sourceTree = "<group>";
+		};
+		CE96F3B71D5C5B3B0026037A /* Vehicles */ = {
+			isa = PBXGroup;
+			children = (
+				CE9CE95B1D6486AE007DA809 /* AddVehicleViewController.swift */,
+				CE9CE9631D649F23007DA809 /* VehiclesViewController.swift */,
+				CE96F3B81D5C5B720026037A /* VehicleDetailsViewController.swift */,
+			);
+			name = Vehicles;
+			sourceTree = "<group>";
+		};
+		CE96F3BA1D5C68170026037A /* VehicleDetails */ = {
+			isa = PBXGroup;
+			children = (
+				CE96F3BB1D5C68640026037A /* VehicleDetailsTableViewCell.swift */,
+				CE96F3BD1D5C687C0026037A /* VehicleDetailsCollectionViewCell.swift */,
+				CEB4FBD91D744EB8002788AA /* VehicleProgressTableViewCell.swift */,
+			);
+			name = VehicleDetails;
+			sourceTree = "<group>";
+		};
+		CEACB8B21D700BED00464844 /* SessionExpire */ = {
+			isa = PBXGroup;
+			children = (
+				CEACB8B01D700BE300464844 /* SessionExpireViewController.swift */,
+			);
+			name = SessionExpire;
+			sourceTree = "<group>";
+		};
+		CEB4FBD61D744BE7002788AA /* CircleProgressView */ = {
+			isa = PBXGroup;
+			children = (
+				CEB4FBD01D744BE0002788AA /* KNCirclePercentView.h */,
+				CEB4FBD11D744BE0002788AA /* KNCirclePercentView.m */,
+				CEB4FBD21D744BE0002788AA /* KNPercentLabel.h */,
+				CEB4FBD31D744BE0002788AA /* KNPercentLabel.m */,
+			);
+			name = CircleProgressView;
+			sourceTree = "<group>";
+		};
+		CEB587021D6304C900683A0D /* Xtime */ = {
+			isa = PBXGroup;
+			children = (
+				CEB587031D6304FE00683A0D /* XtimeViewController.swift */,
+			);
+			name = Xtime;
+			sourceTree = "<group>";
+		};
+		CEB7BC4D1D41E83400A6A251 /* LeftMenu */ = {
+			isa = PBXGroup;
+			children = (
+				CEC502CF1D4102E600DDC19E /* RootVC.swift */,
+				CEC502D11D41036F00DDC19E /* NavigationVC.swift */,
+				CEC502D31D4103D100DDC19E /* SideMenuVC.swift */,
+				CEB7BC511D42029500A6A251 /* KSideMenuVC.swift */,
+			);
+			name = LeftMenu;
+			sourceTree = "<group>";
+		};
+		CEB7BC4E1D41E85500A6A251 /* Home */ = {
+			isa = PBXGroup;
+			children = (
+				CEC502CD1D40EA3D00DDC19E /* LandingScreen.swift */,
+			);
+			name = Home;
+			sourceTree = "<group>";
+		};
+		CEB7BC4F1D41E85C00A6A251 /* CreateAccount */ = {
+			isa = PBXGroup;
+			children = (
+				CEC502CB1D40E5DD00DDC19E /* CreateAccount.swift */,
+			);
+			name = CreateAccount;
+			sourceTree = "<group>";
+		};
+		CEB7BC501D41E86700A6A251 /* Classes */ = {
+			isa = PBXGroup;
+			children = (
+				CEC502711D408E0000DDC19E /* ViewController.swift */,
+			);
+			name = Classes;
+			sourceTree = "<group>";
+		};
+		CEB7D7B21D58C6900096BC50 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				CEC07E4F1D5AF96C0018AE19 /* Home */,
+				CE96F3BA1D5C68170026037A /* VehicleDetails */,
+				CEC03D861D6D802600ED74D9 /* VehiclesList */,
+				CEACB8B21D700BED00464844 /* SessionExpire */,
+			);
+			name = Views;
+			sourceTree = "<group>";
+		};
+		CEC03D861D6D802600ED74D9 /* VehiclesList */ = {
+			isa = PBXGroup;
+			children = (
+				CEC03D871D6D80A400ED74D9 /* VehiclesListCollectionViewCell.swift */,
+			);
+			name = VehiclesList;
+			sourceTree = "<group>";
+		};
+		CEC07E4F1D5AF96C0018AE19 /* Home */ = {
+			isa = PBXGroup;
+			children = (
+				CEE3F1971D5A10CD001FFE02 /* BannerTableViewCell.swift */,
+				CEB7D7BD1D58CACD0096BC50 /* BannerCollectionViewCell.swift */,
+				CEE3F1991D5A10E6001FFE02 /* MyCarsTableViewCell.swift */,
+				CEE3F1951D5A0CC3001FFE02 /* MyCarsCollectionViewCell.swift */,
+				CEC07E501D5B467B0018AE19 /* MyCarsLayout.swift */,
+			);
+			name = Home;
+			sourceTree = "<group>";
+		};
+		CEC502631D408E0000DDC19E = {
+			isa = PBXGroup;
+			children = (
+				CEC5026E1D408E0000DDC19E /* CoxAxle */,
+				CEC502861D408E0100DDC19E /* CoxAxleTests */,
+				CEC502911D408E0100DDC19E /* CoxAxleUITests */,
+				CEC5026D1D408E0000DDC19E /* Products */,
+				C175FD1584617003A5186F31 /* Pods */,
+				623815C8477EF90895DD97A3 /* Frameworks */,
+			);
+			sourceTree = "<group>";
+		};
+		CEC5026D1D408E0000DDC19E /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				CEC5026C1D408E0000DDC19E /* CoxAxle.app */,
+				CEC502831D408E0100DDC19E /* CoxAxleTests.xctest */,
+				CEC5028E1D408E0100DDC19E /* CoxAxleUITests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		CEC5026E1D408E0000DDC19E /* CoxAxle */ = {
+			isa = PBXGroup;
+			children = (
+				CEC502A01D40982D00DDC19E /* AppDelegate */,
+				CEC502A11D40983A00DDC19E /* Controllers */,
+				CEB7D7B21D58C6900096BC50 /* Views */,
+				CEC502A21D40991B00DDC19E /* Modals */,
+				CEC502731D408E0100DDC19E /* Main.storyboard */,
+				CEB7D7B01D58C3190096BC50 /* Assets.xcassets */,
+				CEC5027B1D408E0100DDC19E /* LaunchScreen.storyboard */,
+				CEC5027E1D408E0100DDC19E /* Info.plist */,
+				CEC502761D408E0100DDC19E /* CoxAxle.xcdatamodeld */,
+			);
+			path = CoxAxle;
+			sourceTree = "<group>";
+		};
+		CEC502861D408E0100DDC19E /* CoxAxleTests */ = {
+			isa = PBXGroup;
+			children = (
+				CEC502871D408E0100DDC19E /* CoxAxleTests.swift */,
+				CEC502891D408E0100DDC19E /* Info.plist */,
+			);
+			path = CoxAxleTests;
+			sourceTree = "<group>";
+		};
+		CEC502911D408E0100DDC19E /* CoxAxleUITests */ = {
+			isa = PBXGroup;
+			children = (
+				CEC502921D408E0100DDC19E /* CoxAxleUITests.swift */,
+				CEC502941D408E0100DDC19E /* Info.plist */,
+			);
+			path = CoxAxleUITests;
+			sourceTree = "<group>";
+		};
+		CEC502A01D40982D00DDC19E /* AppDelegate */ = {
+			isa = PBXGroup;
+			children = (
+				CEC5026F1D408E0000DDC19E /* AppDelegate.swift */,
+			);
+			name = AppDelegate;
+			sourceTree = "<group>";
+		};
+		CEC502A11D40983A00DDC19E /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				CEB7BC501D41E86700A6A251 /* Classes */,
+				CEFDE9971D5DD19000A3044B /* Login */,
+				CEB7BC4F1D41E85C00A6A251 /* CreateAccount */,
+				CEB7BC4E1D41E85500A6A251 /* Home */,
+				CE1C8FBB1D66EF12004C3123 /* Settings */,
+				CEB587021D6304C900683A0D /* Xtime */,
+				CE96F3B71D5C5B3B0026037A /* Vehicles */,
+				CEB7BC4D1D41E83400A6A251 /* LeftMenu */,
+				CEC502C71D40D17E00DDC19E /* CoxAxle-Bridging-Header.h */,
+			);
+			name = Controllers;
+			sourceTree = "<group>";
+		};
+		CEC502A21D40991B00DDC19E /* Modals */ = {
+			isa = PBXGroup;
+			children = (
+				CE10C3161D4B5DB100EE2A2D /* ModalClasses */,
+				CEC502C31D40B73000DDC19E /* CategoryClasses */,
+				CEC502C41D40B73F00DDC19E /* Localisation */,
+				CEC502C11D40B70600DDC19E /* Supporting Files */,
+			);
+			name = Modals;
+			sourceTree = "<group>";
+		};
+		CEC502C11D40B70600DDC19E /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				CEB4FBD61D744BE7002788AA /* CircleProgressView */,
+				CEC502A31D40993700DDC19E /* Reachability.swift */,
+				CEC502A71D40A65600DDC19E /* Constants.swift */,
+				CEA8BAB21D6C706300331D27 /* demo.docx */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		CEC502C31D40B73000DDC19E /* CategoryClasses */ = {
+			isa = PBXGroup;
+			children = (
+				CEC502A91D40A9EF00DDC19E /* UIColor+ColorClass.swift */,
+				CEC502AB1D40AA4700DDC19E /* UIFont+FontClass.swift */,
+				CEB7BC571D423C1500A6A251 /* UIAlertController+UIAlertView.swift */,
+				CEC309A41D48A6740015D6A9 /* UIActivityIndicatorView+ActivityClass.swift */,
+				CEC309A61D48DC090015D6A9 /* NSString+ValidationClass.swift */,
+				CEACB8B71D7048EC00464844 /* UIDevice+DeviceType.swift */,
+			);
+			name = CategoryClasses;
+			sourceTree = "<group>";
+		};
+		CEC502C41D40B73F00DDC19E /* Localisation */ = {
+			isa = PBXGroup;
+			children = (
+				CEC502BF1D40AB6A00DDC19E /* StringExtension.swift */,
+				CEC502BB1D40AB4100DDC19E /* Localizable.strings */,
+			);
+			name = Localisation;
+			sourceTree = "<group>";
+		};
+		CEFDE9971D5DD19000A3044B /* Login */ = {
+			isa = PBXGroup;
+			children = (
+				CEFDE9951D5DD16A00A3044B /* LoginViewController.swift */,
+			);
+			name = Login;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		CEC5026B1D408E0000DDC19E /* CoxAxle */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = CEC502971D408E0100DDC19E /* Build configuration list for PBXNativeTarget "CoxAxle" */;
+			buildPhases = (
+				0E5B8E2601989E8BADC29777 /* [CP] Check Pods Manifest.lock */,
+				CEC502681D408E0000DDC19E /* Sources */,
+				CEC502691D408E0000DDC19E /* Frameworks */,
+				CEC5026A1D408E0000DDC19E /* Resources */,
+				327EB5B3AF1408C5B316CFA9 /* [CP] Embed Pods Frameworks */,
+				3BBC72B163C8C728371EBC7C /* [CP] Copy Pods Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = CoxAxle;
+			productName = CoxAxle;
+			productReference = CEC5026C1D408E0000DDC19E /* CoxAxle.app */;
+			productType = "com.apple.product-type.application";
+		};
+		CEC502821D408E0100DDC19E /* CoxAxleTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = CEC5029A1D408E0100DDC19E /* Build configuration list for PBXNativeTarget "CoxAxleTests" */;
+			buildPhases = (
+				117D080A3465FBB3CEE0CCEC /* [CP] Check Pods Manifest.lock */,
+				CEC5027F1D408E0100DDC19E /* Sources */,
+				CEC502801D408E0100DDC19E /* Frameworks */,
+				CEC502811D408E0100DDC19E /* Resources */,
+				7FDD431ACCC648E37EBAAF9B /* [CP] Embed Pods Frameworks */,
+				04403698B2DF8671710E7EA9 /* [CP] Copy Pods Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				CEC502851D408E0100DDC19E /* PBXTargetDependency */,
+			);
+			name = CoxAxleTests;
+			productName = CoxAxleTests;
+			productReference = CEC502831D408E0100DDC19E /* CoxAxleTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		CEC5028D1D408E0100DDC19E /* CoxAxleUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = CEC5029D1D408E0100DDC19E /* Build configuration list for PBXNativeTarget "CoxAxleUITests" */;
+			buildPhases = (
+				CEC5028A1D408E0100DDC19E /* Sources */,
+				CEC5028B1D408E0100DDC19E /* Frameworks */,
+				CEC5028C1D408E0100DDC19E /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				CEC502901D408E0100DDC19E /* PBXTargetDependency */,
+			);
+			name = CoxAxleUITests;
+			productName = CoxAxleUITests;
+			productReference = CEC5028E1D408E0100DDC19E /* CoxAxleUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		CEC502641D408E0000DDC19E /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastSwiftUpdateCheck = 0730;
+				LastUpgradeCheck = 0730;
+				ORGANIZATIONNAME = Prudhvi;
+				TargetAttributes = {
+					CEC5026B1D408E0000DDC19E = {
+						CreatedOnToolsVersion = 7.3.1;
+						DevelopmentTeam = EYNV5M442H;
+					};
+					CEC502821D408E0100DDC19E = {
+						CreatedOnToolsVersion = 7.3.1;
+						TestTargetID = CEC5026B1D408E0000DDC19E;
+					};
+					CEC5028D1D408E0100DDC19E = {
+						CreatedOnToolsVersion = 7.3.1;
+						TestTargetID = CEC5026B1D408E0000DDC19E;
+					};
+				};
+			};
+			buildConfigurationList = CEC502671D408E0000DDC19E /* Build configuration list for PBXProject "CoxAxle" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+				es,
+			);
+			mainGroup = CEC502631D408E0000DDC19E;
+			productRefGroup = CEC5026D1D408E0000DDC19E /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				CEC5026B1D408E0000DDC19E /* CoxAxle */,
+				CEC502821D408E0100DDC19E /* CoxAxleTests */,
+				CEC5028D1D408E0100DDC19E /* CoxAxleUITests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		CEC5026A1D408E0000DDC19E /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				CEC5027D1D408E0100DDC19E /* LaunchScreen.storyboard in Resources */,
+				CEC502B91D40AB4100DDC19E /* Localizable.strings in Resources */,
+				CEB7D7B11D58C3190096BC50 /* Assets.xcassets in Resources */,
+				CEC502751D408E0100DDC19E /* Main.storyboard in Resources */,
+				CEA8BAB31D6C706300331D27 /* demo.docx in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		CEC502811D408E0100DDC19E /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		CEC5028C1D408E0100DDC19E /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		04403698B2DF8671710E7EA9 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-CoxAxleTests/Pods-CoxAxleTests-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		0E5B8E2601989E8BADC29777 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		117D080A3465FBB3CEE0CCEC /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		327EB5B3AF1408C5B316CFA9 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-CoxAxle/Pods-CoxAxle-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		3BBC72B163C8C728371EBC7C /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-CoxAxle/Pods-CoxAxle-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		7FDD431ACCC648E37EBAAF9B /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-CoxAxleTests/Pods-CoxAxleTests-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		CEC502681D408E0000DDC19E /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				CEFDE9961D5DD16A00A3044B /* LoginViewController.swift in Sources */,
+				CEB2995B1D65B883009F3015 /* Login.swift in Sources */,
+				CEC502D01D4102E600DDC19E /* RootVC.swift in Sources */,
+				CEC502721D408E0000DDC19E /* ViewController.swift in Sources */,
+				CEC07E511D5B467B0018AE19 /* MyCarsLayout.swift in Sources */,
+				CE96F3BC1D5C68640026037A /* VehicleDetailsTableViewCell.swift in Sources */,
+				CEB2995F1D65C4EA009F3015 /* AddVehicle.swift in Sources */,
+				CEC502D41D4103D100DDC19E /* SideMenuVC.swift in Sources */,
+				CEC502701D408E0000DDC19E /* AppDelegate.swift in Sources */,
+				CEB7BC581D423C1500A6A251 /* UIAlertController+UIAlertView.swift in Sources */,
+				CEB6857B1D6B0EC9008FE232 /* UpdateUserDetails.swift in Sources */,
+				CE96F3BE1D5C687C0026037A /* VehicleDetailsCollectionViewCell.swift in Sources */,
+				CEACB8B81D7048EC00464844 /* UIDevice+DeviceType.swift in Sources */,
+				CEC502D21D41036F00DDC19E /* NavigationVC.swift in Sources */,
+				CEACB8B41D702D4F00464844 /* Logout.swift in Sources */,
+				CEB4FBD41D744BE0002788AA /* KNCirclePercentView.m in Sources */,
+				CEC502CE1D40EA3D00DDC19E /* LandingScreen.swift in Sources */,
+				CEC502A41D40993700DDC19E /* Reachability.swift in Sources */,
+				CEC502781D408E0100DDC19E /* CoxAxle.xcdatamodeld in Sources */,
+				CEC502C01D40AB6A00DDC19E /* StringExtension.swift in Sources */,
+				CE9CE9641D649F23007DA809 /* VehiclesViewController.swift in Sources */,
+				CE1C8FBF1D671430004C3123 /* UserDetails.swift in Sources */,
+				CEB2995D1D65C0AA009F3015 /* Register.swift in Sources */,
+				CEACB8B11D700BE300464844 /* SessionExpireViewController.swift in Sources */,
+				CEB7D7BF1D58CACD0096BC50 /* BannerCollectionViewCell.swift in Sources */,
+				CEE3F1981D5A10CD001FFE02 /* BannerTableViewCell.swift in Sources */,
+				CEC502AA1D40A9EF00DDC19E /* UIColor+ColorClass.swift in Sources */,
+				CEC502CC1D40E5DD00DDC19E /* CreateAccount.swift in Sources */,
+				CEB299631D65C5D6009F3015 /* VehiclesList.swift in Sources */,
+				CEC309A51D48A6740015D6A9 /* UIActivityIndicatorView+ActivityClass.swift in Sources */,
+				CEE3F19A1D5A10E6001FFE02 /* MyCarsTableViewCell.swift in Sources */,
+				CEC502AC1D40AA4700DDC19E /* UIFont+FontClass.swift in Sources */,
+				CE9CE95C1D6486AE007DA809 /* AddVehicleViewController.swift in Sources */,
+				CEC03D881D6D80A400ED74D9 /* VehiclesListCollectionViewCell.swift in Sources */,
+				CEB7BC521D42029500A6A251 /* KSideMenuVC.swift in Sources */,
+				CEC502A81D40A65600DDC19E /* Constants.swift in Sources */,
+				CEC309A71D48DC090015D6A9 /* NSString+ValidationClass.swift in Sources */,
+				CEB299651D65D544009F3015 /* EditVehicles.swift in Sources */,
+				CE96F3B91D5C5B720026037A /* VehicleDetailsViewController.swift in Sources */,
+				CEE3F1961D5A0CC3001FFE02 /* MyCarsCollectionViewCell.swift in Sources */,
+				CEB6857D1D6B22BB008FE232 /* DealersList.swift in Sources */,
+				CEB4FBD51D744BE0002788AA /* KNPercentLabel.m in Sources */,
+				CEB587041D6304FE00683A0D /* XtimeViewController.swift in Sources */,
+				CEB299611D65C54A009F3015 /* VehicleDetails.swift in Sources */,
+				CE1C8FBD1D66EF8D004C3123 /* SettingsViewController.swift in Sources */,
+				CEB4FBDA1D744EB8002788AA /* VehicleProgressTableViewCell.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		CEC5027F1D408E0100DDC19E /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				CEC502881D408E0100DDC19E /* CoxAxleTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		CEC5028A1D408E0100DDC19E /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				CEC502931D408E0100DDC19E /* CoxAxleUITests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		CEC502851D408E0100DDC19E /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = CEC5026B1D408E0000DDC19E /* CoxAxle */;
+			targetProxy = CEC502841D408E0100DDC19E /* PBXContainerItemProxy */;
+		};
+		CEC502901D408E0100DDC19E /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = CEC5026B1D408E0000DDC19E /* CoxAxle */;
+			targetProxy = CEC5028F1D408E0100DDC19E /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		CEC502731D408E0100DDC19E /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				CEC502741D408E0100DDC19E /* Base */,
+				CEC502AF1D40AAEB00DDC19E /* es */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		CEC5027B1D408E0100DDC19E /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				CEC5027C1D408E0100DDC19E /* Base */,
+				CEC502B01D40AAEB00DDC19E /* es */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+		CEC502BB1D40AB4100DDC19E /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				CEC502BD1D40AB4400DDC19E /* es */,
+				CEC502C61D40BD8E00DDC19E /* en */,
+			);
+			name = Localizable.strings;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		CEC502951D408E0100DDC19E /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEFINES_MODULE = YES;
+				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		CEC502961D408E0100DDC19E /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEFINES_MODULE = YES;
+				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		CEC502981D408E0100DDC19E /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = BC0EF8C433B954FD118ECA81 /* Pods-CoxAxle.debug.xcconfig */;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer: Srinivasa Nimmagadda (2AM7P97NUA)";
+				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
+				INFOPLIST_FILE = CoxAxle/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = vensai.CoxAxle;
+				PRODUCT_MODULE_NAME = "$(PRODUCT_NAME:c99extidentifier)";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "2df4552c-8e75-4b66-abd8-669fdf2f331d";
+				SWIFT_OBJC_BRIDGING_HEADER = "CoxAxle/CoxAxle-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		CEC502991D408E0100DDC19E /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 86B344B8661DD972F657713B /* Pods-CoxAxle.release.xcconfig */;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer: Srinivasa Nimmagadda (2AM7P97NUA)";
+				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
+				INFOPLIST_FILE = CoxAxle/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = vensai.CoxAxle;
+				PRODUCT_MODULE_NAME = "$(PRODUCT_NAME:c99extidentifier)";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "2df4552c-8e75-4b66-abd8-669fdf2f331d";
+				SWIFT_OBJC_BRIDGING_HEADER = "CoxAxle/CoxAxle-Bridging-Header.h";
+			};
+			name = Release;
+		};
+		CEC5029B1D408E0100DDC19E /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 92331C94559E8A78182F6475 /* Pods-CoxAxleTests.debug.xcconfig */;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
+				INFOPLIST_FILE = CoxAxleTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = vensai.CoxAxleTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/CoxAxle.app/CoxAxle";
+			};
+			name = Debug;
+		};
+		CEC5029C1D408E0100DDC19E /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = E25E3C4BF7F075A0C02D0762 /* Pods-CoxAxleTests.release.xcconfig */;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
+				INFOPLIST_FILE = CoxAxleTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = vensai.CoxAxleTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/CoxAxle.app/CoxAxle";
+			};
+			name = Release;
+		};
+		CEC5029E1D408E0100DDC19E /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
+				INFOPLIST_FILE = CoxAxleUITests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = vensai.CoxAxleUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_TARGET_NAME = CoxAxle;
+			};
+			name = Debug;
+		};
+		CEC5029F1D408E0100DDC19E /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
+				INFOPLIST_FILE = CoxAxleUITests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = vensai.CoxAxleUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_TARGET_NAME = CoxAxle;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		CEC502671D408E0000DDC19E /* Build configuration list for PBXProject "CoxAxle" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				CEC502951D408E0100DDC19E /* Debug */,
+				CEC502961D408E0100DDC19E /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		CEC502971D408E0100DDC19E /* Build configuration list for PBXNativeTarget "CoxAxle" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				CEC502981D408E0100DDC19E /* Debug */,
+				CEC502991D408E0100DDC19E /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		CEC5029A1D408E0100DDC19E /* Build configuration list for PBXNativeTarget "CoxAxleTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				CEC5029B1D408E0100DDC19E /* Debug */,
+				CEC5029C1D408E0100DDC19E /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		CEC5029D1D408E0100DDC19E /* Build configuration list for PBXNativeTarget "CoxAxleUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				CEC5029E1D408E0100DDC19E /* Debug */,
+				CEC5029F1D408E0100DDC19E /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		CEC502761D408E0100DDC19E /* CoxAxle.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				CEC502771D408E0100DDC19E /* CoxAxle.xcdatamodel */,
+			);
+			currentVersion = CEC502771D408E0100DDC19E /* CoxAxle.xcdatamodel */;
+			path = CoxAxle.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
+	};
+	rootObject = CEC502641D408E0000DDC19E /* Project object */;
+}

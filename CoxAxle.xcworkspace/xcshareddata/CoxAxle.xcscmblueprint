@@ -1,0 +1,25 @@
+{
+  "DVTSourceControlWorkspaceBlueprintPrimaryRemoteRepositoryKey" : "fdae31cf-72a0-a24d-90ba-4066456e9ef6",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyRepositoryLocationsKey" : {
+    "fdae31cf-72a0-a24d-90ba-4066456e9ef6" : {
+
+    }
+  },
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyStatesKey" : {
+    "fdae31cf-72a0-a24d-90ba-4066456e9ef6" : 0
+  },
+  "DVTSourceControlWorkspaceBlueprintIdentifierKey" : "9667BC29-E5B7-478E-A8A6-07E94668D6E7",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyPathsKey" : {
+    "fdae31cf-72a0-a24d-90ba-4066456e9ef6" : "iOS\/"
+  },
+  "DVTSourceControlWorkspaceBlueprintNameKey" : "CoxAxle",
+  "DVTSourceControlWorkspaceBlueprintVersion" : 204,
+  "DVTSourceControlWorkspaceBlueprintRelativePathToProjectKey" : "CoxAxle.xcworkspace",
+  "DVTSourceControlWorkspaceBlueprintRemoteRepositoriesKey" : [
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/192.168.8.101\/svn\/iOS",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Subversion",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "fdae31cf-72a0-a24d-90ba-4066456e9ef6"
+    }
+  ]
+}
