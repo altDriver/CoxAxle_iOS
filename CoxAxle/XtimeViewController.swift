@@ -21,7 +21,15 @@ class XtimeViewController: UIViewController,UIWebViewDelegate {
         // Do any additional setup after loading the view.
         self.setText()
         
+        if Reachability.isConnectedToNetwork() == true {
+            print("Internet connection OK")
         webView.loadRequest(NSURLRequest(URL: NSURL(string: "https://consumer-ptr1.xtime.com/scheduling/?webKey=hus20131206112630208569&VIN=5J6RE3H74AL049448&Provider=COXAXLE&Keyword=SCHEDULE&cfn=Prudhvi&cln=Krishna&cpn=9912841997&cem=prudhvi.moturi@vensaiinc.com&NOTE=NOTE4Q3&extid=SCHEDULE&extctxt=COXAXLE&dest=VEHICLE")!))
+        }
+        else {
+            print("Internet connection FAILED")
+            let vc : AnyObject! = self.storyboard!.instantiateViewControllerWithIdentifier("NoInternetConnection")
+            self.presentViewController(vc as! UIViewController, animated: true, completion: nil)
+        }
     }
 
     override func didReceiveMemoryWarning() {

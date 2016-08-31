@@ -90,8 +90,11 @@ if [[ "$CONFIGURATION" == "Debug" ]]; then
   install_framework "$BUILT_PRODUCTS_DIR/IQKeyboardManagerSwift/IQKeyboardManagerSwift.framework"
   install_framework "$BUILT_PRODUCTS_DIR/JSONModel/JSONModel.framework"
   install_framework "$BUILT_PRODUCTS_DIR/JTMaterialSwitch/JTMaterialSwitch.framework"
+  install_framework "$BUILT_PRODUCTS_DIR/LGSemiModalNavController/LGSemiModalNavController.framework"
   install_framework "$BUILT_PRODUCTS_DIR/REFrostedViewController/REFrostedViewController.framework"
+  install_framework "$BUILT_PRODUCTS_DIR/SDWebImage/SDWebImage.framework"
   install_framework "$BUILT_PRODUCTS_DIR/SMFloatingLabelTextField/SMFloatingLabelTextField.framework"
+  install_framework "$BUILT_PRODUCTS_DIR/UIActivityIndicator-for-SDWebImage/UIActivityIndicator_for_SDWebImage.framework"
   install_framework "$BUILT_PRODUCTS_DIR/YLProgressBar/YLProgressBar.framework"
 fi
 if [[ "$CONFIGURATION" == "Release" ]]; then
@@ -101,7 +104,10 @@ if [[ "$CONFIGURATION" == "Release" ]]; then
   install_framework "$BUILT_PRODUCTS_DIR/IQKeyboardManagerSwift/IQKeyboardManagerSwift.framework"
   install_framework "$BUILT_PRODUCTS_DIR/JSONModel/JSONModel.framework"
   install_framework "$BUILT_PRODUCTS_DIR/JTMaterialSwitch/JTMaterialSwitch.framework"
+  install_framework "$BUILT_PRODUCTS_DIR/LGSemiModalNavController/LGSemiModalNavController.framework"
   install_framework "$BUILT_PRODUCTS_DIR/REFrostedViewController/REFrostedViewController.framework"
+  install_framework "$BUILT_PRODUCTS_DIR/SDWebImage/SDWebImage.framework"
   install_framework "$BUILT_PRODUCTS_DIR/SMFloatingLabelTextField/SMFloatingLabelTextField.framework"
+  install_framework "$BUILT_PRODUCTS_DIR/UIActivityIndicator-for-SDWebImage/UIActivityIndicator_for_SDWebImage.framework"
   install_framework "$BUILT_PRODUCTS_DIR/YLProgressBar/YLProgressBar.framework"
 fi

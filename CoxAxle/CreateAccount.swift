@@ -243,7 +243,8 @@ class CreateAccount: UIViewController, UITableViewDelegate, UITableViewDataSourc
         }
         else {
             print("Internet connection FAILED")
-            showAlertwithCancelButton("No Internet Connection", message: "Make sure your device is connected to the internet.", cancelButton: "OK")
+            let vc : AnyObject! = self.storyboard!.instantiateViewControllerWithIdentifier("NoInternetConnection")
+            self.presentViewController(vc as! UIViewController, animated: true, completion: nil)
         }
         
     }

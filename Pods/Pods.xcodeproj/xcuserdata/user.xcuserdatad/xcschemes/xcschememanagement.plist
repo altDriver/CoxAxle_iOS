@@ -39,6 +39,16 @@
 			<key>isShown</key>
 			<false/>
 		</dict>
+		<key>LGSemiModalNavController-LGSemiModalNavController.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
+		<key>LGSemiModalNavController.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
 		<key>Pods-CoxAxle.xcscheme</key>
 		<dict>
 			<key>isShown</key>
@@ -54,7 +64,17 @@
 			<key>isShown</key>
 			<false/>
 		</dict>
+		<key>SDWebImage.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
 		<key>SMFloatingLabelTextField.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
+		<key>UIActivityIndicator-for-SDWebImage.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>
@@ -72,17 +92,22 @@
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>314BD10A895D6BF4C5F7BF3145149D9F</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
 		<key>35B617F8B0851DCDF666A4909092E791</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>5C6C4D2B843B3D97FA6A9EDEC1D6D5E0</key>
+		<key>459DE8C0FFFC7823ED2E9E68FAAED739</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>473FC3E0A0136FDA3B4CD72CEFBC8FA9</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>62F1A6C57AA3471211C0C998EB5BCA52</key>
 		<dict>
 			<key>primary</key>
 			<true/>
@@ -97,12 +122,22 @@
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>96D3CE15A120D331F2F3D4806AC2BEF3</key>
+		<key>8AC4535C3AE5F9A5ED8823C0CB4038C9</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>AA2C328AA7F6404E8492EFDABF3F61A6</key>
+		<key>8CF2FA21B252018A1F7FD26017CF6E33</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>9802069FB12FC06F79BAE746767E3EF9</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>9D071D7ED7E240E1DC3DF57A25B06887</key>
 		<dict>
 			<key>primary</key>
 			<true/>
@@ -118,6 +153,11 @@
 			<true/>
 		</dict>
 		<key>C2550C2DDD8A3B6A86481A5A031BFE6F</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>D441F1575770E46B495109D8D85469BA</key>
 		<dict>
 			<key>primary</key>
 			<true/>

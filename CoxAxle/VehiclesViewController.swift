@@ -15,13 +15,12 @@ class VehiclesViewController: UIViewController, UIAlertController_UIAlertView, U
     
     @IBOutlet var collectionView: UICollectionView!
     var language: String?
-    var imagesArray: NSArray!
+    var vehiclesListArray = [AnyObject]()
 
     //MARK:- LIFE CYCLE METHODS
     override func viewDidLoad() {
         super.viewDidLoad()
          self.setText()
-         imagesArray = ["car1Img", "car2Img", "car3Img", "car4Img"]
          self.fetchVehiclesListAPI()
         // Do any additional setup after loading the view.
     }
@@ -32,6 +31,12 @@ class VehiclesViewController: UIViewController, UIAlertController_UIAlertView, U
         if NSUserDefaults.standardUserDefaults().boolForKey("SESSION_EXPIRED") {
             let vc : AnyObject! = self.storyboard!.instantiateViewControllerWithIdentifier("SessionExpired")
             self.presentViewController(vc as! UIViewController, animated: true, completion: nil)
+        }
+        
+        if NSUserDefaults.standardUserDefaults().boolForKey("CALL_API") {
+            NSUserDefaults.standardUserDefaults().setBool(false, forKey: "CALL_API")
+            NSUserDefaults.standardUserDefaults().synchronize()
+            self.fetchVehiclesListAPI()
         }
     }
 
@@ -58,7 +63,7 @@ class VehiclesViewController: UIViewController, UIAlertController_UIAlertView, U
     }
     
     func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 4;
+        return self.vehiclesListArray.count;
     }
     
     func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize {
@@ -71,7 +76,14 @@ class VehiclesViewController: UIViewController, UIAlertController_UIAlertView, U
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
             let cell = collectionView.dequeueReusableCellWithReuseIdentifier(vehicleListReuseIdentifier, forIndexPath: indexPath) as! VehiclesListCollectionViewCell
             
-        
+        let imageArray = self.vehiclesListArray[indexPath.row].valueForKey("vechicle_image") as! NSArray
+        let imageURLString = imageArray[0].valueForKey("image_url") as! NSString
+        cell.carImageView.setImageWithURL(NSURL(string: imageURLString as String), placeholderImage: UIImage(named: "placeholder"), completed: { (image, error, cacheType, url) -> Void in
+            cell.carImageView.alpha = 1;
+            
+            }, usingActivityIndicatorStyle: UIActivityIndicatorViewStyle(rawValue: 2)!)
+        cell.carName.text = self.vehiclesListArray[indexPath.row].valueForKey("name") as? String
+        cell.carAppointmentDate.text = "Next scheduled service: Aug 27, 2016"
             return cell;
     }
     
@@ -102,16 +114,23 @@ class VehiclesViewController: UIViewController, UIAlertController_UIAlertView, U
                         let sessionStatus = JSON.valueForKey("session_status") as! String
                         if sessionStatus == "1" {
                         let status = JSON.valueForKey("status") as! String
-                        if status == "True"  {
-//                              do {
-//                             let dict: VehiclesList = try VehiclesList(dictionary: JSON as! [NSObject : AnyObject])
-//                             
-//                             print(dict.response)
-//                             }
-//                             catch let error as NSError {
-//                             NSLog("Unresolved error \(error), \(error.userInfo)")
-//                             }
-                        }
+                            if status == "True"  {
+                                do {
+                                    let dict: VehiclesList = try VehiclesList(dictionary: JSON as! [NSObject : AnyObject])
+                                    
+                                    
+                                    self.vehiclesListArray = dict.response?.data as! Array<AnyObject>
+                                    print(self.vehiclesListArray)
+                                    dispatch_async(dispatch_get_main_queue(),{
+                                        
+                                        self.collectionView.reloadData()
+                                        
+                                    })
+                                }
+                                catch let error as NSError {
+                                    NSLog("Unresolved error \(error), \(error.userInfo)")
+                                }
+                            }
                         else {
                             let errorMsg = JSON.valueForKey("message") as! String
                             self.showAlertwithCancelButton("Error", message: errorMsg, cancelButton: "OK")
@@ -129,7 +148,8 @@ class VehiclesViewController: UIViewController, UIAlertController_UIAlertView, U
         }
         else {
             print("Internet connection FAILED")
-            showAlertwithCancelButton("No Internet Connection", message: "Make sure your device is connected to the internet.", cancelButton: "OK")
+            let vc : AnyObject! = self.storyboard!.instantiateViewControllerWithIdentifier("NoInternetConnection")
+            self.presentViewController(vc as! UIViewController, animated: true, completion: nil)
         }
     }
 

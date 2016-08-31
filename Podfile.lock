@@ -1,13 +1,19 @@
 PODS:
-  - Alamofire (3.4.1)
+  - Alamofire (3.4.2)
   - EAIntroView (2.9.0):
     - EARestrictedScrollView (~> 1.1.0)
   - EARestrictedScrollView (1.1.0)
-  - IQKeyboardManagerSwift (4.0.4)
+  - IQKeyboardManagerSwift (4.0.5)
   - JSONModel (1.4.0)
   - JTMaterialSwitch (1.1)
+  - LGSemiModalNavController (0.2.0)
   - REFrostedViewController (2.4.8)
+  - SDWebImage (3.8.1):
+    - SDWebImage/Core (= 3.8.1)
+  - SDWebImage/Core (3.8.1)
   - SMFloatingLabelTextField (0.2.0)
+  - UIActivityIndicator-for-SDWebImage (1.2):
+    - SDWebImage (~> 3.7)
   - YLProgressBar (3.10.0)
 
 DEPENDENCIES:
@@ -16,21 +22,26 @@ DEPENDENCIES:
   - IQKeyboardManagerSwift
   - JSONModel
   - JTMaterialSwitch
+  - LGSemiModalNavController
   - REFrostedViewController (~> 2.4)
   - SMFloatingLabelTextField
+  - UIActivityIndicator-for-SDWebImage
   - YLProgressBar (~> 3.10.0)
 
 SPEC CHECKSUMS:
-  Alamofire: 01a82e2f6c0f860ade35534c8dd88be61bdef40c
+  Alamofire: 6aa33201d20d069e1598891cf928883ff1888c7a
   EAIntroView: 76f68cc56242f2e25359419e6ecc2344ee7e1756
   EARestrictedScrollView: b0c2a3f92fb2610bb44d71c5e4893777c89e45ef
-  IQKeyboardManagerSwift: e0964d04d6a29b71016fd346dca13ecb80a2823a
+  IQKeyboardManagerSwift: 41fd3a45a2cdb2a0e031af697708a95b865068a1
   JSONModel: 58fe3f8c29ff95ed94e7ee7dde87e807f5da5371
   JTMaterialSwitch: cad8093c3773ff9f6c60005c98d269eb869b5e04
+  LGSemiModalNavController: ba49f8cbc24638be981cbca8a526f66b5dd90414
   REFrostedViewController: a893b4979ba1f200c547aef9ff4c3fd5a18f5923
+  SDWebImage: 35f9627a3e44b4f292a8a8ce6a531fa488239b91
   SMFloatingLabelTextField: 0ba68e9fbb58186effade627beff866e20bf78fb
+  UIActivityIndicator-for-SDWebImage: 7bf7ebbf0ed1747dedc0d6e949c4603a6d0f9e0c
   YLProgressBar: 40a0627522dc1b536e02bf082a1b1ce3085b4668
 
-PODFILE CHECKSUM: 5ce07f260edce9e0c3258a86b0ff394adc5007ec
+PODFILE CHECKSUM: 2196d54ab4b629a06d179e80e3f791578e971f61
 
 COCOAPODS: 1.0.1

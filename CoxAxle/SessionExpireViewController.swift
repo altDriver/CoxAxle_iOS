@@ -20,8 +20,6 @@ class SessionExpireViewController: UIViewController, UITextFieldDelegate, UIAler
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        IQKeyboardManager.sharedManager().enableAutoToolbar = false
-        
         self.setText()
         
         let username = NSUserDefaults.standardUserDefaults().objectForKey("Email") as! String
@@ -84,7 +82,8 @@ class SessionExpireViewController: UIViewController, UITextFieldDelegate, UIAler
                                     
                                     NSUserDefaults.standardUserDefaults().setBool(false, forKey: "SESSION_EXPIRED")
                                     NSUserDefaults.standardUserDefaults().synchronize()
-                                    IQKeyboardManager.sharedManager().enableAutoToolbar = true
+                                    NSUserDefaults.standardUserDefaults().setBool(true, forKey: "CALL_API")
+                                    NSUserDefaults.standardUserDefaults().synchronize()
                                     self.dismissViewControllerAnimated(true, completion: nil)
                                 }
                                 else
@@ -106,6 +105,11 @@ class SessionExpireViewController: UIViewController, UITextFieldDelegate, UIAler
     }
     
     //MARK:- UITEXTFIELD DELEGATE METHODS
+    func textFieldDidEndEditing(textField: UITextField) {
+        textField.resignFirstResponder()
+        self.reCreateSession()
+    }
+    
     func textFieldShouldReturn(textField: UITextField) -> Bool {
         textField.resignFirstResponder()
         self.reCreateSession()

@@ -30,6 +30,8 @@ class LandingScreen: UIViewController, UITableViewDataSource, UITableViewDelegat
     @IBOutlet var hamBurgerButton: UIButton!
     @IBOutlet var tableView: UITableView!
     
+    var vehiclesArray = [AnyObject]()
+    
     //MARK:- LIFE CYCLE METHODS
     override func viewDidLoad() {
         self.navigationItem.setHidesBackButton(true, animated: true)
@@ -52,6 +54,14 @@ class LandingScreen: UIViewController, UITableViewDataSource, UITableViewDelegat
         if NSUserDefaults.standardUserDefaults().boolForKey("SESSION_EXPIRED") {
             let vc : AnyObject! = self.storyboard!.instantiateViewControllerWithIdentifier("SessionExpired")
             self.presentViewController(vc as! UIViewController, animated: true, completion: nil)
+        }
+        
+        if NSUserDefaults.standardUserDefaults().boolForKey("CALL_API") {
+            if NSUserDefaults.standardUserDefaults().boolForKey("USER_LOGGED_IN") {
+            NSUserDefaults.standardUserDefaults().setBool(false, forKey: "CALL_API")
+            NSUserDefaults.standardUserDefaults().synchronize()
+            self.callFetchMyCarsAPI()
+            }
         }
     }
     
@@ -83,11 +93,11 @@ class LandingScreen: UIViewController, UITableViewDataSource, UITableViewDelegat
     }
     
     func addButtonClicked() -> Void {
-//        if NSUserDefaults.standardUserDefaults().boolForKey("USER_LOGGED_IN") {
-//            self.navigationItem.backBarButtonItem = UIBarButtonItem(title: " ", style: .Plain, target: nil, action: nil)
-//            self.performSegueWithIdentifier("AddVehicle", sender: self)
-//        }
-        self.showAlertwithCancelButton("CoxAxle", message: "Functionality in progress", cancelButton: "OK")
+        if NSUserDefaults.standardUserDefaults().boolForKey("USER_LOGGED_IN") {
+            self.navigationItem.backBarButtonItem = UIBarButtonItem(title: " ", style: .Plain, target: nil, action: nil)
+            self.performSegueWithIdentifier("AddVehicle", sender: self)
+        }
+     //   self.showAlertwithCancelButton("CoxAxle", message: "Functionality in progress", cancelButton: "OK")
     }
     
     
@@ -411,7 +421,12 @@ class LandingScreen: UIViewController, UITableViewDataSource, UITableViewDelegat
     }
     
     func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 5;
+        if collectionView.tag == 1 {
+            return 5
+        }
+        else {
+            return self.vehiclesArray.count
+        }
     }
     
     func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize {
@@ -441,8 +456,13 @@ class LandingScreen: UIViewController, UITableViewDataSource, UITableViewDelegat
         else {
             let cell = collectionView.dequeueReusableCellWithReuseIdentifier(myCarsCollectionViewCellReuseIdentifier, forIndexPath: indexPath) as! MyCarsCollectionViewCell
             
-            cell.carImageView.image = UIImage(named: "carImg")
-            cell.carName.text = "Vicky’s Car"
+            let imageArray = self.vehiclesArray[indexPath.row].valueForKey("vechicle_image") as! NSArray
+                let imageURLString = imageArray[0].valueForKey("image_url") as! NSString
+            cell.carImageView.setImageWithURL(NSURL(string: imageURLString as String), placeholderImage: UIImage(named: "placeholder"), completed: { (image, error, cacheType, url) -> Void in
+                cell.carImageView.alpha = 1;
+                
+                }, usingActivityIndicatorStyle: UIActivityIndicatorViewStyle(rawValue: 2)!)
+            cell.carName.text = self.vehiclesArray[indexPath.row].valueForKey("name") as? String
             cell.carAppointmentDate.text = "Next scheduled service: Aug 27, 2016"
             
             return cell;
@@ -451,8 +471,10 @@ class LandingScreen: UIViewController, UITableViewDataSource, UITableViewDelegat
     
     func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
         collectionView.deselectItemAtIndexPath(indexPath, animated: true)
+        if collectionView.tag == 2 {
         self.navigationItem.backBarButtonItem = UIBarButtonItem(title: " ", style: .Plain, target: nil, action: nil)
             self.performSegueWithIdentifier("VehiclesList", sender: self)
+        }
     }
     
     //MARK:- UISCROLLVIEW DELEGATE METHODS
@@ -508,14 +530,21 @@ class LandingScreen: UIViewController, UITableViewDataSource, UITableViewDelegat
                         if sessionStatus == "1" {
                         let status = JSON.valueForKey("status") as! String
                         if status == "True"  {
-                         /*      do {
+                               do {
                              let dict: VehiclesList = try VehiclesList(dictionary: JSON as! [NSObject : AnyObject])
                              
-                             print(dict)
+                             
+                             self.vehiclesArray = dict.response?.data as! Array<AnyObject>
+                                print(self.vehiclesArray)
+                                dispatch_async(dispatch_get_main_queue(),{
+                                    
+                                    self.myCarsCollectionView.reloadData()
+                                    
+                                })
                              }
                              catch let error as NSError {
                              NSLog("Unresolved error \(error), \(error.userInfo)")
-                             }*/
+                             }
                         }
                         else {
                             let errorMsg = JSON.valueForKey("message") as! String
@@ -534,7 +563,8 @@ class LandingScreen: UIViewController, UITableViewDataSource, UITableViewDelegat
         }
         else {
             print("Internet connection FAILED")
-            showAlertwithCancelButton("No Internet Connection".localized(self.language!), message: "Make sure your device is connected to the internet.".localized(self.language!), cancelButton: "OK".localized(self.language!))
+            let vc : AnyObject! = self.storyboard!.instantiateViewControllerWithIdentifier("NoInternetConnection")
+            self.presentViewController(vc as! UIViewController, animated: true, completion: nil)
         }
     }
 }

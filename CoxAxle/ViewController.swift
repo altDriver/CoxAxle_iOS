@@ -134,7 +134,8 @@ class ViewController: UIViewController, EAIntroDelegate, UIAlertController_UIAle
         }
         else {
             print("Internet connection FAILED")
-            showAlertwithCancelButton("No Internet Connection".localized(self.language!), message: "Make sure your device is connected to the internet.".localized(self.language!), cancelButton: "OK".localized(self.language!))
+            let vc : AnyObject! = self.storyboard!.instantiateViewControllerWithIdentifier("NoInternetConnection")
+            self.presentViewController(vc as! UIViewController, animated: true, completion: nil)
         }
     }
     

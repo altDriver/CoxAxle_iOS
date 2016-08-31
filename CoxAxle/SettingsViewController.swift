@@ -29,6 +29,12 @@ class SettingsViewController: UIViewController, UIAlertController_UIAlertView {
             let vc : AnyObject! = self.storyboard!.instantiateViewControllerWithIdentifier("SessionExpired")
             self.presentViewController(vc as! UIViewController, animated: true, completion: nil)
         }
+        
+        if NSUserDefaults.standardUserDefaults().boolForKey("CALL_API") {
+            NSUserDefaults.standardUserDefaults().setBool(false, forKey: "CALL_API")
+            NSUserDefaults.standardUserDefaults().synchronize()
+            self.callFetchUserDetailsAPI()
+        }
     }
 
     override func didReceiveMemoryWarning() {
@@ -93,7 +99,8 @@ class SettingsViewController: UIViewController, UIAlertController_UIAlertView {
         }
         else {
             print("Internet connection FAILED")
-            showAlertwithCancelButton("No Internet Connection", message: "Make sure your device is connected to the internet.", cancelButton: "OK")
+            let vc : AnyObject! = self.storyboard!.instantiateViewControllerWithIdentifier("NoInternetConnection")
+            self.presentViewController(vc as! UIViewController, animated: true, completion: nil)
         }
     }
     
@@ -136,7 +143,8 @@ class SettingsViewController: UIViewController, UIAlertController_UIAlertView {
         }
         else {
             print("Internet connection FAILED")
-            showAlertwithCancelButton("No Internet Connection", message: "Make sure your device is connected to the internet.", cancelButton: "OK")
+            let vc : AnyObject! = self.storyboard!.instantiateViewControllerWithIdentifier("NoInternetConnection")
+            self.presentViewController(vc as! UIViewController, animated: true, completion: nil)
         }
     }
 

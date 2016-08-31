@@ -55,4 +55,12 @@ extension UIColor {
         return UIColor.init(red: 178/255.0, green: 179/255.0, blue: 180/255.0, alpha: 1)
     }
     
+    class func uncheckButtonBackgroundColor() -> UIColor {
+        return UIColor.init(red: 236/255.0, green: 239/255.0, blue: 241/255.0, alpha: 1)
+    }
+    
+    class func vehicleTypeSelectedButtonBackgroundColor() -> UIColor {
+        return UIColor.init(red: 246/255.0, green: 247/255.0, blue: 248/255.0, alpha: 1)
+    }
+    
 }

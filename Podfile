@@ -13,6 +13,9 @@ target 'CoxAxle' do
  pod 'JTMaterialSwitch'
  pod 'IQKeyboardManagerSwift'
  pod 'YLProgressBar', '~> 3.10.0'
+ pod 'UIActivityIndicator-for-SDWebImage'
+ pod 'LGSemiModalNavController'
+
 
 end
 

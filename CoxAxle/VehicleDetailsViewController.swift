@@ -16,6 +16,8 @@ class VehicleDetailsViewController: UIViewController, UITableViewDataSource, UIT
     let vehicleReuseIdentifier = "VehicleNormalCell"
     let vehicleButtonReuseIdentifier = "VehicleButtonCell"
     let vehicleProgressReuseIdentifier = "VehicleProgressReuseIdentifier"
+    let vehicleDocumentReuseIdentifier = "VehicleDocumentReuseIdentifier"
+    let vehicleContactReuseIdentifier = "VehicleContactReuseIdentifier"
     let vehicleCollectionViewCellReuseIdentifier = "VehicleCollectionViewCell"
 
     @IBOutlet var tableView: UITableView!
@@ -41,6 +43,13 @@ class VehicleDetailsViewController: UIViewController, UITableViewDataSource, UIT
             let vc : AnyObject! = self.storyboard!.instantiateViewControllerWithIdentifier("SessionExpired")
             self.presentViewController(vc as! UIViewController, animated: true, completion: nil)
         }
+        
+        if NSUserDefaults.standardUserDefaults().boolForKey("CALL_API") {
+            NSUserDefaults.standardUserDefaults().setBool(false, forKey: "CALL_API")
+            NSUserDefaults.standardUserDefaults().synchronize()
+            self.fetchVehicleDetails()
+            //self.callEditVehiclesAPI()
+        }
     }
     
     override func viewDidLayoutSubviews() {
@@ -61,7 +70,7 @@ class VehicleDetailsViewController: UIViewController, UITableViewDataSource, UIT
     
     //MARK:- UITABLEVIEW DATA SOURCE METHODS
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-        return 3
+        return 7
     }
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -72,6 +81,14 @@ class VehicleDetailsViewController: UIViewController, UITableViewDataSource, UIT
             return 2
         case 2:
             return 1
+        case 3:
+            return 2
+        case 4:
+            return 1
+        case 5:
+            return 1
+        case 6:
+            return 2
         default:
             return 0
         }
@@ -95,6 +112,13 @@ class VehicleDetailsViewController: UIViewController, UITableViewDataSource, UIT
                  return cell
             case 1:
                 let cell = self.tableView.dequeueReusableCellWithIdentifier(vehicleReuseIdentifier) as UITableViewCell!
+                let cellTitle: UILabel = cell.viewWithTag(101) as! UILabel
+                let cellSubTitle: UILabel = cell.viewWithTag(102) as! UILabel
+                
+                cellTitle.text = "Service History"
+                cellSubTitle.text = "Last service date: July 28, 2016"
+                
+                cell.accessoryType = UITableViewCellAccessoryType.DisclosureIndicator
                 return cell
                 
             default:
@@ -120,6 +144,74 @@ class VehicleDetailsViewController: UIViewController, UITableViewDataSource, UIT
             cell.monthsProgressView.startAnimation()
             cell.milesProgressView.startAnimation()
             return cell
+        case 3:
+            switch indexPath.row {
+            case 0:
+                let cell = self.tableView.dequeueReusableCellWithIdentifier(vehicleReuseIdentifier) as UITableViewCell!
+                let cellTitle: UILabel = cell.viewWithTag(101) as! UILabel
+                let cellSubTitle: UILabel = cell.viewWithTag(102) as! UILabel
+                
+                cellTitle.text = "Vehicle identification no. (VIN)"
+                cellSubTitle.text = "VW1234567890AS"
+                return cell
+            case 1:
+                let cell = self.tableView.dequeueReusableCellWithIdentifier(vehicleReuseIdentifier) as UITableViewCell!
+                let cellTitle: UILabel = cell.viewWithTag(101) as! UILabel
+                let cellSubTitle: UILabel = cell.viewWithTag(102) as! UILabel
+                
+                cellTitle.text = "Tag expiration"
+                cellSubTitle.text = "November 28, 2025"
+                return cell
+            default:
+                let cell = self.tableView.dequeueReusableCellWithIdentifier(vehicleReuseIdentifier) as UITableViewCell!
+                let cellTitle: UILabel = cell.viewWithTag(101) as! UILabel
+                let cellSubTitle: UILabel = cell.viewWithTag(102) as! UILabel
+                
+                cellTitle.text = ""
+                cellSubTitle.text = ""
+                return cell
+            }
+        case 4:
+            let cell = self.tableView.dequeueReusableCellWithIdentifier(vehicleDocumentReuseIdentifier) as UITableViewCell!
+            let cellTitle: UILabel = cell.viewWithTag(111) as! UILabel
+            let cellSubTitle: UIImageView = cell.viewWithTag(112) as! UIImageView
+            
+            cellTitle.text = "Insurance"
+            cell.accessoryType = UITableViewCellAccessoryType.DisclosureIndicator
+            return cell
+            
+        case 5:
+            let cell = self.tableView.dequeueReusableCellWithIdentifier(vehicleDocumentReuseIdentifier) as UITableViewCell!
+            let cellTitle: UILabel = cell.viewWithTag(111) as! UILabel
+            let cellSubTitle: UIImageView = cell.viewWithTag(112) as! UIImageView
+            
+            cellTitle.text = "Extended Warranty"
+            cell.accessoryType = UITableViewCellAccessoryType.DisclosureIndicator
+            return cell
+        case 6:
+            switch indexPath.row {
+            case 0:
+                let cell = self.tableView.dequeueReusableCellWithIdentifier(vehicleContactReuseIdentifier) as UITableViewCell!
+                let cellTitle: UILabel = cell.viewWithTag(121) as! UILabel
+                let cellSubTitle: UIButton = cell.viewWithTag(122) as! UIButton
+                
+                cellTitle.text = "Car Manual"
+                cellSubTitle.setImage(UIImage(named: "openInBrowserIcon"), forState: UIControlState.Normal)
+                return cell
+            case 1:
+                let cell = self.tableView.dequeueReusableCellWithIdentifier(vehicleContactReuseIdentifier) as UITableViewCell!
+                let cellTitle: UILabel = cell.viewWithTag(121) as! UILabel
+                let cellSubTitle: UIButton = cell.viewWithTag(122) as! UIButton
+                
+                cellTitle.text = "Roadside Assistance"
+                cellSubTitle.setImage(UIImage(named: "roadAssistanceIcon"), forState: UIControlState.Normal)
+                return cell
+                
+            default:
+                 let cell = self.tableView.dequeueReusableCellWithIdentifier(vehicleContactReuseIdentifier) as UITableViewCell!
+                return cell
+            }
+            
         default:
             let cell = self.tableView.dequeueReusableCellWithIdentifier(vehicleBannerReuseIdentifier) as! VehicleDetailsTableViewCell!
             return cell
@@ -147,6 +239,14 @@ class VehicleDetailsViewController: UIViewController, UITableViewDataSource, UIT
             }
         case 2:
             return 265
+        case 3:
+            return 74
+        case 4:
+            return 65
+        case 5:
+            return 65
+        case 6:
+            return 65
         default:
             return 0
         }
@@ -161,18 +261,13 @@ class VehicleDetailsViewController: UIViewController, UITableViewDataSource, UIT
         case 0:
             return 0.00002
         default:
-            return 0.000004
+            return 2.5
         }
     }
     
-//    func tableView(tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
-//        switch section {
-//        case 5:
-//            return 0.00002
-//        default:
-//            return 5.0
-//        }
-//    }
+    func tableView(tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
+        return 2.5
+    }
     
     
     // MARK:- UICOLLECTIONVIEW DATA SOURCE METHODS
@@ -261,7 +356,8 @@ class VehicleDetailsViewController: UIViewController, UITableViewDataSource, UIT
         }
         else {
             print("Internet connection FAILED")
-            showAlertwithCancelButton("No Internet Connection", message: "Make sure your device is connected to the internet.", cancelButton: "OK")
+            let vc : AnyObject! = self.storyboard!.instantiateViewControllerWithIdentifier("NoInternetConnection")
+            self.presentViewController(vc as! UIViewController, animated: true, completion: nil)
         }
     }
     
@@ -318,7 +414,8 @@ class VehicleDetailsViewController: UIViewController, UITableViewDataSource, UIT
         }
         else {
             print("Internet connection FAILED")
-            showAlertwithCancelButton("No Internet Connection", message: "Make sure your device is connected to the internet.", cancelButton: "OK")
+            let vc : AnyObject! = self.storyboard!.instantiateViewControllerWithIdentifier("NoInternetConnection")
+            self.presentViewController(vc as! UIViewController, animated: true, completion: nil)
         }
     }
 

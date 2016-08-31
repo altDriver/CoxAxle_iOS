@@ -17,7 +17,6 @@ class LoginViewController: UIViewController,UIAlertController_UIAlertView {
     @IBOutlet weak var passwordField: SMFloatingLabelTextField!
     @IBOutlet weak var rememberMeLabel: UILabel!
     @IBOutlet weak var loginButton: UIButton!
-    @IBOutlet weak var createAnAccountButton: UIButton!
     @IBOutlet weak var forgotPasswordButton: UIButton!
     var forgotPasswordField: UITextField!
     @IBOutlet weak var switchView: UIView!
@@ -70,9 +69,9 @@ class LoginViewController: UIViewController,UIAlertController_UIAlertView {
                 self.passwordField.placeholder = "Password".localized(self.language!)
                 self.passwordField.attributedPlaceholder = NSAttributedString(string:"Password".localized(self.language!), attributes:[NSForegroundColorAttributeName: placeHolderColor])
               //  self.rememberMeLabel.text = "Remember me".localized(self.language!)
-              //  self.forgotPasswordButton.setTitle("Forgot Password".localized(self.language!), forState: UIControlState.Normal)
+                self.forgotPasswordButton.setTitle("Forgot Password".localized(self.language!), forState: UIControlState.Normal)
                 self.loginButton .setTitle("Login".localized(self.language!), forState: UIControlState.Normal)
-                self.createAnAccountButton.setTitle("Don’t have an account? Sign up".localized(self.language!), forState: UIControlState.Normal)
+             //   self.createAnAccountButton.setTitle("Don’t have an account? Sign up".localized(self.language!), forState: UIControlState.Normal)
     }
     
     @IBAction func forgotPasswordClicked(sender: UIButton) {
@@ -153,6 +152,8 @@ class LoginViewController: UIViewController,UIAlertController_UIAlertView {
                                         print(restArray.valueForKey("token"))
                                         NSUserDefaults.standardUserDefaults().setObject(restArray.valueForKey("token"), forKey: "Token")
                                         NSUserDefaults.standardUserDefaults().synchronize()
+                                        NSUserDefaults.standardUserDefaults().setObject(restArray.valueForKey("uid"), forKey: "UserId")
+                                        NSUserDefaults.standardUserDefaults().synchronize()
                                         NSUserDefaults.standardUserDefaults().setObject(restArray.valueForKey("email"), forKey: "Email")
                                         NSUserDefaults.standardUserDefaults().synchronize()
                                         NSUserDefaults.standardUserDefaults().setBool(true, forKey: "USER_LOGGED_IN")
@@ -189,7 +190,8 @@ class LoginViewController: UIViewController,UIAlertController_UIAlertView {
         }
         else {
             print("Internet connection FAILED")
-            showAlertwithCancelButton("No Internet Connection".localized(self.language!), message: "Make sure your device is connected to the internet.".localized(self.language!), cancelButton: "OK".localized(self.language!))
+            let vc : AnyObject! = self.storyboard!.instantiateViewControllerWithIdentifier("NoInternetConnection")
+            self.presentViewController(vc as! UIViewController, animated: true, completion: nil)
         }
     }
     
@@ -201,14 +203,14 @@ class LoginViewController: UIViewController,UIAlertController_UIAlertView {
         if Reachability.isConnectedToNetwork() == true {
             print("Internet connection OK")
             
-            if (self.passwordField.text! .isValidEmail()) {
+            if (self.forgotPasswordField.text! .isValidEmail()) {
                 let loading = UIActivityIndicatorView_ActivityClass(text: "Loading".localized(self.language!))
                 self.view.addSubview(loading)
                 
                 let paramsDict: [ String : AnyObject] = ["email": self.forgotPasswordField.text! as String] as Dictionary
                 print(NSString(format: "Request: %@", paramsDict))
                 
-                Alamofire.request(.POST, Constant.API.kBaseUrlPath+"forgotpassword", parameters: paramsDict)
+                Alamofire.request(.POST, Constant.API.kBaseUrlPath+"customer/resetpassword", parameters: paramsDict)
                     .responseJSON { response in
                         loading.hide()
                         if let JSON = response.result.value {
@@ -234,7 +236,8 @@ class LoginViewController: UIViewController,UIAlertController_UIAlertView {
         }
         else {
             print("Internet connection FAILED")
-            showAlertwithCancelButton("No Internet Connection".localized(self.language!), message: "Make sure your device is connected to the internet.".localized(self.language!), cancelButton: "OK".localized(self.language!))
+            let vc : AnyObject! = self.storyboard!.instantiateViewControllerWithIdentifier("NoInternetConnection")
+            self.presentViewController(vc as! UIViewController, animated: true, completion: nil)
         }
     }
 

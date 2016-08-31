@@ -14,7 +14,7 @@
             buildForArchiving = "YES">
             <BuildableReference
                BuildableIdentifier = 'primary'
-               BlueprintIdentifier = '314BD10A895D6BF4C5F7BF3145149D9F'
+               BlueprintIdentifier = '9802069FB12FC06F79BAE746767E3EF9'
                BlueprintName = 'SMFloatingLabelTextField'
                ReferencedContainer = 'container:Pods.xcodeproj'
                BuildableName = 'SMFloatingLabelTextField.framework'>

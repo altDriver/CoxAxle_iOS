@@ -11,4 +11,8 @@ import UIKit
 class VehiclesListCollectionViewCell: UICollectionViewCell {
     
     @IBOutlet var carImageView: UIImageView!
+    @IBOutlet var carAppointmentDate: UILabel!
+    @IBOutlet var carName: UILabel!
+    
+    
 }
