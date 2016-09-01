@@ -11,11 +11,24 @@ import Foundation
 
 extension String {
     func isValidEmail() -> Bool {
-        // print("validate calendar: \(testStr)")
         let emailRegEx = "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}"
         
         let emailTest = NSPredicate(format:"SELF MATCHES %@", emailRegEx)
         return emailTest.evaluateWithObject(self)
+    }
+    
+    func isValidPhoneNumber() -> Bool {
+        do {
+            let detector = try NSDataDetector(types: NSTextCheckingType.PhoneNumber.rawValue)
+            let matches = detector.matchesInString(self, options: [], range: NSMakeRange(0, self.characters.count))
+            if let res = matches.first {
+                return res.resultType == .PhoneNumber && res.range.location == 0 && res.range.length == self.characters.count
+            } else {
+                return false
+            }
+        } catch {
+            return false
+        }
     }
     
     func encodeStringTo64() -> String {

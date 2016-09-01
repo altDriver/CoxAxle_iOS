@@ -29,15 +29,19 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             NSUserDefaults.standardUserDefaults().setObject("en", forKey: "CurrentLanguage")
             NSUserDefaults.standardUserDefaults().synchronize()
        // }
-        
+        UINavigationBar.appearance().barTintColor = UIColor.SlateColor()
+        UINavigationBar.appearance().tintColor = UIColor.whiteColor()
+        UINavigationBar.appearance().titleTextAttributes = [NSForegroundColorAttributeName : UIColor.whiteColor()]
         let titleDict: NSDictionary = [NSForegroundColorAttributeName: UIColor.whiteColor(), NSFontAttributeName: UIFont.boldFont()]
          UINavigationBar.appearance().titleTextAttributes = titleDict as? [String : AnyObject]
         
         if NSUserDefaults.standardUserDefaults().boolForKey("USER_LOGGED_IN") {
-        let mainVcIntial = constantObj.SetIntialMainViewController("HomeVC")
-        if let window = self.window {
-           window.rootViewController = mainVcIntial
-        }
+            let storyboard = UIStoryboard(name: "Main", bundle: nil)
+            
+            let initialViewController = storyboard.instantiateViewControllerWithIdentifier("RootVC")
+            
+            self.window?.rootViewController = initialViewController
+            self.window?.makeKeyAndVisible()
         }
         else {
             NSUserDefaults.standardUserDefaults().setBool(true, forKey: "SHOW_INTRODUCTORY")

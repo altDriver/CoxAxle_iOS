@@ -316,8 +316,7 @@ class VehicleDetailsViewController: UIViewController, UITableViewDataSource, UIT
             
             let loading = UIActivityIndicatorView_ActivityClass(text: "Loading")
             self.view.addSubview(loading)
-            let token: String = NSUserDefaults.standardUserDefaults().objectForKey("Token") as! String
-            let paramsDict: [ String : AnyObject] = ["vid": "7", "uid": "21", "token": token] as Dictionary
+            let paramsDict: [ String : AnyObject] = ["vid": "7", "uid": "21"] as Dictionary
             print(NSString(format: "Request: %@", paramsDict))
             
             Alamofire.request(.POST, Constant.API.kBaseUrlPath+"vehicle/view", parameters: paramsDict)
@@ -326,8 +325,6 @@ class VehicleDetailsViewController: UIViewController, UITableViewDataSource, UIT
                     if let JSON = response.result.value {
                         
                         print(NSString(format: "Response: %@", JSON as! NSDictionary))
-                        let sessionStatus = JSON.valueForKey("session_status") as! String
-                        if sessionStatus == "1" {
                         let status = JSON.valueForKey("status") as! String
                         if status == "True"  {
                           /*  do {
@@ -342,14 +339,6 @@ class VehicleDetailsViewController: UIViewController, UITableViewDataSource, UIT
                         else {
                             let errorMsg = JSON.valueForKey("message") as! String
                             self.showAlertwithCancelButton("Error", message: errorMsg, cancelButton: "OK")
-                        }
-                        }
-                        else {
-                            
-                            NSUserDefaults.standardUserDefaults().setBool(true, forKey: "SESSION_EXPIRED")
-                            NSUserDefaults.standardUserDefaults().synchronize()
-                            let vc : AnyObject! = self.storyboard!.instantiateViewControllerWithIdentifier("SessionExpired")
-                            self.presentViewController(vc as! UIViewController, animated: true, completion: nil)
                         }
                     }
             }
@@ -368,14 +357,13 @@ class VehicleDetailsViewController: UIViewController, UITableViewDataSource, UIT
             
             let loading = UIActivityIndicatorView_ActivityClass(text: "Loading")
             self.view.addSubview(loading)
-            let token: String = NSUserDefaults.standardUserDefaults().objectForKey("Token") as! String
             let image : UIImage = UIImage(named: "splash_image")!
             //Now use image to create into NSData format
             let imageData:NSData = UIImagePNGRepresentation(image)!
             
             let strBase64:String = imageData.base64EncodedStringWithOptions(NSDataBase64EncodingOptions(rawValue: 0))
             
-            let paramsDict: [ String : AnyObject] = ["vid": "7", "token": token,"name": "Maruti Swift", "uid": "21", "dealer_id": "1", "vin": "9007", "vehicle_type": "Sedan", "make": "Maruthi", "model": "", "color": "Silver", "photo": strBase64, "waranty_from": "", "waranty_to": "", "extended_waranty_from": "", "extended_waranty_to": "", "kbb_price": "1000", "manual": "", "loan_amount": "200", "emi": "50", "interest": "9", "loan_tenure": "6", "insurance_document": "", "mileage": "12345", "style": "", "trim": "", "year": "2010"] as Dictionary
+            let paramsDict: [ String : AnyObject] = ["vid": "7","name": "Maruti Swift", "uid": "21", "dealer_id": "1", "vin": "9007", "vehicle_type": "Sedan", "make": "Maruthi", "model": "", "color": "Silver", "photo": strBase64, "waranty_from": "", "waranty_to": "", "extended_waranty_from": "", "extended_waranty_to": "", "kbb_price": "1000", "manual": "", "loan_amount": "200", "emi": "50", "interest": "9", "loan_tenure": "6", "insurance_document": "", "mileage": "12345", "style": "", "trim": "", "year": "2010"] as Dictionary
             print(NSString(format: "Request: %@", paramsDict))
             
             Alamofire.request(.POST, Constant.API.kBaseUrlPath+"vehicle/update", parameters: paramsDict)
@@ -384,8 +372,6 @@ class VehicleDetailsViewController: UIViewController, UITableViewDataSource, UIT
                     if let JSON = response.result.value {
                         
                         print(NSString(format: "Response: %@", JSON as! NSDictionary))
-                        let sessionStatus = JSON.valueForKey("session_status") as! String
-                        if sessionStatus == "1" {
                         let status = JSON.valueForKey("status") as! String
                         if status == "True"  {
                             do {
@@ -400,14 +386,6 @@ class VehicleDetailsViewController: UIViewController, UITableViewDataSource, UIT
                         else {
                             let errorMsg = JSON.valueForKey("message") as! String
                             self.showAlertwithCancelButton("Error", message: errorMsg, cancelButton: "OK")
-                        }
-                        }
-                        else {
-                            
-                            NSUserDefaults.standardUserDefaults().setBool(true, forKey: "SESSION_EXPIRED")
-                            NSUserDefaults.standardUserDefaults().synchronize()
-                            let vc : AnyObject! = self.storyboard!.instantiateViewControllerWithIdentifier("SessionExpired")
-                            self.presentViewController(vc as! UIViewController, animated: true, completion: nil)
                         }
                     }
             }

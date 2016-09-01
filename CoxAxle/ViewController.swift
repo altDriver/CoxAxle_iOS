@@ -89,8 +89,7 @@ class ViewController: UIViewController, EAIntroDelegate, UIAlertController_UIAle
     }
     
     @IBAction func continueAsGuestClicked(sender: UIButton) {
-        let mainVcIntial = constantObj.SetIntialMainViewController("HomeVC")
-        UIApplication.sharedApplication().keyWindow?.rootViewController = mainVcIntial
+        self.performSegueWithIdentifier("LoggedIn", sender: self)
     }
     
     @IBAction func createAnAccountClicked(sender: UIButton) {

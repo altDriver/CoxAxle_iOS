@@ -49,7 +49,14 @@ class SettingsViewController: UIViewController, UIAlertController_UIAlertView {
     
     //MARK:-  UIBUTTON ACTIONS
     @IBAction func menuButtonClicked(sender: UIButton) {
-        sideMenuVC.toggleMenu()
+        if let frostView = self.view{
+            frostView.endEditing(true)
+        }
+        
+        if let frostingViewController = self.frostedViewController{
+            frostingViewController.view.endEditing(true)
+            frostingViewController.presentMenuViewController()
+        }
     }
     
     //MARK:- FETCH USER DETAILS API
@@ -59,8 +66,7 @@ class SettingsViewController: UIViewController, UIAlertController_UIAlertView {
             
             let loading = UIActivityIndicatorView_ActivityClass(text: "Loading")
             self.view.addSubview(loading)
-            let token: String = NSUserDefaults.standardUserDefaults().objectForKey("Token") as! String
-            let paramsDict: [ String : AnyObject] = ["uid": "21", "token": token] as Dictionary
+            let paramsDict: [ String : AnyObject] = ["uid": "21"] as Dictionary
             print(NSString(format: "Request: %@", paramsDict))
             
             Alamofire.request(.POST, Constant.API.kBaseUrlPath+"user/list", parameters: paramsDict)
@@ -69,8 +75,6 @@ class SettingsViewController: UIViewController, UIAlertController_UIAlertView {
                     if let JSON = response.result.value {
                         
                         print(NSString(format: "Response: %@", JSON as! NSDictionary))
-                        let sessionStatus = JSON.valueForKey("session_status") as! String
-                        if sessionStatus == "1" {
                         let status = JSON.valueForKey("status") as! String
                         if status == "True"  {
                               do {
@@ -85,14 +89,6 @@ class SettingsViewController: UIViewController, UIAlertController_UIAlertView {
                         else {
                             let errorMsg = JSON.valueForKey("message") as! String
                             self.showAlertwithCancelButton("Error", message: errorMsg, cancelButton: "OK")
-                        }
-                        }
-                        else {
-                            
-                            NSUserDefaults.standardUserDefaults().setBool(true, forKey: "SESSION_EXPIRED")
-                            NSUserDefaults.standardUserDefaults().synchronize()
-                            let vc : AnyObject! = self.storyboard!.instantiateViewControllerWithIdentifier("SessionExpired")
-                            self.presentViewController(vc as! UIViewController, animated: true, completion: nil)
                         }
                     }
             }
@@ -112,8 +108,7 @@ class SettingsViewController: UIViewController, UIAlertController_UIAlertView {
             
             let loading = UIActivityIndicatorView_ActivityClass(text: "Loading")
             self.view.addSubview(loading)
-            let token: String = NSUserDefaults.standardUserDefaults().objectForKey("Token") as! String
-            let paramsDict: [ String : AnyObject] = ["uid": "21", "token": token, "first_name": "Pru", "last_name": "Krish", "email": "pru@gmail.com", "phone": "7799002145", "language": "EN"] as Dictionary
+            let paramsDict: [ String : AnyObject] = ["uid": "21", "first_name": "Pru", "last_name": "Krish", "email": "pru@gmail.com", "phone": "7799002145", "language": "EN"] as Dictionary
             print(NSString(format: "Request: %@", paramsDict))
             
             Alamofire.request(.POST, Constant.API.kBaseUrlPath+"user/update", parameters: paramsDict)

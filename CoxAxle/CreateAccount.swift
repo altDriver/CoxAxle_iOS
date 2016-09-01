@@ -8,27 +8,33 @@
 
 import UIKit
 import Alamofire
+import SMFloatingLabelTextField
 
-class CreateAccount: UIViewController, UITableViewDelegate, UITableViewDataSource, UIAlertController_UIAlertView{
+
+class CreateAccount: UIViewController, UIAlertController_UIAlertView{
     
-    let cellReuseIdentifier = "RegisterCell"
+    @IBOutlet var firstNameField: SMFloatingLabelTextField!
+    
+    @IBOutlet var lastNameField: SMFloatingLabelTextField!
+    
+    @IBOutlet var emailField: SMFloatingLabelTextField!
+    
+    @IBOutlet var passwordField: SMFloatingLabelTextField!
     var language: String?
     
-    @IBOutlet weak var tableView: UITableView!
+    @IBOutlet var phoneNumberField: SMFloatingLabelTextField!
     //MARK:- LIFE CYCLE METHODS
     override func viewDidLoad() {
-        self.tableView.backgroundColor = UIColor.clearColor()
-        self.tableView.backgroundView = UIImageView(image: UIImage(named: "bg"))
+    
         self.setText()
     }
     
     override func viewWillAppear(animated: Bool) {
-        self.navigationController?.navigationBarHidden = false
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(CreateAccount.setText), name: "LanguageChanged", object: nil)
+        self.navigationController?.navigationBarHidden = true
     }
     
     override func viewWillDisappear(animated: Bool) {
-        NSNotificationCenter.defaultCenter().removeObserver(self)
+    
     }
     
     //MARK:- SET TEXT
@@ -36,158 +42,42 @@ class CreateAccount: UIViewController, UITableViewDelegate, UITableViewDataSourc
         self.language = NSUserDefaults.standardUserDefaults().objectForKey("CurrentLanguage") as? String
         self.title = "Register".localized(self.language!)
         
-        self.tableView.reloadData()
     }
     
-    //MARK:- UITableView Data Source Methods
-    func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-        return 3
-    }
-    
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        switch section {
-        case 0:
-             return 3
-        case 1:
-             return 13
-        case 2:
-             return 1
-        default:
-            return 0
-        }
-    }
-    
-    func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        switch section {
-        case 0:
-            return "Personal Information".localized(self.language!)
-        case 1:
-            return "Vehicle Information".localized(self.language!)
-        case 2:
-            return "Address".localized(self.language!)
-        default:
-            return nil
-        }
-    }
-    
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell:UITableViewCell = self.tableView.dequeueReusableCellWithIdentifier(cellReuseIdentifier) as UITableViewCell!
-        
-        let textField: UITextField = cell.viewWithTag(200) as! UITextField
-        
-        
-        switch indexPath.section {
-        case 0:
-        
-            switch indexPath.row {
-            case 0:
-                textField.placeholder = "Name".localized(self.language!)
-                textField.attributedPlaceholder = NSAttributedString(string:"Name".localized(self.language!), attributes:[NSForegroundColorAttributeName: UIColor.whiteColor()])
-            break
-                
-            case 1:
-                 textField.placeholder = "Email or Phone number".localized(self.language!)
-                 textField.attributedPlaceholder = NSAttributedString(string:"Email or Phone number".localized(self.language!), attributes:[NSForegroundColorAttributeName: UIColor.whiteColor()])
-            break
-                
-            case 2:
-                 textField.placeholder = "Password".localized(self.language!)
-                 textField.attributedPlaceholder = NSAttributedString(string:"Password".localized(self.language!), attributes:[NSForegroundColorAttributeName: UIColor.whiteColor()])
-            break
-                
-            default:
-                break
-            }
-            
-        break
-            
-        case 1:
-            
-            switch indexPath.row {
-            case 0:
-                  textField.placeholder = "VIN".localized(self.language!)
-                  textField.attributedPlaceholder = NSAttributedString(string:"VIN".localized(self.language!), attributes:[NSForegroundColorAttributeName: UIColor.whiteColor()])
-            break
-            case 1:
-                  textField.placeholder = "Dongle Details (Optional)".localized(self.language!)
-                  textField.attributedPlaceholder = NSAttributedString(string:"Dongle Details (Optional)".localized(self.language!), attributes:[NSForegroundColorAttributeName: UIColor.whiteColor()])
-            break
-            case 2:
-                  textField.placeholder = "Warranty (Optional)".localized(self.language!)
-                  textField.attributedPlaceholder = NSAttributedString(string:"Warranty (Optional)".localized(self.language!), attributes:[NSForegroundColorAttributeName: UIColor.whiteColor()])
-            break
-            case 3:
-                  textField.placeholder = "Extended Warranty (Optional)".localized(self.language!)
-                  textField.attributedPlaceholder = NSAttributedString(string:"Extended Warranty (Optional)".localized(self.language!), attributes:[NSForegroundColorAttributeName: UIColor.whiteColor()])
-            break
-            case 4:
-                  textField.placeholder = "Loan Amount Details (Optional)".localized(self.language!)
-                  textField.attributedPlaceholder = NSAttributedString(string:"Loan Amount Details (Optional)".localized(self.language!), attributes:[NSForegroundColorAttributeName: UIColor.whiteColor()])
-            break
-            case 5:
-                  textField.placeholder = "Finance / Lease / Own Vehicle".localized(self.language!)
-                  textField.attributedPlaceholder = NSAttributedString(string:"Finance / Lease / Own Vehicle".localized(self.language!), attributes:[NSForegroundColorAttributeName: UIColor.whiteColor()])
-            break
-            case 6:
-                  textField.placeholder = "Tag Renewal Date (Optional)".localized(self.language!)
-                  textField.attributedPlaceholder = NSAttributedString(string:"Tag Renewal Date (Optional)".localized(self.language!), attributes:[NSForegroundColorAttributeName: UIColor.whiteColor()])
-            break
-            case 7:
-                  textField.placeholder = "Make".localized(self.language!)
-                  textField.attributedPlaceholder = NSAttributedString(string:"Make".localized(self.language!), attributes:[NSForegroundColorAttributeName: UIColor.whiteColor()])
-            break
-            case 8:
-                  textField.placeholder = "Model".localized(self.language!)
-                  textField.attributedPlaceholder = NSAttributedString(string:"Model".localized(self.language!), attributes:[NSForegroundColorAttributeName: UIColor.whiteColor()])
-            break
-            case 9:
-                  textField.placeholder = "Year".localized(self.language!)
-                  textField.attributedPlaceholder = NSAttributedString(string:"Year".localized(self.language!), attributes:[NSForegroundColorAttributeName: UIColor.whiteColor()])
-            break
-            case 10:
-                  textField.placeholder = "Color".localized(self.language!)
-                  textField.attributedPlaceholder = NSAttributedString(string:"Color".localized(self.language!), attributes:[NSForegroundColorAttributeName: UIColor.whiteColor()])
-            break
-            case 11:
-                  textField.placeholder = "Trim".localized(self.language!)
-                  textField.attributedPlaceholder = NSAttributedString(string:"Trim".localized(self.language!), attributes:[NSForegroundColorAttributeName: UIColor.whiteColor()])
-            break
-            case 12:
-                  textField.placeholder = "Mileage".localized(self.language!)
-                  textField.attributedPlaceholder = NSAttributedString(string:"Mileage".localized(self.language!), attributes:[NSForegroundColorAttributeName: UIColor.whiteColor()])
-            break
-            default:
-                
-            break
-            }
-            
-        break
-            
-        case 2:
-            
-            switch indexPath.row {
-            case 0:
-                 textField.placeholder = "Zip Code".localized(self.language!)
-                 textField.attributedPlaceholder = NSAttributedString(string:"Zip Code".localized(self.language!), attributes:[NSForegroundColorAttributeName: UIColor.whiteColor()])
-            break
-            default:
-            break
-            }
-        
-        break
-            
-        default: break
-    
-        }
-        
-        cell.backgroundColor = UIColor.clearColor()
-        return cell
-        
-    }
-
     // MARK:- UIBUTTON ACTIONS
+    @IBAction func backButtonClicked(sender: UIButton) {
+        self.navigationController?.popViewControllerAnimated(true)
+    }
     @IBAction func registerClicked(sender: UIButton) {
-        self.callRegisterationAPI()
+        if self.firstNameField.text?.characters.count == 0 {
+            self.showAlertwithCancelButton("Error", message: "Please enter your first name", cancelButton: "OK")
+        }
+        else if self.lastNameField.text?.characters.count == 0  {
+            self.showAlertwithCancelButton("Error", message: "Please enter your last name", cancelButton: "OK")
+        }
+        else if self.phoneNumberField.text?.characters.count == 0 {
+            self.showAlertwithCancelButton("Error", message: "Please enter your phone number", cancelButton: "OK")
+        }
+        else if self.emailField.text?.characters.count == 0 {
+            self.showAlertwithCancelButton("Error", message: "Please enter your email", cancelButton: "OK")
+        }
+        else if self.passwordField.text?.characters.count == 0 {
+            self.showAlertwithCancelButton("Error", message: "Please enter your password", cancelButton: "OK")
+        }
+        else {
+            if (self.phoneNumberField.text!.isValidPhoneNumber()) {
+                if (self.emailField.text!.isValidEmail()) {
+                    self.callRegisterationAPI()
+                }
+                else {
+                    self.showAlertwithCancelButton("Error", message: "Invalid email address", cancelButton: "OK")
+                }
+            }
+            else {
+                self.showAlertwithCancelButton("Error", message: "Invalid mobile number", cancelButton: "OK")
+            }
+        }
+        
     }
     
     
@@ -200,12 +90,9 @@ class CreateAccount: UIViewController, UITableViewDelegate, UITableViewDataSourc
             
             let loading = UIActivityIndicatorView_ActivityClass(text: "Loading")
             self.view.addSubview(loading)
+            let passwordEncryption = self.passwordField.text?.encodeStringTo64()
             
-            let fileURL = NSBundle.mainBundle().URLForResource("demo", withExtension: "docx")
-            let data: NSData = NSData(contentsOfURL: fileURL!)!
-            let insuranceBase64:String = data.base64EncodedStringWithOptions(NSDataBase64EncodingOptions(rawValue: 0))
-            
-             let paramsDict: [String : AnyObject] = ["first_name": "Adam", "last_name": "Kalluru", "password": "qwerty", "email": "adam.kalluru1@vensaiinc.com", "phone": "1234567890", "user_type": "user", "dealer_code": "KH001", "dl_expiry_date": "5", "photo": "iVBORw0KGgoAAAANSUhEUgAAAyAAAAH0CAYAAADFQEl4AAAAAXNSR0IArs4c6QAAAAlwSFlzAAAWJQAAFiUBSVIk8AAAABxpRE9UAAAAAgAAAAAAAAD6AAAAKAAAAPoAAAD6AABVRo42IZsAAEAASURBVHgB7N0HfBvl", "vin": "KFHIDO456LGDFNL748", "dongle_name": "WIFI", "waranty_from": "1", "waranty_to": "7", "extended_waranty_from": "3", "extended_waranty_to": "6", "loan_amount": "1000", "emi": "100", "interest": "9", "loan_tenure": "6", "language": "EN", "tag_renewal_date": "9", "color": "Silver", "hypothecate": "self", "make": "2015", "mileage": "12345", "model": "luxury", "style": "semi", "trim": "vxi", "vehicle_type": "Sedan", "year": "2016", "zip_code": "500020", "insurance_document": insuranceBase64, "manual": ""] as Dictionary
+             let paramsDict: [String : AnyObject] = ["first_name": self.firstNameField.text! as String, "last_name": self.lastNameField.text! as String, "password": passwordEncryption! as String, "email": self.emailField.text! as String, "phone": self.phoneNumberField.text! as String] as Dictionary
             print(NSString(format: "Request: %@", paramsDict))
 
             
@@ -223,13 +110,25 @@ class CreateAccount: UIViewController, UITableViewDelegate, UITableViewDataSourc
                             let dict: Register = try Register(dictionary: JSON as! [NSObject : AnyObject])
                             
                             print(dict.response!.data)
+                            let restArray = dict.response!.data[0] as! NSDictionary
+                            NSUserDefaults.standardUserDefaults().setObject(restArray.valueForKey("uid"), forKey: "UserId")
+                            NSUserDefaults.standardUserDefaults().synchronize()
+                            NSUserDefaults.standardUserDefaults().setObject(restArray.valueForKey("first_name"), forKey: "FirstName")
+                            NSUserDefaults.standardUserDefaults().synchronize()
+                            NSUserDefaults.standardUserDefaults().setObject(restArray.valueForKey("last_name"), forKey: "LastName")
+                            NSUserDefaults.standardUserDefaults().synchronize()
+                            NSUserDefaults.standardUserDefaults().setObject(restArray.valueForKey("email"), forKey: "Email")
+                            NSUserDefaults.standardUserDefaults().synchronize()
+                            NSUserDefaults.standardUserDefaults().setObject(restArray.valueForKey("phone"), forKey: "Phone")
+                            NSUserDefaults.standardUserDefaults().synchronize()
+                            NSUserDefaults.standardUserDefaults().setBool(true, forKey: "USER_LOGGED_IN")
+                            NSUserDefaults.standardUserDefaults().synchronize()
                         }
                         catch let error as NSError {
                             NSLog("Unresolved error \(error), \(error.userInfo)")
                         }
                         
-                        let mainVcIntial = constantObj.SetIntialMainViewController("HomeVC")
-                        UIApplication.sharedApplication().keyWindow?.rootViewController = mainVcIntial
+                       self.performSegueWithIdentifier("LoggedIn", sender: self)
                     }
                     else
                     {

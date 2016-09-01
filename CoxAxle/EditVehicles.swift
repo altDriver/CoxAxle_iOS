@@ -16,7 +16,6 @@ import JSONModel
 
 class EditVehicles: JSONModel {
     var status: String!
-    var session_status: String!
     var message: String!
     var response: String?
     

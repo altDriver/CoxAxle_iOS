@@ -149,12 +149,15 @@ class LoginViewController: UIViewController,UIAlertController_UIAlertView {
                                         
                                         print(dict.response!.data)
                                         let restArray = dict.response!.data[0] as! NSDictionary
-                                        print(restArray.valueForKey("token"))
-                                        NSUserDefaults.standardUserDefaults().setObject(restArray.valueForKey("token"), forKey: "Token")
-                                        NSUserDefaults.standardUserDefaults().synchronize()
                                         NSUserDefaults.standardUserDefaults().setObject(restArray.valueForKey("uid"), forKey: "UserId")
                                         NSUserDefaults.standardUserDefaults().synchronize()
+                                        NSUserDefaults.standardUserDefaults().setObject(restArray.valueForKey("first_name"), forKey: "FirstName")
+                                        NSUserDefaults.standardUserDefaults().synchronize()
+                                        NSUserDefaults.standardUserDefaults().setObject(restArray.valueForKey("last_name"), forKey: "LastName")
+                                        NSUserDefaults.standardUserDefaults().synchronize()
                                         NSUserDefaults.standardUserDefaults().setObject(restArray.valueForKey("email"), forKey: "Email")
+                                        NSUserDefaults.standardUserDefaults().synchronize()
+                                        NSUserDefaults.standardUserDefaults().setObject(restArray.valueForKey("phone"), forKey: "Phone")
                                         NSUserDefaults.standardUserDefaults().synchronize()
                                         NSUserDefaults.standardUserDefaults().setBool(true, forKey: "USER_LOGGED_IN")
                                         NSUserDefaults.standardUserDefaults().synchronize()
@@ -163,8 +166,7 @@ class LoginViewController: UIViewController,UIAlertController_UIAlertView {
                                         NSLog("Unresolved error \(error), \(error.userInfo)")
                                     }
                                     
-                                    let mainVcIntial = constantObj.SetIntialMainViewController("HomeVC")
-                                    UIApplication.sharedApplication().keyWindow?.rootViewController = mainVcIntial
+                                    self.performSegueWithIdentifier("LoggedIn", sender: self)
                                 }
                                 else
                                 {

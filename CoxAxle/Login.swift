@@ -17,7 +17,6 @@ class Data: JSONModel {
     var dealer_code: String!
     var zip_code: String!
     var language: String!
-    var token: String!
 
     func propertyIsOptional(propertyName: String) -> Bool {
         return true
@@ -34,7 +33,6 @@ class Response: JSONModel {
 class Login: JSONModel {
     var status: String!
     var message: String!
-    var session_status: String!
     var response: Response?
 
 

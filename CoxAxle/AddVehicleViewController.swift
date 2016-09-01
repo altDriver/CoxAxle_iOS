@@ -44,6 +44,7 @@ class AddVehicleViewController: UIViewController, UIAlertController_UIAlertView,
     var selectedVehicleModel     : String?
     var selectedTagExpirationDate: String?
     var isDatePickerSelected     : Bool?
+    var isValidationSuccess      : Bool?
     
     let yearsArray          = [2007,2008,2009,2010,2011,2012,2013,2014,2015,2016]
     let vehicleMakeArray    = ["Accent", "Azera", "Elantra", "Santa Fe Sports", "Mrecedes", "Land Rover","Accent", "Azera", "Elantra", "Santa Fe"]
@@ -108,6 +109,7 @@ class AddVehicleViewController: UIViewController, UIAlertController_UIAlertView,
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         
         var cell = UITableViewCell()
+        tableView.showsVerticalScrollIndicator = false
         
         switch tableView.tag {
             
@@ -172,7 +174,7 @@ class AddVehicleViewController: UIViewController, UIAlertController_UIAlertView,
                 
                 let selectYearTableViewCell = tableView.dequeueReusableCellWithIdentifier("SelectYearTableViewCell", forIndexPath: indexPath) as! VehicleDetailSelectionTableViewCell
                 
-                selectYearTableViewCell.selectYearButton.addTarget(self, action: #selector(AddVehicleViewController.selectDate), forControlEvents: .TouchDragInside)
+                selectYearTableViewCell.selectYearButton.addTarget(self, action: #selector(AddVehicleViewController.selectDate), forControlEvents: .TouchUpInside)
                 
                 if let vehiclePurchasedYear = selectedYear {
                     selectYearTableViewCell.selectYearButton.setTitle(String(vehiclePurchasedYear), forState: .Normal)
@@ -188,7 +190,7 @@ class AddVehicleViewController: UIViewController, UIAlertController_UIAlertView,
                 
                 let selectMakeTableViewCell = tableView.dequeueReusableCellWithIdentifier("SelectMakeTableViewCell", forIndexPath: indexPath) as! VehicleDetailSelectionTableViewCell
                 
-                selectMakeTableViewCell.selectVehicleMakeButton.addTarget(self, action: #selector(AddVehicleViewController.selectVehicleMake), forControlEvents: .TouchDragInside)
+                selectMakeTableViewCell.selectVehicleMakeButton.addTarget(self, action: #selector(AddVehicleViewController.selectVehicleMake), forControlEvents: .TouchUpInside)
                 
                 if let vehicleMake = selectedVehicleMake {
                     selectMakeTableViewCell.selectVehicleMakeButton.setTitle(String(vehicleMake), forState: .Normal)
@@ -204,7 +206,7 @@ class AddVehicleViewController: UIViewController, UIAlertController_UIAlertView,
                 
                 let selectModelTableViewCell = tableView.dequeueReusableCellWithIdentifier("SelectModelTableViewCell", forIndexPath: indexPath) as! VehicleDetailSelectionTableViewCell
                 
-                selectModelTableViewCell.selectVehicleModelButton.addTarget(self, action: #selector(AddVehicleViewController.selectVehicleModel), forControlEvents: .TouchDragInside)
+                selectModelTableViewCell.selectVehicleModelButton.addTarget(self, action: #selector(AddVehicleViewController.selectVehicleModel), forControlEvents: .TouchUpInside)
                 
                 if let vehicleModel = selectedVehicleModel {
                     selectModelTableViewCell.selectVehicleModelButton.setTitle(String(vehicleModel), forState: .Normal)
@@ -486,7 +488,7 @@ class AddVehicleViewController: UIViewController, UIAlertController_UIAlertView,
         
         if vehicleImagesArray.count == 3  || vehicleImagesArray.count > 3 {
             
-            showAlertwithCancelButton("", message: "You Can Upload Upto Only Three Photos", cancelButton: "OK")
+            showAlertwithCancelButton("", message: "You can upload upto only Three photos", cancelButton: "OK")
             return
         }
         
@@ -546,7 +548,7 @@ class AddVehicleViewController: UIViewController, UIAlertController_UIAlertView,
         
         if vehicleImagesArray.count == 3  || vehicleImagesArray.count > 3 {
             
-            showAlertwithCancelButton("", message: "You Can Upload Upto Only Three Photos", cancelButton: "OK")
+            showAlertwithCancelButton("", message: "You can upload upto only Three photos", cancelButton: "OK")
             picker.dismissViewControllerAnimated(true, completion: nil)
             return
         }
@@ -571,68 +573,121 @@ class AddVehicleViewController: UIViewController, UIAlertController_UIAlertView,
     @IBAction func gotoNextScene(sender: UIButton) {
         
         addVehicleTableView.reloadData()
+        validateFields()
+    }
+    
+    func validateFields() {
         
-                if vehicleImage == nil {
+        if vehicleImage == nil {
+            
+            isValidationSuccess = false
+            showAlertwithCancelButton("Error", message: "Please select vehicle image", cancelButton: "OK")
+            return
+        } else {
+            isValidationSuccess = true
+        }
         
-                    showAlertwithCancelButton("Error", message: "Please Select Vehicle Image", cancelButton: "OK")
-                    return
-                }
+        if vehicleName?.isEmpty == true {
+            
+            isValidationSuccess = false
+            showAlertwithCancelButton("Error", message: "Please enter vehicle name", cancelButton: "OK")
+            return
+        } else {
+            isValidationSuccess = true
+        }
         
-                if vehicleName?.isEmpty == true {
+        if selectedVehicleType?.characters.count < 3 {
+            
+            isValidationSuccess = false
+            showAlertwithCancelButton("Error", message: "Please select vehicle type", cancelButton: "OK")
+            return
+        } else {
+            isValidationSuccess = true
+        }
         
-                    showAlertwithCancelButton("Error", message: "Please Enter Vehicle Name", cancelButton: "OK")
-                    return
-                }
+        if vinNumber?.characters.count != 16 {
+            
+            isValidationSuccess = false
+            showAlertwithCancelButton("Error", message: "Please enter 16 digit VIN number", cancelButton: "OK")
+            return
+        } else {
+            isValidationSuccess = true
+        }
         
-                if selectedVehicleType?.characters.count < 3 {
+        if vehiclePurchasedYear == "Select Purchased year" {
+            
+            isValidationSuccess = false
+            showAlertwithCancelButton("Error", message: "Please select vehicle purchased year", cancelButton: "OK")
+            return
+        } else {
+            isValidationSuccess = true
+        }
         
-                    showAlertwithCancelButton("Error", message: "Please Select Vehicle Type", cancelButton: "OK")
-                    return
-                }
+        if vehicleMake == "Select Vehicle Make" {
+            
+            isValidationSuccess = false
+            showAlertwithCancelButton("Error", message: "Please select vehicle make", cancelButton: "OK")
+            return
+        } else {
+            isValidationSuccess = true
+        }
         
-                if vinNumber?.characters.count != 16 {
+        if vehicleModel == "Select Vehicle Model" {
+            
+            isValidationSuccess = false
+            showAlertwithCancelButton("Error", message: "Please select vehicle model", cancelButton: "OK")
+            return
+        } else {
+            isValidationSuccess = true
+        }
         
-                    showAlertwithCancelButton("Error", message: "Please Enter 16 digit VIN Number", cancelButton: "OK")
-                    return
-                }
+        if milesDriven?.isEmpty == true {
+            
+            isValidationSuccess = false
+            showAlertwithCancelButton("Error", message: "Please enter miles driven", cancelButton: "OK")
+            return
+        } else {
+            isValidationSuccess = true
+        }
         
-                if vehiclePurchasedYear == "Select Purchased year" {
+        if tagExpirationDate == "Select Date" || tagExpirationDate == nil || tagExpirationDate?.characters.count == 0 {
+            
+            isValidationSuccess = false
+            showAlertwithCancelButton("Error", message: "Please select vehicle tag expiration date", cancelButton: "OK")
+            return
+        } else {
+            isValidationSuccess = true
+        }
         
-                    showAlertwithCancelButton("Error", message: "Please Select Vehicle Purchased Year", cancelButton: "OK")
-                    return
-                }
+        //        let stry = UIStoryboard(name: "Main", bundle: nil)
+        //        let vc = stry.instantiateViewControllerWithIdentifier("insuranceDetailsView") as! VehicleInsuranceDetailsViewController
+        //        passValuesToInsuranceDetailScene(vc)
+        //        self.performSegueWithIdentifier("insuranceDetailsView", sender: self)
+    }
+    
+    //    override func shouldPerformSegueWithIdentifier(identifier: String, sender: AnyObject?) -> Bool {
+    //
+    //        if isValidationSuccess == true {
+    //
+    //            let stry = UIStoryboard(name: "Main", bundle: nil)
+    //            let vc = stry.instantiateViewControllerWithIdentifier("insuranceDetailsView") as! VehicleInsuranceDetailsViewController
+    //            passValuesToInsuranceDetailScene(vc)
+    //            return true
+    //        }
+    //        return false
+    //    }
+    
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         
-                if vehicleMake == "Select Vehicle Make" {
-        
-                    showAlertwithCancelButton("Error", message: "Please Select Vehicle Make", cancelButton: "OK")
-                    return
-                }
-        
-                if vehicleModel == "Select Vehicle Model" {
-        
-                    showAlertwithCancelButton("Error", message: "Please Select Vehicle Model", cancelButton: "OK")
-                    return
-                }
-        
-                if milesDriven?.isEmpty == true {
-        
-                    showAlertwithCancelButton("Error", message: "Please Enter Miles Driven", cancelButton: "OK")
-                    return
-                }
-        
-                if tagExpirationDate == "Select Date" || tagExpirationDate == nil || tagExpirationDate?.characters.count == 0 {
-        
-                    showAlertwithCancelButton("Error", message: "Please Select Vehicle Tag Expiration Date", cancelButton: "OK")
-                    return
-                }
-        
-        let storyBoard : UIStoryboard = UIStoryboard(name: "Main", bundle:nil)
-        
-        let vehicleInsuranceDetailsViewConreoller = storyBoard.instantiateViewControllerWithIdentifier("vehicleInsuranceDetailsView") as! VehicleInsuranceDetailsViewController
-        
-        passValuesToInsuranceDetailScene(vehicleInsuranceDetailsViewConreoller)
-        
-        self.navigationController?.pushViewController(vehicleInsuranceDetailsViewConreoller, animated: true)
+        if isValidationSuccess == true {
+            
+            if(segue.identifier == "insuranceDetailsView") {
+                
+                let vehicleInsuranceDetailsViewController = (segue.destinationViewController as! VehicleInsuranceDetailsViewController)
+                
+                passValuesToInsuranceDetailScene(vehicleInsuranceDetailsViewController)
+            }
+        }
     }
     
     func selectDate() {
@@ -682,15 +737,15 @@ class AddVehicleViewController: UIViewController, UIAlertController_UIAlertView,
     
     func passValuesToInsuranceDetailScene(nextViewController: VehicleInsuranceDetailsViewController) {
         
-            nextViewController.vehicleImage        = vehicleImage!
-            nextViewController.vehicleName         = vehicleName!
-            nextViewController.vehicleType         = selectedVehicleType!
-            nextViewController.vinNumber           = vinNumber!
-            nextViewController.vehiclePurchaseYear = selectedYear!
-            nextViewController.vehicleMake         = selectedVehicleMake!
-            nextViewController.vehicleModel        = vehicleModel!
-            nextViewController.milesDriven         = milesDriven!
-            nextViewController.tagExpirationDate   = tagExpirationDate!
+        nextViewController.vehicleImage        = vehicleImage!
+        nextViewController.vehicleName         = vehicleName!
+        nextViewController.vehicleType         = selectedVehicleType!
+        nextViewController.vinNumber           = vinNumber!
+        nextViewController.vehiclePurchaseYear = selectedYear!
+        nextViewController.vehicleMake         = selectedVehicleMake!
+        nextViewController.vehicleModel        = vehicleModel!
+        nextViewController.milesDriven         = milesDriven!
+        nextViewController.tagExpirationDate   = tagExpirationDate!
     }
     
     @IBAction func datePickerChanged(datePicker: UIDatePicker) {

@@ -9,6 +9,5 @@
 #import <JTMaterialSwitch/JTMaterialSwitch.h>
 #import <YLProgressBar/YLProgressBar.h>
 #import "KNCirclePercentView.h"
-//#import <UIActivityIndicator-for-SDWebImage/UIImageView+UIActivityIndicatorForSDWebImage.h>
 #import <SDWebImage/UIImageView+WebCache.h>
 

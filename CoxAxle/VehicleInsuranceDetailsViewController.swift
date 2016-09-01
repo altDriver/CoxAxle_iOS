@@ -11,7 +11,7 @@ import YLProgressBar
 import Alamofire
 
 class VehicleInsuranceDetailsViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UIAlertController_UIAlertView, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
-
+    
     //MARK:- Properties
     
     @IBOutlet var progressBar               : YLProgressBar!
@@ -20,7 +20,7 @@ class VehicleInsuranceDetailsViewController: UIViewController, UITableViewDelega
     var imagePicker = UIImagePickerController()
     var insuranceCardImageView   = UIImageView()
     var insuranceCardImagesArray = [UIImage]()
-   
+    
     let screenWidth  = UIScreen.mainScreen().bounds.width
     let screenHeight = UIScreen.mainScreen().bounds.height
     
@@ -35,15 +35,15 @@ class VehicleInsuranceDetailsViewController: UIViewController, UITableViewDelega
     var tagExpirationDate   : String?
     var insuranceExpirationDate: String?
     var isDatePickerSelected: Bool?
-
+    
     //MARK:- View Lifecycle Methods
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         self.navigationItem.title = "Insurance Details"
-//        vehicleInsuranceTableView.tableFooterView? = UIView(frame: CGRectZero)
-       
+        //        vehicleInsuranceTableView.tableFooterView? = UIView(frame: CGRectZero)
+        
         setProgressBarProperties()
     }
     
@@ -73,12 +73,12 @@ class VehicleInsuranceDetailsViewController: UIViewController, UITableViewDelega
         
         return 3
     }
-
+    
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         
         let cell = UITableViewCell()
         switch indexPath.row {
-        
+            
         case 0:
             
             let vehicleInsuranceDetailsTableViewCell: VehicleInsuranceDetailsTableViewCell = tableView.dequeueReusableCellWithIdentifier("InsuranceExpirationDateCell", forIndexPath: indexPath) as! VehicleInsuranceDetailsTableViewCell
@@ -95,7 +95,7 @@ class VehicleInsuranceDetailsViewController: UIViewController, UITableViewDelega
             vehicleInsuranceDetailsTableViewCell.insuranceExpirationDateButton.addTarget(self, action: #selector(VehicleInsuranceDetailsViewController.selectInsuranceExpirationExpirationDate(_:)), forControlEvents: .TouchUpInside)
             
             return vehicleInsuranceDetailsTableViewCell
-          
+            
         case 1:
             
             let insuranceDatePickerTableViewCell: DatePickerTableViewCell = tableView.dequeueReusableCellWithIdentifier("datePickerCell", forIndexPath: indexPath) as! DatePickerTableViewCell
@@ -104,7 +104,7 @@ class VehicleInsuranceDetailsViewController: UIViewController, UITableViewDelega
             return insuranceDatePickerTableViewCell
             
         case 2:
-           
+            
             let insuranceCardTableViewCell: InsuranceCardTableViewCell = tableView.dequeueReusableCellWithIdentifier("InsuranceCardTableViewCell", forIndexPath: indexPath) as! InsuranceCardTableViewCell
             
             if insuranceCardImagesArray.count == 0 {
@@ -154,7 +154,7 @@ class VehicleInsuranceDetailsViewController: UIViewController, UITableViewDelega
             insuranceCardTableViewCell.thumbnailButtonThird.addTarget(self, action: #selector(VehicleInsuranceDetailsViewController.removeThumbnail), forControlEvents: .TouchUpInside)
             
             insuranceCardTableViewCell.thumbnailButtonFourth.addTarget(self, action: #selector(VehicleInsuranceDetailsViewController.removeThumbnail), forControlEvents: .TouchUpInside)
-
+            
             insuranceCardTableViewCell.uploadInsuranceCardPictureButton.addTarget(self, action: #selector(VehicleInsuranceDetailsViewController.uploadInsuranceCardPic), forControlEvents: .TouchUpInside)
             
             return insuranceCardTableViewCell
@@ -165,7 +165,7 @@ class VehicleInsuranceDetailsViewController: UIViewController, UITableViewDelega
     }
     
     func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
-    
+        
         switch indexPath.row {
         case 0:
             return 60
@@ -184,11 +184,11 @@ class VehicleInsuranceDetailsViewController: UIViewController, UITableViewDelega
     
     //MARK:- Action Selector Method
     
-     func uploadInsuranceCardPic() {
+    func uploadInsuranceCardPic() {
         
         if insuranceCardImagesArray.count == 4  || insuranceCardImagesArray.count > 4 {
             
-            showAlertwithCancelButton("", message: "You Can Upload Upto Only Four Photos", cancelButton: "OK")
+            showAlertwithCancelButton("", message: "You can upload upto only four pictures", cancelButton: "OK")
             return
         }
         let alert:UIAlertController=UIAlertController(title: nil, message: nil, preferredStyle: UIAlertControllerStyle.ActionSheet)
@@ -268,14 +268,14 @@ class VehicleInsuranceDetailsViewController: UIViewController, UITableViewDelega
             return
         }
         
-        let alertController = UIAlertController(title: "", message: "Are You Sure You Want To Delete This?", preferredStyle: .Alert)
+        let alertController = UIAlertController(title: "Delete Card", message: "Are you sure you want to delete this card?", preferredStyle: .Alert)
         
         let okAction = UIAlertAction(title: "YES", style: UIAlertActionStyle.Default) {
             UIAlertAction in
             self.insuranceCardImagesArray.removeLast()
             self.vehicleInsuranceTableView.reloadData()
         }
-        let cancelAction = UIAlertAction(title: "CANCEL", style: UIAlertActionStyle.Cancel) {
+        let cancelAction = UIAlertAction(title: "NO", style: UIAlertActionStyle.Cancel) {
             UIAlertAction in
         }
         
@@ -284,14 +284,14 @@ class VehicleInsuranceDetailsViewController: UIViewController, UITableViewDelega
         
         self.presentViewController(alertController, animated: true, completion: nil)
     }
-   
+    
     //MARK:- Image PickerView Methods
     
     func imagePickerController(picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : AnyObject]) {
         
         if insuranceCardImagesArray.count == 4  || insuranceCardImagesArray.count > 4 {
             
-            showAlertwithCancelButton("", message: "You Can Upload Upto Only Four Photos", cancelButton: "OK")
+            showAlertwithCancelButton("", message: "You can upload upto only four photos", cancelButton: "OK")
             picker.dismissViewControllerAnimated(true, completion: nil)
             return
         }
@@ -299,7 +299,7 @@ class VehicleInsuranceDetailsViewController: UIViewController, UITableViewDelega
         picker.dismissViewControllerAnimated(true, completion: nil)
         let image = info[UIImagePickerControllerOriginalImage] as? UIImage
         insuranceCardImageView.image = image
-    
+        
         insuranceCardImagesArray.append(image!)
         
         vehicleInsuranceTableView.reloadData()
@@ -309,20 +309,20 @@ class VehicleInsuranceDetailsViewController: UIViewController, UITableViewDelega
         
         dismissViewControllerAnimated(true, completion: nil)
     }
-
+    
     //MARK:- IBAction Methods
     
     @IBAction func callAddVehicleApi(sender: AnyObject) {
-    
+        
         if insuranceExpirationDate == "Select Date" || insuranceExpirationDate == nil || insuranceExpirationDate?.characters.count == 0 {
-          
-            showAlertwithCancelButton("Error", message: "Please Select Insurance Expiration Date", cancelButton: "OK")
+            
+            showAlertwithCancelButton("Error", message: "Please select insurance expiration date", cancelButton: "OK")
             return
         }
         
         if insuranceCardImageView.image == nil {
             
-            showAlertwithCancelButton("Error", message: "Please Upload Insurance Card", cancelButton: "OK")
+            showAlertwithCancelButton("Error", message: "Please upload insurance card", cancelButton: "OK")
             return
         }
         
@@ -331,6 +331,8 @@ class VehicleInsuranceDetailsViewController: UIViewController, UITableViewDelega
     
     @IBAction func datePickerChanged(datePicker: UIDatePicker) {
         
+        let date                 = NSDate()
+        datePicker.minimumDate   = date
         let dateFormatter = NSDateFormatter()
         dateFormatter.dateFormat = "MMM dd, yyyy"
         let dateString = dateFormatter.stringFromDate(datePicker.date)
@@ -346,7 +348,6 @@ class VehicleInsuranceDetailsViewController: UIViewController, UITableViewDelega
             
             let loading = UIActivityIndicatorView_ActivityClass(text: "Loading")
             self.view.addSubview(loading)
-            let token: String = NSUserDefaults.standardUserDefaults().objectForKey("Token") as! String
             let userId: String = NSUserDefaults.standardUserDefaults().objectForKey("UserId") as! String
             let image : UIImage = UIImage(named: "bannerBg.png")!
             
@@ -359,7 +360,7 @@ class VehicleInsuranceDetailsViewController: UIViewController, UITableViewDelega
             let data: NSData = NSData(contentsOfURL: fileURL!)!
             let insuranceBase64:String = data.base64EncodedStringWithOptions(NSDataBase64EncodingOptions(rawValue: 0))
             
-            let paramsDict: [String : AnyObject] = ["token": token,
+            let paramsDict: [String : AnyObject] = [
                                                     "name": vehicleName!,
                                                     "uid": userId,
                                                     "dealer_id": "2",
@@ -385,7 +386,7 @@ class VehicleInsuranceDetailsViewController: UIViewController, UITableViewDelega
                                                     "photo": strBase64,
                                                     "insurance_document": insuranceBase64] as Dictionary
             
-            //            print(NSString(format: "Request: %@", paramsDict))
+            print(NSString(format: "Request: %@", paramsDict))
             
             Alamofire.request(.POST, Constant.API.kBaseUrlPath+"vehicle/create", parameters: paramsDict)
                 .responseJSON { response in
@@ -393,8 +394,7 @@ class VehicleInsuranceDetailsViewController: UIViewController, UITableViewDelega
                     if let JSON = response.result.value {
                         
                         print(NSString(format: "Response: %@", JSON as! NSDictionary))
-                        let sessionStatus = JSON.valueForKey("session_status") as! String
-                        if sessionStatus == "1" {
+                        
                         let responseMessage = JSON.valueForKey("message") as! String
                         let status = JSON.valueForKey("status") as! String
                         
@@ -410,18 +410,15 @@ class VehicleInsuranceDetailsViewController: UIViewController, UITableViewDelega
                             
                             self.showAlertwithCancelButton("Success", message: responseMessage, cancelButton: "OK")
                             
+                            self.navigationController?.popViewControllerAnimated(true)
+                            
+                            //                            let storyboard = UIStoryboard(name: "Main", bundle: nil)
+                            //                            let controller = storyboard.instantiateViewControllerWithIdentifier("AddVehicleView") as! AddVehicleViewController
+                            //                            self.presentViewController(controller, animated: true, completion: nil)
                         }
                         else {
                             let errorMsg = JSON.valueForKey("message") as! String
                             self.showAlertwithCancelButton("Error", message: errorMsg, cancelButton: "OK")
-                        }
-                        }
-                        else {
-                            
-                            NSUserDefaults.standardUserDefaults().setBool(true, forKey: "SESSION_EXPIRED")
-                            NSUserDefaults.standardUserDefaults().synchronize()
-                            let vc : AnyObject! = self.storyboard!.instantiateViewControllerWithIdentifier("SessionExpired")
-                            self.presentViewController(vc as! UIViewController, animated: true, completion: nil)
                         }
                         
                     }
@@ -429,8 +426,7 @@ class VehicleInsuranceDetailsViewController: UIViewController, UITableViewDelega
         }
         else {
             print("Internet connection FAILED")
-            let vc : AnyObject! = self.storyboard!.instantiateViewControllerWithIdentifier("NoInternetConnection")
-            self.presentViewController(vc as! UIViewController, animated: true, completion: nil)
+            showAlertwithCancelButton("No Internet Connection", message: "Make sure your device is connected to the internet.", cancelButton: "OK")
         }
     }
     

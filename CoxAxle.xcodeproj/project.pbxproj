@@ -34,7 +34,6 @@
 		CEB587041D6304FE00683A0D /* XtimeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEB587031D6304FE00683A0D /* XtimeViewController.swift */; };
 		CEB6857B1D6B0EC9008FE232 /* UpdateUserDetails.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEB6857A1D6B0EC9008FE232 /* UpdateUserDetails.swift */; };
 		CEB6857D1D6B22BB008FE232 /* DealersList.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEB6857C1D6B22BB008FE232 /* DealersList.swift */; };
-		CEB7BC521D42029500A6A251 /* KSideMenuVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEB7BC511D42029500A6A251 /* KSideMenuVC.swift */; };
 		CEB7BC581D423C1500A6A251 /* UIAlertController+UIAlertView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEB7BC571D423C1500A6A251 /* UIAlertController+UIAlertView.swift */; };
 		CEB7D7B11D58C3190096BC50 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CEB7D7B01D58C3190096BC50 /* Assets.xcassets */; };
 		CEB7D7BF1D58CACD0096BC50 /* BannerCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEB7D7BD1D58CACD0096BC50 /* BannerCollectionViewCell.swift */; };
@@ -59,7 +58,6 @@
 		CEC502CE1D40EA3D00DDC19E /* LandingScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEC502CD1D40EA3D00DDC19E /* LandingScreen.swift */; };
 		CEC502D01D4102E600DDC19E /* RootVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEC502CF1D4102E600DDC19E /* RootVC.swift */; };
 		CEC502D21D41036F00DDC19E /* NavigationVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEC502D11D41036F00DDC19E /* NavigationVC.swift */; };
-		CEC502D41D4103D100DDC19E /* SideMenuVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEC502D31D4103D100DDC19E /* SideMenuVC.swift */; };
 		CEC758AA1D76E86100619152 /* VehicleInsuranceDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEC758A91D76E86100619152 /* VehicleInsuranceDetailsViewController.swift */; };
 		CEC758B31D76E91C00619152 /* AddVehicleImageTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEC758AC1D76E91C00619152 /* AddVehicleImageTableViewCell.swift */; };
 		CEC758B41D76E91C00619152 /* VehicleTypeTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEC758AD1D76E91C00619152 /* VehicleTypeTableViewCell.swift */; };
@@ -68,6 +66,7 @@
 		CEC758B71D76E91C00619152 /* VehicleInsuranceDetailsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEC758B01D76E91C00619152 /* VehicleInsuranceDetailsTableViewCell.swift */; };
 		CEC758B81D76E91C00619152 /* InsuranceCardTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEC758B11D76E91C00619152 /* InsuranceCardTableViewCell.swift */; };
 		CEC758B91D76E91C00619152 /* DatePickerTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEC758B21D76E91C00619152 /* DatePickerTableViewCell.swift */; };
+		CEE2E88D1D7832AF00511692 /* SideMenuVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEE2E88C1D7832AF00511692 /* SideMenuVC.swift */; };
 		CEE3F1961D5A0CC3001FFE02 /* MyCarsCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEE3F1951D5A0CC3001FFE02 /* MyCarsCollectionViewCell.swift */; };
 		CEE3F1981D5A10CD001FFE02 /* BannerTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEE3F1971D5A10CD001FFE02 /* BannerTableViewCell.swift */; };
 		CEE3F19A1D5A10E6001FFE02 /* MyCarsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEE3F1991D5A10E6001FFE02 /* MyCarsTableViewCell.swift */; };
@@ -126,7 +125,6 @@
 		CEB587031D6304FE00683A0D /* XtimeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = XtimeViewController.swift; sourceTree = "<group>"; };
 		CEB6857A1D6B0EC9008FE232 /* UpdateUserDetails.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UpdateUserDetails.swift; sourceTree = "<group>"; };
 		CEB6857C1D6B22BB008FE232 /* DealersList.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DealersList.swift; sourceTree = "<group>"; };
-		CEB7BC511D42029500A6A251 /* KSideMenuVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KSideMenuVC.swift; sourceTree = "<group>"; };
 		CEB7BC571D423C1500A6A251 /* UIAlertController+UIAlertView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIAlertController+UIAlertView.swift"; sourceTree = "<group>"; };
 		CEB7D7B01D58C3190096BC50 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		CEB7D7BD1D58CACD0096BC50 /* BannerCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BannerCollectionViewCell.swift; sourceTree = "<group>"; };
@@ -161,7 +159,6 @@
 		CEC502CD1D40EA3D00DDC19E /* LandingScreen.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LandingScreen.swift; sourceTree = "<group>"; };
 		CEC502CF1D4102E600DDC19E /* RootVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RootVC.swift; sourceTree = "<group>"; };
 		CEC502D11D41036F00DDC19E /* NavigationVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NavigationVC.swift; sourceTree = "<group>"; };
-		CEC502D31D4103D100DDC19E /* SideMenuVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SideMenuVC.swift; sourceTree = "<group>"; };
 		CEC758A91D76E86100619152 /* VehicleInsuranceDetailsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VehicleInsuranceDetailsViewController.swift; sourceTree = "<group>"; };
 		CEC758AC1D76E91C00619152 /* AddVehicleImageTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddVehicleImageTableViewCell.swift; sourceTree = "<group>"; };
 		CEC758AD1D76E91C00619152 /* VehicleTypeTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VehicleTypeTableViewCell.swift; sourceTree = "<group>"; };
@@ -170,6 +167,7 @@
 		CEC758B01D76E91C00619152 /* VehicleInsuranceDetailsTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VehicleInsuranceDetailsTableViewCell.swift; sourceTree = "<group>"; };
 		CEC758B11D76E91C00619152 /* InsuranceCardTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InsuranceCardTableViewCell.swift; sourceTree = "<group>"; };
 		CEC758B21D76E91C00619152 /* DatePickerTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DatePickerTableViewCell.swift; sourceTree = "<group>"; };
+		CEE2E88C1D7832AF00511692 /* SideMenuVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SideMenuVC.swift; sourceTree = "<group>"; };
 		CEE3F1951D5A0CC3001FFE02 /* MyCarsCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyCarsCollectionViewCell.swift; sourceTree = "<group>"; };
 		CEE3F1971D5A10CD001FFE02 /* BannerTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BannerTableViewCell.swift; sourceTree = "<group>"; };
 		CEE3F1991D5A10E6001FFE02 /* MyCarsTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyCarsTableViewCell.swift; sourceTree = "<group>"; };
@@ -310,8 +308,7 @@
 			children = (
 				CEC502CF1D4102E600DDC19E /* RootVC.swift */,
 				CEC502D11D41036F00DDC19E /* NavigationVC.swift */,
-				CEC502D31D4103D100DDC19E /* SideMenuVC.swift */,
-				CEB7BC511D42029500A6A251 /* KSideMenuVC.swift */,
+				CEE2E88C1D7832AF00511692 /* SideMenuVC.swift */,
 			);
 			name = LeftMenu;
 			sourceTree = "<group>";
@@ -768,7 +765,6 @@
 				CEC07E511D5B467B0018AE19 /* MyCarsLayout.swift in Sources */,
 				CE96F3BC1D5C68640026037A /* VehicleDetailsTableViewCell.swift in Sources */,
 				CEB2995F1D65C4EA009F3015 /* AddVehicle.swift in Sources */,
-				CEC502D41D4103D100DDC19E /* SideMenuVC.swift in Sources */,
 				CEC502701D408E0000DDC19E /* AppDelegate.swift in Sources */,
 				CEB7BC581D423C1500A6A251 /* UIAlertController+UIAlertView.swift in Sources */,
 				CEB6857B1D6B0EC9008FE232 /* UpdateUserDetails.swift in Sources */,
@@ -800,7 +796,6 @@
 				CEC758AA1D76E86100619152 /* VehicleInsuranceDetailsViewController.swift in Sources */,
 				CE9CE95C1D6486AE007DA809 /* AddVehicleViewController.swift in Sources */,
 				CEC03D881D6D80A400ED74D9 /* VehiclesListCollectionViewCell.swift in Sources */,
-				CEB7BC521D42029500A6A251 /* KSideMenuVC.swift in Sources */,
 				CEC758B71D76E91C00619152 /* VehicleInsuranceDetailsTableViewCell.swift in Sources */,
 				CEC502A81D40A65600DDC19E /* Constants.swift in Sources */,
 				CEF6A57E1D772219002E66B7 /* NoInternetConnectionViewController.swift in Sources */,
@@ -816,6 +811,7 @@
 				CEB299611D65C54A009F3015 /* VehicleDetails.swift in Sources */,
 				CE1C8FBD1D66EF8D004C3123 /* SettingsViewController.swift in Sources */,
 				CEB4FBDA1D744EB8002788AA /* VehicleProgressTableViewCell.swift in Sources */,
+				CEE2E88D1D7832AF00511692 /* SideMenuVC.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

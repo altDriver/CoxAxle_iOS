@@ -56,6 +56,16 @@ class VehiclesViewController: UIViewController, UIAlertController_UIAlertView, U
         
     }
     
+    @IBAction func menuButtonClicked(sender: UIButton) {
+        if let frostView = self.view{
+            frostView.endEditing(true)
+        }
+        
+        if let frostingViewController = self.frostedViewController{
+            frostingViewController.view.endEditing(true)
+            frostingViewController.presentMenuViewController()
+        }
+    }
     //MARK:- UICOLLECTIONVIEW DATA SOURCE METHODS
     
     func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAtIndex section: Int) -> CGFloat {
@@ -101,8 +111,7 @@ class VehiclesViewController: UIViewController, UIAlertController_UIAlertView, U
             
             let loading = UIActivityIndicatorView_ActivityClass(text: "Loading")
             self.view.addSubview(loading)
-            let token: String = NSUserDefaults.standardUserDefaults().objectForKey("Token") as! String
-            let paramsDict: [ String : AnyObject] = ["uid": "21", "token": token] as Dictionary
+            let paramsDict: [ String : AnyObject] = ["uid": "21"] as Dictionary
             print(NSString(format: "Request: %@", paramsDict))
             
             Alamofire.request(.POST, Constant.API.kBaseUrlPath+"vehicle/list", parameters: paramsDict)
@@ -111,8 +120,6 @@ class VehiclesViewController: UIViewController, UIAlertController_UIAlertView, U
                     if let JSON = response.result.value {
                         
                         print(NSString(format: "Response: %@", JSON as! NSDictionary))
-                        let sessionStatus = JSON.valueForKey("session_status") as! String
-                        if sessionStatus == "1" {
                         let status = JSON.valueForKey("status") as! String
                             if status == "True"  {
                                 do {
@@ -134,14 +141,6 @@ class VehiclesViewController: UIViewController, UIAlertController_UIAlertView, U
                         else {
                             let errorMsg = JSON.valueForKey("message") as! String
                             self.showAlertwithCancelButton("Error", message: errorMsg, cancelButton: "OK")
-                        }
-                        }
-                        else {
-                            
-                            NSUserDefaults.standardUserDefaults().setBool(true, forKey: "SESSION_EXPIRED")
-                            NSUserDefaults.standardUserDefaults().synchronize()
-                            let vc : AnyObject! = self.storyboard!.instantiateViewControllerWithIdentifier("SessionExpired")
-                            self.presentViewController(vc as! UIViewController, animated: true, completion: nil)
                         }
                     }
             }

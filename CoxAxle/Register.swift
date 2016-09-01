@@ -34,7 +34,6 @@ class RegisterResponse: JSONModel {
 class Register: JSONModel {
     var status: String!
     var message: String!
-    var session_status: String!
     var response: RegisterResponse?
 
 
