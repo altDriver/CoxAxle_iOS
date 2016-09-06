@@ -8,9 +8,9 @@
 
 import UIKit
 import Alamofire
+import YLProgressBar
 
-
-class VehicleDetailsViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, UICollectionViewDataSource, UICollectionViewDelegate, UIAlertController_UIAlertView {
+class VehicleDetailsViewController: GAITrackedViewController, UITableViewDataSource, UITableViewDelegate, UICollectionViewDataSource, UICollectionViewDelegate, UIAlertController_UIAlertView {
     
     let vehicleBannerReuseIdentifier = "VehicleBannerCell"
     let vehicleReuseIdentifier = "VehicleNormalCell"
@@ -19,19 +19,29 @@ class VehicleDetailsViewController: UIViewController, UITableViewDataSource, UIT
     let vehicleDocumentReuseIdentifier = "VehicleDocumentReuseIdentifier"
     let vehicleContactReuseIdentifier = "VehicleContactReuseIdentifier"
     let vehicleCollectionViewCellReuseIdentifier = "VehicleCollectionViewCell"
+    
+    let screenWidth  = UIScreen.mainScreen().bounds.width
+    let screenHeight = UIScreen.mainScreen().bounds.height
 
     @IBOutlet var tableView: UITableView!
     var bannerCollectionView: UICollectionView!
     var pageControl: UIPageControl!
     var language: String?
     var sessionPasswordField: UITextField!
+    @IBOutlet var progressBar: YLProgressBar!
+    
+    var vehiclesDetailsDict: NSDictionary!
+    var vehicleImagesArray = [AnyObject]()
     
     //MARK:- LIFE CYCLE METHODS
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.screenName = "VehicleDetailsViewController"
         self.setText()
-        self.fetchVehicleDetails()
+        print(self.vehiclesDetailsDict)
+        self.vehicleImagesArray = self.vehiclesDetailsDict.valueForKey("vechicle_image") as! Array<AnyObject>
         //self.callEditVehiclesAPI()
+        self.setProgressBarProperties()
     
         // Do any additional setup after loading the view.
     }
@@ -68,6 +78,27 @@ class VehicleDetailsViewController: UIViewController, UITableViewDataSource, UIT
         
     }
     
+    //MARK:- UIBUTTONS ACTIONS
+    func openBrowserButtonClicked() -> Void {
+        
+    }
+    
+    //MARK:- SET PROGRESS BAR
+    func setProgressBarProperties() {
+        
+       self.progressBar.type           = .Flat
+       self.progressBar.trackTintColor = UIColor.SlateColor().colorWithAlphaComponent(0.4)
+        
+        let titleLabel             = UILabel(frame: CGRect(x:  0, y: 0, width: screenWidth/2, height: 15))
+        titleLabel.text            = "Vehicle Profile: 50%"
+        titleLabel.textAlignment   = .Right
+        titleLabel.font            = UIFont.boldFont().fontWithSize(10)
+        titleLabel.backgroundColor = UIColor.orangeColor()
+        titleLabel.textColor       = UIColor.whiteColor()
+        
+        self.progressBar.addSubview(titleLabel)
+    }
+    
     //MARK:- UITABLEVIEW DATA SOURCE METHODS
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         return 7
@@ -78,7 +109,7 @@ class VehicleDetailsViewController: UIViewController, UITableViewDataSource, UIT
         case 0:
             return 1
         case 1:
-            return 2
+            return 1
         case 2:
             return 1
         case 3:
@@ -104,22 +135,13 @@ class VehicleDetailsViewController: UIViewController, UITableViewDataSource, UIT
                 
                 self.bannerCollectionView = cell.vehicleBannerCollectionView
                 self.pageControl = cell.vehicleDetailsPageControl
+                self.pageControl.numberOfPages = self.vehicleImagesArray.count
                 return cell
         case 1:
             switch indexPath.row {
             case 0:
                  let cell = self.tableView.dequeueReusableCellWithIdentifier(vehicleButtonReuseIdentifier) as UITableViewCell!
                  return cell
-            case 1:
-                let cell = self.tableView.dequeueReusableCellWithIdentifier(vehicleReuseIdentifier) as UITableViewCell!
-                let cellTitle: UILabel = cell.viewWithTag(101) as! UILabel
-                let cellSubTitle: UILabel = cell.viewWithTag(102) as! UILabel
-                
-                cellTitle.text = "Service History"
-                cellSubTitle.text = "Last service date: July 28, 2016"
-                
-                cell.accessoryType = UITableViewCellAccessoryType.DisclosureIndicator
-                return cell
                 
             default:
                 let cell = self.tableView.dequeueReusableCellWithIdentifier(vehicleReuseIdentifier) as UITableViewCell!
@@ -152,7 +174,7 @@ class VehicleDetailsViewController: UIViewController, UITableViewDataSource, UIT
                 let cellSubTitle: UILabel = cell.viewWithTag(102) as! UILabel
                 
                 cellTitle.text = "Vehicle identification no. (VIN)"
-                cellSubTitle.text = "VW1234567890AS"
+                cellSubTitle.text = self.vehiclesDetailsDict.valueForKey("vin") as? String
                 return cell
             case 1:
                 let cell = self.tableView.dequeueReusableCellWithIdentifier(vehicleReuseIdentifier) as UITableViewCell!
@@ -160,7 +182,8 @@ class VehicleDetailsViewController: UIViewController, UITableViewDataSource, UIT
                 let cellSubTitle: UILabel = cell.viewWithTag(102) as! UILabel
                 
                 cellTitle.text = "Tag expiration"
-                cellSubTitle.text = "November 28, 2025"
+                let tagDate = self.vehiclesDetailsDict.valueForKey("tag_expiration_date") as! String
+                cellSubTitle.text = tagDate.convertDateToString()
                 return cell
             default:
                 let cell = self.tableView.dequeueReusableCellWithIdentifier(vehicleReuseIdentifier) as UITableViewCell!
@@ -197,6 +220,7 @@ class VehicleDetailsViewController: UIViewController, UITableViewDataSource, UIT
                 
                 cellTitle.text = "Car Manual"
                 cellSubTitle.setImage(UIImage(named: "openInBrowserIcon"), forState: UIControlState.Normal)
+                cellSubTitle.addTarget(self, action: #selector(self.openBrowserButtonClicked), forControlEvents: UIControlEvents.TouchUpInside)
                 return cell
             case 1:
                 let cell = self.tableView.dequeueReusableCellWithIdentifier(vehicleContactReuseIdentifier) as UITableViewCell!
@@ -231,9 +255,6 @@ class VehicleDetailsViewController: UIViewController, UITableViewDataSource, UIT
             switch indexPath.row {
             case 0:
                 return 60
-            case 1:
-                return 74
-                
             default:
                 return 0
             }
@@ -278,7 +299,7 @@ class VehicleDetailsViewController: UIViewController, UITableViewDataSource, UIT
     }
     
     func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 5;
+        return self.vehicleImagesArray.count;
     }
     
     func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize {
@@ -291,9 +312,15 @@ class VehicleDetailsViewController: UIViewController, UITableViewDataSource, UIT
     
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
             let cell = collectionView.dequeueReusableCellWithReuseIdentifier(vehicleCollectionViewCellReuseIdentifier, forIndexPath: indexPath) as! VehicleDetailsCollectionViewCell
+        
+        let imageURLString = self.vehicleImagesArray[indexPath.row].valueForKey("image_url") as! NSString
+        cell.vehicleImageView.setImageWithURL(NSURL(string: imageURLString as String), placeholderImage: UIImage(named: "placeholder"), completed: { (image, error, cacheType, url) -> Void in
+            cell.vehicleImageView.alpha = 1;
             
-            cell.vehicleImageView.image = UIImage(named: "carImg")
-            
+            }, usingActivityIndicatorStyle: UIActivityIndicatorViewStyle(rawValue: 2)!)
+        cell.vehicleTitle.text = self.vehiclesDetailsDict.valueForKey("name") as? String
+        cell.vehicleName.text = String(format: "%@ %@ • %@", (self.vehiclesDetailsDict.valueForKey("year") as? String)!, (self.vehiclesDetailsDict.valueForKey("model") as? String)!, (self.vehiclesDetailsDict.valueForKey("mileage") as? String)!)
+        
             return cell;
     }
     

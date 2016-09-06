@@ -11,7 +11,7 @@ import MessageUI
 import MapKit
 import Alamofire
 
-class LandingScreen: UIViewController, UITableViewDataSource, UITableViewDelegate, UICollectionViewDataSource, UICollectionViewDelegate, UIScrollViewDelegate, UIAlertController_UIAlertView, MFMailComposeViewControllerDelegate  {
+class LandingScreen: GAITrackedViewController,UITableViewDataSource, UITableViewDelegate, UICollectionViewDataSource, UICollectionViewDelegate, UIScrollViewDelegate, UIAlertController_UIAlertView, MFMailComposeViewControllerDelegate  {
     
     let bannerReuseIdentifier = "BannerCell"
     let dealerReuseIdentifier = "DealerCell"
@@ -34,6 +34,8 @@ class LandingScreen: UIViewController, UITableViewDataSource, UITableViewDelegat
     
     //MARK:- LIFE CYCLE METHODS
     override func viewDidLoad() {
+
+        self.screenName = "LandingScreen"
         self.navigationItem.setHidesBackButton(true, animated: true)
         self.setText()
         
@@ -49,6 +51,7 @@ class LandingScreen: UIViewController, UITableViewDataSource, UITableViewDelegat
     }
     
     override func viewWillAppear(animated: Bool) {
+       
         self.navigationController?.navigationBarHidden = false
 //        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(LandingScreen.setText), name: "LanguageChanged", object: nil)
         if NSUserDefaults.standardUserDefaults().boolForKey("SESSION_EXPIRED") {
@@ -61,8 +64,11 @@ class LandingScreen: UIViewController, UITableViewDataSource, UITableViewDelegat
                 NSUserDefaults.standardUserDefaults().setBool(false, forKey: "CALL_API")
                 NSUserDefaults.standardUserDefaults().synchronize()
                 self.callFetchMyCarsAPI()
+                
             }
         }
+         super.viewWillAppear(animated)
+        
     }
     
     override func viewWillDisappear(animated: Bool) {
@@ -473,7 +479,7 @@ class LandingScreen: UIViewController, UITableViewDataSource, UITableViewDelegat
         collectionView.deselectItemAtIndexPath(indexPath, animated: true)
         if collectionView.tag == 2 {
         self.navigationItem.backBarButtonItem = UIBarButtonItem(title: " ", style: .Plain, target: nil, action: nil)
-        self.performSegueWithIdentifier("VehicleDetails", sender: self)
+        self.performSegueWithIdentifier("VehicleDetails", sender: indexPath)
         }
     }
     
@@ -513,6 +519,10 @@ class LandingScreen: UIViewController, UITableViewDataSource, UITableViewDelegat
     func callFetchMyCarsAPI() -> Void {
         if Reachability.isConnectedToNetwork() == true {
             print("Internet connection OK")
+            
+            let tracker = GAI.sharedInstance().defaultTracker
+            let trackDictionary = GAIDictionaryBuilder.createEventWithCategory("API", action: "Fetching My Cars API Called", label: "Fetch My Cars", value: nil).build()
+            tracker.send(trackDictionary as AnyObject as! [NSObject : AnyObject])
             
             let loading = UIActivityIndicatorView_ActivityClass(text: "Loading".localized(self.language!))
             self.view.addSubview(loading)
@@ -556,4 +566,18 @@ class LandingScreen: UIViewController, UITableViewDataSource, UITableViewDelegat
             self.presentViewController(vc as! UIViewController, animated: true, completion: nil)
         }
     }
+    
+    // MARK: - Navigation
+    
+    // In a storyboard-based application, you will often want to do a little preparation before navigation
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        // Get the new view controller using segue.destinationViewController.
+        // Pass the selected object to the new view controller.
+        if segue.identifier == "VehicleDetails" {
+            let indexPath = sender as! NSIndexPath
+            let vehicleDetails = (segue.destinationViewController as! VehicleDetailsViewController)
+            vehicleDetails.vehiclesDetailsDict = self.vehiclesArray[indexPath.row] as! NSDictionary
+        }
+    }
+
 }

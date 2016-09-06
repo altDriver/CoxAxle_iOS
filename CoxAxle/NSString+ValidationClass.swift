@@ -31,6 +31,24 @@ extension String {
         }
     }
     
+    func convertDateToString() -> String {
+        //String to Date Convert
+        
+        let dateString = self
+        let dateFormatter = NSDateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
+        let dateObj = dateFormatter.dateFromString(dateString)
+        
+        
+        //CONVERT FROM NSDate to String
+        
+        dateFormatter.dateFormat = "MMMM dd, YYYY"
+        let stringDate = dateFormatter.stringFromDate(dateObj!)
+        print(stringDate)
+        
+        return stringDate
+    }
+    
     func encodeStringTo64() -> String {
         let plainData: NSData = self.dataUsingEncoding(NSUTF8StringEncoding)!
         var base64String: String

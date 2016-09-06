@@ -11,7 +11,7 @@ import Alamofire
 import YLProgressBar
 import LGSemiModalNavController
 
-class AddVehicleViewController: UIViewController, UIAlertController_UIAlertView, UITableViewDataSource, UITableViewDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+class AddVehicleViewController: GAITrackedViewController, UIAlertController_UIAlertView, UITableViewDataSource, UITableViewDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, VehicleAddedDelegate {
     
     var language: String?
     
@@ -24,9 +24,9 @@ class AddVehicleViewController: UIViewController, UIAlertController_UIAlertView,
     let datesTableView          = UITableView()
     let vehicleMakeTableView    = UITableView()
     let vehiclesModelTableView  = UITableView()
-    var newButton        = UIButton()
-    var usedButton       = UIButton()
-    var cpoButton        = UIButton()
+    var newButton: UIButton!
+    var usedButton: UIButton!
+    var cpoButton : UIButton!
     var vehicleImagesArray = [UIImage]()
     
     
@@ -39,14 +39,19 @@ class AddVehicleViewController: UIViewController, UIAlertController_UIAlertView,
     var tagExpirationDate        : String?
     var vehicleImage             : UIImage?
     var selectedVehicleType      : String?
-    var selectedYear             : Int?
+    var selectedYear             : String?
     var selectedVehicleMake      : String?
     var selectedVehicleModel     : String?
     var selectedTagExpirationDate: String?
     var isDatePickerSelected     : Bool?
     var isValidationSuccess      : Bool?
     
-    let yearsArray          = [2007,2008,2009,2010,2011,2012,2013,2014,2015,2016]
+    var vehicleNameTextField: UITextField!
+    var vinTextField: UITextField!
+    var milesDrivenTextField: UITextField!
+    
+    
+    let yearsArray : [String]         = ["2007"]//,2008,2009,2010,2011,2012,2013,2014,2015,2016]
     let vehicleMakeArray    = ["Accent", "Azera", "Elantra", "Santa Fe Sports", "Mrecedes", "Land Rover","Accent", "Azera", "Elantra", "Santa Fe"]
     let vehiclesModelArray  = ["Accent A2S", "Azera AZ3", "Elantra EL1", "Santa Fe Sports SaFeX", "Mrecedes MQn", "Land Rover","Accent", "Azera", "Elantra", "Santa Fe"]
     
@@ -57,10 +62,20 @@ class AddVehicleViewController: UIViewController, UIAlertController_UIAlertView,
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.screenName = "AddVehicleViewController"
+        newButton = UIButton()
+        usedButton = UIButton()
+        cpoButton = UIButton()
         
-        newButton.tag = 0
-        usedButton.tag = 1
-        cpoButton.tag = 2
+        vehicleImage              = nil
+        vehicleName               = nil
+        selectedVehicleType       = nil
+        vinNumber                 = nil
+        vehiclePurchasedYear      = nil
+        vehicleMake               = nil
+        vehicleModel              = nil
+        milesDriven               = nil
+        selectedTagExpirationDate = nil
         
         setProgressBarProperties()
         self.setText()
@@ -102,7 +117,6 @@ class AddVehicleViewController: UIViewController, UIAlertController_UIAlertView,
         case 2 : return vehicleMakeArray.count
         case 3 : return vehiclesModelArray.count
         default: return 0
-            
         }
     }
     
@@ -123,7 +137,13 @@ class AddVehicleViewController: UIViewController, UIAlertController_UIAlertView,
                 
                 addVehicleImageTableViewCell.uploadVehiclePictureButton.addTarget(self, action: #selector(AddVehicleViewController.uploadVehiclePic), forControlEvents: .TouchUpInside)
                 
-                addVehicleImageTableViewCell.vehicleImageView.image = imageView.image
+                if self.vehicleImagesArray.count > 0 {
+                    addVehicleImageTableViewCell.vehicleImageView.image = imageView.image
+                }
+                else {
+                    addVehicleImageTableViewCell.vehicleImageView.image = nil
+                }
+                
                 
                 cell = addVehicleImageTableViewCell
                 
@@ -135,6 +155,7 @@ class AddVehicleViewController: UIViewController, UIAlertController_UIAlertView,
                 
                 vehicleName = vehicleNameTableViewCell.vehicleNameTextField.text
                 
+                self.vehicleNameTextField = vehicleNameTableViewCell.vehicleNameTextField
                 cell = vehicleNameTableViewCell
                 
             case 2:
@@ -164,11 +185,24 @@ class AddVehicleViewController: UIViewController, UIAlertController_UIAlertView,
                 
                 let vinTableViewCell = tableView.dequeueReusableCellWithIdentifier("VINTableViewCell", forIndexPath: indexPath) as! VehicleDetailTableViewCell
                 
+                let findVinButtonAttrinutes = [
+                    NSFontAttributeName : UIFont.systemFontOfSize(11),
+                    NSUnderlineStyleAttributeName : 1]
+                let attributedString = NSMutableAttributedString(string:"")
+                
+                let buttonTitleString = NSMutableAttributedString(string:"Find My VIN", attributes: findVinButtonAttrinutes)
+                attributedString.appendAttributedString(buttonTitleString)
+                vinTableViewCell.findMyVinButton.setAttributedTitle(attributedString, forState: .Normal)
+                
+                vinTableViewCell.findMyVinButton.addTarget(self, action: #selector(AddVehicleViewController.findMyVinNumber), forControlEvents: .TouchUpInside)
+                
                 vinTableViewCell.vinTextField.autocorrectionType = .No
                 
                 vinNumber = vinTableViewCell.vinTextField.text
                 
                 cell = vinTableViewCell
+                
+                self.vinTextField = vinTableViewCell.vinTextField
                 
             case 4:
                 
@@ -226,6 +260,7 @@ class AddVehicleViewController: UIViewController, UIAlertController_UIAlertView,
                 
                 milesDriven = milesDrivenTableViewCell.milesDrivenTextField.text
                 
+                self.milesDrivenTextField = milesDrivenTableViewCell.milesDrivenTextField
                 cell = milesDrivenTableViewCell
                 
             case 8:
@@ -239,6 +274,8 @@ class AddVehicleViewController: UIViewController, UIAlertController_UIAlertView,
                     tagExpirationTableViewCell.insuranceExpirationDateButton.setTitle(tagExpireDate, forState: .Normal)
                 }
                 tagExpirationTableViewCell.insuranceExpirationDateButton.addTarget(self, action: #selector(AddVehicleViewController.selectTagExpirationExpirationDate), forControlEvents: .TouchUpInside)
+                print(tagExpirationTableViewCell.insuranceExpirationDateButton.titleLabel?.text)
+                
                 cell = tagExpirationTableViewCell
                 
             case 9:
@@ -312,7 +349,6 @@ class AddVehicleViewController: UIViewController, UIAlertController_UIAlertView,
         default:
             return cell
         }
-        
         
         tableView.separatorInset = UIEdgeInsetsZero
         tableView.layoutMargins = UIEdgeInsetsZero
@@ -458,6 +494,12 @@ class AddVehicleViewController: UIViewController, UIAlertController_UIAlertView,
         button2.titleLabel?.font = UIFont.regularFont().fontWithSize(17)
     }
     
+    func findMyVinNumber() {
+        
+        let findMyVinViewController: FindMyVinViewController = self.storyboard?.instantiateViewControllerWithIdentifier("FindMyVinView") as! FindMyVinViewController
+        self.presentViewController(findMyVinViewController, animated: true, completion: nil)
+    }
+    
     func yearSelected(sender: UIButton) {
         
         selectedYear = yearsArray[sender.tag]
@@ -540,6 +582,36 @@ class AddVehicleViewController: UIViewController, UIAlertController_UIAlertView,
         
         imagePicker.sourceType = UIImagePickerControllerSourceType.PhotoLibrary
         self.presentViewController(imagePicker, animated: true, completion: nil)
+    }
+    
+    //MARK:- Vehicle Added delegate method
+    
+    func clearUIFields() {
+        
+        self.vehicleImagesArray.removeAll()
+        self.vehicleNameTextField.text = ""
+        self.vinTextField.text = ""
+        
+        self.selectedYear = "Select Purchased year"
+        self.selectedVehicleMake = "Select Vehicle Make"
+        self.selectedVehicleModel = "Select Vehicle Model"
+        self.tagExpirationDate = "Select Date"
+        
+        self.milesDrivenTextField.text = ""
+        
+        
+        self.newButton.selected = false
+        self.newButton.backgroundColor = UIColor.whiteColor()
+        self.newButton.titleLabel?.font = UIFont.regularFont().fontWithSize(17)
+        self.usedButton.selected = false
+        self.usedButton.backgroundColor = UIColor.whiteColor()
+        self.usedButton.titleLabel?.font = UIFont.regularFont().fontWithSize(17)
+        self.cpoButton.selected = false
+        self.cpoButton.backgroundColor = UIColor.whiteColor()
+        self.cpoButton.titleLabel?.font = UIFont.regularFont().fontWithSize(17)
+        
+        
+        addVehicleTableView.reloadData()
     }
     
     //MARK:- UPLOAD IMAGE METHODS
@@ -659,31 +731,20 @@ class AddVehicleViewController: UIViewController, UIAlertController_UIAlertView,
             isValidationSuccess = true
         }
         
-        //        let stry = UIStoryboard(name: "Main", bundle: nil)
-        //        let vc = stry.instantiateViewControllerWithIdentifier("insuranceDetailsView") as! VehicleInsuranceDetailsViewController
-        //        passValuesToInsuranceDetailScene(vc)
-        //        self.performSegueWithIdentifier("insuranceDetailsView", sender: self)
+        self.performSegueWithIdentifier("InsuranceDetailsView", sender: self)
     }
     
-    //    override func shouldPerformSegueWithIdentifier(identifier: String, sender: AnyObject?) -> Bool {
-    //
-    //        if isValidationSuccess == true {
-    //
-    //            let stry = UIStoryboard(name: "Main", bundle: nil)
-    //            let vc = stry.instantiateViewControllerWithIdentifier("insuranceDetailsView") as! VehicleInsuranceDetailsViewController
-    //            passValuesToInsuranceDetailScene(vc)
-    //            return true
-    //        }
-    //        return false
-    //    }
+    //MARK:- NAVIGATE
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         
         if isValidationSuccess == true {
             
-            if(segue.identifier == "insuranceDetailsView") {
+            if(segue.identifier == "InsuranceDetailsView") {
                 
                 let vehicleInsuranceDetailsViewController = (segue.destinationViewController as! VehicleInsuranceDetailsViewController)
+                
+                vehicleInsuranceDetailsViewController.delegate = self
                 
                 passValuesToInsuranceDetailScene(vehicleInsuranceDetailsViewController)
             }
@@ -737,7 +798,7 @@ class AddVehicleViewController: UIViewController, UIAlertController_UIAlertView,
     
     func passValuesToInsuranceDetailScene(nextViewController: VehicleInsuranceDetailsViewController) {
         
-        nextViewController.vehicleImage        = vehicleImage!
+        nextViewController.vehicleImagesArray  = vehicleImagesArray
         nextViewController.vehicleName         = vehicleName!
         nextViewController.vehicleType         = selectedVehicleType!
         nextViewController.vinNumber           = vinNumber!

@@ -11,7 +11,7 @@ import Alamofire
 import JTMaterialSwitch
 import SMFloatingLabelTextField
 
-class LoginViewController: UIViewController,UIAlertController_UIAlertView {
+class LoginViewController: GAITrackedViewController,UIAlertController_UIAlertView {
     
     @IBOutlet weak var usernameField: SMFloatingLabelTextField!
     @IBOutlet weak var passwordField: SMFloatingLabelTextField!
@@ -26,7 +26,7 @@ class LoginViewController: UIViewController,UIAlertController_UIAlertView {
     //MARK:- LIFE CYCLE METHODS
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        self.screenName = "LoginViewController"
         // Do any additional setup after loading the view.
         
         self.navigationController?.navigationBarHidden = true

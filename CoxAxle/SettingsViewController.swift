@@ -9,13 +9,14 @@
 import UIKit
 import Alamofire
 
-class SettingsViewController: UIViewController, UIAlertController_UIAlertView {
+class SettingsViewController: GAITrackedViewController, UIAlertController_UIAlertView {
     
     var language: String?
 
     //MARK:- LIFE CYCLE METHODS
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.screenName = "SettingsViewController"
         self.setText()
         self.callFetchUserDetailsAPI()
         //self.callUpdateUserDetailsAPI()

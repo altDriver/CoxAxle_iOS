@@ -12,6 +12,7 @@
 		CE1C8FBD1D66EF8D004C3123 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE1C8FBC1D66EF8D004C3123 /* SettingsViewController.swift */; };
 		CE1C8FBF1D671430004C3123 /* UserDetails.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE1C8FBE1D671430004C3123 /* UserDetails.swift */; };
 		CE5231CA1D50A63100C51AC0 /* Alamofire.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CE5231C91D50A63100C51AC0 /* Alamofire.framework */; };
+		CE5D4A6D1D799F6D0077EA75 /* XTime.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE5D4A6C1D799F6D0077EA75 /* XTime.swift */; };
 		CE96F3B91D5C5B720026037A /* VehicleDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE96F3B81D5C5B720026037A /* VehicleDetailsViewController.swift */; };
 		CE96F3BC1D5C68640026037A /* VehicleDetailsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE96F3BB1D5C68640026037A /* VehicleDetailsTableViewCell.swift */; };
 		CE96F3BE1D5C687C0026037A /* VehicleDetailsCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE96F3BD1D5C687C0026037A /* VehicleDetailsCollectionViewCell.swift */; };
@@ -66,6 +67,14 @@
 		CEC758B71D76E91C00619152 /* VehicleInsuranceDetailsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEC758B01D76E91C00619152 /* VehicleInsuranceDetailsTableViewCell.swift */; };
 		CEC758B81D76E91C00619152 /* InsuranceCardTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEC758B11D76E91C00619152 /* InsuranceCardTableViewCell.swift */; };
 		CEC758B91D76E91C00619152 /* DatePickerTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEC758B21D76E91C00619152 /* DatePickerTableViewCell.swift */; };
+		CEC94C6C1D7EC6E800C0C11D /* FindMyVinViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEC94C6B1D7EC6E800C0C11D /* FindMyVinViewController.swift */; };
+		CEC94C6E1D7EC75B00C0C11D /* InsuranceCardsCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEC94C6D1D7EC75B00C0C11D /* InsuranceCardsCollectionViewCell.swift */; };
+		CEC94C701D7ED92200C0C11D /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = CEC94C6F1D7ED92200C0C11D /* GoogleService-Info.plist */; };
+		CEC94C721D7EE1A700C0C11D /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CEC94C711D7EE1A700C0C11D /* CoreData.framework */; };
+		CEC94C741D7EE1AE00C0C11D /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CEC94C731D7EE1AE00C0C11D /* SystemConfiguration.framework */; };
+		CEC94C761D7EE25E00C0C11D /* libsqlite3.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = CEC94C751D7EE25E00C0C11D /* libsqlite3.tbd */; };
+		CEC94C781D7EE26900C0C11D /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = CEC94C771D7EE26900C0C11D /* libz.tbd */; };
+		CEC94C7C1D7EE98700C0C11D /* AdSupport.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CEC94C7B1D7EE98700C0C11D /* AdSupport.framework */; };
 		CEE2E88D1D7832AF00511692 /* SideMenuVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEE2E88C1D7832AF00511692 /* SideMenuVC.swift */; };
 		CEE3F1961D5A0CC3001FFE02 /* MyCarsCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEE3F1951D5A0CC3001FFE02 /* MyCarsCollectionViewCell.swift */; };
 		CEE3F1981D5A10CD001FFE02 /* BannerTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEE3F1971D5A10CD001FFE02 /* BannerTableViewCell.swift */; };
@@ -101,6 +110,7 @@
 		CE1C8FBC1D66EF8D004C3123 /* SettingsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		CE1C8FBE1D671430004C3123 /* UserDetails.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserDetails.swift; sourceTree = "<group>"; };
 		CE5231C91D50A63100C51AC0 /* Alamofire.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Alamofire.framework; path = "../../../Library/Developer/Xcode/DerivedData/CoxAxle-getleldjrqfjnrazmgxijnkndhcu/Build/Products/Debug-iphonesimulator/Alamofire/Alamofire.framework"; sourceTree = "<group>"; };
+		CE5D4A6C1D799F6D0077EA75 /* XTime.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = XTime.swift; sourceTree = "<group>"; };
 		CE96F3B81D5C5B720026037A /* VehicleDetailsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VehicleDetailsViewController.swift; sourceTree = "<group>"; };
 		CE96F3BB1D5C68640026037A /* VehicleDetailsTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VehicleDetailsTableViewCell.swift; sourceTree = "<group>"; };
 		CE96F3BD1D5C687C0026037A /* VehicleDetailsCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VehicleDetailsCollectionViewCell.swift; sourceTree = "<group>"; };
@@ -167,6 +177,14 @@
 		CEC758B01D76E91C00619152 /* VehicleInsuranceDetailsTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VehicleInsuranceDetailsTableViewCell.swift; sourceTree = "<group>"; };
 		CEC758B11D76E91C00619152 /* InsuranceCardTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InsuranceCardTableViewCell.swift; sourceTree = "<group>"; };
 		CEC758B21D76E91C00619152 /* DatePickerTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DatePickerTableViewCell.swift; sourceTree = "<group>"; };
+		CEC94C6B1D7EC6E800C0C11D /* FindMyVinViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FindMyVinViewController.swift; sourceTree = "<group>"; };
+		CEC94C6D1D7EC75B00C0C11D /* InsuranceCardsCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InsuranceCardsCollectionViewCell.swift; sourceTree = "<group>"; };
+		CEC94C6F1D7ED92200C0C11D /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		CEC94C711D7EE1A700C0C11D /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
+		CEC94C731D7EE1AE00C0C11D /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
+		CEC94C751D7EE25E00C0C11D /* libsqlite3.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.tbd; path = usr/lib/libsqlite3.tbd; sourceTree = SDKROOT; };
+		CEC94C771D7EE26900C0C11D /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
+		CEC94C7B1D7EE98700C0C11D /* AdSupport.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AdSupport.framework; path = System/Library/Frameworks/AdSupport.framework; sourceTree = SDKROOT; };
 		CEE2E88C1D7832AF00511692 /* SideMenuVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SideMenuVC.swift; sourceTree = "<group>"; };
 		CEE3F1951D5A0CC3001FFE02 /* MyCarsCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyCarsCollectionViewCell.swift; sourceTree = "<group>"; };
 		CEE3F1971D5A10CD001FFE02 /* BannerTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BannerTableViewCell.swift; sourceTree = "<group>"; };
@@ -182,6 +200,11 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CEC94C7C1D7EE98700C0C11D /* AdSupport.framework in Frameworks */,
+				CEC94C781D7EE26900C0C11D /* libz.tbd in Frameworks */,
+				CEC94C761D7EE25E00C0C11D /* libsqlite3.tbd in Frameworks */,
+				CEC94C741D7EE1AE00C0C11D /* SystemConfiguration.framework in Frameworks */,
+				CEC94C721D7EE1A700C0C11D /* CoreData.framework in Frameworks */,
 				CE9CE95A1D6475C1007DA809 /* MapKit.framework in Frameworks */,
 				CEE3F19C1D5A1527001FFE02 /* QuartzCore.framework in Frameworks */,
 				CE5231CA1D50A63100C51AC0 /* Alamofire.framework in Frameworks */,
@@ -210,6 +233,11 @@
 		623815C8477EF90895DD97A3 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				CEC94C7B1D7EE98700C0C11D /* AdSupport.framework */,
+				CEC94C771D7EE26900C0C11D /* libz.tbd */,
+				CEC94C751D7EE25E00C0C11D /* libsqlite3.tbd */,
+				CEC94C731D7EE1AE00C0C11D /* SystemConfiguration.framework */,
+				CEC94C711D7EE1A700C0C11D /* CoreData.framework */,
 				CE9CE9591D6475C1007DA809 /* MapKit.framework */,
 				CEE3F19B1D5A1527001FFE02 /* QuartzCore.framework */,
 				CE5231C91D50A63100C51AC0 /* Alamofire.framework */,
@@ -243,6 +271,7 @@
 				CE1C8FBE1D671430004C3123 /* UserDetails.swift */,
 				CEB6857A1D6B0EC9008FE232 /* UpdateUserDetails.swift */,
 				CEACB8B31D702D4F00464844 /* Logout.swift */,
+				CE5D4A6C1D799F6D0077EA75 /* XTime.swift */,
 			);
 			name = ModalClasses;
 			sourceTree = "<group>";
@@ -262,6 +291,7 @@
 				CE9CE9631D649F23007DA809 /* VehiclesViewController.swift */,
 				CE96F3B81D5C5B720026037A /* VehicleDetailsViewController.swift */,
 				CEC758A91D76E86100619152 /* VehicleInsuranceDetailsViewController.swift */,
+				CEC94C6B1D7EC6E800C0C11D /* FindMyVinViewController.swift */,
 			);
 			name = Vehicles;
 			sourceTree = "<group>";
@@ -399,6 +429,7 @@
 				CEC502A11D40983A00DDC19E /* Controllers */,
 				CEB7D7B21D58C6900096BC50 /* Views */,
 				CEC502A21D40991B00DDC19E /* Modals */,
+				CEC502C11D40B70600DDC19E /* Supporting Files */,
 				CEC502731D408E0100DDC19E /* Main.storyboard */,
 				CEB7D7B01D58C3190096BC50 /* Assets.xcassets */,
 				CEC5027B1D408E0100DDC19E /* LaunchScreen.storyboard */,
@@ -445,7 +476,6 @@
 				CEB587021D6304C900683A0D /* Xtime */,
 				CE96F3B71D5C5B3B0026037A /* Vehicles */,
 				CEB7BC4D1D41E83400A6A251 /* LeftMenu */,
-				CEC502C71D40D17E00DDC19E /* CoxAxle-Bridging-Header.h */,
 			);
 			name = Controllers;
 			sourceTree = "<group>";
@@ -456,7 +486,6 @@
 				CE10C3161D4B5DB100EE2A2D /* ModalClasses */,
 				CEC502C31D40B73000DDC19E /* CategoryClasses */,
 				CEC502C41D40B73F00DDC19E /* Localisation */,
-				CEC502C11D40B70600DDC19E /* Supporting Files */,
 			);
 			name = Modals;
 			sourceTree = "<group>";
@@ -465,9 +494,11 @@
 			isa = PBXGroup;
 			children = (
 				CEB4FBD61D744BE7002788AA /* CircleProgressView */,
+				CEC502C71D40D17E00DDC19E /* CoxAxle-Bridging-Header.h */,
 				CEC502A31D40993700DDC19E /* Reachability.swift */,
 				CEC502A71D40A65600DDC19E /* Constants.swift */,
 				CEA8BAB21D6C706300331D27 /* demo.docx */,
+				CEC94C6F1D7ED92200C0C11D /* GoogleService-Info.plist */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -504,6 +535,7 @@
 				CEC758B01D76E91C00619152 /* VehicleInsuranceDetailsTableViewCell.swift */,
 				CEC758B11D76E91C00619152 /* InsuranceCardTableViewCell.swift */,
 				CEC758B21D76E91C00619152 /* DatePickerTableViewCell.swift */,
+				CEC94C6D1D7EC75B00C0C11D /* InsuranceCardsCollectionViewCell.swift */,
 			);
 			name = AddVehicle;
 			sourceTree = "<group>";
@@ -641,6 +673,7 @@
 				CEB7D7B11D58C3190096BC50 /* Assets.xcassets in Resources */,
 				CEC502751D408E0100DDC19E /* Main.storyboard in Resources */,
 				CEA8BAB31D6C706300331D27 /* demo.docx in Resources */,
+				CEC94C701D7ED92200C0C11D /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -761,8 +794,10 @@
 				CEFDE9961D5DD16A00A3044B /* LoginViewController.swift in Sources */,
 				CEB2995B1D65B883009F3015 /* Login.swift in Sources */,
 				CEC502D01D4102E600DDC19E /* RootVC.swift in Sources */,
+				CEC94C6C1D7EC6E800C0C11D /* FindMyVinViewController.swift in Sources */,
 				CEC502721D408E0000DDC19E /* ViewController.swift in Sources */,
 				CEC07E511D5B467B0018AE19 /* MyCarsLayout.swift in Sources */,
+				CE5D4A6D1D799F6D0077EA75 /* XTime.swift in Sources */,
 				CE96F3BC1D5C68640026037A /* VehicleDetailsTableViewCell.swift in Sources */,
 				CEB2995F1D65C4EA009F3015 /* AddVehicle.swift in Sources */,
 				CEC502701D408E0000DDC19E /* AppDelegate.swift in Sources */,
@@ -786,6 +821,7 @@
 				CEE3F1981D5A10CD001FFE02 /* BannerTableViewCell.swift in Sources */,
 				CEC502AA1D40A9EF00DDC19E /* UIColor+ColorClass.swift in Sources */,
 				CEC502CC1D40E5DD00DDC19E /* CreateAccount.swift in Sources */,
+				CEC94C6E1D7EC75B00C0C11D /* InsuranceCardsCollectionViewCell.swift in Sources */,
 				CEC758B31D76E91C00619152 /* AddVehicleImageTableViewCell.swift in Sources */,
 				CEB299631D65C5D6009F3015 /* VehiclesList.swift in Sources */,
 				CEC309A51D48A6740015D6A9 /* UIActivityIndicatorView+ActivityClass.swift in Sources */,
@@ -972,10 +1008,15 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer: Srinivasa Nimmagadda (2AM7P97NUA)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Srinivasa Nimmagadda (2AM7P97NUA)";
 				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
 				INFOPLIST_FILE = CoxAxle/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/CoxAxle",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = vensai.CoxAxle;
 				PRODUCT_MODULE_NAME = "$(PRODUCT_NAME:c99extidentifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -993,10 +1034,15 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer: Srinivasa Nimmagadda (2AM7P97NUA)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Srinivasa Nimmagadda (2AM7P97NUA)";
 				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
 				INFOPLIST_FILE = CoxAxle/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/CoxAxle",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = vensai.CoxAxle;
 				PRODUCT_MODULE_NAME = "$(PRODUCT_NAME:c99extidentifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";

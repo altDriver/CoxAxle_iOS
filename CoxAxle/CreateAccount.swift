@@ -11,7 +11,7 @@ import Alamofire
 import SMFloatingLabelTextField
 
 
-class CreateAccount: UIViewController, UIAlertController_UIAlertView{
+class CreateAccount: GAITrackedViewController, UIAlertController_UIAlertView{
     
     @IBOutlet var firstNameField: SMFloatingLabelTextField!
     
@@ -25,7 +25,7 @@ class CreateAccount: UIViewController, UIAlertController_UIAlertView{
     @IBOutlet var phoneNumberField: SMFloatingLabelTextField!
     //MARK:- LIFE CYCLE METHODS
     override func viewDidLoad() {
-    
+        self.screenName = "CreateAccount"
         self.setText()
     }
     

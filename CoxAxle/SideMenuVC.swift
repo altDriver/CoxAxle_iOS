@@ -9,7 +9,7 @@
 import UIKit
 import Alamofire
 
-class SideMenuVC: UIViewController, UITableViewDelegate, UITableViewDataSource, UIAlertController_UIAlertView {
+class SideMenuVC: GAITrackedViewController, UITableViewDelegate, UITableViewDataSource, UIAlertController_UIAlertView {
 
      let MenuReuseIdentifier = "MenuCell"
     @IBOutlet weak var sideMenuTbl: UITableView!
@@ -19,7 +19,7 @@ class SideMenuVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
     //MARK:- LIFE CYCLE METHODS
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        self.screenName = "SideMenuVC"
         // Do any additional setup after loading the view.
         
         sideMenuTbl.tableFooterView = UIView(frame: CGRectZero)
@@ -33,6 +33,28 @@ class SideMenuVC: UIViewController, UITableViewDelegate, UITableViewDataSource, 
     
     // MARK: UIBUTTON ACTIONS
 
+    @IBAction func facebookButtonClicked(sender: UIButton) {
+       /* let navigationVC = self.storyboard!.instantiateViewControllerWithIdentifier("NavigationVC") as! NavigationVC
+        
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        let vc = storyboard .instantiateViewControllerWithIdentifier("Settings") as! SettingsViewController
+        self.navigationController?.pushViewController(vc, animated: true)
+        navigationVC.viewControllers = [vc];
+        self.frostedViewController.contentViewController = navigationVC
+        self.frostedViewController.hideMenuViewController()*/
+    }
+    
+    @IBAction func twitterButtonClicked(sender: UIButton) {
+    /*    let navigationVC = self.storyboard!.instantiateViewControllerWithIdentifier("NavigationVC") as! NavigationVC
+        
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        let vc = storyboard .instantiateViewControllerWithIdentifier("Settings") as! SettingsViewController
+        self.navigationController?.pushViewController(vc, animated: true)
+        navigationVC.viewControllers = [vc];
+        self.frostedViewController.contentViewController = navigationVC
+        self.frostedViewController.hideMenuViewController()*/
+    }
+    
     
     //MARK: UITABLEVIEW DATA SOURCE METHODS
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {

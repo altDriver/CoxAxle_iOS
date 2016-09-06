@@ -10,4 +10,7 @@
 #import <YLProgressBar/YLProgressBar.h>
 #import "KNCirclePercentView.h"
 #import <SDWebImage/UIImageView+WebCache.h>
-
+#import <Google/Analytics.h>
+#import <GoogleAnalytics/GAI.h>
+#import <GoogleAnalytics/GAIDictionaryBuilder.h>
+#import <GoogleAnalytics/GAITrackedViewController.h>

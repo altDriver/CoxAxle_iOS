@@ -16,6 +16,8 @@ class VehicleDetailTableViewCell: UITableViewCell, UITextFieldDelegate {
     
     @IBOutlet var milesDrivenTextField: UITextField!
     
+    @IBOutlet var findMyVinButton: UIButton!
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         

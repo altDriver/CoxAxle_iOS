@@ -9,7 +9,7 @@
 import UIKit
 import Alamofire
 
-class VehiclesViewController: UIViewController, UIAlertController_UIAlertView, UICollectionViewDelegate, UICollectionViewDataSource {
+class VehiclesViewController: GAITrackedViewController, UIAlertController_UIAlertView, UICollectionViewDelegate, UICollectionViewDataSource {
     
     let vehicleListReuseIdentifier = "VehiclesListCell"
     
@@ -20,6 +20,7 @@ class VehiclesViewController: UIViewController, UIAlertController_UIAlertView, U
     //MARK:- LIFE CYCLE METHODS
     override func viewDidLoad() {
         super.viewDidLoad()
+         self.screenName = "VehiclesViewController"
          self.setText()
          self.fetchVehiclesListAPI()
         // Do any additional setup after loading the view.
@@ -100,7 +101,7 @@ class VehiclesViewController: UIViewController, UIAlertController_UIAlertView, U
     func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
         collectionView.deselectItemAtIndexPath(indexPath, animated: true)
         self.navigationItem.backBarButtonItem = UIBarButtonItem(title: " ", style: .Plain, target: nil, action: nil)
-        self.performSegueWithIdentifier("VehicleDetails", sender: self)
+        self.performSegueWithIdentifier("VehicleDetails", sender: indexPath)
     }
     
     
@@ -152,14 +153,19 @@ class VehiclesViewController: UIViewController, UIAlertController_UIAlertView, U
         }
     }
 
-    /*
+    
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         // Get the new view controller using segue.destinationViewController.
         // Pass the selected object to the new view controller.
+        if segue.identifier == "VehicleDetails" {
+            let indexPath = sender as! NSIndexPath
+            let vehicleDetails = (segue.destinationViewController as! VehicleDetailsViewController)
+            vehicleDetails.vehiclesDetailsDict = self.vehiclesListArray[indexPath.row] as! NSDictionary
+        }
     }
-    */
+    
 
 }

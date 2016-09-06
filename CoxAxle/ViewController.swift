@@ -14,7 +14,7 @@ let constantObj = Constant()
 let placeHolderColor = UIColor(red: 177.0/255.0, green: 175.0/255.0, blue: 176.0/255.0, alpha: 1.0)
 
 
-class ViewController: UIViewController, EAIntroDelegate, UIAlertController_UIAlertView {
+class ViewController: GAITrackedViewController, EAIntroDelegate, UIAlertController_UIAlertView {
 
     @IBOutlet weak var loginButton: UIButton!
     @IBOutlet weak var continueAsGuestButton: UIButton!
@@ -26,6 +26,7 @@ class ViewController: UIViewController, EAIntroDelegate, UIAlertController_UIAle
     //MARK:- LIFE CYCLE METHODS
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.screenName = "ViewController"
         // Do any additional setup after loading the view, typically from a nib.
         if NSUserDefaults.standardUserDefaults().boolForKey("SHOW_INTRODUCTORY") {
         // INTRODUCTORY SCREENS
@@ -55,6 +56,7 @@ class ViewController: UIViewController, EAIntroDelegate, UIAlertController_UIAle
         }
         
         self.setText()
+      
         
         self.callDealersListAPI()
         
@@ -100,6 +102,9 @@ class ViewController: UIViewController, EAIntroDelegate, UIAlertController_UIAle
     func callDealersListAPI() -> Void {
         if Reachability.isConnectedToNetwork() == true {
             print("Internet connection OK")
+            let tracker = GAI.sharedInstance().defaultTracker
+            let trackDictionary = GAIDictionaryBuilder.createEventWithCategory("API", action: "Fetching Dealers List API Called", label: "Fetching Dealers List", value: nil).build()
+            tracker.send(trackDictionary as AnyObject as! [NSObject : AnyObject])
             
             let loading = UIActivityIndicatorView_ActivityClass(text: "Loading".localized(self.language!))
             self.view.addSubview(loading)

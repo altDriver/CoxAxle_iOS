@@ -10,7 +10,12 @@ import UIKit
 import YLProgressBar
 import Alamofire
 
-class VehicleInsuranceDetailsViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UIAlertController_UIAlertView, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+protocol VehicleAddedDelegate {
+    
+    func clearUIFields()
+}
+
+class VehicleInsuranceDetailsViewController: GAITrackedViewController, UITableViewDelegate, UITableViewDataSource, UIAlertController_UIAlertView, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UICollectionViewDelegate, UICollectionViewDataSource {
     
     //MARK:- Properties
     
@@ -28,21 +33,22 @@ class VehicleInsuranceDetailsViewController: UIViewController, UITableViewDelega
     var vehicleType         : String?
     var vehicleMake         : String?
     var vehicleModel        : String?
-    var vehiclePurchaseYear : Int?
+    var vehiclePurchaseYear : String?
     var vinNumber           : String?
     var milesDriven         : String?
-    var vehicleImage        : UIImage?
     var tagExpirationDate   : String?
     var insuranceExpirationDate: String?
     var isDatePickerSelected: Bool?
+    var vehicleImagesArray  = [UIImage]()
+    
+    var delegate: VehicleAddedDelegate?
     
     //MARK:- View Lifecycle Methods
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        self.screenName = "VehicleInsuranceDetailsViewController"
         self.navigationItem.title = "Insurance Details"
-        //        vehicleInsuranceTableView.tableFooterView? = UIView(frame: CGRectZero)
         
         setProgressBarProperties()
     }
@@ -106,56 +112,9 @@ class VehicleInsuranceDetailsViewController: UIViewController, UITableViewDelega
         case 2:
             
             let insuranceCardTableViewCell: InsuranceCardTableViewCell = tableView.dequeueReusableCellWithIdentifier("InsuranceCardTableViewCell", forIndexPath: indexPath) as! InsuranceCardTableViewCell
-            
-            if insuranceCardImagesArray.count == 0 {
-                
-                insuranceCardTableViewCell.thumbnailButtonFirst.hidden  = true
-                insuranceCardTableViewCell.thumbnailButtonSecond.hidden = true
-                insuranceCardTableViewCell.thumbnailButtonThird.hidden  = true
-                insuranceCardTableViewCell.thumbnailButtonFourth.hidden = true
-            }
-            
-            if insuranceCardImagesArray.count == 1 {
-                
-                insuranceCardTableViewCell.thumbnailButtonFirst.hidden  = false
-                insuranceCardTableViewCell.thumbnailButtonSecond.hidden = true
-                insuranceCardTableViewCell.thumbnailButtonThird.hidden  = true
-                insuranceCardTableViewCell.thumbnailButtonFourth.hidden = true
-            }
-            
-            if insuranceCardImagesArray.count == 2 {
-                
-                insuranceCardTableViewCell.thumbnailButtonFirst.hidden  = false
-                insuranceCardTableViewCell.thumbnailButtonSecond.hidden = false
-                insuranceCardTableViewCell.thumbnailButtonThird.hidden  = true
-                insuranceCardTableViewCell.thumbnailButtonFourth.hidden = true
-            }
-            
-            if insuranceCardImagesArray.count == 3 {
-                
-                insuranceCardTableViewCell.thumbnailButtonFirst.hidden  = false
-                insuranceCardTableViewCell.thumbnailButtonSecond.hidden = false
-                insuranceCardTableViewCell.thumbnailButtonThird.hidden  = false
-                insuranceCardTableViewCell.thumbnailButtonFourth.hidden = true
-            }
-            
-            if insuranceCardImagesArray.count == 4 {
-                
-                insuranceCardTableViewCell.thumbnailButtonFirst.hidden  = false
-                insuranceCardTableViewCell.thumbnailButtonSecond.hidden = false
-                insuranceCardTableViewCell.thumbnailButtonThird.hidden  = false
-                insuranceCardTableViewCell.thumbnailButtonFourth.hidden = false
-            }
-            
-            insuranceCardTableViewCell.thumbnailButtonFirst.addTarget(self, action: #selector(VehicleInsuranceDetailsViewController.removeThumbnail), forControlEvents: .TouchUpInside)
-            
-            insuranceCardTableViewCell.thumbnailButtonSecond.addTarget(self, action: #selector(VehicleInsuranceDetailsViewController.removeThumbnail), forControlEvents: .TouchUpInside)
-            
-            insuranceCardTableViewCell.thumbnailButtonThird.addTarget(self, action: #selector(VehicleInsuranceDetailsViewController.removeThumbnail), forControlEvents: .TouchUpInside)
-            
-            insuranceCardTableViewCell.thumbnailButtonFourth.addTarget(self, action: #selector(VehicleInsuranceDetailsViewController.removeThumbnail), forControlEvents: .TouchUpInside)
-            
             insuranceCardTableViewCell.uploadInsuranceCardPictureButton.addTarget(self, action: #selector(VehicleInsuranceDetailsViewController.uploadInsuranceCardPic), forControlEvents: .TouchUpInside)
+            
+            insuranceCardTableViewCell.insuranceCardsCollectionView.reloadData()
             
             return insuranceCardTableViewCell
             
@@ -176,21 +135,39 @@ class VehicleInsuranceDetailsViewController: UIViewController, UITableViewDelega
                 return 0
             }
         case 2:
-            return 143
+            return 130
         default:
             return 0
         }
+    }
+    
+    //MARK:- CollectionView Method
+    
+    func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return insuranceCardImagesArray.count
+    }
+    
+    func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
+        
+        let insuranceCardsCollectionViewCell: InsuranceCardsCollectionViewCell = collectionView.dequeueReusableCellWithReuseIdentifier("InsuranceCardsCollectionViewCell", forIndexPath: indexPath) as! InsuranceCardsCollectionViewCell
+        
+        insuranceCardsCollectionViewCell.insuranceCardsImageView.tag = indexPath.row
+        insuranceCardsCollectionViewCell.removeCardButton.tag = indexPath.row
+        
+        insuranceCardsCollectionViewCell.insuranceCardsImageView.image = insuranceCardImagesArray[indexPath.row]
+        
+        return insuranceCardsCollectionViewCell
     }
     
     //MARK:- Action Selector Method
     
     func uploadInsuranceCardPic() {
         
-        if insuranceCardImagesArray.count == 4  || insuranceCardImagesArray.count > 4 {
-            
-            showAlertwithCancelButton("", message: "You can upload upto only four pictures", cancelButton: "OK")
-            return
-        }
+        //        if insuranceCardImagesArray.count == 4  || insuranceCardImagesArray.count > 4 {
+        //
+        //            showAlertwithCancelButton("", message: "You can upload upto only four pictures", cancelButton: "OK")
+        //            return
+        //        }
         let alert:UIAlertController=UIAlertController(title: nil, message: nil, preferredStyle: UIAlertControllerStyle.ActionSheet)
         
         let cameraAction = UIAlertAction(title: "Take a Photo", style: UIAlertActionStyle.Default) {
@@ -262,39 +239,9 @@ class VehicleInsuranceDetailsViewController: UIViewController, UITableViewDelega
         vehicleInsuranceTableView.reloadData()
     }
     
-    func removeThumbnail() {
-        
-        if insuranceCardImagesArray.count == 0 {
-            return
-        }
-        
-        let alertController = UIAlertController(title: "Delete Card", message: "Are you sure you want to delete this card?", preferredStyle: .Alert)
-        
-        let okAction = UIAlertAction(title: "YES", style: UIAlertActionStyle.Default) {
-            UIAlertAction in
-            self.insuranceCardImagesArray.removeLast()
-            self.vehicleInsuranceTableView.reloadData()
-        }
-        let cancelAction = UIAlertAction(title: "NO", style: UIAlertActionStyle.Cancel) {
-            UIAlertAction in
-        }
-        
-        alertController.addAction(okAction)
-        alertController.addAction(cancelAction)
-        
-        self.presentViewController(alertController, animated: true, completion: nil)
-    }
-    
     //MARK:- Image PickerView Methods
     
     func imagePickerController(picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : AnyObject]) {
-        
-        if insuranceCardImagesArray.count == 4  || insuranceCardImagesArray.count > 4 {
-            
-            showAlertwithCancelButton("", message: "You can upload upto only four photos", cancelButton: "OK")
-            picker.dismissViewControllerAnimated(true, completion: nil)
-            return
-        }
         
         picker.dismissViewControllerAnimated(true, completion: nil)
         let image = info[UIImagePickerControllerOriginalImage] as? UIImage
@@ -320,7 +267,7 @@ class VehicleInsuranceDetailsViewController: UIViewController, UITableViewDelega
             return
         }
         
-        if insuranceCardImageView.image == nil {
+        if insuranceCardImageView.image == nil || insuranceCardImagesArray.count == 0 {
             
             showAlertwithCancelButton("Error", message: "Please upload insurance card", cancelButton: "OK")
             return
@@ -340,7 +287,28 @@ class VehicleInsuranceDetailsViewController: UIViewController, UITableViewDelega
         vehicleInsuranceTableView.reloadData()
     }
     
+    @IBAction func removeCard(sender: UIButton) {
+        
+        let alertController = UIAlertController(title: "Delete Card", message: "Are you sure you want to delete this card?", preferredStyle: .Alert)
+        
+        let okAction = UIAlertAction(title: "YES", style: UIAlertActionStyle.Default) {
+            UIAlertAction in
+            self.insuranceCardImagesArray.removeAtIndex(sender.tag)
+            self.vehicleInsuranceTableView.reloadData()
+        }
+        
+        let cancelAction = UIAlertAction(title: "NO", style: UIAlertActionStyle.Cancel) {
+            UIAlertAction in
+        }
+        
+        alertController.addAction(okAction)
+        alertController.addAction(cancelAction)
+        
+        self.presentViewController(alertController, animated: true, completion: nil)
+    }
+    
     //MARK:- ADD VEHICLE API
+    
     func callAddVehicleAPI() -> Void {
         
         if Reachability.isConnectedToNetwork() == true {
@@ -349,51 +317,71 @@ class VehicleInsuranceDetailsViewController: UIViewController, UITableViewDelega
             let loading = UIActivityIndicatorView_ActivityClass(text: "Loading")
             self.view.addSubview(loading)
             let userId: String = NSUserDefaults.standardUserDefaults().objectForKey("UserId") as! String
-            let image : UIImage = UIImage(named: "bannerBg.png")!
             
-            //Now use image to create into NSData format
-            let imageData:NSData = UIImagePNGRepresentation(image)!
+            var base64VehicleImagesArray = [String]()
+            for index in 0...(vehicleImagesArray.count - 1) {
+                
+                let eachImage: UIImage = vehicleImagesArray[index]
+                //                let eachImageData: NSData = UIImagePNGRepresentation(eachImage)!
+                let eachImageData = eachImage.highQualityJPEGNSData
+                let base64ImageString: String = eachImageData.base64EncodedStringWithOptions(NSDataBase64EncodingOptions(rawValue: 0))
+                base64VehicleImagesArray.append(base64ImageString)
+            }
+            let vehicleImagesBase64String = base64VehicleImagesArray.joinWithSeparator(",")
             
-            let strBase64:String = imageData.base64EncodedStringWithOptions(NSDataBase64EncodingOptions(rawValue: 0))
+            var base64InsurancecardsArray = [String]()
+            for index in 0...(insuranceCardImagesArray.count - 1) {
+                
+                let eachImage: UIImage = insuranceCardImagesArray[index]
+                //                let eachImageData: NSData = UIImagePNGRepresentation(eachImage)!
+                let eachImageData = eachImage.highQualityJPEGNSData
+                let base64ImageString: String = eachImageData.base64EncodedStringWithOptions(NSDataBase64EncodingOptions(rawValue: 0))
+                base64InsurancecardsArray.append(base64ImageString)
+            }
+            let insuranceCardImagesBase64String = base64InsurancecardsArray.joinWithSeparator(",")
             
-            let fileURL = NSBundle.mainBundle().URLForResource("demo", withExtension: "docx")
-            let data: NSData = NSData(contentsOfURL: fileURL!)!
-            let insuranceBase64:String = data.base64EncodedStringWithOptions(NSDataBase64EncodingOptions(rawValue: 0))
+            //            let fileURL = NSBundle.mainBundle().URLForResource("demo", withExtension: "docx")
+            //            let data: NSData = NSData(contentsOfURL: fileURL!)!
+            //            let insuranceBase64:String = data.base64EncodedStringWithOptions(NSDataBase64EncodingOptions(rawValue: 0))
             
             let paramsDict: [String : AnyObject] = [
-                                                    "name": vehicleName!,
-                                                    "uid": userId,
-                                                    "dealer_id": "2",
-                                                    "vehicle_type": vehicleType!,
-                                                    "make": vehicleMake!,
-                                                    "vin": vinNumber!,
-                                                    "model": vehicleModel!,
-                                                    "year": vehiclePurchaseYear!,
-                                                    "color": "White",
-                                                    "waranty_from": "5",
-                                                    "waranty_to": "10",
-                                                    "extended_waranty_from": "3",
-                                                    "extended_waranty_to": "8",
-                                                    "kbb_price": "0001",
-                                                    "manual": "",
-                                                    "loan_amount": "100",
-                                                    "emi": "50",
-                                                    "interest": "7",
-                                                    "loan_tenure": "3",
-                                                    "mileage": milesDriven!,
-                                                    "style": "sedan",
-                                                    "trim": "vxi",
-                                                    "photo": strBase64,
-                                                    "insurance_document": insuranceBase64] as Dictionary
+                "name": vehicleName!,
+                "uid": userId,
+                "dealer_id": "2",
+                "vehicle_type": vehicleType!,
+                "make": vehicleMake!,
+                "vin": vinNumber!,
+                "model": vehicleModel!,
+                "year": vehiclePurchaseYear!,
+                "color": "White",
+                "waranty_from": "5",
+                "waranty_to": "10",
+                "extended_waranty_from": "3",
+                "extended_waranty_to": "8",
+                "expiration_date" : insuranceExpirationDate!,
+                "insurance_card" : "rt",
+                "tag_expiration_date" : tagExpirationDate!,
+                "kbb_price": "0001",
+                "manual": "xyz",
+                "loan_amount": "100",
+                "emi": "50",
+                "interest": "7",
+                "loan_tenure": "3",
+                "mileage": milesDriven!,
+                "style": "sedan",
+                "trim": "vxi",
+                "photo": vehicleImagesBase64String,
+                "insurance_document": insuranceCardImagesBase64String] as Dictionary
             
-            print(NSString(format: "Request: %@", paramsDict))
+            //          print(NSString(format: "Request: %@", paramsDict))
             
             Alamofire.request(.POST, Constant.API.kBaseUrlPath+"vehicle/create", parameters: paramsDict)
                 .responseJSON { response in
                     loading.hide()
+                    
                     if let JSON = response.result.value {
                         
-                        print(NSString(format: "Response: %@", JSON as! NSDictionary))
+                        //          print(NSString(format: "Response: %@", JSON as! NSDictionary))
                         
                         let responseMessage = JSON.valueForKey("message") as! String
                         let status = JSON.valueForKey("status") as! String
@@ -408,19 +396,25 @@ class VehicleInsuranceDetailsViewController: UIViewController, UITableViewDelega
                                 NSLog("Unresolved error \(error), \(error.userInfo)")
                             }
                             
-                            self.showAlertwithCancelButton("Success", message: responseMessage, cancelButton: "OK")
+                            let alertController = UIAlertController(title: "Success", message: responseMessage, preferredStyle: .Alert)
                             
-                            self.navigationController?.popViewControllerAnimated(true)
+                            let defaultAction = UIAlertAction(title: "OK", style: .Default, handler: { (action: UIAlertAction!) in
+                                
+                                self.delegate?.clearUIFields()
+                                
+                                self.navigationController?.popViewControllerAnimated(true)
+                            })
                             
-                            //                            let storyboard = UIStoryboard(name: "Main", bundle: nil)
-                            //                            let controller = storyboard.instantiateViewControllerWithIdentifier("AddVehicleView") as! AddVehicleViewController
-                            //                            self.presentViewController(controller, animated: true, completion: nil)
+                            alertController.addAction(defaultAction)
+                            
+                            dispatch_async(dispatch_get_main_queue(), {
+                                self.presentViewController(alertController, animated: true, completion: nil)
+                            })
                         }
                         else {
                             let errorMsg = JSON.valueForKey("message") as! String
                             self.showAlertwithCancelButton("Error", message: errorMsg, cancelButton: "OK")
                         }
-                        
                     }
             }
         }
@@ -430,4 +424,33 @@ class VehicleInsuranceDetailsViewController: UIViewController, UITableViewDelega
         }
     }
     
+}
+
+//MARK:- Image Extension to Compress Images
+
+extension UIImage {
+    
+    var uncompressedPNGData: NSData {
+        return UIImagePNGRepresentation(self)!
+    }
+    
+    var highestQualityJPEGNSData: NSData {
+        return UIImageJPEGRepresentation(self, 1.0)!
+    }
+    
+    var highQualityJPEGNSData: NSData {
+        return UIImageJPEGRepresentation(self, 0.75)!
+    }
+    
+    var mediumQualityJPEGNSData: NSData {
+        return UIImageJPEGRepresentation(self, 0.5)!
+    }
+    
+    var lowQualityJPEGNSData: NSData {
+        return UIImageJPEGRepresentation(self, 0.25)!
+    }
+    
+    var lowestQualityJPEGNSData:NSData {
+        return UIImageJPEGRepresentation(self, 0.0)!
+    }
 }

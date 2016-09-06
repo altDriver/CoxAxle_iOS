@@ -15,7 +15,7 @@ target 'CoxAxle' do
  pod 'YLProgressBar', '~> 3.10.0'
  pod 'UIActivityIndicator-for-SDWebImage'
  pod 'LGSemiModalNavController'
-
+ pod 'GoogleAnalytics-iOS-SDK'
 
 end
 
