@@ -12,7 +12,7 @@ class NavigationVC: UINavigationController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-         if NSUserDefaults.standardUserDefaults().boolForKey("USER_LOGGED_IN") {
+         if UserDefaults.standard.bool(forKey: "USER_LOGGED_IN") {
         self.view.addGestureRecognizer(UIPanGestureRecognizer(target: self, action: #selector(self.panGestureRecognized)))
         }
 
@@ -24,7 +24,7 @@ class NavigationVC: UINavigationController {
         // Dispose of any resources that can be recreated.
     }
     
-    func panGestureRecognized(sender: UIPanGestureRecognizer) {
+    func panGestureRecognized(_ sender: UIPanGestureRecognizer) {
         // Dismiss keyboard (optional)
         //
         self.view.endEditing(true)

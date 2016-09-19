@@ -7,6 +7,26 @@
 //
 
 import UIKit
+fileprivate func < <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
+  switch (lhs, rhs) {
+  case let (l?, r?):
+    return l < r
+  case (nil, _?):
+    return true
+  default:
+    return false
+  }
+}
+
+fileprivate func >= <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
+  switch (lhs, rhs) {
+  case let (l?, r?):
+    return l >= r
+  default:
+    return !(lhs < rhs)
+  }
+}
+
 
 class VehicleDetailTableViewCell: UITableViewCell, UITextFieldDelegate {
     
@@ -23,7 +43,7 @@ class VehicleDetailTableViewCell: UITableViewCell, UITextFieldDelegate {
         
     }
     
-    override func setSelected(selected: Bool, animated: Bool) {
+    override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
         
         // Configure the view for the selected state
@@ -31,7 +51,7 @@ class VehicleDetailTableViewCell: UITableViewCell, UITextFieldDelegate {
     
     //MARK:- UITEXTFIELD DELEGATE METHODS
     
-    func textField(textField: UITextField, shouldChangeCharactersInRange range: NSRange, replacementString string: String) -> Bool {
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         
         switch textField.tag {
             
@@ -50,7 +70,7 @@ class VehicleDetailTableViewCell: UITableViewCell, UITextFieldDelegate {
             }
             
             let currentText = textField.text ?? ""
-            let prospectiveText = (currentText as NSString).stringByReplacingCharactersInRange(range, withString: string)
+            let prospectiveText = (currentText as NSString).replacingCharacters(in: range, with: string)
             
             return prospectiveText.containsOnlyCharactersIn("0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ") && prospectiveText.characters.count <= 16
             
@@ -60,8 +80,8 @@ class VehicleDetailTableViewCell: UITableViewCell, UITextFieldDelegate {
                 return false
             } else {
                 
-                let newCharacters = NSCharacterSet(charactersInString: string)
-                let shouldChangeCharactersInRange = NSCharacterSet.decimalDigitCharacterSet().isSupersetOfSet(newCharacters)
+                let newCharacters = CharacterSet(charactersIn: string)
+                let shouldChangeCharactersInRange = CharacterSet.decimalDigits.isSuperset(of: newCharacters)
                 
                 return shouldChangeCharactersInRange
             }
@@ -76,8 +96,8 @@ class VehicleDetailTableViewCell: UITableViewCell, UITextFieldDelegate {
 
 extension String {
     
-    func containsOnlyCharactersIn(matchCharacters: String) -> Bool {
-        let disallowedCharacterSet = NSCharacterSet(charactersInString: matchCharacters).invertedSet
-        return self.rangeOfCharacterFromSet(disallowedCharacterSet) == nil
+    func containsOnlyCharactersIn(_ matchCharacters: String) -> Bool {
+        let disallowedCharacterSet = CharacterSet(charactersIn: matchCharacters).inverted
+        return self.rangeOfCharacter(from: disallowedCharacterSet) == nil
     }
 }

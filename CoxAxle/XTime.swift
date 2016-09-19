@@ -22,7 +22,7 @@ class XTime: JSONModel {
     var message: String!
     var response: XTimeResponse?
     
-    func propertyIsOptional(propertyName: String) -> Bool {
+    func propertyIsOptional(_ propertyName: String) -> Bool {
         return true
     }
 }

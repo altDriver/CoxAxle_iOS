@@ -5,20 +5,29 @@ use_frameworks!
 
 target 'CoxAxle' do
     #pod 'AFNetworking' , '3.0.4'
- pod 'Alamofire', '~> 3.4'
+ pod 'Alamofire', '~> 4.0'
  pod 'JSONModel'
  pod 'EAIntroView', '~> 2.9.0'
  pod 'REFrostedViewController', '~> 2.4'
  pod 'SMFloatingLabelTextField'
  pod 'JTMaterialSwitch'
- pod 'IQKeyboardManagerSwift'
+ pod 'IQKeyboardManagerSwift', '4.0.6'
  pod 'YLProgressBar', '~> 3.10.0'
  pod 'UIActivityIndicator-for-SDWebImage'
  pod 'LGSemiModalNavController'
- pod 'GoogleAnalytics-iOS-SDK'
-
+ pod 'Google/Analytics'
+ pod 'MSSimpleGauge'
+ pod 'BRImagePicker'
 end
 
 target 'CoxAxleTests' do
   # pod 'Kiwi'
+end
+
+post_install do |installer|
+    installer.pods_project.targets.each do |target|
+        target.build_configurations.each do |config|
+            config.build_settings['SWIFT_VERSION'] = '3.0'
+        end
+    end
 end

@@ -1,3 +1,4 @@
+
 //
 //  LoginViewController.swift
 //  CoxAxle
@@ -10,6 +11,26 @@ import UIKit
 import Alamofire
 import JTMaterialSwitch
 import SMFloatingLabelTextField
+fileprivate func < <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
+  switch (lhs, rhs) {
+  case let (l?, r?):
+    return l < r
+  case (nil, _?):
+    return true
+  default:
+    return false
+  }
+}
+
+fileprivate func > <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
+  switch (lhs, rhs) {
+  case let (l?, r?):
+    return l > r
+  default:
+    return rhs < lhs
+  }
+}
+
 
 class LoginViewController: GAITrackedViewController,UIAlertController_UIAlertView {
     
@@ -22,40 +43,40 @@ class LoginViewController: GAITrackedViewController,UIAlertController_UIAlertVie
     @IBOutlet weak var switchView: UIView!
     
     var language: String?
-
+    
     //MARK:- LIFE CYCLE METHODS
     override func viewDidLoad() {
         super.viewDidLoad()
         self.screenName = "LoginViewController"
         // Do any additional setup after loading the view.
         
-        self.navigationController?.navigationBarHidden = true
+        self.navigationController?.isNavigationBarHidden = true
         
         let swi: JTMaterialSwitch = JTMaterialSwitch.init(size: JTMaterialSwitchSizeSmall, style: JTMaterialSwitchStyleDefault, state: JTMaterialSwitchStateOff)
-        swi.frame = CGRectMake(0, 0, 30, 25)
+        swi.frame = CGRect(x: 0, y: 0, width: 30, height: 25)
         swi.isEnabled = true
         swi.isBounceEnabled = true
         swi.isRippleEnabled = true
-        swi.rippleFillColor = UIColor.redColor()
-        swi.thumbOnTintColor = UIColor.whiteColor()
-        swi.thumbOffTintColor = UIColor.whiteColor()
-        swi.trackOnTintColor = UIColor.redColor()
-        swi.trackOffTintColor = UIColor.whiteColor()
-        swi.addTarget(self, action: #selector(LoginViewController.switchStateChanged), forControlEvents: UIControlEvents.ValueChanged)
+        swi.rippleFillColor = UIColor.red
+        swi.thumbOnTintColor = UIColor.white
+        swi.thumbOffTintColor = UIColor.white
+        swi.trackOnTintColor = UIColor.red
+        swi.trackOffTintColor = UIColor.white
+        swi.addTarget(self, action: #selector(LoginViewController.switchStateChanged), for: UIControlEvents.valueChanged)
         //   self.switchView.addSubview(swi)
         
         self.setText()
     }
     
-    override func viewWillAppear(animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
-        self.navigationController?.navigationBarHidden = true
+        self.navigationController?.isNavigationBarHidden = true
     }
     
-    override func viewWillDisappear(animated: Bool) {
+    override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(true)
     }
-
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
@@ -63,58 +84,38 @@ class LoginViewController: GAITrackedViewController,UIAlertController_UIAlertVie
     
     //MARK:- SET TEXT
     func setText() -> Void {
-                self.language = NSUserDefaults.standardUserDefaults().objectForKey("CurrentLanguage") as? String
-                self.usernameField.placeholder = "Email".localized(self.language!)
-                self.usernameField.attributedPlaceholder = NSAttributedString(string:"Email".localized(self.language!), attributes:[NSForegroundColorAttributeName: placeHolderColor])
-                self.passwordField.placeholder = "Password".localized(self.language!)
-                self.passwordField.attributedPlaceholder = NSAttributedString(string:"Password".localized(self.language!), attributes:[NSForegroundColorAttributeName: placeHolderColor])
-              //  self.rememberMeLabel.text = "Remember me".localized(self.language!)
-                self.forgotPasswordButton.setTitle("Forgot Password".localized(self.language!), forState: UIControlState.Normal)
-                self.loginButton .setTitle("Login".localized(self.language!), forState: UIControlState.Normal)
-             //   self.createAnAccountButton.setTitle("Don’t have an account? Sign up".localized(self.language!), forState: UIControlState.Normal)
+        self.language = UserDefaults.standard.object(forKey: "CurrentLanguage") as? String
+//        self.usernameField.placeholder = "Email".localized(self.language!)
+//        self.usernameField.attributedPlaceholder = NSAttributedString(string:"Email".localized(self.language!), attributes:[NSForegroundColorAttributeName: placeHolderColor])
+//        self.passwordField.placeholder = "Password".localized(self.language!)
+//        self.passwordField.attributedPlaceholder = NSAttributedString(string:"Password".localized(self.language!), attributes:[NSForegroundColorAttributeName: placeHolderColor])
+//        //  self.rememberMeLabel.text = "Remember me".localized(self.language!)
+//        self.forgotPasswordButton.setTitle("Forgot Password".localized(self.language!), forState: UIControlState.Normal)
+//        self.loginButton .setTitle("Login".localized(self.language!), forState: UIControlState.Normal)
+        //   self.createAnAccountButton.setTitle("Don’t have an account? Sign up".localized(self.language!), forState: UIControlState.Normal)
     }
     
-    @IBAction func forgotPasswordClicked(sender: UIButton) {
-        let alert = UIAlertController(title: "Forgot Password".localized(self.language!), message: "Please enter your email address".localized(self.language!), preferredStyle: UIAlertControllerStyle.Alert)
-        alert.addTextFieldWithConfigurationHandler { textField -> Void in
-            // you can use this text field
-            self.forgotPasswordField = textField
-            self.forgotPasswordField.keyboardType = UIKeyboardType.EmailAddress
-        }
-        alert.addAction(UIAlertAction(title: "OK".localized(self.language!), style: UIAlertActionStyle.Default, handler: { (ACTION :UIAlertAction!)in
-            print("User click Ok button")
-            if(self.forgotPasswordField.text?.characters.count == 0)
-            {
-                self.showAlertwithCancelButton("Error", message: "Email address cannot be empty".localized(self.language!), cancelButton: "OK".localized(self.language!))
-                return
-            }
-            
-            self.callForgotPasswordAPI()
-            
-        }))
-        alert.addAction(UIAlertAction(title: "Cancel".localized(self.language!), style: UIAlertActionStyle.Default, handler: nil))
+    @IBAction func forgotPasswordClicked(_ sender: UIButton) {
         
-        self.presentViewController(alert, animated: true, completion: nil)
+        self.performSegue(withIdentifier: "ForgotPasswordView", sender: nil)
     }
-
+    
     //MARK:- UISWITCH ACTION
     func switchStateChanged() -> Void {
         
     }
     
     //MARK:- UIBUTTON ACTIONS
-    @IBAction func backClicked(sender: UIButton) {
-        self.navigationController?.popViewControllerAnimated(true)
+    @IBAction func backClicked(_ sender: UIButton) {
+        self.navigationController?.popViewController(animated: true)
     }
     
-    
-    @IBAction func loginButtonClicked(sender: UIButton) {
+    @IBAction func loginButtonClicked(_ sender: UIButton) {
         self.callLoginAPI()
     }
     
-    
-    @IBAction func createAccountButtonClicked(sender: UIButton) {
-        self.performSegueWithIdentifier("Register", sender: self)
+    @IBAction func createAccountButtonClicked(_ sender: UIButton) {
+        self.performSegue(withIdentifier: "Register", sender: self)
     }
     
     //MARK:- LOGIN API
@@ -128,124 +129,81 @@ class LoginViewController: GAITrackedViewController,UIAlertController_UIAlertVie
                 
                 if (self.usernameField.text! .isValidEmail()) {
                     
+                    let tracker = GAI.sharedInstance().defaultTracker
+                    let trackDictionary = GAIDictionaryBuilder.createEvent(withCategory: "API", action: "Login API Called", label: "Login", value: nil).build()
+                    tracker?.send(trackDictionary as AnyObject as! [AnyHashable: Any])
+                    
                     let loading = UIActivityIndicatorView_ActivityClass(text: "Loading".localized(self.language!))
                     self.view.addSubview(loading)
                     
                     let passwordEncryption = passwordField.text?.encodeStringTo64()
                     
-                    let paramsDict: [ String : AnyObject] = ["email": self.usernameField.text! as String, "password": passwordEncryption! as String] as Dictionary
+                    let paramsDict: [ String : String] = ["email": self.usernameField.text! as String, "password": passwordEncryption! as String] as Dictionary
                     print(NSString(format: "Request: %@", paramsDict))
                     
-                    Alamofire.request(.POST, Constant.API.kBaseUrlPath+"customer", parameters: paramsDict)
-                        .responseJSON { response in
+                    Alamofire.request(Constant.API.kBaseUrlPath+"customer", method: .post, parameters: nil, encoding: JSONEncoding.default).responseJSON { response in
                             loading.hide()
                             if let JSON = response.result.value {
                                 
                                 print(NSString(format: "Response: %@", JSON as! NSDictionary))
-                                let status = JSON.valueForKey("status") as! String
+                                let status = (JSON as AnyObject).value(forKey:"status") as! String
                                 if status == "True" {
                                     do {
-                                        let dict: Login = try Login.init(dictionary: JSON as! [NSObject : AnyObject])
+                                        let dict: Login = try Login.init(dictionary: JSON as! [AnyHashable: Any])
                                         
                                         print(dict.response!.data)
                                         let restArray = dict.response!.data[0] as! NSDictionary
-                                        NSUserDefaults.standardUserDefaults().setObject(restArray.valueForKey("uid"), forKey: "UserId")
-                                        NSUserDefaults.standardUserDefaults().synchronize()
-                                        NSUserDefaults.standardUserDefaults().setObject(restArray.valueForKey("first_name"), forKey: "FirstName")
-                                        NSUserDefaults.standardUserDefaults().synchronize()
-                                        NSUserDefaults.standardUserDefaults().setObject(restArray.valueForKey("last_name"), forKey: "LastName")
-                                        NSUserDefaults.standardUserDefaults().synchronize()
-                                        NSUserDefaults.standardUserDefaults().setObject(restArray.valueForKey("email"), forKey: "Email")
-                                        NSUserDefaults.standardUserDefaults().synchronize()
-                                        NSUserDefaults.standardUserDefaults().setObject(restArray.valueForKey("phone"), forKey: "Phone")
-                                        NSUserDefaults.standardUserDefaults().synchronize()
-                                        NSUserDefaults.standardUserDefaults().setBool(true, forKey: "USER_LOGGED_IN")
-                                        NSUserDefaults.standardUserDefaults().synchronize()
+                                        UserDefaults.standard.set(restArray.value(forKey: "uid"), forKey: "UserId")
+                                        UserDefaults.standard.synchronize()
+                                        UserDefaults.standard.set(restArray.value(forKey: "first_name"), forKey: "FirstName")
+                                        UserDefaults.standard.synchronize()
+                                        UserDefaults.standard.set(restArray.value(forKey: "last_name"), forKey: "LastName")
+                                        UserDefaults.standard.synchronize()
+                                        UserDefaults.standard.set(restArray.value(forKey: "email"), forKey: "Email")
+                                        UserDefaults.standard.synchronize()
+                                        UserDefaults.standard.set(restArray.value(forKey: "phone"), forKey: "Phone")
+                                        UserDefaults.standard.synchronize()
+                                        UserDefaults.standard.set(true, forKey: "USER_LOGGED_IN")
+                                        UserDefaults.standard.synchronize()
                                     }
                                     catch let error as NSError {
                                         NSLog("Unresolved error \(error), \(error.userInfo)")
                                     }
                                     
-                                    self.performSegueWithIdentifier("LoggedIn", sender: self)
+                                    self.performSegue(withIdentifier: "LoggedIn", sender: self)
                                 }
                                 else
                                 {
-                                    let errorMsg = JSON.valueForKey("message") as! String
-                                    self.showAlertwithCancelButton("Error", message: errorMsg, cancelButton: "OK")
+                                    let errorMsg = (JSON as AnyObject).value(forKey:"message") as! String
+                                    self.showAlertwithCancelButton("Error", message: errorMsg as NSString, cancelButton: "OK")
                                 }
                             }
                     }
                     
                 }
                 else {
-                    showAlertwithCancelButton("Error", message: "Invalid email id".localized(self.language!), cancelButton: "OK".localized(self.language!))
+                    showAlertwithCancelButton("Error", message: "Invalid email id".localized(self.language!) as NSString, cancelButton: "OK".localized(self.language!) as NSString)
                 }
             }
             else {
                 if self.usernameField.text?.characters.count == 0 {
-                    showAlertwithCancelButton("Error", message: "Please enter your username".localized(self.language!), cancelButton: "OK".localized(self.language!))
+                    showAlertwithCancelButton("Error", message: "Please enter your username".localized(self.language!) as NSString, cancelButton: "OK".localized(self.language!) as NSString)
                 }
                 else if self.passwordField.text?.characters.count == 0 {
-                    showAlertwithCancelButton("Error", message: "Please enter your password".localized(self.language!), cancelButton: "OK".localized(self.language!))
+                    showAlertwithCancelButton("Error", message: "Please enter your password".localized(self.language!) as NSString, cancelButton: "OK".localized(self.language!) as NSString)
                 }
             }
         }
         else {
             print("Internet connection FAILED")
-            let vc : AnyObject! = self.storyboard!.instantiateViewControllerWithIdentifier("NoInternetConnection")
-            self.presentViewController(vc as! UIViewController, animated: true, completion: nil)
+            let vc : AnyObject! = self.storyboard!.instantiateViewController(withIdentifier: "NoInternetConnection")
+            self.present(vc as! UIViewController, animated: true, completion: nil)
         }
     }
     
-    //MARK:- FORGOT PASSWORD API
-    
-    func callForgotPasswordAPI() -> Void {
-        self.forgotPasswordField.resignFirstResponder()
-        
-        if Reachability.isConnectedToNetwork() == true {
-            print("Internet connection OK")
-            
-            if (self.forgotPasswordField.text! .isValidEmail()) {
-                let loading = UIActivityIndicatorView_ActivityClass(text: "Loading".localized(self.language!))
-                self.view.addSubview(loading)
-                
-                let paramsDict: [ String : AnyObject] = ["email": self.forgotPasswordField.text! as String] as Dictionary
-                print(NSString(format: "Request: %@", paramsDict))
-                
-                Alamofire.request(.POST, Constant.API.kBaseUrlPath+"customer/resetpassword", parameters: paramsDict)
-                    .responseJSON { response in
-                        loading.hide()
-                        if let JSON = response.result.value {
-                            
-                            print(NSString(format: "Response: %@", JSON as! NSDictionary))
-                            let status = JSON.valueForKey("status") as! String
-                            if status == "True" {
-                                
-                                let successMsg = JSON.valueForKey("message") as! String
-                                self.showAlertwithCancelButton("Success".localized(self.language!), message: successMsg, cancelButton: "OK".localized(self.language!))
-                            }
-                            else
-                            {
-                                let errorMsg = JSON.valueForKey("message") as! String
-                                self.showAlertwithCancelButton("Error", message: errorMsg, cancelButton: "OK".localized(self.language!))
-                            }
-                        }
-                }
-            }
-            else {
-                showAlertwithCancelButton("Error", message: "Invalid email id".localized(self.language!), cancelButton: "OK".localized(self.language!))
-            }
-        }
-        else {
-            print("Internet connection FAILED")
-            let vc : AnyObject! = self.storyboard!.instantiateViewControllerWithIdentifier("NoInternetConnection")
-            self.presentViewController(vc as! UIViewController, animated: true, completion: nil)
-        }
-    }
-
     //MARK:- UITEXTFIELD DELEGATE METHODS
     
-    func textFieldShouldReturn(textField: UITextField) -> Bool {
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         if textField == self.usernameField {
             self.passwordField.becomeFirstResponder()
         }
@@ -254,5 +212,5 @@ class LoginViewController: GAITrackedViewController,UIAlertController_UIAlertVie
         }
         return true
     }
-
+    
 }

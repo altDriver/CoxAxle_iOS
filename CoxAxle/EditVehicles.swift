@@ -20,7 +20,7 @@ class EditVehicles: JSONModel {
     var response: String?
     
     
-    func propertyIsOptional(propertyName: String) -> Bool {
+    func propertyIsOptional(_ propertyName: String) -> Bool {
         return true
     }
 

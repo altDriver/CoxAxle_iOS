@@ -1,5 +1,5 @@
 //
-//  InventoryViewController.swift
+//  InventorySearchViewController.swift
 //  CoxAxle
 //
 //  Created by Prudhvi on 08/09/16.
@@ -9,7 +9,7 @@
 import UIKit
 import Alamofire
 
-class InventoryViewController: GAITrackedViewController, UIAlertController_UIAlertView, UITextFieldDelegate, UIPickerViewDataSource, UIPickerViewDelegate {
+class InventorySearchViewController: GAITrackedViewController, UIAlertController_UIAlertView, UITextFieldDelegate, UIPickerViewDataSource, UIPickerViewDelegate {
     
     var makesArray = [AnyObject]()
     var engineGroupsArray = [AnyObject]()
@@ -24,6 +24,9 @@ class InventoryViewController: GAITrackedViewController, UIAlertController_UIAle
     var makeNamesArray: NSMutableArray = NSMutableArray()
     var modelNamesArray: NSMutableArray = NSMutableArray()
     var trimsNamesArray: NSMutableArray = NSMutableArray()
+    var engineGroupsNamesArray: NSMutableArray = NSMutableArray()
+    var styleNamesArray: NSMutableArray = NSMutableArray()
+    var yearNamesArray: NSMutableArray = NSMutableArray()
 
     @IBOutlet var makeTextField: UITextField!
     
@@ -33,16 +36,24 @@ class InventoryViewController: GAITrackedViewController, UIAlertController_UIAle
     
     @IBOutlet var trimTextField: UITextField!
     
+    @IBOutlet var engineGroupTextField: UITextField!
+    
+    @IBOutlet var styleTextField: UITextField!
+    
+    @IBOutlet var yearTextField: UITextField!
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        self.screenName = "InventoryViewController"
+        self.screenName = "InventorySearchViewController"
         self.callSearchFiltersAPI()
         
-        pickerView.hidden = true;
+        pickerView.isHidden = true;
         makeTextField.placeholder = "Select Make"
         modelTextField.placeholder = "Select Model"
         trimTextField.placeholder = "Select Trim"
+        engineGroupTextField.placeholder = "Select Engine"
+        styleTextField.placeholder = "Select Style"
+        yearTextField.placeholder = "Select Year"
         // Do any additional setup after loading the view.
         
     }
@@ -53,9 +64,17 @@ class InventoryViewController: GAITrackedViewController, UIAlertController_UIAle
     }
     
     //MARK:- UIBUTTON ACTIONS
-    @IBAction func backButtonClicked(sender: UIButton) {
-        self.navigationController?.popViewControllerAnimated(true)
+    
+    @IBAction func searchButtonClicked(_ sender: UIButton) {
+        self.navigationItem.backBarButtonItem = UIBarButtonItem(title: " ", style: .plain, target: nil, action: nil)
+        self.performSegue(withIdentifier: "InventorySearch", sender: self)
     }
+    
+    @IBAction func backButtonClicked(_ sender: UIButton) {
+        self.navigationController?.popViewController(animated: true)
+    }
+    
+    
     
     //MARK:- FETCH AUTO TRADER SEARCH FILTERS API
     func callSearchFiltersAPI() -> Void {
@@ -63,22 +82,22 @@ class InventoryViewController: GAITrackedViewController, UIAlertController_UIAle
             print("Internet connection OK")
             
             let tracker = GAI.sharedInstance().defaultTracker
-            let trackDictionary = GAIDictionaryBuilder.createEventWithCategory("API", action: "Fetching Auto Trader Search Filters API Called", label: "Auto Trader Search Filters", value: nil).build()
-            tracker.send(trackDictionary as AnyObject as! [NSObject : AnyObject])
+            let trackDictionary = GAIDictionaryBuilder.createEvent(withCategory: "API", action: "Fetching Auto Trader Search Filters API Called", label: "Auto Trader Search Filters", value: nil).build()
+            tracker?.send(trackDictionary as AnyObject as! [AnyHashable: Any])
             
             let loading = UIActivityIndicatorView_ActivityClass(text: "Loading")
             self.view.addSubview(loading)
             
-            Alamofire.request(.GET, Constant.API.kBaseUrlPath+"searchfilters")
-                .responseJSON { response in
+            Alamofire.request(Constant.API.kBaseUrlPath+"searchfilters", method: .get, parameters: nil, encoding: JSONEncoding.default).responseJSON
+                { response in
                     loading.hide()
                     if let JSON = response.result.value {
                         
                         print(NSString(format: "Response: %@", JSON as! NSDictionary))
-                        let status = JSON.valueForKey("status") as! String
+                        let status = (JSON as AnyObject).value(forKey: "status") as! String
                         if status == "True"  {
                             do {
-                                let dict: AutoTraderSearchFilters = try AutoTraderSearchFilters(dictionary: JSON as! [NSObject : AnyObject])
+                                let dict: AutoTraderSearchFilters = try AutoTraderSearchFilters(dictionary: JSON as! [AnyHashable: Any])
                                 self.makesArray = dict.response?.makes as! Array<AnyObject>
                                 self.engineGroupsArray = dict.response?.engineGroups as! Array<AnyObject>
                                 self.extColorGroupsArray = dict.response?.extColorGroups as! Array<AnyObject>
@@ -92,16 +111,16 @@ class InventoryViewController: GAITrackedViewController, UIAlertController_UIAle
                             }
                         }
                         else {
-                            let errorMsg = JSON.valueForKey("message") as! String
-                            self.showAlertwithCancelButton("Error", message: errorMsg, cancelButton: "OK")
+                            let errorMsg = (JSON as AnyObject).value(forKey: "message") as! String
+                            self.showAlertwithCancelButton("Error", message: errorMsg as NSString, cancelButton: "OK")
                         }
                     }
             }
         }
         else {
             print("Internet connection FAILED")
-            let vc : AnyObject! = self.storyboard!.instantiateViewControllerWithIdentifier("NoInternetConnection")
-            self.presentViewController(vc as! UIViewController, animated: true, completion: nil)
+            let vc : AnyObject! = self.storyboard!.instantiateViewController(withIdentifier: "NoInternetConnection")
+            self.present(vc as! UIViewController, animated: true, completion: nil)
         }
     }
     
@@ -110,8 +129,8 @@ class InventoryViewController: GAITrackedViewController, UIAlertController_UIAle
         if pickerView.tag == 1 {
             self.makeNamesArray.removeAllObjects()
             if makesArray.count > 0 {
-            for (index, value) in self.makesArray.enumerate() {
-                self.makeNamesArray.addObject(value.valueForKey("name")! as! String)
+            for (index, value) in self.makesArray.enumerated() {
+                self.makeNamesArray.add(value.value(forKey: "name")! as! String)
             }
             }
             else {
@@ -121,23 +140,56 @@ class InventoryViewController: GAITrackedViewController, UIAlertController_UIAle
         else if pickerView.tag == 2 {
             self.modelNamesArray.removeAllObjects()
             if modelsArray.count > 0 {
-            for (index, value) in self.modelsArray.enumerate() {
-                self.modelNamesArray.addObject(value.valueForKey("name")! as! String)
+            for (index, value) in self.modelsArray.enumerated() {
+                self.modelNamesArray.add(value.value(forKey: "name")! as! String)
             }
             }
             else {
                 self.showAlertwithCancelButton("Alert", message: "Please select make", cancelButton: "OK")
             }
         }
-        else {
+        else if pickerView.tag == 3 {
             self.trimsNamesArray.removeAllObjects()
             if trimsArray.count > 0 {
-                for (index, value) in self.trimsArray.enumerate() {
-                    self.trimsNamesArray.addObject(value.valueForKey("name")! as! String)
+                for (index, value) in self.trimsArray.enumerated() {
+                    self.trimsNamesArray.add(value.value(forKey: "name")! as! String)
                 }
             }
             else {
                 self.showAlertwithCancelButton("Alert", message: "Please select model or no trims found for this model", cancelButton: "OK")
+            }
+        }
+        else if pickerView.tag == 4 {
+            self.engineGroupsNamesArray.removeAllObjects()
+            if engineGroupsArray.count > 0 {
+                for (index, value) in self.engineGroupsArray.enumerated() {
+                    self.engineGroupsNamesArray.add(value.value(forKey: "name")! as! String)
+                }
+            }
+            else {
+                self.showAlertwithCancelButton("Alert", message: "No Engine Groups found for this model", cancelButton: "OK")
+            }
+        }
+        else if pickerView.tag == 5 {
+            self.styleNamesArray.removeAllObjects()
+            if stylesArray.count > 0 {
+                for (index, value) in self.stylesArray.enumerated() {
+                    self.styleNamesArray.add(value.value(forKey: "name")! as! String)
+                }
+            }
+            else {
+                self.showAlertwithCancelButton("Alert", message: "No Styles found for this model", cancelButton: "OK")
+            }
+        }
+        else {
+            self.yearNamesArray.removeAllObjects()
+            if yearsArray.count > 0 {
+                for (index, value) in self.yearsArray.enumerated() {
+                    self.yearNamesArray.add(String(describing: value))
+                }
+            }
+            else {
+                self.showAlertwithCancelButton("Alert", message: "No Years found for this model", cancelButton: "OK")
             }
         }
         
@@ -148,85 +200,129 @@ class InventoryViewController: GAITrackedViewController, UIAlertController_UIAle
   
     
     // returns the number of 'columns' to display.
-    func numberOfComponentsInPickerView(pickerView: UIPickerView) -> Int{
+    func numberOfComponents(in pickerView: UIPickerView) -> Int{
         return 1
     }
     
     // returns the # of rows in each component..
-    func pickerView(pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int{
+    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int{
         if pickerView.tag == 1 {
             return self.makeNamesArray.count
         }
         else if pickerView.tag == 2 {
             return self.modelNamesArray.count
         }
-        else {
+        else if pickerView.tag == 3 {
             return self.trimsNamesArray.count
+        }
+        else if pickerView.tag == 4 {
+            return self.engineGroupsNamesArray.count
+        }
+        else if pickerView.tag == 5 {
+            return self.styleNamesArray.count
+        }
+        else {
+            return self.yearNamesArray.count
         }
         
     }
     
-    func pickerView(pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
+    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
         if pickerView.tag == 1 {
             return self.makeNamesArray[row] as? String
         }
         else if pickerView.tag == 2 {
             return self.modelNamesArray[row] as? String
         }
-        else {
+        else if pickerView.tag == 3 {
             return self.trimsNamesArray[row] as? String
+        }
+        else if pickerView.tag == 4 {
+            return self.engineGroupsNamesArray[row] as? String
+        }
+        else if pickerView.tag == 5 {
+            return self.styleNamesArray[row] as? String
+        }
+        else {
+            return self.yearNamesArray[row] as? String
         }
     }
     
-    func pickerView(pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int)
+    func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int)
     {
         if pickerView.tag == 1 {
             makeTextField.text = self.makeNamesArray[row] as? String
-            self.modelsArray = self.makesArray[row].valueForKey("models") as! Array<AnyObject>
+            self.modelsArray = self.makesArray[row].value(forKey: "models") as! Array<AnyObject>
             self.setData()
         }
         else if pickerView.tag == 2 {
             modelTextField.text = self.modelNamesArray[row] as? String
-            if self.modelsArray[row].valueForKey("trims") != nil {
-             self.trimsArray = self.modelsArray[row].valueForKey("trims") as! Array<AnyObject>
+            if self.modelsArray[row].value(forKey: "trims") != nil {
+             self.trimsArray = self.modelsArray[row].value(forKey: "trims") as! Array<AnyObject>
             self.setData()
             }
             else {
                 self.trimsArray = [AnyObject]()
             }
         }
-        else {
+        else if pickerView.tag == 3 {
             trimTextField.text = self.trimsNamesArray[row] as? String
         }
+        else if pickerView.tag == 4 {
+            engineGroupTextField.text = self.engineGroupsNamesArray[row] as? String
+        }
+        else if pickerView.tag == 5 {
+            styleTextField.text = self.styleNamesArray[row] as? String
+        }
+        else {
+            yearTextField.text = self.yearNamesArray[row] as? String
+        }
+        
     }
     
-    func textFieldShouldBeginEditing(textField: UITextField) -> Bool {
-        pickerView.hidden = false
+    func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
+        pickerView.isHidden = false
         if textField == makeTextField {
             pickerView.tag = 1
         }
         else if textField == modelTextField {
             pickerView.tag = 2
         }
-        else {
+        else if textField == trimTextField {
             pickerView.tag = 3
+        }
+        else if textField == engineGroupTextField {
+            pickerView.tag = 4
+        }
+        else if textField == styleTextField {
+            pickerView.tag = 5
+        }
+        else {
+            pickerView.tag = 6
         }
         self.setData()
         return false
     }
     
-    override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
-        pickerView.hidden = true;
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        pickerView.isHidden = true;
     }
 
-    /*
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         // Get the new view controller using segue.destinationViewController.
         // Pass the selected object to the new view controller.
+        if segue.identifier == "InventorySearch" {
+            let searchDetails = (segue.destination as! InventoryResultsViewController)
+            searchDetails.make = self.makeTextField.text
+            searchDetails.model = self.modelTextField.text
+            searchDetails.trim = self.trimTextField.text
+            searchDetails.engineGroup = self.engineGroupTextField.text
+            searchDetails.style = self.styleTextField.text
+            searchDetails.year = self.yearTextField.text
+        }
     }
-    */
 
 }

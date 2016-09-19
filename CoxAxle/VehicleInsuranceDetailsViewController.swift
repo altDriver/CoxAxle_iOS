@@ -26,8 +26,8 @@ class VehicleInsuranceDetailsViewController: GAITrackedViewController, UITableVi
     var insuranceCardImageView   = UIImageView()
     var insuranceCardImagesArray = [UIImage]()
     
-    let screenWidth  = UIScreen.mainScreen().bounds.width
-    let screenHeight = UIScreen.mainScreen().bounds.height
+    let screenWidth  = UIScreen.main.bounds.width
+    let screenHeight = UIScreen.main.bounds.height
     
     var vehicleName         : String?
     var vehicleType         : String?
@@ -55,15 +55,15 @@ class VehicleInsuranceDetailsViewController: GAITrackedViewController, UITableVi
     
     func setProgressBarProperties() {
         
-        progressBar.type           = .Flat
-        progressBar.trackTintColor = UIColor.SlateColor().colorWithAlphaComponent(0.4)
+        progressBar.type           = .flat
+        progressBar.trackTintColor = UIColor.SlateColor().withAlphaComponent(0.4)
         
         let titleLabel             = UILabel(frame: CGRect(x:  0, y: 0, width: screenWidth/2, height: 15))
         titleLabel.text            = "Step 2 of 4"
-        titleLabel.textAlignment   = .Center
-        titleLabel.font            = UIFont.boldFont().fontWithSize(10)
-        titleLabel.backgroundColor = UIColor.orangeColor()
-        titleLabel.textColor       = UIColor.whiteColor()
+        titleLabel.textAlignment   = .center
+        titleLabel.font            = UIFont.boldFont().withSize(10)
+        titleLabel.backgroundColor = UIColor.orange
+        titleLabel.textColor       = UIColor.white
         
         progressBar.addSubview(titleLabel)
     }
@@ -75,19 +75,19 @@ class VehicleInsuranceDetailsViewController: GAITrackedViewController, UITableVi
     
     //MARK:- TableView Methods
     
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
         return 3
     }
     
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         let cell = UITableViewCell()
-        switch indexPath.row {
+        switch (indexPath as NSIndexPath).row {
             
         case 0:
             
-            let vehicleInsuranceDetailsTableViewCell: VehicleInsuranceDetailsTableViewCell = tableView.dequeueReusableCellWithIdentifier("InsuranceExpirationDateCell", forIndexPath: indexPath) as! VehicleInsuranceDetailsTableViewCell
+            let vehicleInsuranceDetailsTableViewCell: VehicleInsuranceDetailsTableViewCell = tableView.dequeueReusableCell(withIdentifier: "InsuranceExpirationDateCell", for: indexPath) as! VehicleInsuranceDetailsTableViewCell
             
             if let leftLabel = vehicleInsuranceDetailsTableViewCell.leftLabel {
                 
@@ -95,24 +95,24 @@ class VehicleInsuranceDetailsViewController: GAITrackedViewController, UITableVi
             }
             
             if let insuranceExpireDate = insuranceExpirationDate {
-                vehicleInsuranceDetailsTableViewCell.insuranceExpirationDateButton.setTitle(insuranceExpireDate, forState: .Normal)
+                vehicleInsuranceDetailsTableViewCell.insuranceExpirationDateButton.setTitle(insuranceExpireDate, for: UIControlState())
             }
             
-            vehicleInsuranceDetailsTableViewCell.insuranceExpirationDateButton.addTarget(self, action: #selector(VehicleInsuranceDetailsViewController.selectInsuranceExpirationExpirationDate(_:)), forControlEvents: .TouchUpInside)
+            vehicleInsuranceDetailsTableViewCell.insuranceExpirationDateButton.addTarget(self, action: #selector(VehicleInsuranceDetailsViewController.selectInsuranceExpirationExpirationDate(_:)), for: .touchUpInside)
             
             return vehicleInsuranceDetailsTableViewCell
             
         case 1:
             
-            let insuranceDatePickerTableViewCell: DatePickerTableViewCell = tableView.dequeueReusableCellWithIdentifier("datePickerCell", forIndexPath: indexPath) as! DatePickerTableViewCell
+            let insuranceDatePickerTableViewCell: DatePickerTableViewCell = tableView.dequeueReusableCell(withIdentifier: "datePickerCell", for: indexPath) as! DatePickerTableViewCell
             
-            insuranceDatePickerTableViewCell.doneButton.addTarget(self, action: #selector(VehicleInsuranceDetailsViewController.pickerDoneButtonAction), forControlEvents: .TouchUpInside)
+            insuranceDatePickerTableViewCell.doneButton.addTarget(self, action: #selector(VehicleInsuranceDetailsViewController.pickerDoneButtonAction), for: .touchUpInside)
             return insuranceDatePickerTableViewCell
             
         case 2:
             
-            let insuranceCardTableViewCell: InsuranceCardTableViewCell = tableView.dequeueReusableCellWithIdentifier("InsuranceCardTableViewCell", forIndexPath: indexPath) as! InsuranceCardTableViewCell
-            insuranceCardTableViewCell.uploadInsuranceCardPictureButton.addTarget(self, action: #selector(VehicleInsuranceDetailsViewController.uploadInsuranceCardPic), forControlEvents: .TouchUpInside)
+            let insuranceCardTableViewCell: InsuranceCardTableViewCell = tableView.dequeueReusableCell(withIdentifier: "InsuranceCardTableViewCell", for: indexPath) as! InsuranceCardTableViewCell
+            insuranceCardTableViewCell.uploadInsuranceCardPictureButton.addTarget(self, action: #selector(VehicleInsuranceDetailsViewController.uploadInsuranceCardPic), for: .touchUpInside)
             
             insuranceCardTableViewCell.insuranceCardsCollectionView.reloadData()
             
@@ -123,9 +123,9 @@ class VehicleInsuranceDetailsViewController: GAITrackedViewController, UITableVi
         }
     }
     
-    func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         
-        switch indexPath.row {
+        switch (indexPath as NSIndexPath).row {
         case 0:
             return 60
         case 1:
@@ -143,18 +143,18 @@ class VehicleInsuranceDetailsViewController: GAITrackedViewController, UITableVi
     
     //MARK:- CollectionView Method
     
-    func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return insuranceCardImagesArray.count
     }
     
-    func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
-        let insuranceCardsCollectionViewCell: InsuranceCardsCollectionViewCell = collectionView.dequeueReusableCellWithReuseIdentifier("InsuranceCardsCollectionViewCell", forIndexPath: indexPath) as! InsuranceCardsCollectionViewCell
+        let insuranceCardsCollectionViewCell: InsuranceCardsCollectionViewCell = collectionView.dequeueReusableCell(withReuseIdentifier: "InsuranceCardsCollectionViewCell", for: indexPath) as! InsuranceCardsCollectionViewCell
         
-        insuranceCardsCollectionViewCell.insuranceCardsImageView.tag = indexPath.row
-        insuranceCardsCollectionViewCell.removeCardButton.tag = indexPath.row
+        insuranceCardsCollectionViewCell.insuranceCardsImageView.tag = (indexPath as NSIndexPath).row
+        insuranceCardsCollectionViewCell.removeCardButton.tag = (indexPath as NSIndexPath).row
         
-        insuranceCardsCollectionViewCell.insuranceCardsImageView.image = insuranceCardImagesArray[indexPath.row]
+        insuranceCardsCollectionViewCell.insuranceCardsImageView.image = insuranceCardImagesArray[(indexPath as NSIndexPath).row]
         
         return insuranceCardsCollectionViewCell
     }
@@ -168,21 +168,21 @@ class VehicleInsuranceDetailsViewController: GAITrackedViewController, UITableVi
         //            showAlertwithCancelButton("", message: "You can upload upto only four pictures", cancelButton: "OK")
         //            return
         //        }
-        let alert:UIAlertController=UIAlertController(title: nil, message: nil, preferredStyle: UIAlertControllerStyle.ActionSheet)
+        let alert:UIAlertController=UIAlertController(title: nil, message: nil, preferredStyle: UIAlertControllerStyle.actionSheet)
         
-        let cameraAction = UIAlertAction(title: "Take a Photo", style: UIAlertActionStyle.Default) {
+        let cameraAction = UIAlertAction(title: "Take a Photo", style: UIAlertActionStyle.default) {
             
             UIAlertAction in
             self.openCamera()
         }
         
-        let gallaryAction = UIAlertAction(title: "Choose from Camera Roll", style: UIAlertActionStyle.Default) {
+        let gallaryAction = UIAlertAction(title: "Choose from Camera Roll", style: UIAlertActionStyle.default) {
             
             UIAlertAction in
             self.openGallary()
         }
         
-        let cancelAction = UIAlertAction(title: "Cancel", style: UIAlertActionStyle.Cancel) {
+        let cancelAction = UIAlertAction(title: "Cancel", style: UIAlertActionStyle.cancel) {
             
             UIAlertAction in
         }
@@ -192,33 +192,33 @@ class VehicleInsuranceDetailsViewController: GAITrackedViewController, UITableVi
         alert.addAction(gallaryAction)
         alert.addAction(cancelAction)
         alert.view.tintColor = UIColor.SlateColor()
-        self.presentViewController(alert, animated: true, completion: nil)
+        self.present(alert, animated: true, completion: nil)
         
         let imagePickerController = UIImagePickerController()
         imagePickerController.delegate = self
         
         imagePickerController.allowsEditing = false
-        imagePickerController.sourceType = .PhotoLibrary
+        imagePickerController.sourceType = .photoLibrary
         
-        presentViewController(imagePickerController, animated: true, completion: nil)
+        present(imagePickerController, animated: true, completion: nil)
     }
     
     func openCamera() {
         
-        if(UIImagePickerController.isSourceTypeAvailable(UIImagePickerControllerSourceType.Camera)) {
+        if(UIImagePickerController.isSourceTypeAvailable(UIImagePickerControllerSourceType.camera)) {
             
-            imagePicker.sourceType = UIImagePickerControllerSourceType.Camera
-            self.presentViewController(imagePicker, animated: true, completion: nil)
+            imagePicker.sourceType = UIImagePickerControllerSourceType.camera
+            self.present(imagePicker, animated: true, completion: nil)
         }
     }
     
     func openGallary() {
         
-        imagePicker.sourceType = UIImagePickerControllerSourceType.PhotoLibrary
-        self.presentViewController(imagePicker, animated: true, completion: nil)
+        imagePicker.sourceType = UIImagePickerControllerSourceType.photoLibrary
+        self.present(imagePicker, animated: true, completion: nil)
     }
     
-    func selectInsuranceExpirationExpirationDate(sender: UIButton) {
+    func selectInsuranceExpirationExpirationDate(_ sender: UIButton) {
         
         isDatePickerSelected = true
         vehicleInsuranceTableView.reloadData()
@@ -230,10 +230,10 @@ class VehicleInsuranceDetailsViewController: GAITrackedViewController, UITableVi
         
         if insuranceExpirationDate == nil || insuranceExpirationDate == "Select Date" || insuranceExpirationDate?.characters.count == 0 {
             
-            let date = NSDate()
-            let dateFormatter = NSDateFormatter()
+            let date = Date()
+            let dateFormatter = DateFormatter()
             dateFormatter.dateFormat = "MMM dd, yyyy"
-            let dateString = dateFormatter.stringFromDate(date)
+            let dateString = dateFormatter.string(from: date)
             insuranceExpirationDate = dateString
         }
         vehicleInsuranceTableView.reloadData()
@@ -241,9 +241,9 @@ class VehicleInsuranceDetailsViewController: GAITrackedViewController, UITableVi
     
     //MARK:- Image PickerView Methods
     
-    func imagePickerController(picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : AnyObject]) {
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
         
-        picker.dismissViewControllerAnimated(true, completion: nil)
+        picker.dismiss(animated: true, completion: nil)
         let image = info[UIImagePickerControllerOriginalImage] as? UIImage
         insuranceCardImageView.image = image
         
@@ -252,14 +252,14 @@ class VehicleInsuranceDetailsViewController: GAITrackedViewController, UITableVi
         vehicleInsuranceTableView.reloadData()
     }
     
-    func imagePickerControllerDidCancel(picker: UIImagePickerController) {
+    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
         
-        dismissViewControllerAnimated(true, completion: nil)
+        dismiss(animated: true, completion: nil)
     }
     
     //MARK:- IBAction Methods
     
-    @IBAction func callAddVehicleApi(sender: AnyObject) {
+    @IBAction func callAddVehicleApi(_ sender: AnyObject) {
         
         if insuranceExpirationDate == "Select Date" || insuranceExpirationDate == nil || insuranceExpirationDate?.characters.count == 0 {
             
@@ -276,35 +276,35 @@ class VehicleInsuranceDetailsViewController: GAITrackedViewController, UITableVi
         callAddVehicleAPI()
     }
     
-    @IBAction func datePickerChanged(datePicker: UIDatePicker) {
+    @IBAction func datePickerChanged(_ datePicker: UIDatePicker) {
         
-        let date                 = NSDate()
+        let date                 = Date()
         datePicker.minimumDate   = date
-        let dateFormatter = NSDateFormatter()
+        let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "MMM dd, yyyy"
-        let dateString = dateFormatter.stringFromDate(datePicker.date)
+        let dateString = dateFormatter.string(from: datePicker.date)
         insuranceExpirationDate = dateString
         vehicleInsuranceTableView.reloadData()
     }
     
-    @IBAction func removeCard(sender: UIButton) {
+    @IBAction func removeCard(_ sender: UIButton) {
         
-        let alertController = UIAlertController(title: "Delete Card", message: "Are you sure you want to delete this card?", preferredStyle: .Alert)
+        let alertController = UIAlertController(title: "Delete Card", message: "Are you sure you want to delete this card?", preferredStyle: .alert)
         
-        let okAction = UIAlertAction(title: "YES", style: UIAlertActionStyle.Default) {
+        let okAction = UIAlertAction(title: "YES", style: UIAlertActionStyle.default) {
             UIAlertAction in
-            self.insuranceCardImagesArray.removeAtIndex(sender.tag)
+            self.insuranceCardImagesArray.remove(at: sender.tag)
             self.vehicleInsuranceTableView.reloadData()
         }
         
-        let cancelAction = UIAlertAction(title: "NO", style: UIAlertActionStyle.Cancel) {
+        let cancelAction = UIAlertAction(title: "NO", style: UIAlertActionStyle.cancel) {
             UIAlertAction in
         }
         
         alertController.addAction(okAction)
         alertController.addAction(cancelAction)
         
-        self.presentViewController(alertController, animated: true, completion: nil)
+        self.present(alertController, animated: true, completion: nil)
     }
     
     //MARK:- ADD VEHICLE API
@@ -314,9 +314,13 @@ class VehicleInsuranceDetailsViewController: GAITrackedViewController, UITableVi
         if Reachability.isConnectedToNetwork() == true {
             print("Internet connection OK")
             
+            let tracker = GAI.sharedInstance().defaultTracker
+            let trackDictionary = GAIDictionaryBuilder.createEvent(withCategory: "API", action: "Add Vehicle API Called", label: "Add Vehicle", value: nil).build()
+            tracker?.send(trackDictionary as AnyObject as! [AnyHashable: Any])
+            
             let loading = UIActivityIndicatorView_ActivityClass(text: "Loading")
             self.view.addSubview(loading)
-            let userId: String = NSUserDefaults.standardUserDefaults().objectForKey("UserId") as! String
+            let userId: String = UserDefaults.standard.object(forKey: "UserId") as! String
             
             var base64VehicleImagesArray = [String]()
             for index in 0...(vehicleImagesArray.count - 1) {
@@ -324,10 +328,10 @@ class VehicleInsuranceDetailsViewController: GAITrackedViewController, UITableVi
                 let eachImage: UIImage = vehicleImagesArray[index]
                 //                let eachImageData: NSData = UIImagePNGRepresentation(eachImage)!
                 let eachImageData = eachImage.highQualityJPEGNSData
-                let base64ImageString: String = eachImageData.base64EncodedStringWithOptions(NSDataBase64EncodingOptions(rawValue: 0))
+                let base64ImageString: String = eachImageData.base64EncodedString(options: NSData.Base64EncodingOptions(rawValue: 0))
                 base64VehicleImagesArray.append(base64ImageString)
             }
-            let vehicleImagesBase64String = base64VehicleImagesArray.joinWithSeparator(",")
+            let vehicleImagesBase64String = base64VehicleImagesArray.joined(separator: ",")
             
             var base64InsurancecardsArray = [String]()
             for index in 0...(insuranceCardImagesArray.count - 1) {
@@ -335,16 +339,19 @@ class VehicleInsuranceDetailsViewController: GAITrackedViewController, UITableVi
                 let eachImage: UIImage = insuranceCardImagesArray[index]
                 //                let eachImageData: NSData = UIImagePNGRepresentation(eachImage)!
                 let eachImageData = eachImage.highQualityJPEGNSData
-                let base64ImageString: String = eachImageData.base64EncodedStringWithOptions(NSDataBase64EncodingOptions(rawValue: 0))
+                let base64ImageString: String = eachImageData.base64EncodedString(options: NSData.Base64EncodingOptions(rawValue: 0))
                 base64InsurancecardsArray.append(base64ImageString)
             }
-            let insuranceCardImagesBase64String = base64InsurancecardsArray.joinWithSeparator(",")
+            let insuranceCardImagesBase64String = base64InsurancecardsArray.joined(separator: ",")
             
             //            let fileURL = NSBundle.mainBundle().URLForResource("demo", withExtension: "docx")
             //            let data: NSData = NSData(contentsOfURL: fileURL!)!
             //            let insuranceBase64:String = data.base64EncodedStringWithOptions(NSDataBase64EncodingOptions(rawValue: 0))
+            let expirationDate = insuranceExpirationDate!.convertStringToDate()
+            let tagExpiryDate = tagExpirationDate!.convertStringToDate()
+
             
-            let paramsDict: [String : AnyObject] = [
+            let paramsDict: [String : String] = [
                 "name": vehicleName!,
                 "uid": userId,
                 "dealer_id": "2",
@@ -354,41 +361,39 @@ class VehicleInsuranceDetailsViewController: GAITrackedViewController, UITableVi
                 "model": vehicleModel!,
                 "year": vehiclePurchaseYear!,
                 "color": "White",
-                "waranty_from": "5",
-                "waranty_to": "10",
+                "waranty_from": "2015-01-10",
+                "waranty_to": "2016-12-31",
                 "extended_waranty_from": "3",
                 "extended_waranty_to": "8",
-                "expiration_date" : insuranceExpirationDate!,
-                "insurance_card" : "rt",
-                "tag_expiration_date" : tagExpirationDate!,
-                "kbb_price": "0001",
-                "manual": "xyz",
-                "loan_amount": "100",
-                "emi": "50",
-                "interest": "7",
-                "loan_tenure": "3",
+                "insurance_expiration_date" : expirationDate,
+                "tag_expiration_date" : tagExpiryDate,
+                "kbb_price": "",
+                "loan_amount": "",
+                "emi": "",
+                "interest": "",
+                "loan_tenure": "",
                 "mileage": milesDriven!,
                 "style": "sedan",
                 "trim": "vxi",
                 "photo": vehicleImagesBase64String,
-                "insurance_document": insuranceCardImagesBase64String] as Dictionary
+                "insurance_document": insuranceCardImagesBase64String,
+                 "extended_waranty_document": ""] as Dictionary
             
             //          print(NSString(format: "Request: %@", paramsDict))
-            
-            Alamofire.request(.POST, Constant.API.kBaseUrlPath+"vehicle/create", parameters: paramsDict)
-                .responseJSON { response in
+            Alamofire.request(Constant.API.kBaseUrlPath+"vehicle/create", method: .post, parameters: nil, encoding: JSONEncoding.default).responseJSON
+                { response in
                     loading.hide()
                     
                     if let JSON = response.result.value {
                         
                         //          print(NSString(format: "Response: %@", JSON as! NSDictionary))
                         
-                        let responseMessage = JSON.valueForKey("message") as! String
-                        let status = JSON.valueForKey("status") as! String
+                        let responseMessage = (JSON as AnyObject).value(forKey: "message") as! String
+                        let status = (JSON as AnyObject).value(forKey: "status") as! String
                         
                         if status == "True"  {
                             do {
-                                let dict: AddVehicle = try AddVehicle(dictionary: JSON as! [NSObject : AnyObject])
+                                let dict: AddVehicle = try AddVehicle(dictionary: JSON as! [AnyHashable: Any])
                                 
                                 print(dict)
                             }
@@ -396,24 +401,24 @@ class VehicleInsuranceDetailsViewController: GAITrackedViewController, UITableVi
                                 NSLog("Unresolved error \(error), \(error.userInfo)")
                             }
                             
-                            let alertController = UIAlertController(title: "Success", message: responseMessage, preferredStyle: .Alert)
+                            let alertController = UIAlertController(title: "Success", message: responseMessage, preferredStyle: .alert)
                             
-                            let defaultAction = UIAlertAction(title: "OK", style: .Default, handler: { (action: UIAlertAction!) in
+                            let defaultAction = UIAlertAction(title: "OK", style: .default, handler: { (action: UIAlertAction!) in
                                 
                                 self.delegate?.clearUIFields()
                                 
-                                self.navigationController?.popViewControllerAnimated(true)
+                                self.navigationController?.popViewController(animated: true)
                             })
                             
                             alertController.addAction(defaultAction)
                             
-                            dispatch_async(dispatch_get_main_queue(), {
-                                self.presentViewController(alertController, animated: true, completion: nil)
-                            })
+                            DispatchQueue.main.async {
+                                self.present(alertController, animated: true, completion: nil)
+                            }
                         }
                         else {
-                            let errorMsg = JSON.valueForKey("message") as! String
-                            self.showAlertwithCancelButton("Error", message: errorMsg, cancelButton: "OK")
+                            let errorMsg = (JSON as AnyObject).value(forKey: "message") as! String
+                            self.showAlertwithCancelButton("Error", message: errorMsg as NSString, cancelButton: "OK")
                         }
                     }
             }
@@ -430,27 +435,27 @@ class VehicleInsuranceDetailsViewController: GAITrackedViewController, UITableVi
 
 extension UIImage {
     
-    var uncompressedPNGData: NSData {
+    var uncompressedPNGData: Foundation.Data {
         return UIImagePNGRepresentation(self)!
     }
     
-    var highestQualityJPEGNSData: NSData {
+    var highestQualityJPEGNSData: Foundation.Data {
         return UIImageJPEGRepresentation(self, 1.0)!
     }
     
-    var highQualityJPEGNSData: NSData {
+    var highQualityJPEGNSData: Foundation.Data {
         return UIImageJPEGRepresentation(self, 0.75)!
     }
     
-    var mediumQualityJPEGNSData: NSData {
+    var mediumQualityJPEGNSData: Foundation.Data {
         return UIImageJPEGRepresentation(self, 0.5)!
     }
     
-    var lowQualityJPEGNSData: NSData {
+    var lowQualityJPEGNSData: Foundation.Data {
         return UIImageJPEGRepresentation(self, 0.25)!
     }
     
-    var lowestQualityJPEGNSData:NSData {
+    var lowestQualityJPEGNSData:Foundation.Data {
         return UIImageJPEGRepresentation(self, 0.0)!
     }
 }

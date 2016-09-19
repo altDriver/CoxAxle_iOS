@@ -18,7 +18,7 @@ class Data: JSONModel {
     var zip_code: String!
     var language: String!
 
-    func propertyIsOptional(propertyName: String) -> Bool {
+    func propertyIsOptional(_ propertyName: String) -> Bool {
         return true
     }
 }
@@ -26,7 +26,7 @@ class Response: JSONModel {
      var data: NSArray = [Data()]
 
 
-    func propertyIsOptional(propertyName: String) -> Bool {
+    func propertyIsOptional(_ propertyName: String) -> Bool {
         return true
     }
 }
@@ -36,7 +36,7 @@ class Login: JSONModel {
     var response: Response?
 
 
-    func propertyIsOptional(propertyName: String) -> Bool {
+    func propertyIsOptional(_ propertyName: String) -> Bool {
         return true
     }
 }

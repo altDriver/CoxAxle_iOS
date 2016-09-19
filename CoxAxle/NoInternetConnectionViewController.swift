@@ -23,11 +23,11 @@ class NoInternetConnectionViewController: UIViewController {
     }
     
     //MARK:- UIBUTTON ACTIONS
-    @IBAction func retryButtonClicked(sender: UIButton) {
+    @IBAction func retryButtonClicked(_ sender: UIButton) {
          if Reachability.isConnectedToNetwork() == true {
-            NSUserDefaults.standardUserDefaults().setBool(true, forKey: "CALL_API")
-            NSUserDefaults.standardUserDefaults().synchronize()
-            self.dismissViewControllerAnimated(true, completion: nil)
+            UserDefaults.standard.set(true, forKey: "CALL_API")
+            UserDefaults.standard.synchronize()
+            self.dismiss(animated: true, completion: nil)
          }
         
     }
@@ -48,9 +48,9 @@ class NoInternetConnectionViewController: UIViewController {
 extension CALayer {
     var borderColorFromUIColor: UIColor {
         get {
-            return UIColor(CGColor: self.borderColor!)
+            return UIColor(cgColor: self.borderColor!)
         } set {
-            self.borderColor = newValue.CGColor
+            self.borderColor = newValue.cgColor
         }
     }
 }

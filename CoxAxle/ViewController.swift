@@ -28,7 +28,7 @@ class ViewController: GAITrackedViewController, EAIntroDelegate, UIAlertControll
         super.viewDidLoad()
         self.screenName = "ViewController"
         // Do any additional setup after loading the view, typically from a nib.
-        if NSUserDefaults.standardUserDefaults().boolForKey("SHOW_INTRODUCTORY") {
+        if UserDefaults.standard.bool(forKey: "SHOW_INTRODUCTORY") {
         // INTRODUCTORY SCREENS
         
         let page1: EAIntroPage = EAIntroPage()
@@ -52,7 +52,7 @@ class ViewController: GAITrackedViewController, EAIntroDelegate, UIAlertControll
         let intro: EAIntroView = EAIntroView(frame: self.view.bounds, andPages: [page1, page2, page3])
         intro.delegate = self
         
-        [intro.showInView(self.view, animateDuration: 0.0)]
+        [intro.show(in: self.view, animateDuration: 0.0)]
         }
         
         self.setText()
@@ -62,12 +62,12 @@ class ViewController: GAITrackedViewController, EAIntroDelegate, UIAlertControll
         
     }
     
-    override func viewWillAppear(animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
-        self.navigationController?.navigationBarHidden = true
+        self.navigationController?.isNavigationBarHidden = true
     }
     
-    override func viewWillDisappear(animated: Bool) {
+    override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(true)
     }
 
@@ -78,24 +78,24 @@ class ViewController: GAITrackedViewController, EAIntroDelegate, UIAlertControll
     
     //MARK:- SET TEXT
     func setText() -> Void {
-        self.language = NSUserDefaults.standardUserDefaults().objectForKey("CurrentLanguage") as? String
-        self.loginButton .setTitle("Login".localized(self.language!), forState: UIControlState.Normal)
-        self.continueAsGuestButton.setTitle("Continue as Guest".localized(self.language!), forState: UIControlState.Normal)
-        self.createAnAccountButton.setTitle("Don’t have an account? Sign up".localized(self.language!), forState: UIControlState.Normal)
+        self.language = UserDefaults.standard.object(forKey: "CurrentLanguage") as? String
+        self.loginButton .setTitle("Login".localized(self.language!), for: UIControlState())
+        self.continueAsGuestButton.setTitle("Continue as Guest".localized(self.language!), for: UIControlState())
+        self.createAnAccountButton.setTitle("Don’t have an account? Sign up".localized(self.language!), for: UIControlState())
     }
     
     
     //MARK- UIBUTON ACTIONS
-      @IBAction func loginButtonClicked(sender: UIButton) {
-        self.performSegueWithIdentifier("Login", sender: self)
+      @IBAction func loginButtonClicked(_ sender: UIButton) {
+        self.performSegue(withIdentifier: "Login", sender: self)
     }
     
-    @IBAction func continueAsGuestClicked(sender: UIButton) {
-        self.performSegueWithIdentifier("LoggedIn", sender: self)
+    @IBAction func continueAsGuestClicked(_ sender: UIButton) {
+        self.performSegue(withIdentifier: "LoggedIn", sender: self)
     }
     
-    @IBAction func createAnAccountClicked(sender: UIButton) {
-        self.performSegueWithIdentifier("CreateAccount", sender: self)
+    @IBAction func createAnAccountClicked(_ sender: UIButton) {
+        self.performSegue(withIdentifier: "CreateAccount", sender: self)
     }
 
     //MARK:- DEALERS LIST API
@@ -103,24 +103,23 @@ class ViewController: GAITrackedViewController, EAIntroDelegate, UIAlertControll
         if Reachability.isConnectedToNetwork() == true {
             print("Internet connection OK")
             let tracker = GAI.sharedInstance().defaultTracker
-            let trackDictionary = GAIDictionaryBuilder.createEventWithCategory("API", action: "Fetching Dealers List API Called", label: "Fetching Dealers List", value: nil).build()
-            tracker.send(trackDictionary as AnyObject as! [NSObject : AnyObject])
+            let trackDictionary = GAIDictionaryBuilder.createEvent(withCategory: "API", action: "Fetching Dealers List API Called", label: "Fetching Dealers List", value: nil).build()
+            tracker?.send(trackDictionary as AnyObject as! [AnyHashable: Any])
             
             let loading = UIActivityIndicatorView_ActivityClass(text: "Loading".localized(self.language!))
             self.view.addSubview(loading)
-            let paramsDict: [ String : AnyObject] = ["dl_id": "3"] as Dictionary
+            let paramsDict: [ String : String] = ["dl_id": "3"] as Dictionary
             print(NSString(format: "Request: %@", paramsDict))
             
-            Alamofire.request(.POST, Constant.API.kBaseUrlPath+"dealers/contact", parameters: paramsDict)
-                .responseJSON { response in
+            Alamofire.request(Constant.API.kBaseUrlPath+"dealers/contact", method: .post, parameters: nil, encoding: JSONEncoding.default).responseJSON { response in
                     loading.hide()
                     if let JSON = response.result.value {
                         
                         print(NSString(format: "Response: %@", JSON as! NSDictionary))
-                        let status = JSON.valueForKey("status") as! String
+                        let status = (JSON as AnyObject).value(forKey: "status") as! String
                         if status == "True"  {
                               do {
-                             let dict: DealersList = try DealersList(dictionary: JSON as! [NSObject : AnyObject])
+                             let dict: DealersList = try DealersList(dictionary: JSON as! [AnyHashable: Any])
 
                              print(dict.response)
                              }
@@ -129,8 +128,8 @@ class ViewController: GAITrackedViewController, EAIntroDelegate, UIAlertControll
                              }
                         }
                         else {
-                            let errorMsg = JSON.valueForKey("message") as! String
-                            self.showAlertwithCancelButton("Error", message: errorMsg, cancelButton: "OK".localized(self.language!))
+                            let errorMsg = (JSON as AnyObject).value(forKey: "message") as! String
+                            self.showAlertwithCancelButton("Error", message: errorMsg as NSString, cancelButton: "OK".localized(self.language!) as NSString)
                         }
                         
                     }
@@ -138,8 +137,8 @@ class ViewController: GAITrackedViewController, EAIntroDelegate, UIAlertControll
         }
         else {
             print("Internet connection FAILED")
-            let vc : AnyObject! = self.storyboard!.instantiateViewControllerWithIdentifier("NoInternetConnection")
-            self.presentViewController(vc as! UIViewController, animated: true, completion: nil)
+            let vc : AnyObject! = self.storyboard!.instantiateViewController(withIdentifier: "NoInternetConnection")
+            self.present(vc as! UIViewController, animated: true, completion: nil)
         }
     }
     

@@ -12,13 +12,13 @@ import Foundation
 extension String {
     
     //MARK:- LOCALISATION METHOD
-    func localized(lang:String) -> String {
+    func localized(_ lang:String) -> String {
         
         
         
-        let path = NSBundle.mainBundle().pathForResource(lang, ofType: "lproj")
+        let path = Bundle.main.path(forResource: lang, ofType: "lproj")
         
-        let bundle = NSBundle(path: path!)
+        let bundle = Bundle(path: path!)
         
         
         

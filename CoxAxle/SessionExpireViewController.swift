@@ -9,6 +9,26 @@
 import UIKit
 import Alamofire
 import IQKeyboardManagerSwift
+fileprivate func < <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
+  switch (lhs, rhs) {
+  case let (l?, r?):
+    return l < r
+  case (nil, _?):
+    return true
+  default:
+    return false
+  }
+}
+
+fileprivate func > <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
+  switch (lhs, rhs) {
+  case let (l?, r?):
+    return l > r
+  default:
+    return rhs < lhs
+  }
+}
+
 
 class SessionExpireViewController: UIViewController, UITextFieldDelegate, UIAlertController_UIAlertView {
 
@@ -22,7 +42,7 @@ class SessionExpireViewController: UIViewController, UITextFieldDelegate, UIAler
         
         self.setText()
         
-        let username = NSUserDefaults.standardUserDefaults().objectForKey("Email") as! String
+        let username = UserDefaults.standard.object(forKey: "Email") as! String
 
         self.usernameLabel.text = String(format: "Please re-enter your password for %@", username)
         self.sessionPasswordField.becomeFirstResponder()
@@ -36,7 +56,7 @@ class SessionExpireViewController: UIViewController, UITextFieldDelegate, UIAler
     
     //MARK:- SET TEXT
     func setText() -> Void {
-         self.language = NSUserDefaults.standardUserDefaults().objectForKey("CurrentLanguage") as? String
+         self.language = UserDefaults.standard.object(forKey: "CurrentLanguage") as? String
     }
     
     
@@ -48,69 +68,68 @@ class SessionExpireViewController: UIViewController, UITextFieldDelegate, UIAler
                     
                     let loading = UIActivityIndicatorView_ActivityClass(text: "Loading".localized(self.language!))
                     self.view.addSubview(loading)
-                    let email = NSUserDefaults.standardUserDefaults().objectForKey("Email") as! String
+                    let email = UserDefaults.standard.object(forKey: "Email") as! String
                     let passwordEncryption = self.sessionPasswordField.text?.encodeStringTo64()
                     
-                    let paramsDict: [ String : AnyObject] = ["email": email, "password": passwordEncryption! as String] as Dictionary
+                    let paramsDict: [ String : String] = ["email": email, "password": passwordEncryption! as String] as Dictionary
                     print(NSString(format: "Request: %@", paramsDict))
-                    
-                    Alamofire.request(.POST, Constant.API.kBaseUrlPath+"customer", parameters: paramsDict)
-                        .responseJSON { response in
+                
+                Alamofire.request(Constant.API.kBaseUrlPath+"customer", method: .post, parameters: nil, encoding: JSONEncoding.default).responseJSON { response in
                             loading.hide()
                             if let JSON = response.result.value {
                                 
                                 print(NSString(format: "Response: %@", JSON as! NSDictionary))
-                                let status = JSON.valueForKey("status") as! String
+                                let status = (JSON as AnyObject).value(forKey: "status") as! String
                                 if status == "True" {
                                     do {
-                                        let dict: Login = try Login.init(dictionary: JSON as! [NSObject : AnyObject])
+                                        let dict: Login = try Login.init(dictionary: JSON as! [AnyHashable: Any])
                                         
                                         print(dict.response!.data)
                                         let restArray = dict.response!.data[0] as! NSDictionary
-                                        print(restArray.valueForKey("token"))
-                                        NSUserDefaults.standardUserDefaults().setObject(restArray.valueForKey("token"), forKey: "Token")
-                                        NSUserDefaults.standardUserDefaults().synchronize()
-                                        NSUserDefaults.standardUserDefaults().setObject(restArray.valueForKey("email"), forKey: "Email")
-                                        NSUserDefaults.standardUserDefaults().synchronize()
-                                        NSUserDefaults.standardUserDefaults().setBool(true, forKey: "USER_LOGGED_IN")
-                                        NSUserDefaults.standardUserDefaults().synchronize()
+                                        print(restArray.value(forKey: "token"))
+                                        UserDefaults.standard.set(restArray.value(forKey: "token"), forKey: "Token")
+                                        UserDefaults.standard.synchronize()
+                                        UserDefaults.standard.set(restArray.value(forKey: "email"), forKey: "Email")
+                                        UserDefaults.standard.synchronize()
+                                        UserDefaults.standard.set(true, forKey: "USER_LOGGED_IN")
+                                        UserDefaults.standard.synchronize()
                                         
                                     }
                                     catch let error as NSError {
                                         NSLog("Unresolved error \(error), \(error.userInfo)")
                                     }
                                     
-                                    NSUserDefaults.standardUserDefaults().setBool(false, forKey: "SESSION_EXPIRED")
-                                    NSUserDefaults.standardUserDefaults().synchronize()
-                                    NSUserDefaults.standardUserDefaults().setBool(true, forKey: "CALL_API")
-                                    NSUserDefaults.standardUserDefaults().synchronize()
-                                    self.dismissViewControllerAnimated(true, completion: nil)
+                                    UserDefaults.standard.set(false, forKey: "SESSION_EXPIRED")
+                                    UserDefaults.standard.synchronize()
+                                    UserDefaults.standard.set(true, forKey: "CALL_API")
+                                    UserDefaults.standard.synchronize()
+                                    self.dismiss(animated: true, completion: nil)
                                 }
                                 else
                                 {
-                                    let errorMsg = JSON.valueForKey("message") as! String
-                                    self.showAlertwithCancelButton("Error", message: errorMsg, cancelButton: "OK")
+                                    let errorMsg = (JSON as AnyObject).value(forKey: "message") as! String
+                                    self.showAlertwithCancelButton("Error", message: errorMsg as NSString, cancelButton: "OK")
                                 }
                             }
                     }
             }
             else {
-                    showAlertwithCancelButton("Error", message: "Please enter your password".localized(self.language!), cancelButton: "OK".localized(self.language!))
+                    showAlertwithCancelButton("Error", message: "Please enter your password".localized(self.language!) as NSString, cancelButton: "OK".localized(self.language!) as NSString)
             }
         }
         else {
             print("Internet connection FAILED")
-            showAlertwithCancelButton("No Internet Connection".localized(self.language!), message: "Make sure your device is connected to the internet.".localized(self.language!), cancelButton: "OK".localized(self.language!))
+            showAlertwithCancelButton("No Internet Connection".localized(self.language!) as NSString, message: "Make sure your device is connected to the internet.".localized(self.language!) as NSString, cancelButton: "OK".localized(self.language!) as NSString)
         }
     }
     
     //MARK:- UITEXTFIELD DELEGATE METHODS
-    func textFieldDidEndEditing(textField: UITextField) {
+    func textFieldDidEndEditing(_ textField: UITextField) {
         textField.resignFirstResponder()
         self.reCreateSession()
     }
     
-    func textFieldShouldReturn(textField: UITextField) -> Bool {
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         textField.resignFirstResponder()
         self.reCreateSession()
         return true

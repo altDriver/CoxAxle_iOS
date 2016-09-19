@@ -10,7 +10,7 @@ import JSONModel
 class AddVehicleResponse: JSONModel {
 
 
-    func propertyIsOptional(propertyName: String) -> Bool {
+    func propertyIsOptional(_ propertyName: String) -> Bool {
         return true
     }
 }
@@ -20,7 +20,7 @@ class AddVehicle: JSONModel {
     //var response: AddVehicleResponse?
 
 
-    func propertyIsOptional(propertyName: String) -> Bool {
+    func propertyIsOptional(_ propertyName: String) -> Bool {
         return true
     }
 }

@@ -19,7 +19,7 @@ class RegisterData: JSONModel {
     var language: String!
 
 
-    func propertyIsOptional(propertyName: String) -> Bool {
+    func propertyIsOptional(_ propertyName: String) -> Bool {
         return true
     }
 }
@@ -27,7 +27,7 @@ class RegisterResponse: JSONModel {
     var data: NSArray = [RegisterData()]
 
 
-    func propertyIsOptional(propertyName: String) -> Bool {
+    func propertyIsOptional(_ propertyName: String) -> Bool {
         return true
     }
 }
@@ -37,7 +37,7 @@ class Register: JSONModel {
     var response: RegisterResponse?
 
 
-    func propertyIsOptional(propertyName: String) -> Bool {
+    func propertyIsOptional(_ propertyName: String) -> Bool {
         return true
     }
 }

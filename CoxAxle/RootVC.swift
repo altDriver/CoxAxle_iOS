@@ -25,8 +25,8 @@ class RootVC: REFrostedViewController {
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        self.contentViewController = self.storyboard?.instantiateViewControllerWithIdentifier("NavigationVC") as! NavigationVC
-        self.menuViewController = self.storyboard?.instantiateViewControllerWithIdentifier("SideMenuVC") as! SideMenuVC
+        self.contentViewController = self.storyboard?.instantiateViewController(withIdentifier: "NavigationVC") as! NavigationVC
+        self.menuViewController = self.storyboard?.instantiateViewController(withIdentifier: "SideMenuVC") as! SideMenuVC
         
     }
 

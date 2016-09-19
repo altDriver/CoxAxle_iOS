@@ -17,7 +17,7 @@ class SettingsResponse: JSONModel {
     var language: String!
     var uid: String!
     
-    func propertyIsOptional(propertyName: String) -> Bool {
+    func propertyIsOptional(_ propertyName: String) -> Bool {
         return true
     }
 }
@@ -27,7 +27,7 @@ class UserDetails: JSONModel {
     var message: String!
     var response: SettingsResponse?
     
-    func propertyIsOptional(propertyName: String) -> Bool {
+    func propertyIsOptional(_ propertyName: String) -> Bool {
         return true
     }
 

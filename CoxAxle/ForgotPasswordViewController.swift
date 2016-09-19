@@ -2,7 +2,7 @@
 //  ForgotPasswordViewController.swift
 //  CoxAxle
 //
-//  Created by Nilesh Pol on 07/09/16.
+//  Created by Prudhvi on 07/09/16.
 //  Copyright © 2016 Prudhvi. All rights reserved.
 //
 
@@ -23,15 +23,15 @@ class ForgotPasswordViewController: UIViewController, UIAlertController_UIAlertV
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        self.navigationController?.navigationBarHidden = true
+        self.navigationController?.isNavigationBarHidden = true
         emailTextField.layer.cornerRadius = 5
         self.setText()
     }
 
-    override func viewWillAppear(animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
         
-        self.navigationController?.navigationBarHidden = true
+        self.navigationController?.isNavigationBarHidden = true
     }
     
     override func didReceiveMemoryWarning() {
@@ -43,21 +43,21 @@ class ForgotPasswordViewController: UIViewController, UIAlertController_UIAlertV
 
     func setText() -> Void {
         
-        self.language = NSUserDefaults.standardUserDefaults().objectForKey("CurrentLanguage") as? String
+        self.language = UserDefaults.standard.object(forKey: "CurrentLanguage") as? String
         self.emailTextField.placeholder = "Email".localized(self.language!)
         self.emailTextField.attributedPlaceholder = NSAttributedString(string:"Email".localized(self.language!), attributes:[NSForegroundColorAttributeName: placeHolderColor])
 
-        self.resetPasswordButton.setTitle("Reset Password".localized(self.language!), forState: UIControlState.Normal)
+        self.resetPasswordButton.setTitle("Reset Password".localized(self.language!), for: UIControlState())
     }
     
     //MARK:- BUTTON ACTION METHODS
     
-    @IBAction func backClicked(sender: UIButton) {
+    @IBAction func backClicked(_ sender: UIButton) {
         
-        self.navigationController?.popViewControllerAnimated(true)
+        self.navigationController?.popViewController(animated: true)
     }
 
-    @IBAction func resetPasswordButtonClicked(sender: AnyObject) {
+    @IBAction func resetPasswordButtonClicked(_ sender: AnyObject) {
         
         self.callForgotPasswordAPI()
     }
@@ -74,43 +74,42 @@ class ForgotPasswordViewController: UIViewController, UIAlertController_UIAlertV
             if (self.emailTextField.text!.isValidEmail()) {
                 
                 let tracker = GAI.sharedInstance().defaultTracker
-                let trackDictionary = GAIDictionaryBuilder.createEventWithCategory("API", action: "Forgot Password API Called", label: "Forgot Password", value: nil).build()
-                tracker.send(trackDictionary as AnyObject as! [NSObject : AnyObject])
+                let trackDictionary = GAIDictionaryBuilder.createEvent(withCategory: "API", action: "Forgot Password API Called", label: "Forgot Password", value: nil).build()
+                tracker?.send(trackDictionary as AnyObject as! [AnyHashable: Any])
                 
                 let loading = UIActivityIndicatorView_ActivityClass(text: "Loading".localized(self.language!))
                 self.view.addSubview(loading)
                 
-                let paramsDict: [ String : AnyObject] = ["email": self.emailTextField.text! as String] as Dictionary
+                let paramsDict: [ String : String] = ["email": self.emailTextField.text! as String] as Dictionary
                 print(NSString(format: "Request: %@", paramsDict))
                 
-                Alamofire.request(.POST, Constant.API.kBaseUrlPath+"customer/resetpassword", parameters: paramsDict)
-                    .responseJSON { response in
+                Alamofire.request(Constant.API.kBaseUrlPath+"customer/resetpassword", method: .post, parameters: nil, encoding: JSONEncoding.default).responseJSON { response in
                         loading.hide()
                         if let JSON = response.result.value {
                             
                             print(NSString(format: "Response: %@", JSON as! NSDictionary))
-                            let status = JSON.valueForKey("status") as! String
+                            let status = (JSON as AnyObject).value(forKey: "status") as! String
                             if status == "True" {
                                 
-                                let successMsg = JSON.valueForKey("message") as! String
-                                self.showAlertwithCancelButton("Success".localized(self.language!), message: successMsg, cancelButton: "OK".localized(self.language!))
+                                let successMsg = (JSON as AnyObject).value(forKey: "message") as! String
+                                self.showAlertwithCancelButton("Success".localized(self.language!) as NSString, message: successMsg as NSString, cancelButton: "OK".localized(self.language!) as NSString)
                             }
                             else
                             {
-                                let errorMsg = JSON.valueForKey("message") as! String
-                                self.showAlertwithCancelButton("Error", message: errorMsg, cancelButton: "OK".localized(self.language!))
+                                let errorMsg = (JSON as AnyObject).value(forKey: "message") as! String
+                                self.showAlertwithCancelButton("Error", message: errorMsg as NSString, cancelButton: "OK".localized(self.language!) as NSString)
                             }
                         }
                 }
             }
             else {
-                showAlertwithCancelButton("Error", message: "Invalid email address".localized(self.language!), cancelButton: "OK".localized(self.language!))
+                showAlertwithCancelButton("Error", message: "Invalid email address".localized(self.language!) as NSString, cancelButton: "OK".localized(self.language!) as NSString)
             }
         }
         else {
             print("Internet connection FAILED")
-            let vc : AnyObject! = self.storyboard!.instantiateViewControllerWithIdentifier("NoInternetConnection")
-            self.presentViewController(vc as! UIViewController, animated: true, completion: nil)
+            let vc : AnyObject! = self.storyboard!.instantiateViewController(withIdentifier: "NoInternetConnection")
+            self.present(vc as! UIViewController, animated: true, completion: nil)
         }
     }
 

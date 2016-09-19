@@ -14,6 +14,7 @@ class XtimeViewController: GAITrackedViewController,UIWebViewDelegate, UIAlertCo
     var loading: UIActivityIndicatorView_ActivityClass! = nil
     @IBOutlet var webView: UIWebView!
     var language: String?
+    var vinNumber: String?
     
      //MARK:- LIFE CYCLE METHODS
     override func viewDidLoad() {
@@ -35,7 +36,7 @@ class XtimeViewController: GAITrackedViewController,UIWebViewDelegate, UIAlertCo
     
     //MARK:- SET TEXT
     func setText() -> Void {
-        self.language = NSUserDefaults.standardUserDefaults().objectForKey("CurrentLanguage") as? String
+        self.language = UserDefaults.standard.object(forKey: "CurrentLanguage") as? String
         
     }
     
@@ -44,27 +45,31 @@ class XtimeViewController: GAITrackedViewController,UIWebViewDelegate, UIAlertCo
         if Reachability.isConnectedToNetwork() == true {
             print("Internet connection OK")
             
+            let tracker = GAI.sharedInstance().defaultTracker
+            let trackDictionary = GAIDictionaryBuilder.createEvent(withCategory: "API", action: "Fetching XTime Data API Called", label: "XTime Data", value: nil).build()
+            tracker?.send(trackDictionary as AnyObject as! [AnyHashable: Any])
+            
             let loading = UIActivityIndicatorView_ActivityClass(text: "Loading")
             self.view.addSubview(loading)
             
-            Alamofire.request(.GET, Constant.API.kBaseUrlPath+"xtime")
-                .responseJSON { response in
+            Alamofire.request(Constant.API.kBaseUrlPath+"xtime", method: .get, parameters: nil, encoding: JSONEncoding.default).responseJSON
+                { response in
                     loading.hide()
                     if let JSON = response.result.value {
                         
                         print(NSString(format: "Response: %@", JSON as! NSDictionary))
-                        let status = JSON.valueForKey("status") as! String
+                        let status = (JSON as AnyObject).value(forKey: "status") as! String
                         if status == "True"  {
                             do {
-                                let dict: XTime = try XTime(dictionary: JSON as! [NSObject : AnyObject])
+                                let dict: XTime = try XTime(dictionary: JSON as! [AnyHashable: Any])
                                 
-                                let firstName = NSUserDefaults.standardUserDefaults().objectForKey("FirstName") as! String
-                                let lastname = NSUserDefaults.standardUserDefaults().objectForKey("LastName") as! String
-                                let email = NSUserDefaults.standardUserDefaults().objectForKey("Email") as! String
-                                let phone = NSUserDefaults.standardUserDefaults().objectForKey("Phone") as! String
+                                let firstName = UserDefaults.standard.object(forKey: "FirstName") as! String
+                                let lastname = UserDefaults.standard.object(forKey: "LastName") as! String
+                                let email = UserDefaults.standard.object(forKey: "Email") as! String
+                                let phone = UserDefaults.standard.object(forKey: "Phone") as! String
                                 
-                                let deepLinkingURL = NSString(format: "https://consumer-ptr1.xtime.com/scheduling/?webKey=%@&VIN=5J6RE3H74AL049448&Provider=%@&Keyword=%@&cfn=%@&cln=%@&cpn=%@&cem=%@&NOTE=NOTE4Q3&extid=%@&extctxt=%@&dest=VEHICLE", (dict.response?.WebKey)!,(dict.response?.Provider)!, (dict.response?.Keyword)!, firstName, lastname, phone, email, (dict.response?.Extid)!, (dict.response?.Extctxt)!)
-                                self.webView.loadRequest(NSURLRequest(URL: NSURL(string: deepLinkingURL as String)!))
+                                let deepLinkingURL = NSString(format: "https://consumer-ptr1.xtime.com/scheduling/?webKey=%@&VIN=%@&Provider=%@&Keyword=%@&cfn=%@&cln=%@&cpn=%@&cem=%@&NOTE=NOTE4Q3&extid=%@&extctxt=%@&dest=VEHICLE", (dict.response?.WebKey)!,self.vinNumber!,(dict.response?.Provider)!, (dict.response?.Keyword)!, firstName, lastname, phone, email, (dict.response?.Extid)!, (dict.response?.Extctxt)!)
+                                self.webView.loadRequest(NSURLRequest(url: NSURL(string: deepLinkingURL as String)! as URL) as URLRequest)
 
                             }
                             catch let error as NSError {
@@ -72,33 +77,33 @@ class XtimeViewController: GAITrackedViewController,UIWebViewDelegate, UIAlertCo
                             }
                         }
                         else {
-                            let errorMsg = JSON.valueForKey("message") as! String
-                            self.showAlertwithCancelButton("Error", message: errorMsg, cancelButton: "OK")
+                            let errorMsg = (JSON as AnyObject).value(forKey: "message") as! String
+                            self.showAlertwithCancelButton("Error", message: errorMsg as NSString, cancelButton: "OK")
                         }
                     }
             }
         }
         else {
             print("Internet connection FAILED")
-            let vc : AnyObject! = self.storyboard!.instantiateViewControllerWithIdentifier("NoInternetConnection")
-            self.presentViewController(vc as! UIViewController, animated: true, completion: nil)
+            let vc : AnyObject! = self.storyboard!.instantiateViewController(withIdentifier: "NoInternetConnection")
+            self.present(vc as! UIViewController, animated: true, completion: nil)
         }
 
     }
     
     //MARK:- UIWEBVIEW DELEGATE METHODS
     
-    func webViewDidStartLoad(webView: UIWebView) {
+    func webViewDidStartLoad(_ webView: UIWebView) {
         loading = UIActivityIndicatorView_ActivityClass(text: "Loading")
-        self.view.bringSubviewToFront(loading)
+        self.view.bringSubview(toFront: loading)
         self.view.addSubview(loading)
     }
     
-    func webView(webView: UIWebView, didFailLoadWithError error: NSError?) {
+    func webView(_ webView: UIWebView, didFailLoadWithError error: Error) {
         loading.hide()
     }
     
-    func webViewDidFinishLoad(webView: UIWebView) {
+    func webViewDidFinishLoad(_ webView: UIWebView) {
         loading.hide()
     }
     

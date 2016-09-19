@@ -10,4 +10,10 @@ import UIKit
 
 class InventoryResultsCollectionViewCell: UICollectionViewCell {
     
+    @IBOutlet var vehicleImageView: UIImageView!
+    @IBOutlet var vehicleType: UILabel!
+    @IBOutlet var vehicleModel: UILabel!
+    @IBOutlet var vehiclePrice: UILabel!
+    @IBOutlet var vehicleMiles: UILabel!
+    @IBOutlet var vehicleImageViewHeight: NSLayoutConstraint!
 }

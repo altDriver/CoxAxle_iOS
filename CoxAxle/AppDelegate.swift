@@ -20,7 +20,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var window: UIWindow?
 
 
-    func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
+    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         
         // Configure tracker from GoogleService-Info.plist.
         var configureError:NSError?
@@ -29,59 +29,59 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         // Optional: configure GAI options.
         let gai = GAI.sharedInstance()
-        gai.trackUncaughtExceptions = true  // report uncaught exceptions
-        gai.logger.logLevel = GAILogLevel.Verbose  // remove before app release
+        gai?.trackUncaughtExceptions = true  // report uncaught exceptions
+        gai?.logger.logLevel = GAILogLevel.verbose  // remove before app release
                 
         // Override point for customization after application launch.
         IQKeyboardManager.sharedManager().enable = true
         
         // SETTING UP DEFAULT LANGUAGE AS ENGLISH
       //  if NSUserDefaults.standardUserDefaults().objectForKey("CurrentLanguage") == nil {
-            NSUserDefaults.standardUserDefaults().setObject("en", forKey: "CurrentLanguage")
-            NSUserDefaults.standardUserDefaults().synchronize()
+            UserDefaults.standard.set("en", forKey: "CurrentLanguage")
+            UserDefaults.standard.synchronize()
        // }
         UINavigationBar.appearance().barTintColor = UIColor.SlateColor()
-        UINavigationBar.appearance().tintColor = UIColor.whiteColor()
-        UINavigationBar.appearance().titleTextAttributes = [NSForegroundColorAttributeName : UIColor.whiteColor()]
-        let titleDict: NSDictionary = [NSForegroundColorAttributeName: UIColor.whiteColor(), NSFontAttributeName: UIFont.boldFont()]
+        UINavigationBar.appearance().tintColor = UIColor.white
+        UINavigationBar.appearance().titleTextAttributes = [NSForegroundColorAttributeName : UIColor.white]
+        let titleDict: NSDictionary = [NSForegroundColorAttributeName: UIColor.white, NSFontAttributeName: UIFont.boldFont()]
          UINavigationBar.appearance().titleTextAttributes = titleDict as? [String : AnyObject]
         
-        if NSUserDefaults.standardUserDefaults().boolForKey("USER_LOGGED_IN") {
+        if UserDefaults.standard.bool(forKey: "USER_LOGGED_IN") {
             let storyboard = UIStoryboard(name: "Main", bundle: nil)
             
-            let initialViewController = storyboard.instantiateViewControllerWithIdentifier("RootVC")
+            let initialViewController = storyboard.instantiateViewController(withIdentifier: "RootVC")
             
             self.window?.rootViewController = initialViewController
             self.window?.makeKeyAndVisible()
         }
         else {
-            NSUserDefaults.standardUserDefaults().setBool(true, forKey: "SHOW_INTRODUCTORY")
-            NSUserDefaults.standardUserDefaults().synchronize()
+            UserDefaults.standard.set(true, forKey: "SHOW_INTRODUCTORY")
+            UserDefaults.standard.synchronize()
         }
         
         registerForPushNotifications(application)
         return true
     }
 
-    func applicationWillResignActive(application: UIApplication) {
+    func applicationWillResignActive(_ application: UIApplication) {
         // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
         // Use this method to pause ongoing tasks, disable timers, and throttle down OpenGL ES frame rates. Games should use this method to pause the game.
     }
 
-    func applicationDidEnterBackground(application: UIApplication) {
+    func applicationDidEnterBackground(_ application: UIApplication) {
         // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
         // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
     }
 
-    func applicationWillEnterForeground(application: UIApplication) {
+    func applicationWillEnterForeground(_ application: UIApplication) {
         // Called as part of the transition from the background to the inactive state; here you can undo many of the changes made on entering the background.
     }
 
-    func applicationDidBecomeActive(application: UIApplication) {
+    func applicationDidBecomeActive(_ application: UIApplication) {
         // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
     }
 
-    func applicationWillTerminate(application: UIApplication) {
+    func applicationWillTerminate(_ application: UIApplication) {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
         // Saves changes in the application's managed object context before the application terminates.
         self.saveContext()
@@ -96,60 +96,56 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     //MARK:- PUSH NOTIFICATIONS 
     
-    func registerForPushNotifications(application: UIApplication) {
+    func registerForPushNotifications(_ application: UIApplication) {
         let notificationSettings = UIUserNotificationSettings(
-            forTypes: [.Badge, .Sound, .Alert], categories: nil)
+            types: [.badge, .sound, .alert], categories: nil)
         application.registerUserNotificationSettings(notificationSettings)
     }
     
-    func application(application: UIApplication, didRegisterUserNotificationSettings notificationSettings: UIUserNotificationSettings) {
-        if notificationSettings.types != .None {
+    func application(_ application: UIApplication, didRegister notificationSettings: UIUserNotificationSettings) {
+        if notificationSettings.types != UIUserNotificationType() {
             application.registerForRemoteNotifications()
         }
     }
     
-    func application(application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: NSData) {
-        let tokenChars = UnsafePointer<CChar>(deviceToken.bytes)
-        var tokenString = ""
-        
-        for i in 0..<deviceToken.length {
-            tokenString += String(format: "%02.2hhx", arguments: [tokenChars[i]])
-        }
-        
-        print("Device Token:", tokenString)
-    }
+  private func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
+        let characterSet :CharacterSet = CharacterSet(charactersIn: "<>")
+        let deviceTokenString: String = (deviceToken.description)
+            .trimmingCharacters(in: characterSet)
+            .replacingOccurrences(of: " ", with: "")
+        print(deviceTokenString)    }
     
-    func application(application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: NSError) {
+    func application(_ application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: Error) {
         print("Failed to register:", error)
     }
 
     // MARK: - Core Data stack
 
-    lazy var applicationDocumentsDirectory: NSURL = {
+    lazy var applicationDocumentsDirectory: URL = {
         // The directory the application uses to store the Core Data store file. This code uses a directory named "vensai.CoxAxle" in the application's documents Application Support directory.
-        let urls = NSFileManager.defaultManager().URLsForDirectory(.DocumentDirectory, inDomains: .UserDomainMask)
+        let urls = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
         return urls[urls.count-1]
     }()
 
     lazy var managedObjectModel: NSManagedObjectModel = {
         // The managed object model for the application. This property is not optional. It is a fatal error for the application not to be able to find and load its model.
-        let modelURL = NSBundle.mainBundle().URLForResource("CoxAxle", withExtension: "momd")!
-        return NSManagedObjectModel(contentsOfURL: modelURL)!
+        let modelURL = Bundle.main.url(forResource: "CoxAxle", withExtension: "momd")!
+        return NSManagedObjectModel(contentsOf: modelURL)!
     }()
 
     lazy var persistentStoreCoordinator: NSPersistentStoreCoordinator = {
         // The persistent store coordinator for the application. This implementation creates and returns a coordinator, having added the store for the application to it. This property is optional since there are legitimate error conditions that could cause the creation of the store to fail.
         // Create the coordinator and store
         let coordinator = NSPersistentStoreCoordinator(managedObjectModel: self.managedObjectModel)
-        let url = self.applicationDocumentsDirectory.URLByAppendingPathComponent("SingleViewCoreData.sqlite")
+        let url = self.applicationDocumentsDirectory.appendingPathComponent("SingleViewCoreData.sqlite")
         var failureReason = "There was an error creating or loading the application's saved data."
         do {
-            try coordinator.addPersistentStoreWithType(NSSQLiteStoreType, configuration: nil, URL: url, options: nil)
+            try coordinator.addPersistentStore(ofType: NSSQLiteStoreType, configurationName: nil, at: url, options: nil)
         } catch {
             // Report any error we got.
             var dict = [String: AnyObject]()
-            dict[NSLocalizedDescriptionKey] = "Failed to initialize the application's saved data"
-            dict[NSLocalizedFailureReasonErrorKey] = failureReason
+            dict[NSLocalizedDescriptionKey] = "Failed to initialize the application's saved data" as AnyObject?
+            dict[NSLocalizedFailureReasonErrorKey] = failureReason as AnyObject?
 
             dict[NSUnderlyingErrorKey] = error as NSError
             let wrappedError = NSError(domain: "YOUR_ERROR_DOMAIN", code: 9999, userInfo: dict)
@@ -165,7 +161,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     lazy var managedObjectContext: NSManagedObjectContext = {
         // Returns the managed object context for the application (which is already bound to the persistent store coordinator for the application.) This property is optional since there are legitimate error conditions that could cause the creation of the context to fail.
         let coordinator = self.persistentStoreCoordinator
-        var managedObjectContext = NSManagedObjectContext(concurrencyType: .MainQueueConcurrencyType)
+        var managedObjectContext = NSManagedObjectContext(concurrencyType: .mainQueueConcurrencyType)
         managedObjectContext.persistentStoreCoordinator = coordinator
         return managedObjectContext
     }()

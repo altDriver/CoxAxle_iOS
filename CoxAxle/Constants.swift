@@ -7,16 +7,20 @@
 //
 
 import Foundation
-let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
+let appDelegate = UIApplication.shared.delegate as! AppDelegate
 struct Constant {
     
     //MARK:- BASE URL
     struct API {
+        // Local Base URL
         static let kBaseUrlPath = "http://192.168.8.101/ecommerce_crm/coxaxle_api/public/"
+        
+        //UAT Base URL
+       // static let kBaseUrlPath = "http://123.176.36.197/ecommerce_crm/coxaxle_api/public/"
     }
     
     struct iPhoneScreen {
-        static let Ratio = UIScreen.mainScreen().bounds.size.width/320.0
+        static let Ratio = UIScreen.main.bounds.size.width/320.0
     }
     
 }

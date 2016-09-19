@@ -12,7 +12,7 @@ class VehiclesImages: JSONModel {
     
     var image_url: String!
     
-    func propertyIsOptional(propertyName: String) -> Bool {
+    func propertyIsOptional(_ propertyName: String) -> Bool {
         return true
     }
 }
@@ -54,7 +54,7 @@ class VehiclesListData: JSONModel {
     var vehicle_type: String!
     var vechicle_image: NSArray = [VehiclesImages()]
 
-    func propertyIsOptional(propertyName: String) -> Bool {
+    func propertyIsOptional(_ propertyName: String) -> Bool {
         return true
     }
 }
@@ -63,7 +63,7 @@ class VehiclesListResponse: JSONModel {
     var data: NSArray = [VehiclesListData()]
     
     
-    func propertyIsOptional(propertyName: String) -> Bool {
+    func propertyIsOptional(_ propertyName: String) -> Bool {
         return true
     }
 }
@@ -74,7 +74,7 @@ class VehiclesList: JSONModel {
     var response: VehiclesListResponse?
 
 
-    func propertyIsOptional(propertyName: String) -> Bool {
+    func propertyIsOptional(_ propertyName: String) -> Bool {
         return true
     }
 }

@@ -23,17 +23,17 @@ class SettingsViewController: GAITrackedViewController, UIAlertController_UIAler
         // Do any additional setup after loading the view.
     }
     
-    override func viewWillAppear(animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        if NSUserDefaults.standardUserDefaults().boolForKey("SESSION_EXPIRED") {
-            let vc : AnyObject! = self.storyboard!.instantiateViewControllerWithIdentifier("SessionExpired")
-            self.presentViewController(vc as! UIViewController, animated: true, completion: nil)
+        if UserDefaults.standard.bool(forKey: "SESSION_EXPIRED") {
+            let vc : AnyObject! = self.storyboard!.instantiateViewController(withIdentifier: "SessionExpired")
+            self.present(vc as! UIViewController, animated: true, completion: nil)
         }
         
-        if NSUserDefaults.standardUserDefaults().boolForKey("CALL_API") {
-            NSUserDefaults.standardUserDefaults().setBool(false, forKey: "CALL_API")
-            NSUserDefaults.standardUserDefaults().synchronize()
+        if UserDefaults.standard.bool(forKey: "CALL_API") {
+            UserDefaults.standard.set(false, forKey: "CALL_API")
+            UserDefaults.standard.synchronize()
             self.callFetchUserDetailsAPI()
         }
     }
@@ -45,11 +45,11 @@ class SettingsViewController: GAITrackedViewController, UIAlertController_UIAler
     
     //MARK:- SET TEXT
     func setText() -> Void {
-        self.language = NSUserDefaults.standardUserDefaults().objectForKey("CurrentLanguage") as? String
+        self.language = UserDefaults.standard.object(forKey: "CurrentLanguage") as? String
     }
     
     //MARK:-  UIBUTTON ACTIONS
-    @IBAction func menuButtonClicked(sender: UIButton) {
+    @IBAction func menuButtonClicked(_ sender: UIButton) {
         if let frostView = self.view{
             frostView.endEditing(true)
         }
@@ -65,21 +65,26 @@ class SettingsViewController: GAITrackedViewController, UIAlertController_UIAler
         if Reachability.isConnectedToNetwork() == true {
             print("Internet connection OK")
             
+            let tracker = GAI.sharedInstance().defaultTracker
+            let trackDictionary = GAIDictionaryBuilder.createEvent(withCategory: "API", action: "Fetching User Details API Called", label: "Fetching User Details", value: nil).build()
+            tracker?.send(trackDictionary as AnyObject as! [AnyHashable: Any])
+            
             let loading = UIActivityIndicatorView_ActivityClass(text: "Loading")
             self.view.addSubview(loading)
-            let paramsDict: [ String : AnyObject] = ["uid": "21"] as Dictionary
+            let userId: String = UserDefaults.standard.object(forKey: "UserId") as! String
+            let paramsDict: [ String : String] = ["uid": userId] as Dictionary
             print(NSString(format: "Request: %@", paramsDict))
             
-            Alamofire.request(.POST, Constant.API.kBaseUrlPath+"user/list", parameters: paramsDict)
-                .responseJSON { response in
+            Alamofire.request(Constant.API.kBaseUrlPath+"user/list", method: .post, parameters: nil, encoding: JSONEncoding.default).responseJSON
+                { response in
                     loading.hide()
                     if let JSON = response.result.value {
                         
                         print(NSString(format: "Response: %@", JSON as! NSDictionary))
-                        let status = JSON.valueForKey("status") as! String
+                        let status = (JSON as AnyObject).value(forKey: "status") as! String
                         if status == "True"  {
                               do {
-                             let dict: UserDetails = try UserDetails(dictionary: JSON as! [NSObject : AnyObject])
+                             let dict: UserDetails = try UserDetails(dictionary: JSON as! [AnyHashable: Any])
 
                              print(dict.response)
                              }
@@ -88,16 +93,16 @@ class SettingsViewController: GAITrackedViewController, UIAlertController_UIAler
                              }
                         }
                         else {
-                            let errorMsg = JSON.valueForKey("message") as! String
-                            self.showAlertwithCancelButton("Error", message: errorMsg, cancelButton: "OK")
+                            let errorMsg = (JSON as AnyObject).value(forKey: "message") as! String
+                            self.showAlertwithCancelButton("Error", message: errorMsg as NSString, cancelButton: "OK")
                         }
                     }
             }
         }
         else {
             print("Internet connection FAILED")
-            let vc : AnyObject! = self.storyboard!.instantiateViewControllerWithIdentifier("NoInternetConnection")
-            self.presentViewController(vc as! UIViewController, animated: true, completion: nil)
+            let vc : AnyObject! = self.storyboard!.instantiateViewController(withIdentifier: "NoInternetConnection")
+            self.present(vc as! UIViewController, animated: true, completion: nil)
         }
     }
     
@@ -107,21 +112,26 @@ class SettingsViewController: GAITrackedViewController, UIAlertController_UIAler
         if Reachability.isConnectedToNetwork() == true {
             print("Internet connection OK")
             
+            let tracker = GAI.sharedInstance().defaultTracker
+            let trackDictionary = GAIDictionaryBuilder.createEvent(withCategory: "API", action: "Update User Details API Called", label: "Update User Details", value: nil).build()
+            tracker?.send(trackDictionary as AnyObject as! [AnyHashable: Any])
+            
             let loading = UIActivityIndicatorView_ActivityClass(text: "Loading")
             self.view.addSubview(loading)
-            let paramsDict: [ String : AnyObject] = ["uid": "21", "first_name": "Pru", "last_name": "Krish", "email": "pru@gmail.com", "phone": "7799002145", "language": "EN"] as Dictionary
+             let userId: String = UserDefaults.standard.object(forKey: "UserId") as! String
+            let paramsDict: [ String : String] = ["uid": userId, "first_name": "Pru", "last_name": "Krish", "email": "pru@gmail.com", "phone": "7799002145", "language": "EN"] as Dictionary
             print(NSString(format: "Request: %@", paramsDict))
             
-            Alamofire.request(.POST, Constant.API.kBaseUrlPath+"user/update", parameters: paramsDict)
-                .responseJSON { response in
+            Alamofire.request(Constant.API.kBaseUrlPath+"user/update", method: .post, parameters: nil, encoding: JSONEncoding.default).responseJSON
+                { response in
                     loading.hide()
                     if let JSON = response.result.value {
                         
                         print(NSString(format: "Response: %@", JSON as! NSDictionary))
-                        let status = JSON.valueForKey("status") as! String
+                        let status = (JSON as AnyObject).value(forKey: "status") as! String
                         if status == "True"  {
                             do {
-                                let dict: UpdateUserDetails = try UpdateUserDetails(dictionary: JSON as! [NSObject : AnyObject])
+                                let dict: UpdateUserDetails = try UpdateUserDetails(dictionary: JSON as! [AnyHashable: Any])
                                 
                                 print(dict.message)
                             }
@@ -130,8 +140,8 @@ class SettingsViewController: GAITrackedViewController, UIAlertController_UIAler
                             }
                         }
                         else {
-                            let errorMsg = JSON.valueForKey("message") as! String
-                            self.showAlertwithCancelButton("Error", message: errorMsg, cancelButton: "OK")
+                            let errorMsg = (JSON as AnyObject).value(forKey: "message") as! String
+                            self.showAlertwithCancelButton("Error", message: errorMsg as NSString, cancelButton: "OK")
                         }
                         
                     }
@@ -139,8 +149,8 @@ class SettingsViewController: GAITrackedViewController, UIAlertController_UIAler
         }
         else {
             print("Internet connection FAILED")
-            let vc : AnyObject! = self.storyboard!.instantiateViewControllerWithIdentifier("NoInternetConnection")
-            self.presentViewController(vc as! UIViewController, animated: true, completion: nil)
+            let vc : AnyObject! = self.storyboard!.instantiateViewController(withIdentifier: "NoInternetConnection")
+            self.present(vc as! UIViewController, animated: true, completion: nil)
         }
     }
 

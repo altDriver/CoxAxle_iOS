@@ -8,7 +8,7 @@
 
 import UIKit
 
-class WebViewViewController: UIViewController {
+class WebViewController: UIViewController, UIAlertController_UIAlertView {
     
     @IBOutlet var carManualWebView: UIWebView!
     var loading: UIActivityIndicatorView_ActivityClass! = nil
@@ -17,15 +17,32 @@ class WebViewViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        let viewControllers = self.navigationController!.viewControllers as NSArray
+        
+        for VC in viewControllers {
+            if((VC as AnyObject).isKind(of: LandingScreen.self)){
+                self.navigationItem.leftBarButtonItems = nil
+                //  self.navigationController?.navigationBar.topItem?.title = ""
+                
+                var image = UIImage(named: "back")
+                
+                image = image?.withRenderingMode(UIImageRenderingMode.alwaysOriginal)
+                
+                self.navigationItem.leftBarButtonItem = UIBarButtonItem(image: image, style: UIBarButtonItemStyle.plain, target: self, action: #selector(WebViewController.backClicked(_:)))
+                
+                break
+            }
+        }
+        
         self.loadWebView()
         
     }
     
     func loadWebView() {
         
-        if let url = NSURL(string: webViewUrl!) {
+        if let url = URL(string: webViewUrl!) {
             
-            let requestObject = NSURLRequest(URL: url)
+            let requestObject = URLRequest(url: url)
             carManualWebView.loadRequest(requestObject)
         }
     }
@@ -35,19 +52,33 @@ class WebViewViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
+    // MARK: UIButton Action
+    func backClicked(_ sender:UIButton!)
+    {
+        self.navigationController?.popViewController(animated: true)
+    }
+    
+    @IBAction func showMenu(_ sender: UIButton) {
+        self.view.endEditing(true)
+        self.frostedViewController.view.endEditing(true)
+        
+        self.frostedViewController.presentMenuViewController()
+    }
+    
     //MARK:- UIWEBVIEW DELEGATE METHODS
     
-    func webViewDidStartLoad(webView: UIWebView) {
+    func webViewDidStartLoad(_ webView: UIWebView) {
         loading = UIActivityIndicatorView_ActivityClass(text: "Loading")
-        self.view.bringSubviewToFront(loading)
+        self.view.bringSubview(toFront: loading)
         self.view.addSubview(loading)
     }
     
-    func webView(webView: UIWebView, didFailLoadWithError error: NSError?) {
+    func webView(_ webView: UIWebView, didFailLoadWithError error: NSError?) {
         loading.hide()
+        self.showAlertwithCancelButton("Error", message: error!.localizedDescription as NSString, cancelButton: "OK")
     }
     
-    func webViewDidFinishLoad(webView: UIWebView) {
+    func webViewDidFinishLoad(_ webView: UIWebView) {
         loading.hide()
     }
 

@@ -24,7 +24,7 @@ class DealersListResponse: JSONModel {
     var data: NSArray = [DealersListData()]
     
     
-    func propertyIsOptional(propertyName: String) -> Bool {
+    func propertyIsOptional(_ propertyName: String) -> Bool {
         return true
     }
 }
@@ -35,7 +35,7 @@ class DealersList: JSONModel {
     var response: DealersListResponse?
     
     
-    func propertyIsOptional(propertyName: String) -> Bool {
+    func propertyIsOptional(_ propertyName: String) -> Bool {
         return true
     }
 

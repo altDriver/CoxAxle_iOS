@@ -11,6 +11,7 @@ import Alamofire
 import YLProgressBar
 import LGSemiModalNavController
 import BRImagePicker
+import SDWebImage
 
 class EditVehicleViewController: UIViewController, UIAlertController_UIAlertView, UITableViewDataSource, UITableViewDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UICollectionViewDataSource, UICollectionViewDelegate {
     
@@ -63,8 +64,8 @@ class EditVehicleViewController: UIViewController, UIAlertController_UIAlertView
     let vehicleMakeArray = ["Accent", "Azera", "Elantra", "Santa Fe Sports", "Mrecedes", "Land Rover"]
     let vehiclesModelArray = ["Accent A2S", "Elantra EL1", "Santa Fe Sports SaFeX", "Mrecedes MQn", "Land Rover"]
     
-    let screenWidth  = UIScreen.mainScreen().bounds.width
-    let screenHeight = UIScreen.mainScreen().bounds.height
+    let screenWidth  = UIScreen.main.bounds.width
+    let screenHeight = UIScreen.main.bounds.height
     
     //MARK:- LIFE CYCLE METHODS
     
@@ -88,43 +89,43 @@ class EditVehicleViewController: UIViewController, UIAlertController_UIAlertView
     
     func parseVehicleDetailsDictionary() {
         
-        vehicleImagesArray = (vehiclesDetailsDictionary?.valueForKey("vechicle_image")!)! as! [UIImage]
+        vehicleImagesArray = (vehiclesDetailsDictionary?.value(forKey: "vechicle_image")!)! as! [UIImage]
         //        insuranceCardImagesArray = (vehiclesDetailsDictionary?.valueForKey("insurance_document")!)! as! [UIImage]
-        vehicleName = vehiclesDetailsDictionary?.valueForKey("name") as? String
-        selectedVehicleType = vehiclesDetailsDictionary?.valueForKey("vehicle_type") as? String
-        vinNumber = vehiclesDetailsDictionary?.valueForKey("vin") as? String
-        vehiclePurchasedYear = vehiclesDetailsDictionary?.valueForKey("year") as? String
-        vehicleMake = vehiclesDetailsDictionary?.valueForKey("make") as? String
-        vehicleModel = vehiclesDetailsDictionary?.valueForKey("model") as? String
-        milesDriven = vehiclesDetailsDictionary?.valueForKey("mileage") as? String
-        selectedTagExpirationDate = (vehiclesDetailsDictionary?.valueForKey("tag_expiration_date") as? String)?.convertDateToString()
-        selectedInsuranceExpirationDate = (vehiclesDetailsDictionary?.valueForKey("insurance_expiration_date") as? String)?.convertDateToString()
+        vehicleName = vehiclesDetailsDictionary?.value(forKey: "name") as? String
+        selectedVehicleType = vehiclesDetailsDictionary?.value(forKey: "vehicle_type") as? String
+        vinNumber = vehiclesDetailsDictionary?.value(forKey: "vin") as? String
+        vehiclePurchasedYear = vehiclesDetailsDictionary?.value(forKey: "year") as? String
+        vehicleMake = vehiclesDetailsDictionary?.value(forKey: "make") as? String
+        vehicleModel = vehiclesDetailsDictionary?.value(forKey: "model") as? String
+        milesDriven = vehiclesDetailsDictionary?.value(forKey: "mileage") as? String
+        selectedTagExpirationDate = (vehiclesDetailsDictionary?.value(forKey: "tag_expiration_date") as? String)?.convertDateToString()
+        selectedInsuranceExpirationDate = (vehiclesDetailsDictionary?.value(forKey: "insurance_expiration_date") as? String)?.convertDateToString()
     }
     
     func setText() -> Void {
         
-        self.language = NSUserDefaults.standardUserDefaults().objectForKey("CurrentLanguage") as? String
+        self.language = UserDefaults.standard.object(forKey: "CurrentLanguage") as? String
     }
     
     func setProgressBarProperties() {
         
-        progressBar.type           = .Flat
-        self.progressBar.trackTintColor = UIColor.SlateColor().colorWithAlphaComponent(0.4)
+        progressBar.type           = .flat
+        self.progressBar.trackTintColor = UIColor.SlateColor().withAlphaComponent(0.4)
         progressBar.hideStripes    = true
         
         let titleLabel             = UILabel(frame: CGRect(x: 0, y: 0, width: screenWidth / 4, height: 15))
         titleLabel.text            = "Step 1 of 4"
-        titleLabel.textAlignment   = .Center
-        titleLabel.font            = UIFont.boldFont().fontWithSize(10)
-        titleLabel.backgroundColor = UIColor.orangeColor()
-        titleLabel.textColor       = UIColor.whiteColor()
+        titleLabel.textAlignment   = .center
+        titleLabel.font            = UIFont.boldFont().withSize(10)
+        titleLabel.backgroundColor = UIColor.orange
+        titleLabel.textColor       = UIColor.white
         
         progressBar.addSubview(titleLabel)
     }
     
     //MARK:- TABLEVIEW METHODS
     
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
         switch tableView.tag {
         case 0 : return 13
@@ -135,7 +136,7 @@ class EditVehicleViewController: UIViewController, UIAlertController_UIAlertView
         }
     }
     
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         var cell = UITableViewCell()
         tableView.showsVerticalScrollIndicator = false
@@ -144,31 +145,31 @@ class EditVehicleViewController: UIViewController, UIAlertController_UIAlertView
             
         case 0:
             
-            switch (indexPath.row) {
+            switch ((indexPath as NSIndexPath).row) {
                 
             case 0:
                 
-                let addVehicleImageTableViewCell = tableView.dequeueReusableCellWithIdentifier("AddVehicleImageTableViewCell", forIndexPath: indexPath) as! AddVehicleImageTableViewCell
+                let addVehicleImageTableViewCell = tableView.dequeueReusableCell(withIdentifier: "AddVehicleImageTableViewCell", for: indexPath) as! AddVehicleImageTableViewCell
                 
-                addVehicleImageTableViewCell.uploadVehiclePictureButton.addTarget(self, action: #selector(EditVehicleViewController.uploadVehiclePic), forControlEvents: .TouchUpInside)
+                addVehicleImageTableViewCell.uploadVehiclePictureButton.addTarget(self, action: #selector(EditVehicleViewController.uploadVehiclePic), for: .touchUpInside)
                 let imagesArray = vehicleImagesArray as NSArray
-                let imageURLString = imagesArray[0].valueForKey("image_url") as! NSString
-                addVehicleImageTableViewCell.vehicleImageView.setImageWithURL(NSURL(string: imageURLString as String), placeholderImage: UIImage(named: "placeholder"), completed: { (image, error, cacheType, url) -> Void in
+                let imageURLString = (imagesArray[0] as AnyObject).value(forKey: "image_url") as! NSString
+                addVehicleImageTableViewCell.vehicleImageView.sd_setImage(with: URL(string: imageURLString as String), placeholderImage: UIImage(named: "placeholder"), options: SDWebImageOptions(rawValue: UInt(0)), completed: { (image, error, cacheType, url) -> Void in
                     addVehicleImageTableViewCell.vehicleImageView.alpha = 1;
                     
-                    }, usingActivityIndicatorStyle: UIActivityIndicatorViewStyle(rawValue: 2)!)
+                })
                 
                 cell = addVehicleImageTableViewCell
                 
             case 1:
                 
-                let vehicleNameTableViewCell = tableView.dequeueReusableCellWithIdentifier("VehicleNameTableViewCell", forIndexPath: indexPath) as! VehicleDetailTableViewCell
+                let vehicleNameTableViewCell = tableView.dequeueReusableCell(withIdentifier: "VehicleNameTableViewCell", for: indexPath) as! VehicleDetailTableViewCell
                 
-                vehicleNameTableViewCell.vehicleNameTextField.autocorrectionType = .No
+                vehicleNameTableViewCell.vehicleNameTextField.autocorrectionType = .no
                 
                 self.vehicleNameTextField = vehicleNameTableViewCell.vehicleNameTextField
                 
-                guard let name = (self.vehicleNameTextField.text) where name != "" else {
+                guard let name = (self.vehicleNameTextField.text) , name != "" else {
                     
                     vehicleNameTableViewCell.vehicleNameTextField.text = vehicleName
                     cell = vehicleNameTableViewCell
@@ -180,7 +181,7 @@ class EditVehicleViewController: UIViewController, UIAlertController_UIAlertView
                 
             case 2:
                 
-                let vehicleTypeTableViewCell = tableView.dequeueReusableCellWithIdentifier("NewUsedTableViewCell", forIndexPath: indexPath) as! VehicleTypeTableViewCell
+                let vehicleTypeTableViewCell = tableView.dequeueReusableCell(withIdentifier: "NewUsedTableViewCell", for: indexPath) as! VehicleTypeTableViewCell
                 
                 newButton = vehicleTypeTableViewCell.newVehicleButton
                 usedButton = vehicleTypeTableViewCell.usedVehicleButton
@@ -199,9 +200,9 @@ class EditVehicleViewController: UIViewController, UIAlertController_UIAlertView
                             deselectOtherButtons(newButton, button2: usedButton)
                 }
                 
-                vehicleTypeTableViewCell.newVehicleButton.addTarget(self, action: #selector(EditVehicleViewController.newVehicleTypeSelected), forControlEvents: .TouchUpInside)
-                vehicleTypeTableViewCell.usedVehicleButton.addTarget(self, action: #selector(EditVehicleViewController.usedVehicleTypeSelected), forControlEvents: .TouchUpInside)
-                vehicleTypeTableViewCell.CPOVehicleButton.addTarget(self, action: #selector(EditVehicleViewController.cpoVehicleTypeSelected), forControlEvents: .TouchUpInside)
+                vehicleTypeTableViewCell.newVehicleButton.addTarget(self, action: #selector(EditVehicleViewController.newVehicleTypeSelected), for: .touchUpInside)
+                vehicleTypeTableViewCell.usedVehicleButton.addTarget(self, action: #selector(EditVehicleViewController.usedVehicleTypeSelected), for: .touchUpInside)
+                vehicleTypeTableViewCell.CPOVehicleButton.addTarget(self, action: #selector(EditVehicleViewController.cpoVehicleTypeSelected), for: .touchUpInside)
                 
                 if vehicleTypeTableViewCell.newVehicleButton != nil {
                     vehicleTypeTableViewCell.newVehicleButton = newButton
@@ -217,21 +218,21 @@ class EditVehicleViewController: UIViewController, UIAlertController_UIAlertView
                 
             case 3:
                 
-                let vinTableViewCell = tableView.dequeueReusableCellWithIdentifier("VINTableViewCell", forIndexPath: indexPath) as! VehicleDetailTableViewCell
+                let vinTableViewCell = tableView.dequeueReusableCell(withIdentifier: "VINTableViewCell", for: indexPath) as! VehicleDetailTableViewCell
                 
                 let findVinButtonAttrinutes = [
-                    NSFontAttributeName : UIFont.systemFontOfSize(11),
-                    NSUnderlineStyleAttributeName : 1]
+                    NSFontAttributeName : UIFont.systemFont(ofSize: 11),
+                    NSUnderlineStyleAttributeName : 1] as [String : Any]
                 let attributedString = NSMutableAttributedString(string:"")
                 
                 let buttonTitleString = NSMutableAttributedString(string:"Find My VIN", attributes: findVinButtonAttrinutes)
                 vinTableViewCell.findMyVinButton.titleLabel?.numberOfLines = 2
-                attributedString.appendAttributedString(buttonTitleString)
-                vinTableViewCell.findMyVinButton.setAttributedTitle(attributedString, forState: .Normal)
+                attributedString.append(buttonTitleString)
+                vinTableViewCell.findMyVinButton.setAttributedTitle(attributedString, for: UIControlState())
                 
-                vinTableViewCell.findMyVinButton.addTarget(self, action: #selector(EditVehicleViewController.findMyVinNumber), forControlEvents: .TouchUpInside)
+                vinTableViewCell.findMyVinButton.addTarget(self, action: #selector(EditVehicleViewController.findMyVinNumber), for: .touchUpInside)
                 
-                vinTableViewCell.vinTextField.autocorrectionType = .No
+                vinTableViewCell.vinTextField.autocorrectionType = .no
                 
                 if let vin = vinNumber {
                     vinTableViewCell.vinTextField.text = vin
@@ -240,20 +241,20 @@ class EditVehicleViewController: UIViewController, UIAlertController_UIAlertView
                     
                     vinNumber = vinTableViewCell.vinTextField.text
                 }
-                vinTableViewCell.vinTextField.userInteractionEnabled = false
+                vinTableViewCell.vinTextField.isUserInteractionEnabled = false
                 self.vinTextField = vinTableViewCell.vinTextField
                 cell = vinTableViewCell
                 
             case 4:
                 
-                let selectYearTableViewCell = tableView.dequeueReusableCellWithIdentifier("SelectYearTableViewCell", forIndexPath: indexPath) as! VehicleDetailSelectionTableViewCell
+                let selectYearTableViewCell = tableView.dequeueReusableCell(withIdentifier: "SelectYearTableViewCell", for: indexPath) as! VehicleDetailSelectionTableViewCell
                 
-                selectYearTableViewCell.selectYearButton.addTarget(self, action: #selector(EditVehicleViewController.selectDate), forControlEvents: .TouchUpInside)
+                selectYearTableViewCell.selectYearButton.addTarget(self, action: #selector(EditVehicleViewController.selectDate), for: .touchUpInside)
                 
                 if let purchasedYear = selectedYear {
-                    selectYearTableViewCell.selectYearButton.setTitle(String(purchasedYear), forState: .Normal)
+                    selectYearTableViewCell.selectYearButton.setTitle(String(purchasedYear), for: UIControlState())
                 } else {
-                    selectYearTableViewCell.selectYearButton.setTitle(String(vehiclePurchasedYear!), forState: .Normal)
+                    selectYearTableViewCell.selectYearButton.setTitle(String(vehiclePurchasedYear!), for: UIControlState())
                 }
                 
                 vehiclePurchasedYear = selectYearTableViewCell.selectYearButton.titleLabel?.text
@@ -262,14 +263,14 @@ class EditVehicleViewController: UIViewController, UIAlertController_UIAlertView
                 
             case 5:
                 
-                let selectMakeTableViewCell = tableView.dequeueReusableCellWithIdentifier("SelectMakeTableViewCell", forIndexPath: indexPath) as! VehicleDetailSelectionTableViewCell
+                let selectMakeTableViewCell = tableView.dequeueReusableCell(withIdentifier: "SelectMakeTableViewCell", for: indexPath) as! VehicleDetailSelectionTableViewCell
                 
-                selectMakeTableViewCell.selectVehicleMakeButton.addTarget(self, action: #selector(EditVehicleViewController.selectVehicleMake), forControlEvents: .TouchUpInside)
+                selectMakeTableViewCell.selectVehicleMakeButton.addTarget(self, action: #selector(EditVehicleViewController.selectVehicleMake), for: .touchUpInside)
                 
                 if let make = selectedVehicleMake {
-                    selectMakeTableViewCell.selectVehicleMakeButton.setTitle(String(make), forState: .Normal)
+                    selectMakeTableViewCell.selectVehicleMakeButton.setTitle(String(make), for: UIControlState())
                 } else {
-                    selectMakeTableViewCell.selectVehicleMakeButton.setTitle(String(vehicleMake!), forState: .Normal)
+                    selectMakeTableViewCell.selectVehicleMakeButton.setTitle(String(vehicleMake!), for: UIControlState())
                 }
                 
                 vehicleMake = selectMakeTableViewCell.selectVehicleMakeButton.titleLabel?.text
@@ -278,14 +279,14 @@ class EditVehicleViewController: UIViewController, UIAlertController_UIAlertView
                 
             case 6:
                 
-                let selectModelTableViewCell = tableView.dequeueReusableCellWithIdentifier("SelectModelTableViewCell", forIndexPath: indexPath) as! VehicleDetailSelectionTableViewCell
+                let selectModelTableViewCell = tableView.dequeueReusableCell(withIdentifier: "SelectModelTableViewCell", for: indexPath) as! VehicleDetailSelectionTableViewCell
                 
-                selectModelTableViewCell.selectVehicleModelButton.addTarget(self, action: #selector(EditVehicleViewController.selectVehicleModel), forControlEvents: .TouchUpInside)
+                selectModelTableViewCell.selectVehicleModelButton.addTarget(self, action: #selector(EditVehicleViewController.selectVehicleModel), for: .touchUpInside)
                 
                 if let model = selectedVehicleModel {
-                    selectModelTableViewCell.selectVehicleModelButton.setTitle(String(model), forState: .Normal)
+                    selectModelTableViewCell.selectVehicleModelButton.setTitle(String(model), for: UIControlState())
                 } else {
-                    selectModelTableViewCell.selectVehicleModelButton.setTitle(String(vehicleModel!), forState: .Normal)
+                    selectModelTableViewCell.selectVehicleModelButton.setTitle(String(vehicleModel!), for: UIControlState())
                 }
                 
                 vehicleModel = selectModelTableViewCell.selectVehicleModelButton.titleLabel?.text
@@ -294,11 +295,11 @@ class EditVehicleViewController: UIViewController, UIAlertController_UIAlertView
                 
             case 7:
                 
-                let milesDrivenTableViewCell = tableView.dequeueReusableCellWithIdentifier("MilesDrivenTableViewCell", forIndexPath: indexPath) as! VehicleDetailTableViewCell
+                let milesDrivenTableViewCell = tableView.dequeueReusableCell(withIdentifier: "MilesDrivenTableViewCell", for: indexPath) as! VehicleDetailTableViewCell
                 
                 self.milesDrivenTextField = milesDrivenTableViewCell.milesDrivenTextField
                 
-                guard let name = (self.milesDrivenTextField.text) where name != "" else {
+                guard let name = (self.milesDrivenTextField.text) , name != "" else {
                     
                     milesDrivenTableViewCell.milesDrivenTextField.text = milesDriven
                     cell = milesDrivenTableViewCell
@@ -310,59 +311,59 @@ class EditVehicleViewController: UIViewController, UIAlertController_UIAlertView
                 
             case 8:
                 
-                let tagExpirationTableViewCell = tableView.dequeueReusableCellWithIdentifier("tagExpirationDateCell", forIndexPath: indexPath) as! VehicleInsuranceDetailsTableViewCell
+                let tagExpirationTableViewCell = tableView.dequeueReusableCell(withIdentifier: "tagExpirationDateCell", for: indexPath) as! VehicleInsuranceDetailsTableViewCell
                 
                 tagExpirationTableViewCell.leftLabel.text = "Tag Expiration"
                 
                 if let date = selectedTagExpirationDate {
                     
-                    tagExpirationTableViewCell.insuranceExpirationDateButton.setTitle(String(date), forState: .Normal)
+                    tagExpirationTableViewCell.insuranceExpirationDateButton.setTitle(String(date), for: UIControlState())
                 }
                 if let tagExpireDate = tagExpirationDate {
                     
-                    tagExpirationTableViewCell.insuranceExpirationDateButton.setTitle(tagExpireDate, forState: .Normal)
+                    tagExpirationTableViewCell.insuranceExpirationDateButton.setTitle(tagExpireDate, for: UIControlState())
                 }
-                tagExpirationTableViewCell.insuranceExpirationDateButton.addTarget(self, action: #selector(EditVehicleViewController.selectTagExpirationDate), forControlEvents: .TouchUpInside)
+                tagExpirationTableViewCell.insuranceExpirationDateButton.addTarget(self, action: #selector(EditVehicleViewController.selectTagExpirationDate), for: .touchUpInside)
                 
                 cell = tagExpirationTableViewCell
                 
             case 9:
                 
-                let datePickerTableViewCell = tableView.dequeueReusableCellWithIdentifier("datePickerCell", forIndexPath: indexPath) as! DatePickerTableViewCell
+                let datePickerTableViewCell = tableView.dequeueReusableCell(withIdentifier: "datePickerCell", for: indexPath) as! DatePickerTableViewCell
                 
-                datePickerTableViewCell.doneButton.addTarget(self, action: #selector(EditVehicleViewController.tagPickerDoneButtonAction), forControlEvents: .TouchUpInside)
+                datePickerTableViewCell.doneButton.addTarget(self, action: #selector(EditVehicleViewController.tagPickerDoneButtonAction), for: .touchUpInside)
                 
                 cell = datePickerTableViewCell
                 
             case 10:
                 
-                let vehicleInsuranceDetailsTableViewCell: VehicleInsuranceDetailsTableViewCell = tableView.dequeueReusableCellWithIdentifier("InsuranceExpirationDateCell", forIndexPath: indexPath) as! VehicleInsuranceDetailsTableViewCell
+                let vehicleInsuranceDetailsTableViewCell: VehicleInsuranceDetailsTableViewCell = tableView.dequeueReusableCell(withIdentifier: "InsuranceExpirationDateCell", for: indexPath) as! VehicleInsuranceDetailsTableViewCell
                 
                 if let date = selectedInsuranceExpirationDate {
                     
-                    vehicleInsuranceDetailsTableViewCell.insuranceExpirationDateButton.setTitle(String(date), forState: .Normal)
+                    vehicleInsuranceDetailsTableViewCell.insuranceExpirationDateButton.setTitle(String(date), for: UIControlState())
                 }
                 
                 if let insuranceExpireDate = insuranceExpirationDate {
                     
-                    vehicleInsuranceDetailsTableViewCell.insuranceExpirationDateButton.setTitle(insuranceExpireDate, forState: .Normal)
+                    vehicleInsuranceDetailsTableViewCell.insuranceExpirationDateButton.setTitle(insuranceExpireDate, for: UIControlState())
                 }
                 
-                vehicleInsuranceDetailsTableViewCell.insuranceExpirationDateButton.addTarget(self, action: #selector(EditVehicleViewController.selectInsuranceExpirationDate), forControlEvents: .TouchUpInside)
+                vehicleInsuranceDetailsTableViewCell.insuranceExpirationDateButton.addTarget(self, action: #selector(EditVehicleViewController.selectInsuranceExpirationDate), for: .touchUpInside)
                 
                 cell = vehicleInsuranceDetailsTableViewCell
                 
             case 11:
                 
-                let insuranceDatePickerTableViewCell: DatePickerTableViewCell = tableView.dequeueReusableCellWithIdentifier("insuranceDatePickerCell", forIndexPath: indexPath) as! DatePickerTableViewCell
+                let insuranceDatePickerTableViewCell: DatePickerTableViewCell = tableView.dequeueReusableCell(withIdentifier: "insuranceDatePickerCell", for: indexPath) as! DatePickerTableViewCell
                 
-                insuranceDatePickerTableViewCell.doneButton.addTarget(self, action: #selector(EditVehicleViewController.insurancePickerDoneButtonAction), forControlEvents: .TouchUpInside)
+                insuranceDatePickerTableViewCell.doneButton.addTarget(self, action: #selector(EditVehicleViewController.insurancePickerDoneButtonAction), for: .touchUpInside)
                 cell = insuranceDatePickerTableViewCell
                 
             case 12:
                 
-                let insuranceCardTableViewCell: InsuranceCardTableViewCell = tableView.dequeueReusableCellWithIdentifier("InsuranceCardTableViewCell", forIndexPath: indexPath) as! InsuranceCardTableViewCell
-                insuranceCardTableViewCell.uploadInsuranceCardPictureButton.addTarget(self, action: #selector(EditVehicleViewController.uploadInsuranceCardPic), forControlEvents: .TouchUpInside)
+                let insuranceCardTableViewCell: InsuranceCardTableViewCell = tableView.dequeueReusableCell(withIdentifier: "InsuranceCardTableViewCell", for: indexPath) as! InsuranceCardTableViewCell
+                insuranceCardTableViewCell.uploadInsuranceCardPictureButton.addTarget(self, action: #selector(EditVehicleViewController.uploadInsuranceCardPic), for: .touchUpInside)
                 
                 insuranceCardTableViewCell.insuranceCardsCollectionView.reloadData()
                 
@@ -374,57 +375,57 @@ class EditVehicleViewController: UIViewController, UIAlertController_UIAlertView
             
         case 1:
             
-            cell = tableView.dequeueReusableCellWithIdentifier("CellIdentifier", forIndexPath: indexPath)
-            cell.selectionStyle = .None
+            cell = tableView.dequeueReusableCell(withIdentifier: "CellIdentifier", for: indexPath)
+            cell.selectionStyle = .none
             let dateLabel = UILabel(frame: CGRect(x: 21, y: 20, width: screenWidth/2, height: 21))
-            dateLabel.font = UIFont.regularFont().fontWithSize(17)
+            dateLabel.font = UIFont.regularFont().withSize(17)
             dateLabel.textColor = UIColor.SlateColor()
-            dateLabel.text = String(yearsArray[indexPath.row])
+            dateLabel.text = String(yearsArray[(indexPath as NSIndexPath).row])
             cell.addSubview(dateLabel)
             dateLabel.tag = -1
             
             let checkBoxButton = UIButton(frame: CGRect(x: screenWidth - 40, y: 18, width: 25, height: 25))
             checkBoxButton.backgroundColor = UIColor.uncheckButtonBackgroundColor()
             checkBoxButton.layer.cornerRadius = 0.5 * checkBoxButton.bounds.size.width
-            checkBoxButton.tag = indexPath.row
+            checkBoxButton.tag = (indexPath as NSIndexPath).row
             
-            checkBoxButton.addTarget(self, action: #selector(EditVehicleViewController.yearSelected(_:)), forControlEvents: .TouchUpInside)
+            checkBoxButton.addTarget(self, action: #selector(EditVehicleViewController.yearSelected(_:)), for: .touchUpInside)
             
             cell.addSubview(checkBoxButton)
             
         case 2:
             
-            cell = tableView.dequeueReusableCellWithIdentifier("CellIdentifier", forIndexPath: indexPath)
-            cell.selectionStyle = .None
+            cell = tableView.dequeueReusableCell(withIdentifier: "CellIdentifier", for: indexPath)
+            cell.selectionStyle = .none
             let vehicleMakeLabel = UILabel(frame: CGRect(x: 21, y: 20, width: screenWidth/2, height: 21))
-            vehicleMakeLabel.font = UIFont.regularFont().fontWithSize(17)
+            vehicleMakeLabel.font = UIFont.regularFont().withSize(17)
             vehicleMakeLabel.textColor = UIColor.SlateColor()
-            vehicleMakeLabel.text = String(vehicleMakeArray[indexPath.row])
+            vehicleMakeLabel.text = String(vehicleMakeArray[(indexPath as NSIndexPath).row])
             cell.addSubview(vehicleMakeLabel)
             
             let checkBoxButton = UIButton(frame: CGRect(x: screenWidth - 40, y: 18, width: 25, height: 25))
             checkBoxButton.backgroundColor = UIColor.uncheckButtonBackgroundColor()
             checkBoxButton.layer.cornerRadius = 0.5 * checkBoxButton.bounds.size.width
-            checkBoxButton.tag = indexPath.row
-            checkBoxButton.addTarget(self, action: #selector(EditVehicleViewController.vehicleMakeSelected(_:)), forControlEvents: .TouchUpInside)
+            checkBoxButton.tag = (indexPath as NSIndexPath).row
+            checkBoxButton.addTarget(self, action: #selector(EditVehicleViewController.vehicleMakeSelected(_:)), for: .touchUpInside)
             
             cell.addSubview(checkBoxButton)
             
         case 3:
             
-            cell = tableView.dequeueReusableCellWithIdentifier("CellIdentifier", forIndexPath: indexPath)
-            cell.selectionStyle = .None
+            cell = tableView.dequeueReusableCell(withIdentifier: "CellIdentifier", for: indexPath)
+            cell.selectionStyle = .none
             let vehicleModelLabel = UILabel(frame: CGRect(x: 21, y: 20, width: screenWidth/2, height: 21))
-            vehicleModelLabel.font = UIFont.regularFont().fontWithSize(17)
+            vehicleModelLabel.font = UIFont.regularFont().withSize(17)
             vehicleModelLabel.textColor = UIColor.SlateColor()
-            vehicleModelLabel.text = String(vehiclesModelArray[indexPath.row])
+            vehicleModelLabel.text = String(vehiclesModelArray[(indexPath as NSIndexPath).row])
             cell.addSubview(vehicleModelLabel)
             
             let checkBoxButton = UIButton(frame: CGRect(x: screenWidth - 40, y: 18, width: 25, height: 25))
             checkBoxButton.backgroundColor = UIColor.uncheckButtonBackgroundColor()
             checkBoxButton.layer.cornerRadius = 0.5 * checkBoxButton.bounds.size.width
-            checkBoxButton.tag = indexPath.row
-            checkBoxButton.addTarget(self, action: #selector(EditVehicleViewController.vehicleModelSelected(_:)), forControlEvents: .TouchUpInside)
+            checkBoxButton.tag = (indexPath as NSIndexPath).row
+            checkBoxButton.addTarget(self, action: #selector(EditVehicleViewController.vehicleModelSelected(_:)), for: .touchUpInside)
             
             cell.addSubview(checkBoxButton)
             
@@ -432,17 +433,17 @@ class EditVehicleViewController: UIViewController, UIAlertController_UIAlertView
             return cell
         }
         
-        tableView.separatorInset = UIEdgeInsetsZero
-        tableView.layoutMargins = UIEdgeInsetsZero
-        cell.layoutMargins = UIEdgeInsetsZero
+        tableView.separatorInset = UIEdgeInsets.zero
+        tableView.layoutMargins = UIEdgeInsets.zero
+        cell.layoutMargins = UIEdgeInsets.zero
         
         return cell
     }
     
-    func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         
         if tableView.tag == 0 {
-            switch indexPath.row {
+            switch (indexPath as NSIndexPath).row {
             case 0: return 200
             case 9: return isTagExpirationDatePickerSelected == true ? 290 : 0
             case 11: return isInsuranceExpirationDatePickerSelected == true ? 290 : 0
@@ -453,52 +454,52 @@ class EditVehicleViewController: UIViewController, UIAlertController_UIAlertView
         return 60
     }
     
-    func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         
         return tableView.tag == 0 ? 0 : 60
     }
     
-    func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         
         let titleLabel = UILabel(frame: CGRect(x: 0, y: 0, width: screenHeight, height: 60))
         prepareModalViewTitleLabel(titleLabel)
         
         switch tableView.tag {
             
-        case 0: return UIView(frame: CGRectZero)
+        case 0: return UIView(frame: CGRect.zero)
         case 1: titleLabel.text = "Select Year"
         return titleLabel
         case 2: titleLabel.text = "Select Make"
         return titleLabel
         case 3: titleLabel.text = "Select Model"
         return titleLabel
-        default: return UIView(frame: CGRectZero)
+        default: return UIView(frame: CGRect.zero)
         }
     }
     
-    func prepareModalViewTitleLabel(titleLabel: UILabel) {
+    func prepareModalViewTitleLabel(_ titleLabel: UILabel) {
         
-        titleLabel.textAlignment   = .Center
-        titleLabel.font            = UIFont.boldFont().fontWithSize(17)
+        titleLabel.textAlignment   = .center
+        titleLabel.font            = UIFont.boldFont().withSize(17)
         titleLabel.textColor       = UIColor.SlateColor()
-        titleLabel.backgroundColor = UIColor.whiteColor()
+        titleLabel.backgroundColor = UIColor.white
     }
     
     //MARK:- COLLECTION VIEW METHODS
     
-    func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         
         return insuranceCardImagesArray.count
     }
     
-    func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
-        let insuranceCardsCollectionViewCell: InsuranceCardsCollectionViewCell = collectionView.dequeueReusableCellWithReuseIdentifier("InsuranceCardsCollectionViewCell", forIndexPath: indexPath) as! InsuranceCardsCollectionViewCell
+        let insuranceCardsCollectionViewCell: InsuranceCardsCollectionViewCell = collectionView.dequeueReusableCell(withReuseIdentifier: "InsuranceCardsCollectionViewCell", for: indexPath) as! InsuranceCardsCollectionViewCell
         
-        insuranceCardsCollectionViewCell.insuranceCardsImageView.tag = indexPath.row
-        insuranceCardsCollectionViewCell.removeCardButton.tag = indexPath.row
+        insuranceCardsCollectionViewCell.insuranceCardsImageView.tag = (indexPath as NSIndexPath).row
+        insuranceCardsCollectionViewCell.removeCardButton.tag = (indexPath as NSIndexPath).row
         
-        insuranceCardsCollectionViewCell.insuranceCardsImageView.image = insuranceCardImagesArray[indexPath.row]
+        insuranceCardsCollectionViewCell.insuranceCardsImageView.image = insuranceCardImagesArray[(indexPath as NSIndexPath).row]
         
         return insuranceCardsCollectionViewCell
     }
@@ -511,10 +512,10 @@ class EditVehicleViewController: UIViewController, UIAlertController_UIAlertView
         
         if tagExpirationDate == nil || tagExpirationDate == "Select Date" || tagExpirationDate?.characters.count == 0 {
             
-            let date = NSDate()
-            let dateFormatter = NSDateFormatter()
+            let date = Date()
+            let dateFormatter = DateFormatter()
             dateFormatter.dateFormat = "MMM dd, yyyy"
-            let dateString = dateFormatter.stringFromDate(date)
+            let dateString = dateFormatter.string(from: date)
             tagExpirationDate = dateString
         }
         addVehicleTableView.reloadData()
@@ -526,10 +527,10 @@ class EditVehicleViewController: UIViewController, UIAlertController_UIAlertView
         
         if insuranceExpirationDate == nil || insuranceExpirationDate == "Select Date" || insuranceExpirationDate?.characters.count == 0 {
             
-            let date = NSDate()
-            let dateFormatter = NSDateFormatter()
+            let date = Date()
+            let dateFormatter = DateFormatter()
             dateFormatter.dateFormat = "MMM dd, yyyy"
-            let dateString = dateFormatter.stringFromDate(date)
+            let dateString = dateFormatter.string(from: date)
             insuranceExpirationDate = dateString
         }
         addVehicleTableView.reloadData()
@@ -539,14 +540,14 @@ class EditVehicleViewController: UIViewController, UIAlertController_UIAlertView
         
         isTagExpirationDatePickerSelected = true
         addVehicleTableView.reloadData()
-        self.addVehicleTableView.scrollToRowAtIndexPath(NSIndexPath(forRow: 9, inSection: 0), atScrollPosition: .Bottom, animated: true)
+        self.addVehicleTableView.scrollToRow(at: IndexPath(row: 9, section: 0), at: .bottom, animated: true)
     }
     
     func selectInsuranceExpirationDate() {
         
         isInsuranceExpirationDatePickerSelected = true
         addVehicleTableView.reloadData()
-        self.addVehicleTableView.scrollToRowAtIndexPath(NSIndexPath(forRow: 11, inSection: 0), atScrollPosition: .Bottom, animated: true)
+        self.addVehicleTableView.scrollToRow(at: IndexPath(row: 11, section: 0), at: .bottom, animated: true)
     }
     
     func newVehicleTypeSelected() {
@@ -570,11 +571,11 @@ class EditVehicleViewController: UIViewController, UIAlertController_UIAlertView
         addVehicleTableView.reloadData()
     }
     
-    func selectedButtonProperties(sender: UIButton) {
+    func selectedButtonProperties(_ sender: UIButton) {
         
         sender.backgroundColor  = UIColor.vehicleTypeSelectedButtonBackgroundColor()
         sender.tintColor        = UIColor.SlateColor()
-        sender.titleLabel?.font = UIFont.boldFont().fontWithSize(17)
+        sender.titleLabel?.font = UIFont.boldFont().withSize(17)
         
         if sender.tag == 0 {
             selectedVehicleType     = "New"
@@ -589,51 +590,51 @@ class EditVehicleViewController: UIViewController, UIAlertController_UIAlertView
         }
     }
     
-    func deselectOtherButtons(button1: UIButton, button2: UIButton) {
+    func deselectOtherButtons(_ button1: UIButton, button2: UIButton) {
         
-        button1.selected         = false
-        button2.selected         = false
-        button1.backgroundColor  = UIColor.whiteColor()
-        button2.backgroundColor  = UIColor.whiteColor()
-        button1.titleLabel?.font = UIFont.regularFont().fontWithSize(17)
-        button2.titleLabel?.font = UIFont.regularFont().fontWithSize(17)
+        button1.isSelected         = false
+        button2.isSelected         = false
+        button1.backgroundColor  = UIColor.white
+        button2.backgroundColor  = UIColor.white
+        button1.titleLabel?.font = UIFont.regularFont().withSize(17)
+        button2.titleLabel?.font = UIFont.regularFont().withSize(17)
     }
     
     func findMyVinNumber() {
         
-        let findMyVinViewController: FindMyVinViewController = self.storyboard?.instantiateViewControllerWithIdentifier("FindMyVinView") as! FindMyVinViewController
-        self.presentViewController(findMyVinViewController, animated: true, completion: nil)
+        let findMyVinViewController: FindMyVinViewController = self.storyboard?.instantiateViewController(withIdentifier: "FindMyVinView") as! FindMyVinViewController
+        self.present(findMyVinViewController, animated: true, completion: nil)
     }
     
-    func yearSelected(sender: UIButton) {
+    func yearSelected(_ sender: UIButton) {
         
         selectedYear = yearsArray[sender.tag]
         dismissModalAfterSelection(sender)
     }
     
-    func vehicleMakeSelected(sender: UIButton) {
+    func vehicleMakeSelected(_ sender: UIButton) {
         
         selectedVehicleMake = vehicleMakeArray[sender.tag]
         dismissModalAfterSelection(sender)
     }
     
-    func vehicleModelSelected(sender: UIButton) {
+    func vehicleModelSelected(_ sender: UIButton) {
         
         selectedVehicleModel = vehiclesModelArray[sender.tag]
         dismissModalAfterSelection(sender)
     }
     
-    func dismissModalAfterSelection(sender: UIButton) {
+    func dismissModalAfterSelection(_ sender: UIButton) {
         
-        sender.setImage(UIImage(named: "checkbox.png"), forState: .Normal)
-        sender.backgroundColor = UIColor.whiteColor()
+        sender.setImage(UIImage(named: "checkbox.png"), for: UIControlState())
+        sender.backgroundColor = UIColor.white
         addVehicleTableView.reloadData()
-        self.semiModalViewController.dismissViewControllerAnimated(true, completion: nil)
+        self.semiModalViewController.dismiss(animated: true, completion: nil)
     }
     
     //MARK:- UPLOAD IMAGE METHODS
     
-    func imagePickerController(picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : AnyObject]) {
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
         
         if isInsuranceCardSelected == false {
             //        if vehicleImagesArray.count == 5  || vehicleImagesArray.count > 5 {
@@ -643,7 +644,7 @@ class EditVehicleViewController: UIViewController, UIAlertController_UIAlertView
             //            return
             //        }
             
-            picker.dismissViewControllerAnimated(true, completion: nil)
+            picker.dismiss(animated: true, completion: nil)
             let image: UIImage = (info[UIImagePickerControllerOriginalImage] as? UIImage)!
             imageView.image = image
             
@@ -654,7 +655,7 @@ class EditVehicleViewController: UIViewController, UIAlertController_UIAlertView
             
         } else {
             
-            picker.dismissViewControllerAnimated(true, completion: nil)
+            picker.dismiss(animated: true, completion: nil)
             let image: UIImage = (info[UIImagePickerControllerOriginalImage] as? UIImage)!
             insuranceCardImagesArray.append(image)
             
@@ -663,10 +664,10 @@ class EditVehicleViewController: UIViewController, UIAlertController_UIAlertView
         }
     }
     
-    func imagePickerControllerDidCancel(picker: UIImagePickerController) {
+    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
         
         isInsuranceCardSelected = false
-        dismissViewControllerAnimated(true, completion: nil)
+        dismiss(animated: true, completion: nil)
     }
     
     func uploadVehiclePic() {
@@ -677,21 +678,21 @@ class EditVehicleViewController: UIViewController, UIAlertController_UIAlertView
         //            return
         //        }
         
-        let alert:UIAlertController=UIAlertController(title: nil, message: nil, preferredStyle: UIAlertControllerStyle.ActionSheet)
+        let alert:UIAlertController=UIAlertController(title: nil, message: nil, preferredStyle: UIAlertControllerStyle.actionSheet)
         
-        let cameraAction = UIAlertAction(title: "Take a Photo", style: UIAlertActionStyle.Default) {
+        let cameraAction = UIAlertAction(title: "Take a Photo", style: UIAlertActionStyle.default) {
             
             UIAlertAction in
             self.openCamera()
         }
         
-        let gallaryAction = UIAlertAction(title: "Choose from Camera Roll", style: UIAlertActionStyle.Default) {
+        let gallaryAction = UIAlertAction(title: "Choose from Camera Roll", style: UIAlertActionStyle.default) {
             
             UIAlertAction in
             self.openGallery()
         }
         
-        let cancelAction = UIAlertAction(title: "Cancel", style: UIAlertActionStyle.Cancel) {
+        let cancelAction = UIAlertAction(title: "Cancel", style: UIAlertActionStyle.cancel) {
             
             UIAlertAction in
         }
@@ -701,44 +702,44 @@ class EditVehicleViewController: UIViewController, UIAlertController_UIAlertView
         alert.addAction(gallaryAction)
         alert.addAction(cancelAction)
         alert.view.tintColor = UIColor.SlateColor()
-        self.presentViewController(alert, animated: true, completion: nil)
+        self.present(alert, animated: true, completion: nil)
         
         let imagePickerController = UIImagePickerController()
         imagePickerController.delegate = self
         
         imagePickerController.allowsEditing = false
-        imagePickerController.sourceType = .PhotoLibrary
+        imagePickerController.sourceType = .photoLibrary
         
-        presentViewController(imagePickerController, animated: true, completion: nil)
+        present(imagePickerController, animated: true, completion: nil)
     }
     
     func openCamera() {
         
-        if(UIImagePickerController .isSourceTypeAvailable(UIImagePickerControllerSourceType.Camera)) {
+        if(UIImagePickerController .isSourceTypeAvailable(UIImagePickerControllerSourceType.camera)) {
             
-            imagePicker.sourceType = UIImagePickerControllerSourceType.Camera
-            self .presentViewController(imagePicker, animated: true, completion: nil)
+            imagePicker.sourceType = UIImagePickerControllerSourceType.camera
+            self .present(imagePicker, animated: true, completion: nil)
         }
     }
     
     func uploadInsuranceCardPic() {
         
         isInsuranceCardSelected = true
-        let alert:UIAlertController=UIAlertController(title: nil, message: nil, preferredStyle: UIAlertControllerStyle.ActionSheet)
+        let alert:UIAlertController=UIAlertController(title: nil, message: nil, preferredStyle: UIAlertControllerStyle.actionSheet)
         
-        let cameraAction = UIAlertAction(title: "Take a Photo", style: UIAlertActionStyle.Default) {
+        let cameraAction = UIAlertAction(title: "Take a Photo", style: UIAlertActionStyle.default) {
             
             UIAlertAction in
             self.openCamera()
         }
         
-        let gallaryAction = UIAlertAction(title: "Choose from Camera Roll", style: UIAlertActionStyle.Default) {
+        let gallaryAction = UIAlertAction(title: "Choose from Camera Roll", style: UIAlertActionStyle.default) {
             
             UIAlertAction in
             self.openGallery()
         }
         
-        let cancelAction = UIAlertAction(title: "Cancel", style: UIAlertActionStyle.Cancel) {
+        let cancelAction = UIAlertAction(title: "Cancel", style: UIAlertActionStyle.cancel) {
             
             UIAlertAction in
         }
@@ -748,15 +749,15 @@ class EditVehicleViewController: UIViewController, UIAlertController_UIAlertView
         alert.addAction(gallaryAction)
         alert.addAction(cancelAction)
         alert.view.tintColor = UIColor.SlateColor()
-        self.presentViewController(alert, animated: true, completion: nil)
+        self.present(alert, animated: true, completion: nil)
         
         let imagePickerController = UIImagePickerController()
         imagePickerController.delegate = self
         
         imagePickerController.allowsEditing = false
-        imagePickerController.sourceType = .PhotoLibrary
+        imagePickerController.sourceType = .photoLibrary
         
-        presentViewController(imagePickerController, animated: true, completion: nil)
+        present(imagePickerController, animated: true, completion: nil)
     }
     
     //MARK:- Image Picker
@@ -764,12 +765,12 @@ class EditVehicleViewController: UIViewController, UIAlertController_UIAlertView
     func openGallery() {
         
         var imagesArray = [UIImage]()
-        let imagePicker = BRImagePicker(presentingController: self)
+        let imagePicker = BRImagePicker(presenting: self)
         
-        imagePicker.showPickerWithDataBlock({(data: [AnyObject]!) -> Void in
+        imagePicker?.show(dataBlock: {(data: [Any]?) -> Void in
            
-            for index in 0...data.count - 1 {
-                imagesArray.append(data[index].image)
+            for index in 0...(data?.count)! - 1 {
+                imagesArray.append((data![index] as AnyObject).image)
             }
             
             var base64ImagesArray = [String]()
@@ -777,59 +778,59 @@ class EditVehicleViewController: UIViewController, UIAlertController_UIAlertView
             for index in 0...(imagesArray.count - 1) {
                 
                 let eachImage: UIImage = imagesArray[index]
-                let eachImageData = NSData(data: UIImagePNGRepresentation(eachImage)!)
-                let base64ImageString: String = eachImageData.base64EncodedStringWithOptions(NSDataBase64EncodingOptions(rawValue: 0))
+                let eachImageData = NSData(data: UIImagePNGRepresentation(eachImage)!) as NSData
+                let base64ImageString: String = eachImageData.base64EncodedString(options: NSData.Base64EncodingOptions(rawValue: 0))
                 base64ImagesArray.append(base64ImageString)
             }
-            self.editedVehicleImagesBase64String = base64ImagesArray.joinWithSeparator(",")
+            self.editedVehicleImagesBase64String = base64ImagesArray.joined(separator: ",")
         })
     }
     
     //MARK:- UIBUTTON METHODS
     
-    @IBAction func deleteVehicleButtonTapped(sender: UIButton) {
+    @IBAction func deleteVehicleButtonTapped(_ sender: UIButton) {
         
-        let alertController = UIAlertController(title: "Delete", message: "Are you sure you want to delete this vehicle?", preferredStyle: .Alert)
+        let alertController = UIAlertController(title: "Delete", message: "Are you sure you want to delete this vehicle?", preferredStyle: .alert)
         
-        let defaultAction = UIAlertAction(title: "YES", style: .Default, handler: { (action: UIAlertAction!) in
+        let defaultAction = UIAlertAction(title: "YES", style: .default, handler: { (action: UIAlertAction!) in
             
             self.callDeleteVehicleAPI()
         })
         alertController.addAction(defaultAction)
         
-        let otherAction = UIAlertAction(title: "NO", style: .Default, handler: { (action: UIAlertAction!) in
+        let otherAction = UIAlertAction(title: "NO", style: .default, handler: { (action: UIAlertAction!) in
         })
         alertController.addAction(otherAction)
         
-        dispatch_async(dispatch_get_main_queue(), {
-            self.presentViewController(alertController, animated: true, completion: nil)
+        DispatchQueue.main.async(execute: {
+            self.present(alertController, animated: true, completion: nil)
         })
     }
     
-    @IBAction func doneButtonTapped(sender: AnyObject) {
+    @IBAction func doneButtonTapped(_ sender: AnyObject) {
         
         self.validateFields()
         self.callEditVehiclesAPI()
     }
     
-    @IBAction func removeCard(sender: UIButton) {
+    @IBAction func removeCard(_ sender: UIButton) {
         
-        let alertController = UIAlertController(title: "Delete Card", message: "Are you sure you want to delete this card?", preferredStyle: .Alert)
+        let alertController = UIAlertController(title: "Delete Card", message: "Are you sure you want to delete this card?", preferredStyle: .alert)
         
-        let okAction = UIAlertAction(title: "YES", style: UIAlertActionStyle.Default) {
+        let okAction = UIAlertAction(title: "YES", style: UIAlertActionStyle.default) {
             UIAlertAction in
-            self.insuranceCardImagesArray.removeAtIndex(sender.tag)
+            self.insuranceCardImagesArray.remove(at: sender.tag)
             self.addVehicleTableView.reloadData()
         }
         
-        let cancelAction = UIAlertAction(title: "NO", style: UIAlertActionStyle.Cancel) {
+        let cancelAction = UIAlertAction(title: "NO", style: UIAlertActionStyle.cancel) {
             UIAlertAction in
         }
         
         alertController.addAction(okAction)
         alertController.addAction(cancelAction)
         
-        self.presentViewController(alertController, animated: true, completion: nil)
+        self.present(alertController, animated: true, completion: nil)
     }
     
     func validateFields() {
@@ -878,14 +879,14 @@ class EditVehicleViewController: UIViewController, UIAlertController_UIAlertView
         
         semiModalViewController.view.frame = CGRect(x: 0, y: screenWidth - 150, width: screenWidth , height: screenHeight - 150)
         
-        semiModalViewController.backgroundShadeColor = UIColor.blackColor()
+        semiModalViewController.backgroundShadeColor = UIColor.black
         semiModalViewController.animationSpeed       = 0.35
-        semiModalViewController.tapDismissEnabled    = true
+        semiModalViewController.isTapDismissEnabled    = true
         semiModalViewController.backgroundShadeAlpha = 0.4
-        semiModalViewController.scaleTransform       = CGAffineTransformMakeScale(1, 1)
+        semiModalViewController.scaleTransform       = CGAffineTransform(scaleX: 1, y: 1)
     }
     
-    func setTableViewPropertiesForModalView(tagValue: Int, tableView: UITableView) {
+    func setTableViewPropertiesForModalView(_ tagValue: Int, tableView: UITableView) {
         
         tableView.tag   = tagValue
         tableView.frame = CGRect(x: 0, y: 0, width: screenWidth , height: screenHeight - 150)
@@ -893,29 +894,29 @@ class EditVehicleViewController: UIViewController, UIAlertController_UIAlertView
         tableView.delegate   = self
         tableView.dataSource = self
         
-        tableView.registerClass(UITableViewCell.self, forCellReuseIdentifier: "CellIdentifier")
+        tableView.register(UITableViewCell.self, forCellReuseIdentifier: "CellIdentifier")
         semiModalViewController.view.addSubview(tableView)
-        self.presentViewController(semiModalViewController, animated: true, completion: { _ in })
+        self.present(semiModalViewController, animated: true, completion: { _ in })
     }
     
-    @IBAction func datePickerChanged(datePicker: UIDatePicker) {
+    @IBAction func datePickerChanged(_ datePicker: UIDatePicker) {
         
-        let date                 = NSDate()
+        let date                 = Date()
         datePicker.minimumDate   = date
-        let dateFormatter        = NSDateFormatter()
+        let dateFormatter        = DateFormatter()
         dateFormatter.dateFormat = "MMM dd, yyyy"
-        let dateString           = dateFormatter.stringFromDate(datePicker.date)
+        let dateString           = dateFormatter.string(from: datePicker.date)
         tagExpirationDate        = dateString
         addVehicleTableView.reloadData()
     }
     
-    @IBAction func insuranceDatePickerChanged(datePicker: UIDatePicker) {
+    @IBAction func insuranceDatePickerChanged(_ datePicker: UIDatePicker) {
         
-        let date                 = NSDate()
+        let date                 = Date()
         datePicker.minimumDate   = date
-        let dateFormatter        = NSDateFormatter()
+        let dateFormatter        = DateFormatter()
         dateFormatter.dateFormat = "MMM dd, yyyy"
-        let dateString           = dateFormatter.stringFromDate(datePicker.date)
+        let dateString           = dateFormatter.string(from: datePicker.date)
         insuranceExpirationDate  = dateString
         addVehicleTableView.reloadData()
     }
@@ -950,7 +951,7 @@ class EditVehicleViewController: UIViewController, UIAlertController_UIAlertView
             let insuExpirationDate = vehicleDetailsArray[6]
             let tagExpiryDate = vehicleDetailsArray[7]
             
-            let paramsDict: [String : AnyObject] = ["vid": vehicleId,
+            let paramsDict: [String : String] = ["vid": vehicleId,
                                                     "name": name,
                                                     "uid": userId,
                                                     "dealer_id": dealerId,
@@ -980,19 +981,19 @@ class EditVehicleViewController: UIViewController, UIAlertController_UIAlertView
             
             print(NSString(format: "Request: %@", paramsDict))
             
-            Alamofire.request(.POST, Constant.API.kBaseUrlPath+"vehicle/update", parameters: paramsDict)
-                .responseJSON { response in
+            Alamofire.request(Constant.API.kBaseUrlPath+"vehicle/update", method: .post, parameters: nil, encoding: JSONEncoding.default).responseJSON
+                { response in
                     loading.hide ()
                     if let JSON = response.result.value {
                         
                         print(NSString(format: "Response: %@", JSON as! NSDictionary))
-                        let status = JSON.valueForKey("status") as! String
+                        let status = (JSON as AnyObject).value(forKey: "status") as! String
                         if status == "True"  {
                             do {
-                                let dict: EditVehicles = try EditVehicles(dictionary: JSON as! [NSObject : AnyObject])
+                                let dict: EditVehicles = try EditVehicles(dictionary: JSON as! [AnyHashable: Any])
                                 
                                 print(dict)
-                                let message = JSON.valueForKey("message") as! String
+                                let message = (JSON as AnyObject).value(forKey: "message") as! String
                                 self.showUpdateVehicleSuccessAlert(message)
                                 
                             }
@@ -1001,8 +1002,8 @@ class EditVehicleViewController: UIViewController, UIAlertController_UIAlertView
                             }
                         }
                         else {
-                            let errorMsg = JSON.valueForKey("message") as! String
-                            self.showAlertwithCancelButton("Error", message: errorMsg, cancelButton: "OK")
+                            let errorMsg = (JSON as AnyObject).value(forKey: "message") as! String
+                            self.showAlertwithCancelButton("Error", message: errorMsg as NSString, cancelButton: "OK")
                         }
                     }
             }
@@ -1014,16 +1015,16 @@ class EditVehicleViewController: UIViewController, UIAlertController_UIAlertView
     func addTracker() {
         
         let tracker = GAI.sharedInstance().defaultTracker
-        let trackDictionary = GAIDictionaryBuilder.createEventWithCategory("API", action: "Edit Vehicle API Called", label: "Edit Vehicle", value: nil).build()
-        tracker.send(trackDictionary as AnyObject as! [NSObject : AnyObject])
+        let trackDictionary = GAIDictionaryBuilder.createEvent(withCategory: "API", action: "Edit Vehicle API Called", label: "Edit Vehicle", value: nil).build()
+        tracker?.send(trackDictionary as AnyObject as! [AnyHashable: Any])
     }
     
     func parseIdValues() -> [String] {
         
-        let userId: String = NSUserDefaults.standardUserDefaults().objectForKey("UserId") as! String
-        let vin: String = self.vehiclesDetailsDictionary?.valueForKey("vin") as! String
-        let vehicleId: String = (self.vehiclesDetailsDictionary?.valueForKey("id"))! as! String
-        let dealerId: String = (self.vehiclesDetailsDictionary?.valueForKey("dealer_id"))! as! String
+        let userId: String = UserDefaults.standard.object(forKey: "UserId") as! String
+        let vin: String = self.vehiclesDetailsDictionary?.value(forKey: "vin") as! String
+        let vehicleId: String = (self.vehiclesDetailsDictionary?.value(forKey: "id"))! as! String
+        let dealerId: String = (self.vehiclesDetailsDictionary?.value(forKey: "dealer_id"))! as! String
         
         return [userId, vin, vehicleId, dealerId]
     }
@@ -1039,7 +1040,7 @@ class EditVehicleViewController: UIViewController, UIAlertController_UIAlertView
         let insuExpirationDate = insuranceExpirationDate != nil ? (insuranceExpirationDate!.convertStringToDate()) : (selectedInsuranceExpirationDate?.convertStringToDate())
         let tagExpiryDate = tagExpirationDate != nil ? (tagExpirationDate!.convertStringToDate()) : (selectedTagExpirationDate?.convertStringToDate())
         
-        return [name, type, miles!, year!, make!, model!, insuExpirationDate!, tagExpiryDate!]
+        return [name, type!, miles!, year!, make!, model!, insuExpirationDate!, tagExpiryDate!]
     }
     
     func createVehicleImageBase64String() -> String {
@@ -1047,12 +1048,12 @@ class EditVehicleViewController: UIViewController, UIAlertController_UIAlertView
         var base64VehicleImagesArray = [String]()
         for index in 0...(vehicleImagesArray.count - 1) {
             
-            let imagePath = vehicleImagesArray[index].valueForKey("image_url")
-            let imageData:NSData = imagePath!.dataUsingEncoding(NSUTF8StringEncoding)!
-            let imageStringBase64:String = imageData.base64EncodedStringWithOptions(.Encoding64CharacterLineLength)
+            let imagePath = vehicleImagesArray[index].value(forKey: "image_url")
+            let imageData:Foundation.Data = (imagePath! as! String).data(using: String.Encoding.utf8)!
+            let imageStringBase64:String = imageData.base64EncodedString(options: .lineLength64Characters)
             base64VehicleImagesArray.append(imageStringBase64)
         }
-        oldVehicleImageBase64String = base64VehicleImagesArray.joinWithSeparator(",")
+        oldVehicleImageBase64String = base64VehicleImagesArray.joined(separator: ",")
         
         if editedVehicleImagesBase64String == nil {
             editedVehicleImagesBase64String = ""
@@ -1082,19 +1083,19 @@ class EditVehicleViewController: UIViewController, UIAlertController_UIAlertView
         //            let insuranceCardImagesBase64String = base64InsurancecardsArray.joinWithSeparator(",")
     }
     
-    func showUpdateVehicleSuccessAlert(message: String) {
+    func showUpdateVehicleSuccessAlert(_ message: String) {
         
-        let alertController = UIAlertController(title: "Success", message: message, preferredStyle: .Alert)
+        let alertController = UIAlertController(title: "Success", message: message, preferredStyle: .alert)
         
-        let defaultAction = UIAlertAction(title: "OK", style: .Default, handler: { (action: UIAlertAction!) in
+        let defaultAction = UIAlertAction(title: "OK", style: .default, handler: { (action: UIAlertAction!) in
             
-            self.navigationController?.popToRootViewControllerAnimated(true)
+            self.navigationController?.popToRootViewController(animated: true)
         })
         
         alertController.addAction(defaultAction)
         
-        dispatch_async(dispatch_get_main_queue(), {
-            self.presentViewController(alertController, animated: true, completion: nil)
+        DispatchQueue.main.async(execute: {
+            self.present(alertController, animated: true, completion: nil)
         })
     }
     
@@ -1108,26 +1109,26 @@ class EditVehicleViewController: UIViewController, UIAlertController_UIAlertView
             let loading = UIActivityIndicatorView_ActivityClass(text: "Loading")
             self.view.addSubview(loading)
             
-            let vehicleId: String = (vehiclesDetailsDictionary?.valueForKey("id"))! as! String
-            let userId: String = NSUserDefaults.standardUserDefaults().objectForKey("UserId") as! String
-            let paramsDict: [ String : AnyObject] = ["vid": vehicleId,"uid": userId] as Dictionary
+            let vehicleId: String = (vehiclesDetailsDictionary?.value(forKey: "id"))! as! String
+            let userId: String = UserDefaults.standard.object(forKey: "UserId") as! String
+            let paramsDict: [ String : String] = ["vid": vehicleId,"uid": userId] as Dictionary
             print(NSString(format: "Request: %@", paramsDict))
             
-            Alamofire.request(.POST, Constant.API.kBaseUrlPath+"vehicle/delete", parameters: paramsDict)
-                .responseJSON { response in
+            Alamofire.request(Constant.API.kBaseUrlPath+"vehicle/delete", method: .post, parameters: nil, encoding: JSONEncoding.default).responseJSON
+                { response in
                     loading.hide()
                     if let JSON = response.result.value {
                         
                         print(NSString(format: "Response: %@", JSON as! NSDictionary))
-                        let status = JSON.valueForKey("status") as! String
+                        let status = (JSON as AnyObject).value(forKey: "status") as! String
                         if status == "True"  {
                             
-                            let responseMessage = JSON.valueForKey("message") as! String
+                            let responseMessage = (JSON as AnyObject).value(forKey: "message") as! String
                             self.showDeleteVehicleSuccessAlert(responseMessage)
                         }
                         else {
-                            let errorMsg = JSON.valueForKey("message") as! String
-                            self.showAlertwithCancelButton("Error", message: errorMsg, cancelButton: "OK")
+                            let errorMsg = (JSON as AnyObject).value(forKey: "message") as! String
+                            self.showAlertwithCancelButton("Error", message: errorMsg as NSString, cancelButton: "OK")
                         }
                     }
             }
@@ -1136,26 +1137,26 @@ class EditVehicleViewController: UIViewController, UIAlertController_UIAlertView
         }
     }
     
-    func showDeleteVehicleSuccessAlert(message: String) {
+    func showDeleteVehicleSuccessAlert(_ message: String) {
         
-        let alertController = UIAlertController(title: "Success", message: message, preferredStyle: .Alert)
+        let alertController = UIAlertController(title: "Success", message: message, preferredStyle: .alert)
         
-        let defaultAction = UIAlertAction(title: "OK", style: .Default, handler: { (action: UIAlertAction!) in
+        let defaultAction = UIAlertAction(title: "OK", style: .default, handler: { (action: UIAlertAction!) in
             
-            self.navigationController?.popToRootViewControllerAnimated(true)
+            self.navigationController?.popToRootViewController(animated: true)
         })
         
         alertController.addAction(defaultAction)
         
-        dispatch_async(dispatch_get_main_queue(), {
-            self.presentViewController(alertController, animated: true, completion: nil)
+        DispatchQueue.main.async(execute: {
+            self.present(alertController, animated: true, completion: nil)
         })
     }
     
     func showInternetFailureAlert() {
         
         print("Internet connection FAILED")
-        let vc : AnyObject! = self.storyboard!.instantiateViewControllerWithIdentifier("NoInternetConnection")
-        self.presentViewController(vc as! UIViewController, animated: true, completion: nil)
+        let vc : AnyObject! = self.storyboard!.instantiateViewController(withIdentifier: "NoInternetConnection")
+        self.present(vc as! UIViewController, animated: true, completion: nil)
     }
 }

@@ -21,8 +21,8 @@ class FindMyVinViewController: GAITrackedViewController {
         // Dispose of any resources that can be recreated.
     }
     
-    @IBAction func DismissViewController(sender: AnyObject) {
-        self.dismissViewControllerAnimated(true, completion: nil)
+    @IBAction func DismissViewController(_ sender: AnyObject) {
+        self.dismiss(animated: true, completion: nil)
     }
 
     /*

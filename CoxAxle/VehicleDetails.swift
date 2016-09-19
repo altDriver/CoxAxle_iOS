@@ -35,7 +35,7 @@ class VehicleDetailsResponse: JSONModel {
     var insurance_document: String!
 
 
-    func propertyIsOptional(propertyName: String) -> Bool {
+    func propertyIsOptional(_ propertyName: String) -> Bool {
         return true
     }
 }
@@ -45,7 +45,7 @@ class VehicleDetails: JSONModel {
     var response: VehicleDetailsResponse?
 
 
-    func propertyIsOptional(propertyName: String) -> Bool {
+    func propertyIsOptional(_ propertyName: String) -> Bool {
         return true
     }
 }

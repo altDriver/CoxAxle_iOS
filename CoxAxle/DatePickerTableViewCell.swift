@@ -19,14 +19,14 @@ class DatePickerTableViewCell: UITableViewCell {
         
         if  let datePicker = insuranceDatePicker {
             
-            datePicker.datePickerMode = UIDatePickerMode.Date
-            let dateFormatter = NSDateFormatter()
+            datePicker.datePickerMode = UIDatePickerMode.date
+            let dateFormatter = DateFormatter()
             dateFormatter.dateFormat = "MMM dd yyyy"
         }
         
     }
 
-    override func setSelected(selected: Bool, animated: Bool) {
+    override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
 
         // Configure the view for the selected state

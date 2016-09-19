@@ -23,7 +23,7 @@ public extension UIDevice {
         if DEVICE_IS_SIMULATOR == true
         {
             
-            if let dir = NSProcessInfo().environment["SIMULATOR_MODEL_IDENTIFIER"] {
+            if let dir = ProcessInfo().environment["SIMULATOR_MODEL_IDENTIFIER"] {
                 machineString = dir
             }
         }
@@ -32,7 +32,7 @@ public extension UIDevice {
             uname(&systemInfo)
             let machineMirror = Mirror(reflecting: systemInfo.machine)
             machineString = machineMirror.children.reduce("") { identifier, element in
-                guard let value = element.value as? Int8 where value != 0 else { return identifier }
+                guard let value = element.value as? Int8 , value != 0 else { return identifier }
                 return identifier + String(UnicodeScalar(UInt8(value)))
             }
         }

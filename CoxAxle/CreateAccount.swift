@@ -29,26 +29,26 @@ class CreateAccount: GAITrackedViewController, UIAlertController_UIAlertView{
         self.setText()
     }
     
-    override func viewWillAppear(animated: Bool) {
-        self.navigationController?.navigationBarHidden = true
+    override func viewWillAppear(_ animated: Bool) {
+        self.navigationController?.isNavigationBarHidden = true
     }
     
-    override func viewWillDisappear(animated: Bool) {
+    override func viewWillDisappear(_ animated: Bool) {
     
     }
     
     //MARK:- SET TEXT
     func setText() -> Void {
-        self.language = NSUserDefaults.standardUserDefaults().objectForKey("CurrentLanguage") as? String
+        self.language = UserDefaults.standard.object(forKey: "CurrentLanguage") as? String
         self.title = "Register".localized(self.language!)
         
     }
     
     // MARK:- UIBUTTON ACTIONS
-    @IBAction func backButtonClicked(sender: UIButton) {
-        self.navigationController?.popViewControllerAnimated(true)
+    @IBAction func backButtonClicked(_ sender: UIButton) {
+        self.navigationController?.popViewController(animated: true)
     }
-    @IBAction func registerClicked(sender: UIButton) {
+    @IBAction func registerClicked(_ sender: UIButton) {
         if self.firstNameField.text?.characters.count == 0 {
             self.showAlertwithCancelButton("Error", message: "Please enter your first name", cancelButton: "OK")
         }
@@ -88,52 +88,56 @@ class CreateAccount: GAITrackedViewController, UIAlertController_UIAlertView{
         if Reachability.isConnectedToNetwork() == true {
             print("Internet connection OK")
             
+            let tracker = GAI.sharedInstance().defaultTracker
+            let trackDictionary = GAIDictionaryBuilder.createEvent(withCategory: "API", action: "Registration API Called", label: "Registration", value: nil).build()
+            tracker?.send(trackDictionary as AnyObject as! [AnyHashable: Any])
+            
             let loading = UIActivityIndicatorView_ActivityClass(text: "Loading")
             self.view.addSubview(loading)
             let passwordEncryption = self.passwordField.text?.encodeStringTo64()
             
-             let paramsDict: [String : AnyObject] = ["first_name": self.firstNameField.text! as String, "last_name": self.lastNameField.text! as String, "password": passwordEncryption! as String, "email": self.emailField.text! as String, "phone": self.phoneNumberField.text! as String] as Dictionary
+             let paramsDict: [String : String] = ["first_name": self.firstNameField.text! as String, "last_name": self.lastNameField.text! as String, "password": passwordEncryption! as String, "email": self.emailField.text! as String, "phone": self.phoneNumberField.text! as String, "dealer_code": "KH001"] as Dictionary
             print(NSString(format: "Request: %@", paramsDict))
 
             
-            Alamofire.request(.POST, Constant.API.kBaseUrlPath+"register", parameters: paramsDict)
-                .responseJSON { response in
+            Alamofire.request(Constant.API.kBaseUrlPath+"register", method: .post, parameters: nil, encoding: JSONEncoding.default).responseJSON
+                { response in
                 
                 loading.hide()
                     
                     if let JSON = response.result.value {
                         
                     print(NSString(format: "Response: %@", JSON as! NSDictionary))
-                    let status = JSON.valueForKey("status") as! String
+                        let status = (JSON as AnyObject).value(forKey: "status") as! String
                     if status == "True" {
                         do {
-                            let dict: Register = try Register(dictionary: JSON as! [NSObject : AnyObject])
+                            let dict: Register = try Register(dictionary: JSON as! [AnyHashable: Any])
                             
                             print(dict.response!.data)
                             let restArray = dict.response!.data[0] as! NSDictionary
-                            NSUserDefaults.standardUserDefaults().setObject(restArray.valueForKey("uid"), forKey: "UserId")
-                            NSUserDefaults.standardUserDefaults().synchronize()
-                            NSUserDefaults.standardUserDefaults().setObject(restArray.valueForKey("first_name"), forKey: "FirstName")
-                            NSUserDefaults.standardUserDefaults().synchronize()
-                            NSUserDefaults.standardUserDefaults().setObject(restArray.valueForKey("last_name"), forKey: "LastName")
-                            NSUserDefaults.standardUserDefaults().synchronize()
-                            NSUserDefaults.standardUserDefaults().setObject(restArray.valueForKey("email"), forKey: "Email")
-                            NSUserDefaults.standardUserDefaults().synchronize()
-                            NSUserDefaults.standardUserDefaults().setObject(restArray.valueForKey("phone"), forKey: "Phone")
-                            NSUserDefaults.standardUserDefaults().synchronize()
-                            NSUserDefaults.standardUserDefaults().setBool(true, forKey: "USER_LOGGED_IN")
-                            NSUserDefaults.standardUserDefaults().synchronize()
+                            UserDefaults.standard.set(restArray.value(forKey: "uid"), forKey: "UserId")
+                            UserDefaults.standard.synchronize()
+                            UserDefaults.standard.set(restArray.value(forKey: "first_name"), forKey: "FirstName")
+                            UserDefaults.standard.synchronize()
+                            UserDefaults.standard.set(restArray.value(forKey: "last_name"), forKey: "LastName")
+                            UserDefaults.standard.synchronize()
+                            UserDefaults.standard.set(restArray.value(forKey: "email"), forKey: "Email")
+                            UserDefaults.standard.synchronize()
+                            UserDefaults.standard.set(restArray.value(forKey: "phone"), forKey: "Phone")
+                            UserDefaults.standard.synchronize()
+                            UserDefaults.standard.set(true, forKey: "USER_LOGGED_IN")
+                            UserDefaults.standard.synchronize()
                         }
                         catch let error as NSError {
                             NSLog("Unresolved error \(error), \(error.userInfo)")
                         }
                         
-                       self.performSegueWithIdentifier("LoggedIn", sender: self)
+                       self.performSegue(withIdentifier: "LoggedIn", sender: self)
                     }
                     else
                     {
-                        let errorMsg = JSON.valueForKey("message") as! String
-                        self.showAlertwithCancelButton("Error", message: errorMsg, cancelButton: "OK")
+                        let errorMsg = (JSON as AnyObject).value(forKey: "message") as! String
+                        self.showAlertwithCancelButton("Error", message: errorMsg as NSString, cancelButton: "OK")
                     }
                     }
 
@@ -142,8 +146,8 @@ class CreateAccount: GAITrackedViewController, UIAlertController_UIAlertView{
         }
         else {
             print("Internet connection FAILED")
-            let vc : AnyObject! = self.storyboard!.instantiateViewControllerWithIdentifier("NoInternetConnection")
-            self.presentViewController(vc as! UIViewController, animated: true, completion: nil)
+            let vc : AnyObject! = self.storyboard!.instantiateViewController(withIdentifier: "NoInternetConnection")
+            self.present(vc as! UIViewController, animated: true, completion: nil)
         }
         
     }

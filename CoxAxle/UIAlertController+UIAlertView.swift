@@ -13,31 +13,31 @@ protocol UIAlertController_UIAlertView {}
 
 extension UIAlertController_UIAlertView where Self: UIViewController {
     
-    func showAlertwithCancelButton(title: NSString, message: NSString, cancelButton: NSString) -> Void {
-        let alertController = UIAlertController(title: title as String, message: message as String, preferredStyle: .Alert)
+    func showAlertwithCancelButton(_ title: NSString, message: NSString, cancelButton: NSString) -> Void {
+        let alertController = UIAlertController(title: title as String, message: message as String, preferredStyle: .alert)
         
-        let defaultAction = UIAlertAction(title: cancelButton as String, style: .Default, handler: { (action: UIAlertAction!) in
+        let defaultAction = UIAlertAction(title: cancelButton as String, style: .default, handler: { (action: UIAlertAction!) in
         })
         alertController.addAction(defaultAction)
         
-        dispatch_async(dispatch_get_main_queue(), {
-            self.presentViewController(alertController, animated: true, completion: nil)
+        DispatchQueue.main.async(execute: {
+            self.present(alertController, animated: true, completion: nil)
         })
     }
     
-    func showAlertwithCancelButtonandOtherButton(title: NSString, message: NSString, cancelButton: NSString, otherButton: NSString) -> Void {
-        let alertController = UIAlertController(title: title as String, message: message as String, preferredStyle: .Alert)
+    func showAlertwithCancelButtonandOtherButton(_ title: NSString, message: NSString, cancelButton: NSString, otherButton: NSString) -> Void {
+        let alertController = UIAlertController(title: title as String, message: message as String, preferredStyle: .alert)
         
-        let defaultAction = UIAlertAction(title: cancelButton as String, style: .Default, handler: { (action: UIAlertAction!) in
+        let defaultAction = UIAlertAction(title: cancelButton as String, style: .default, handler: { (action: UIAlertAction!) in
         })
         alertController.addAction(defaultAction)
         
-        let otherAction = UIAlertAction(title: otherButton as String, style: .Default, handler: { (action: UIAlertAction!) in
+        let otherAction = UIAlertAction(title: otherButton as String, style: .default, handler: { (action: UIAlertAction!) in
         })
         alertController.addAction(otherAction)
         
-        dispatch_async(dispatch_get_main_queue(), {
-            self.presentViewController(alertController, animated: true, completion: nil)
+        DispatchQueue.main.async(execute: {
+            self.present(alertController, animated: true, completion: nil)
         })
     }
     

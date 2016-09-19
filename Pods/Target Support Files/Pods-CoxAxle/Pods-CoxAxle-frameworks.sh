@@ -85,12 +85,14 @@ strip_invalid_archs() {
 
 if [[ "$CONFIGURATION" == "Debug" ]]; then
   install_framework "$BUILT_PRODUCTS_DIR/Alamofire/Alamofire.framework"
+  install_framework "$BUILT_PRODUCTS_DIR/BRImagePicker/BRImagePicker.framework"
   install_framework "$BUILT_PRODUCTS_DIR/EAIntroView/EAIntroView.framework"
   install_framework "$BUILT_PRODUCTS_DIR/EARestrictedScrollView/EARestrictedScrollView.framework"
   install_framework "$BUILT_PRODUCTS_DIR/IQKeyboardManagerSwift/IQKeyboardManagerSwift.framework"
   install_framework "$BUILT_PRODUCTS_DIR/JSONModel/JSONModel.framework"
   install_framework "$BUILT_PRODUCTS_DIR/JTMaterialSwitch/JTMaterialSwitch.framework"
   install_framework "$BUILT_PRODUCTS_DIR/LGSemiModalNavController/LGSemiModalNavController.framework"
+  install_framework "$BUILT_PRODUCTS_DIR/MSSimpleGauge/MSSimpleGauge.framework"
   install_framework "$BUILT_PRODUCTS_DIR/REFrostedViewController/REFrostedViewController.framework"
   install_framework "$BUILT_PRODUCTS_DIR/SDWebImage/SDWebImage.framework"
   install_framework "$BUILT_PRODUCTS_DIR/SMFloatingLabelTextField/SMFloatingLabelTextField.framework"
@@ -99,12 +101,14 @@ if [[ "$CONFIGURATION" == "Debug" ]]; then
 fi
 if [[ "$CONFIGURATION" == "Release" ]]; then
   install_framework "$BUILT_PRODUCTS_DIR/Alamofire/Alamofire.framework"
+  install_framework "$BUILT_PRODUCTS_DIR/BRImagePicker/BRImagePicker.framework"
   install_framework "$BUILT_PRODUCTS_DIR/EAIntroView/EAIntroView.framework"
   install_framework "$BUILT_PRODUCTS_DIR/EARestrictedScrollView/EARestrictedScrollView.framework"
   install_framework "$BUILT_PRODUCTS_DIR/IQKeyboardManagerSwift/IQKeyboardManagerSwift.framework"
   install_framework "$BUILT_PRODUCTS_DIR/JSONModel/JSONModel.framework"
   install_framework "$BUILT_PRODUCTS_DIR/JTMaterialSwitch/JTMaterialSwitch.framework"
   install_framework "$BUILT_PRODUCTS_DIR/LGSemiModalNavController/LGSemiModalNavController.framework"
+  install_framework "$BUILT_PRODUCTS_DIR/MSSimpleGauge/MSSimpleGauge.framework"
   install_framework "$BUILT_PRODUCTS_DIR/REFrostedViewController/REFrostedViewController.framework"
   install_framework "$BUILT_PRODUCTS_DIR/SDWebImage/SDWebImage.framework"
   install_framework "$BUILT_PRODUCTS_DIR/SMFloatingLabelTextField/SMFloatingLabelTextField.framework"

@@ -10,7 +10,7 @@ import UIKit
 
 class MyCarsLayout: UICollectionViewFlowLayout {
 
-    override func targetContentOffsetForProposedContentOffset(proposedContentOffset: CGPoint, withScrollingVelocity velocity: CGPoint) -> CGPoint {
+    override func targetContentOffset(forProposedContentOffset proposedContentOffset: CGPoint, withScrollingVelocity velocity: CGPoint) -> CGPoint {
         let collectionViewSize = self.collectionView!.bounds.size
         let proposedContentOffsetCenterX = proposedContentOffset.x + collectionViewSize.width * 0.5
         
@@ -20,9 +20,9 @@ class MyCarsLayout: UICollectionViewFlowLayout {
          proposedRect = CGRect(x: proposedContentOffset.x, y: 0, width: collectionViewSize.width, height: collectionViewSize.height)
         
         var candidateAttributes: UICollectionViewLayoutAttributes?
-        for attributes in self.layoutAttributesForElementsInRect(proposedRect)! {
+        for attributes in self.layoutAttributesForElements(in: proposedRect)! {
             // == Skip comparison with non-cell items (headers and footers) == //
-            if attributes.representedElementCategory != .Cell {
+            if attributes.representedElementCategory != .cell {
                 continue
             }
             
@@ -58,7 +58,7 @@ class MyCarsLayout: UICollectionViewFlowLayout {
             return CGPoint(x: candidateAttributes!.center.x - collectionViewSize.width * 0.5, y: proposedContentOffset.y)
         } else {
             // Fallback
-            return super.targetContentOffsetForProposedContentOffset(proposedContentOffset)
+            return super.targetContentOffset(forProposedContentOffset: proposedContentOffset)
         }
         
         
