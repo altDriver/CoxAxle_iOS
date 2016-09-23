@@ -85,7 +85,7 @@ strip_invalid_archs() {
 
 if [[ "$CONFIGURATION" == "Debug" ]]; then
   install_framework "$BUILT_PRODUCTS_DIR/Alamofire/Alamofire.framework"
-  install_framework "$BUILT_PRODUCTS_DIR/BRImagePicker/BRImagePicker.framework"
+  install_framework "$BUILT_PRODUCTS_DIR/DKImagePickerController/DKImagePickerController.framework"
   install_framework "$BUILT_PRODUCTS_DIR/EAIntroView/EAIntroView.framework"
   install_framework "$BUILT_PRODUCTS_DIR/EARestrictedScrollView/EARestrictedScrollView.framework"
   install_framework "$BUILT_PRODUCTS_DIR/IQKeyboardManagerSwift/IQKeyboardManagerSwift.framework"
@@ -96,12 +96,13 @@ if [[ "$CONFIGURATION" == "Debug" ]]; then
   install_framework "$BUILT_PRODUCTS_DIR/REFrostedViewController/REFrostedViewController.framework"
   install_framework "$BUILT_PRODUCTS_DIR/SDWebImage/SDWebImage.framework"
   install_framework "$BUILT_PRODUCTS_DIR/SMFloatingLabelTextField/SMFloatingLabelTextField.framework"
+  install_framework "$BUILT_PRODUCTS_DIR/TTRangeSlider/TTRangeSlider.framework"
   install_framework "$BUILT_PRODUCTS_DIR/UIActivityIndicator-for-SDWebImage/UIActivityIndicator_for_SDWebImage.framework"
   install_framework "$BUILT_PRODUCTS_DIR/YLProgressBar/YLProgressBar.framework"
 fi
 if [[ "$CONFIGURATION" == "Release" ]]; then
   install_framework "$BUILT_PRODUCTS_DIR/Alamofire/Alamofire.framework"
-  install_framework "$BUILT_PRODUCTS_DIR/BRImagePicker/BRImagePicker.framework"
+  install_framework "$BUILT_PRODUCTS_DIR/DKImagePickerController/DKImagePickerController.framework"
   install_framework "$BUILT_PRODUCTS_DIR/EAIntroView/EAIntroView.framework"
   install_framework "$BUILT_PRODUCTS_DIR/EARestrictedScrollView/EARestrictedScrollView.framework"
   install_framework "$BUILT_PRODUCTS_DIR/IQKeyboardManagerSwift/IQKeyboardManagerSwift.framework"
@@ -112,6 +113,7 @@ if [[ "$CONFIGURATION" == "Release" ]]; then
   install_framework "$BUILT_PRODUCTS_DIR/REFrostedViewController/REFrostedViewController.framework"
   install_framework "$BUILT_PRODUCTS_DIR/SDWebImage/SDWebImage.framework"
   install_framework "$BUILT_PRODUCTS_DIR/SMFloatingLabelTextField/SMFloatingLabelTextField.framework"
+  install_framework "$BUILT_PRODUCTS_DIR/TTRangeSlider/TTRangeSlider.framework"
   install_framework "$BUILT_PRODUCTS_DIR/UIActivityIndicator-for-SDWebImage/UIActivityIndicator_for_SDWebImage.framework"
   install_framework "$BUILT_PRODUCTS_DIR/YLProgressBar/YLProgressBar.framework"
 fi

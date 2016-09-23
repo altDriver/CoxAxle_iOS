@@ -120,10 +120,8 @@ class VehiclesViewController: GAITrackedViewController, UIAlertController_UIAler
             
         let imageArray = self.vehiclesListArray[(indexPath as NSIndexPath).row].value(forKey: "vechicle_image") as! NSArray
         let imageURLString = (imageArray[0] as AnyObject).value(forKey: "image_url") as! NSString
-        cell.carImageView.sd_setImage(with: URL(string: imageURLString as String), placeholderImage: UIImage(named: "placeholder"), options: SDWebImageOptions(rawValue: UInt(0)), completed: { (image, error, cacheType, url) -> Void in
-            cell.carImageView.alpha = 1;
-            
-        })
+         cell.carImageView.setImageWith(URL(string: imageURLString as String), placeholderImage: UIImage(named: "placeholder"), options: SDWebImageOptions(rawValue: UInt(0)), usingActivityIndicatorStyle: UIActivityIndicatorViewStyle.gray)
+        
         cell.carName.text = self.vehiclesListArray[(indexPath as NSIndexPath).row].value(forKey: "name") as? String
         cell.carAppointmentDate.text = String(format: "%@ %@ • %@ Miles", (self.vehiclesListArray[(indexPath as NSIndexPath).row].value(forKey: "year") as? String)!, (self.vehiclesListArray[(indexPath as NSIndexPath).row].value(forKey: "model") as? String)!, (self.vehiclesListArray[(indexPath as NSIndexPath).row].value(forKey: "mileage") as? String)!)
             return cell;
@@ -156,7 +154,7 @@ class VehiclesViewController: GAITrackedViewController, UIAlertController_UIAler
             let paramsDict: [ String : String] = ["uid": userId] as Dictionary
             print(NSString(format: "Request: %@", paramsDict))
             
-            Alamofire.request(Constant.API.kBaseUrlPath+"vehicle/list", method: .post, parameters: nil, encoding: JSONEncoding.default).responseJSON
+            Alamofire.request(Constant.API.kBaseUrlPath+"vehicle/list", method: .post, parameters: paramsDict).responseJSON
                 { response in
                     loading.hide()
                     if let JSON = response.result.value {

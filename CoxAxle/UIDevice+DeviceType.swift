@@ -11,6 +11,11 @@ import UIKit
 
 public extension UIDevice {
     
+    var iOSVersion: String {
+        let systemVersion = UIDevice.current.systemVersion
+        return systemVersion
+    }
+    
     var modelName: String {
         #if (arch(i386) || arch(x86_64)) && os(iOS)
             let DEVICE_IS_SIMULATOR = true
@@ -48,6 +53,9 @@ public extension UIDevice {
         case "iPhone7,1":                               return "iPhone 6 Plus"
         case "iPhone8,1":                               return "iPhone 6s"
         case "iPhone8,2":                               return "iPhone 6s Plus"
+        case "iPhone9,1", "iPhone9,3":                  return "iPhone 7"
+        case "iPhone9,2", "iPhone9,4":                  return "iPhone 7 Plus"
+        case "iPhone8,4":                               return "iPhone SE"
         case "iPad2,1", "iPad2,2", "iPad2,3", "iPad2,4":return "iPad 2"
         case "iPad3,1", "iPad3,2", "iPad3,3":           return "iPad 3"
         case "iPad3,4", "iPad3,5", "iPad3,6":           return "iPad 4"

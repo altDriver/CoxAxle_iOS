@@ -10,7 +10,7 @@ import UIKit
 import CoreData
 import IQKeyboardManagerSwift
 import UIActivityIndicator_for_SDWebImage
-
+import UserNotifications
 
 //let constantObj = Constant()
 
@@ -59,7 +59,33 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             UserDefaults.standard.synchronize()
         }
         
-        registerForPushNotifications(application)
+        if #available(iOS 10.0, *) {
+           /* let center = UNUserNotificationCenter.current()
+            
+            center.requestAuthorization(options: [.alert, .sound, .badge]) { (granted, error) in
+                
+                // Enable or disable features based on authorization.
+                if granted == true
+                {
+                    print("Allow")
+                    UIApplication.shared.registerForRemoteNotifications()
+                }
+                else
+                {
+                    print("Don't Allow")
+                }
+            }*/
+            DispatchQueue.main.async {
+                let settings = UIUserNotificationSettings(types: [.badge, .sound, .alert], categories: nil)
+                UIApplication.shared.registerUserNotificationSettings(settings)
+            }
+        } else {
+            // Fallback on earlier versions
+            registerForPushNotifications(application)
+        }
+       
+
+        
         return true
     }
 
@@ -108,12 +134,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
     }
     
-  private func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
+    func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
         let characterSet :CharacterSet = CharacterSet(charactersIn: "<>")
         let deviceTokenString: String = (deviceToken.description)
             .trimmingCharacters(in: characterSet)
             .replacingOccurrences(of: " ", with: "")
-        print(deviceTokenString)    }
+        UserDefaults.standard.set(deviceTokenString, forKey: "Device_Token")
+        UserDefaults.standard.synchronize()
+        print(deviceTokenString)
+    }
     
     func application(_ application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: Error) {
         print("Failed to register:", error)

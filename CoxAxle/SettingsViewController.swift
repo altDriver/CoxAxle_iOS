@@ -75,7 +75,7 @@ class SettingsViewController: GAITrackedViewController, UIAlertController_UIAler
             let paramsDict: [ String : String] = ["uid": userId] as Dictionary
             print(NSString(format: "Request: %@", paramsDict))
             
-            Alamofire.request(Constant.API.kBaseUrlPath+"user/list", method: .post, parameters: nil, encoding: JSONEncoding.default).responseJSON
+            Alamofire.request(Constant.API.kBaseUrlPath+"user/list", method: .post, parameters: paramsDict).responseJSON
                 { response in
                     loading.hide()
                     if let JSON = response.result.value {
@@ -122,7 +122,7 @@ class SettingsViewController: GAITrackedViewController, UIAlertController_UIAler
             let paramsDict: [ String : String] = ["uid": userId, "first_name": "Pru", "last_name": "Krish", "email": "pru@gmail.com", "phone": "7799002145", "language": "EN"] as Dictionary
             print(NSString(format: "Request: %@", paramsDict))
             
-            Alamofire.request(Constant.API.kBaseUrlPath+"user/update", method: .post, parameters: nil, encoding: JSONEncoding.default).responseJSON
+            Alamofire.request(Constant.API.kBaseUrlPath+"user/update", method: .post, parameters: paramsDict).responseJSON
                 { response in
                     loading.hide()
                     if let JSON = response.result.value {

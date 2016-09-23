@@ -9,12 +9,7 @@
 			<key>isShown</key>
 			<false/>
 		</dict>
-		<key>BRImagePicker-BRImagePicker.xcscheme</key>
-		<dict>
-			<key>isShown</key>
-			<false/>
-		</dict>
-		<key>BRImagePicker.xcscheme</key>
+		<key>DKImagePickerController.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>
@@ -89,6 +84,11 @@
 			<key>isShown</key>
 			<false/>
 		</dict>
+		<key>TTRangeSlider.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
 		<key>UIActivityIndicator-for-SDWebImage.xcscheme</key>
 		<dict>
 			<key>isShown</key>
@@ -102,17 +102,22 @@
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
+		<key>003ED756C70831A7E246C351CDA195AF</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>06AC6D0BE756494423E3931C2560D80A</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>09DA860526AE03EAA735430F6EF868A4</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
 		<key>1520003FEBEC114D6C84F832AFEDB994</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>209C8743242C043B469576029EA59492</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>2D538020EA98AEF403E7BF91612E7FDE</key>
 		<dict>
 			<key>primary</key>
 			<true/>
@@ -122,12 +127,17 @@
 			<key>primary</key>
 			<true/>
 		</dict>
+		<key>3DED5ED084D28EA358A07706CD340E0A</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
 		<key>459DE8C0FFFC7823ED2E9E68FAAED739</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>5DAD6DFD1D32F0DBE3F0C90489444204</key>
+		<key>62284199D1C55C5A315830FAD5192D3A</key>
 		<dict>
 			<key>primary</key>
 			<true/>
@@ -137,27 +147,17 @@
 			<key>primary</key>
 			<true/>
 		</dict>
+		<key>71CA2F0CB649E1404B5E028203A8F1D0</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
 		<key>79C040AFDDCE1BCBF6D8B5EB0B85887F</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>87095A4A3642686EAF7F814555047357</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>95A89110E843B4BF1875D690755EFFC7</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
 		<key>977A9119E5DDFE4E1FE91FC679531C82</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>A66EB06E984EAA170861213901429F79</key>
 		<dict>
 			<key>primary</key>
 			<true/>
@@ -172,17 +172,12 @@
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>C16C71CCBD4A118203523C061D4B2150</key>
+		<key>BAF64F53B1286511EF98FC2681A68F48</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
 		<key>C2550C2DDD8A3B6A86481A5A031BFE6F</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>D2DD5BA6E7153B9EE88C3D5F44D9C774</key>
 		<dict>
 			<key>primary</key>
 			<true/>
@@ -193,6 +188,11 @@
 			<true/>
 		</dict>
 		<key>D8BF146EAE696DCA97C90C51BE045947</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>E105FB0D9EA8AEC11E18168E0D97CD70</key>
 		<dict>
 			<key>primary</key>
 			<true/>

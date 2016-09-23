@@ -17,7 +17,8 @@ target 'CoxAxle' do
  pod 'LGSemiModalNavController'
  pod 'Google/Analytics'
  pod 'MSSimpleGauge'
- pod 'BRImagePicker'
+ pod 'DKImagePickerController', :git => 'https://github.com/zhangao0086/DKImagePickerController.git', :branch => 'master'
+ pod 'TTRangeSlider'
 end
 
 target 'CoxAxleTests' do

@@ -10,10 +10,9 @@ import UIKit
 import Alamofire
 import YLProgressBar
 import LGSemiModalNavController
-import BRImagePicker
 import SDWebImage
 
-class EditVehicleViewController: UIViewController, UIAlertController_UIAlertView, UITableViewDataSource, UITableViewDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UICollectionViewDataSource, UICollectionViewDelegate {
+class EditVehicleViewController: UIViewController, UIAlertController_UIAlertView, UITableViewDataSource, UITableViewDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UICollectionViewDataSource, UICollectionViewDelegate, UITextFieldDelegate {
     
     @IBOutlet var progressBar               : YLProgressBar!
     @IBOutlet weak var addVehicleTableView  : UITableView!
@@ -29,7 +28,9 @@ class EditVehicleViewController: UIViewController, UIAlertController_UIAlertView
     var usedButton: UIButton!
     var cpoButton: UIButton!
     var vehicleImagesArray: [AnyObject] = []
+    var selectedVehicleImagesArray: [AnyObject] = []
     var insuranceCardImagesArray = [UIImage]()
+    var fromVehicleImage: Bool!
     
     var language                 : String?
     var vehicleName              : String?
@@ -59,10 +60,11 @@ class EditVehicleViewController: UIViewController, UIAlertController_UIAlertView
     var vinTextField: UITextField!
     var vehicleNameTextField: UITextField!
     var milesDrivenTextField: UITextField!
+    var loading: UIActivityIndicatorView_ActivityClass?
     
-    let yearsArray = ["2011", "2012", "2013", "2014", "2015", "2016"]
-    let vehicleMakeArray = ["Accent", "Azera", "Elantra", "Santa Fe Sports", "Mrecedes", "Land Rover"]
-    let vehiclesModelArray = ["Accent A2S", "Elantra EL1", "Santa Fe Sports SaFeX", "Mrecedes MQn", "Land Rover"]
+    let yearsArray = ["2007", "2008", "2009", "2010", "2011", "2012", "2013", "2014", "2015", "2016"]
+    let vehicleMakeArray = ["Accent", "Azera", "Elantra", "Santa Fe Sports", "Mrecedes", "Land Rover","Accent", "Azera", "Elantra", "Santa Fe"]
+    let vehiclesModelArray = ["Accent A2S", "Azera AZ3", "Elantra EL1", "Santa Fe Sports SaFeX", "Mrecedes MQn", "Land Rover","Accent", "Azera", "Elantra", "Santa Fe"]
     
     let screenWidth  = UIScreen.main.bounds.width
     let screenHeight = UIScreen.main.bounds.height
@@ -138,7 +140,7 @@ class EditVehicleViewController: UIViewController, UIAlertController_UIAlertView
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        var cell = UITableViewCell()
+        let cell = UITableViewCell()
         tableView.showsVerticalScrollIndicator = false
         
         switch tableView.tag {
@@ -152,32 +154,36 @@ class EditVehicleViewController: UIViewController, UIAlertController_UIAlertView
                 let addVehicleImageTableViewCell = tableView.dequeueReusableCell(withIdentifier: "AddVehicleImageTableViewCell", for: indexPath) as! AddVehicleImageTableViewCell
                 
                 addVehicleImageTableViewCell.uploadVehiclePictureButton.addTarget(self, action: #selector(EditVehicleViewController.uploadVehiclePic), for: .touchUpInside)
+                
+                let tapGestureForUpoadImage = UITapGestureRecognizer(target: self, action: #selector(EditVehicleViewController.uploadVehiclePic))
+                addVehicleImageTableViewCell.vehicleImageView.isUserInteractionEnabled = true
+                addVehicleImageTableViewCell.vehicleImageView.addGestureRecognizer(tapGestureForUpoadImage)
+                
                 let imagesArray = vehicleImagesArray as NSArray
                 let imageURLString = (imagesArray[0] as AnyObject).value(forKey: "image_url") as! NSString
-                addVehicleImageTableViewCell.vehicleImageView.sd_setImage(with: URL(string: imageURLString as String), placeholderImage: UIImage(named: "placeholder"), options: SDWebImageOptions(rawValue: UInt(0)), completed: { (image, error, cacheType, url) -> Void in
-                    addVehicleImageTableViewCell.vehicleImageView.alpha = 1;
-                    
-                })
+                 addVehicleImageTableViewCell.vehicleImageView.setImageWith(URL(string: imageURLString as String), placeholderImage: UIImage(named: "placeholder"), options: SDWebImageOptions(rawValue: UInt(0)), usingActivityIndicatorStyle: UIActivityIndicatorViewStyle.gray)
                 
-                cell = addVehicleImageTableViewCell
-                
+                return addVehicleImageTableViewCell
             case 1:
                 
                 let vehicleNameTableViewCell = tableView.dequeueReusableCell(withIdentifier: "VehicleNameTableViewCell", for: indexPath) as! VehicleDetailTableViewCell
                 
                 vehicleNameTableViewCell.vehicleNameTextField.autocorrectionType = .no
                 
+                vehicleNameTableViewCell.vehicleNameTextField.delegate = self;
+                
                 self.vehicleNameTextField = vehicleNameTableViewCell.vehicleNameTextField
                 
                 guard let name = (self.vehicleNameTextField.text) , name != "" else {
                     
                     vehicleNameTableViewCell.vehicleNameTextField.text = vehicleName
-                    cell = vehicleNameTableViewCell
+                    
                     break
                 }
                 vehicleNameTableViewCell.vehicleNameTextField.text = name
                 
-                cell = vehicleNameTableViewCell
+                
+                return vehicleNameTableViewCell
                 
             case 2:
                 
@@ -214,8 +220,8 @@ class EditVehicleViewController: UIViewController, UIAlertController_UIAlertView
                     vehicleTypeTableViewCell.CPOVehicleButton = cpoButton
                 }
                 
-                cell = vehicleTypeTableViewCell
                 
+                return vehicleTypeTableViewCell
             case 3:
                 
                 let vinTableViewCell = tableView.dequeueReusableCell(withIdentifier: "VINTableViewCell", for: indexPath) as! VehicleDetailTableViewCell
@@ -243,8 +249,8 @@ class EditVehicleViewController: UIViewController, UIAlertController_UIAlertView
                 }
                 vinTableViewCell.vinTextField.isUserInteractionEnabled = false
                 self.vinTextField = vinTableViewCell.vinTextField
-                cell = vinTableViewCell
                 
+                return vinTableViewCell
             case 4:
                 
                 let selectYearTableViewCell = tableView.dequeueReusableCell(withIdentifier: "SelectYearTableViewCell", for: indexPath) as! VehicleDetailSelectionTableViewCell
@@ -259,8 +265,8 @@ class EditVehicleViewController: UIViewController, UIAlertController_UIAlertView
                 
                 vehiclePurchasedYear = selectYearTableViewCell.selectYearButton.titleLabel?.text
                 
-                cell = selectYearTableViewCell
                 
+                return selectYearTableViewCell
             case 5:
                 
                 let selectMakeTableViewCell = tableView.dequeueReusableCell(withIdentifier: "SelectMakeTableViewCell", for: indexPath) as! VehicleDetailSelectionTableViewCell
@@ -275,8 +281,8 @@ class EditVehicleViewController: UIViewController, UIAlertController_UIAlertView
                 
                 vehicleMake = selectMakeTableViewCell.selectVehicleMakeButton.titleLabel?.text
                 
-                cell = selectMakeTableViewCell
                 
+                return selectMakeTableViewCell
             case 6:
                 
                 let selectModelTableViewCell = tableView.dequeueReusableCell(withIdentifier: "SelectModelTableViewCell", for: indexPath) as! VehicleDetailSelectionTableViewCell
@@ -291,8 +297,8 @@ class EditVehicleViewController: UIViewController, UIAlertController_UIAlertView
                 
                 vehicleModel = selectModelTableViewCell.selectVehicleModelButton.titleLabel?.text
                 
-                cell = selectModelTableViewCell
                 
+                return selectModelTableViewCell
             case 7:
                 
                 let milesDrivenTableViewCell = tableView.dequeueReusableCell(withIdentifier: "MilesDrivenTableViewCell", for: indexPath) as! VehicleDetailTableViewCell
@@ -302,13 +308,14 @@ class EditVehicleViewController: UIViewController, UIAlertController_UIAlertView
                 guard let name = (self.milesDrivenTextField.text) , name != "" else {
                     
                     milesDrivenTableViewCell.milesDrivenTextField.text = milesDriven
-                    cell = milesDrivenTableViewCell
+                    
                     break
                 }
                 milesDrivenTableViewCell.milesDrivenTextField.text = name
+                milesDrivenTableViewCell.milesDrivenTextField.delegate = self
                 
-                cell = milesDrivenTableViewCell
                 
+                return milesDrivenTableViewCell
             case 8:
                 
                 let tagExpirationTableViewCell = tableView.dequeueReusableCell(withIdentifier: "tagExpirationDateCell", for: indexPath) as! VehicleInsuranceDetailsTableViewCell
@@ -325,16 +332,15 @@ class EditVehicleViewController: UIViewController, UIAlertController_UIAlertView
                 }
                 tagExpirationTableViewCell.insuranceExpirationDateButton.addTarget(self, action: #selector(EditVehicleViewController.selectTagExpirationDate), for: .touchUpInside)
                 
-                cell = tagExpirationTableViewCell
-                
+                return tagExpirationTableViewCell
             case 9:
                 
                 let datePickerTableViewCell = tableView.dequeueReusableCell(withIdentifier: "datePickerCell", for: indexPath) as! DatePickerTableViewCell
                 
                 datePickerTableViewCell.doneButton.addTarget(self, action: #selector(EditVehicleViewController.tagPickerDoneButtonAction), for: .touchUpInside)
                 
-                cell = datePickerTableViewCell
                 
+                return datePickerTableViewCell
             case 10:
                 
                 let vehicleInsuranceDetailsTableViewCell: VehicleInsuranceDetailsTableViewCell = tableView.dequeueReusableCell(withIdentifier: "InsuranceExpirationDateCell", for: indexPath) as! VehicleInsuranceDetailsTableViewCell
@@ -351,15 +357,14 @@ class EditVehicleViewController: UIViewController, UIAlertController_UIAlertView
                 
                 vehicleInsuranceDetailsTableViewCell.insuranceExpirationDateButton.addTarget(self, action: #selector(EditVehicleViewController.selectInsuranceExpirationDate), for: .touchUpInside)
                 
-                cell = vehicleInsuranceDetailsTableViewCell
                 
+                return vehicleInsuranceDetailsTableViewCell
             case 11:
                 
                 let insuranceDatePickerTableViewCell: DatePickerTableViewCell = tableView.dequeueReusableCell(withIdentifier: "insuranceDatePickerCell", for: indexPath) as! DatePickerTableViewCell
                 
                 insuranceDatePickerTableViewCell.doneButton.addTarget(self, action: #selector(EditVehicleViewController.insurancePickerDoneButtonAction), for: .touchUpInside)
-                cell = insuranceDatePickerTableViewCell
-                
+                return insuranceDatePickerTableViewCell
             case 12:
                 
                 let insuranceCardTableViewCell: InsuranceCardTableViewCell = tableView.dequeueReusableCell(withIdentifier: "InsuranceCardTableViewCell", for: indexPath) as! InsuranceCardTableViewCell
@@ -367,76 +372,103 @@ class EditVehicleViewController: UIViewController, UIAlertController_UIAlertView
                 
                 insuranceCardTableViewCell.insuranceCardsCollectionView.reloadData()
                 
-                cell = insuranceCardTableViewCell
                 
+                return insuranceCardTableViewCell
             default:
-                return cell
+                let vehicleNameTableViewCell = tableView.dequeueReusableCell(withIdentifier: "VehicleNameTableViewCell", for: indexPath) as! VehicleDetailTableViewCell
+                
+                vehicleNameTableViewCell.vehicleNameTextField.autocorrectionType = .no
+                
+                vehicleNameTableViewCell.vehicleNameTextField.delegate = self;
+                
+                self.vehicleNameTextField = vehicleNameTableViewCell.vehicleNameTextField
+                
+                guard let name = (self.vehicleNameTextField.text) , name != "" else {
+                    
+                    vehicleNameTableViewCell.vehicleNameTextField.text = vehicleName
+                    
+                    break
+                }
+                vehicleNameTableViewCell.vehicleNameTextField.text = name
+                
+                
+                return vehicleNameTableViewCell
             }
+            
             
         case 1:
             
-            cell = tableView.dequeueReusableCell(withIdentifier: "CellIdentifier", for: indexPath)
-            cell.selectionStyle = .none
-            let dateLabel = UILabel(frame: CGRect(x: 21, y: 20, width: screenWidth/2, height: 21))
-            dateLabel.font = UIFont.regularFont().withSize(17)
-            dateLabel.textColor = UIColor.SlateColor()
-            dateLabel.text = String(yearsArray[(indexPath as NSIndexPath).row])
-            cell.addSubview(dateLabel)
-            dateLabel.tag = -1
+            let cell = self.addVehicleTableView.dequeueReusableCell(withIdentifier: "DefaultCell") as! EditSelectionTableViewCell!
+            cell?.selectionStyle = .none
             
-            let checkBoxButton = UIButton(frame: CGRect(x: screenWidth - 40, y: 18, width: 25, height: 25))
-            checkBoxButton.backgroundColor = UIColor.uncheckButtonBackgroundColor()
-            checkBoxButton.layer.cornerRadius = 0.5 * checkBoxButton.bounds.size.width
-            checkBoxButton.tag = (indexPath as NSIndexPath).row
+            cell?.cellValue.text = String(yearsArray[(indexPath as NSIndexPath).row])
             
-            checkBoxButton.addTarget(self, action: #selector(EditVehicleViewController.yearSelected(_:)), for: .touchUpInside)
+            cell?.cellValue.tag = -1
             
-            cell.addSubview(checkBoxButton)
+            cell?.cellButton.backgroundColor = UIColor.uncheckButtonBackgroundColor()
+            cell?.cellButton.layer.cornerRadius = 12.0
+            cell?.cellButton.tag = (indexPath as NSIndexPath).row
+            
+            cell?.cellButton.addTarget(self, action: #selector(EditVehicleViewController.yearSelected(_:)), for: .touchUpInside)
+            
+            cell?.layoutMargins = UIEdgeInsets.zero
+            return cell!
+            
             
         case 2:
             
-            cell = tableView.dequeueReusableCell(withIdentifier: "CellIdentifier", for: indexPath)
-            cell.selectionStyle = .none
-            let vehicleMakeLabel = UILabel(frame: CGRect(x: 21, y: 20, width: screenWidth/2, height: 21))
-            vehicleMakeLabel.font = UIFont.regularFont().withSize(17)
-            vehicleMakeLabel.textColor = UIColor.SlateColor()
-            vehicleMakeLabel.text = String(vehicleMakeArray[(indexPath as NSIndexPath).row])
-            cell.addSubview(vehicleMakeLabel)
+            let cell = self.addVehicleTableView.dequeueReusableCell(withIdentifier: "DefaultCell") as! EditSelectionTableViewCell!
+            cell?.selectionStyle = .none
             
-            let checkBoxButton = UIButton(frame: CGRect(x: screenWidth - 40, y: 18, width: 25, height: 25))
-            checkBoxButton.backgroundColor = UIColor.uncheckButtonBackgroundColor()
-            checkBoxButton.layer.cornerRadius = 0.5 * checkBoxButton.bounds.size.width
-            checkBoxButton.tag = (indexPath as NSIndexPath).row
-            checkBoxButton.addTarget(self, action: #selector(EditVehicleViewController.vehicleMakeSelected(_:)), for: .touchUpInside)
+            cell?.cellValue.text = String(vehicleMakeArray[(indexPath as NSIndexPath).row])
             
-            cell.addSubview(checkBoxButton)
+            cell?.cellButton.backgroundColor = UIColor.uncheckButtonBackgroundColor()
+            cell?.cellButton.layer.cornerRadius = 12.0
+            cell?.cellButton.tag = (indexPath as NSIndexPath).row
+            cell?.cellButton.addTarget(self, action: #selector(EditVehicleViewController.vehicleMakeSelected(_:)), for: .touchUpInside)
+            
+            cell?.layoutMargins = UIEdgeInsets.zero
+            return cell!
+            
             
         case 3:
             
-            cell = tableView.dequeueReusableCell(withIdentifier: "CellIdentifier", for: indexPath)
-            cell.selectionStyle = .none
-            let vehicleModelLabel = UILabel(frame: CGRect(x: 21, y: 20, width: screenWidth/2, height: 21))
-            vehicleModelLabel.font = UIFont.regularFont().withSize(17)
-            vehicleModelLabel.textColor = UIColor.SlateColor()
-            vehicleModelLabel.text = String(vehiclesModelArray[(indexPath as NSIndexPath).row])
-            cell.addSubview(vehicleModelLabel)
+            let cell = self.addVehicleTableView.dequeueReusableCell(withIdentifier: "DefaultCell") as! EditSelectionTableViewCell!
+            cell?.selectionStyle = .none
             
-            let checkBoxButton = UIButton(frame: CGRect(x: screenWidth - 40, y: 18, width: 25, height: 25))
-            checkBoxButton.backgroundColor = UIColor.uncheckButtonBackgroundColor()
-            checkBoxButton.layer.cornerRadius = 0.5 * checkBoxButton.bounds.size.width
-            checkBoxButton.tag = (indexPath as NSIndexPath).row
-            checkBoxButton.addTarget(self, action: #selector(EditVehicleViewController.vehicleModelSelected(_:)), for: .touchUpInside)
+            cell?.cellValue.text = String(vehiclesModelArray[(indexPath as NSIndexPath).row])
             
-            cell.addSubview(checkBoxButton)
+            
+            cell?.cellButton.backgroundColor = UIColor.uncheckButtonBackgroundColor()
+            cell?.cellButton.layer.cornerRadius = 12.0
+            cell?.cellButton.tag = (indexPath as NSIndexPath).row
+            cell?.cellButton.addTarget(self, action: #selector(EditVehicleViewController.vehicleModelSelected(_:)), for: .touchUpInside)
+            
+            cell?.layoutMargins = UIEdgeInsets.zero
+            return cell!
+            
             
         default:
-            return cell
+            let cell = self.addVehicleTableView.dequeueReusableCell(withIdentifier: "DefaultCell") as! EditSelectionTableViewCell!
+            cell?.selectionStyle = .none
+            
+            cell?.cellValue.text = String(yearsArray[(indexPath as NSIndexPath).row])
+            
+            cell?.cellValue.tag = -1
+            
+            cell?.cellButton.backgroundColor = UIColor.uncheckButtonBackgroundColor()
+            cell?.cellButton.layer.cornerRadius = 12.0
+            cell?.cellButton.tag = (indexPath as NSIndexPath).row
+            
+            cell?.cellButton.addTarget(self, action: #selector(EditVehicleViewController.yearSelected(_:)), for: .touchUpInside)
+            
+            cell?.layoutMargins = UIEdgeInsets.zero
+            return cell!
+            
         }
         
         tableView.separatorInset = UIEdgeInsets.zero
         tableView.layoutMargins = UIEdgeInsets.zero
-        cell.layoutMargins = UIEdgeInsets.zero
-        
         return cell
     }
     
@@ -657,7 +689,12 @@ class EditVehicleViewController: UIViewController, UIAlertController_UIAlertView
             
             picker.dismiss(animated: true, completion: nil)
             let image: UIImage = (info[UIImagePickerControllerOriginalImage] as? UIImage)!
+            if self.fromVehicleImage == true {
+               self.selectedVehicleImagesArray.append(image)
+            }
+            else {
             insuranceCardImagesArray.append(image)
+            }
             
             self.addVehicleTableView.reloadData()
             
@@ -683,7 +720,7 @@ class EditVehicleViewController: UIViewController, UIAlertController_UIAlertView
         let cameraAction = UIAlertAction(title: "Take a Photo", style: UIAlertActionStyle.default) {
             
             UIAlertAction in
-            self.openCamera()
+            self.openCamera(isVehicleImage: true)
         }
         
         let gallaryAction = UIAlertAction(title: "Choose from Camera Roll", style: UIAlertActionStyle.default) {
@@ -713,10 +750,11 @@ class EditVehicleViewController: UIViewController, UIAlertController_UIAlertView
         present(imagePickerController, animated: true, completion: nil)
     }
     
-    func openCamera() {
+    func openCamera(isVehicleImage:Bool) {
         
         if(UIImagePickerController .isSourceTypeAvailable(UIImagePickerControllerSourceType.camera)) {
             
+            self.fromVehicleImage = isVehicleImage
             imagePicker.sourceType = UIImagePickerControllerSourceType.camera
             self .present(imagePicker, animated: true, completion: nil)
         }
@@ -730,7 +768,7 @@ class EditVehicleViewController: UIViewController, UIAlertController_UIAlertView
         let cameraAction = UIAlertAction(title: "Take a Photo", style: UIAlertActionStyle.default) {
             
             UIAlertAction in
-            self.openCamera()
+            self.openCamera(isVehicleImage: false)
         }
         
         let gallaryAction = UIAlertAction(title: "Choose from Camera Roll", style: UIAlertActionStyle.default) {
@@ -764,27 +802,37 @@ class EditVehicleViewController: UIViewController, UIAlertController_UIAlertView
     
     func openGallery() {
         
-        var imagesArray = [UIImage]()
-        let imagePicker = BRImagePicker(presenting: self)
+        self.selectedVehicleImagesArray.removeAll()
+        let pickerController = DKImagePickerController()
         
-        imagePicker?.show(dataBlock: {(data: [Any]?) -> Void in
-           
-            for index in 0...(data?.count)! - 1 {
-                imagesArray.append((data![index] as AnyObject).image)
-            }
+        pickerController.maxSelectableCount = 5
+        pickerController.didSelectAssets = { (assets: [DKAsset]) in
             
-            var base64ImagesArray = [String]()
-
-            for index in 0...(imagesArray.count - 1) {
-                
-                let eachImage: UIImage = imagesArray[index]
-                let eachImageData = NSData(data: UIImagePNGRepresentation(eachImage)!) as NSData
-                let base64ImageString: String = eachImageData.base64EncodedString(options: NSData.Base64EncodingOptions(rawValue: 0))
-                base64ImagesArray.append(base64ImageString)
+            for asset in assets {
+                asset.fetchOriginalImageWithCompleteBlock({ (image, info) in
+                    
+                    self.selectedVehicleImagesArray.append(image!)
+                    self.addVehicleTableView.reloadData()
+            
+                })
             }
-            self.editedVehicleImagesBase64String = base64ImagesArray.joined(separator: ",")
-        })
+        }
+        
+        self.present(pickerController, animated: true) {
+            
+        }
     }
+    //MARK:- UITextField Delegate Methods
+    
+    func textFieldDidEndEditing(_ textField: UITextField) {
+        if textField.tag == 1 {
+            vehicleName = textField.text
+        }
+        else {
+            milesDriven = textField.text
+        }
+    }
+    
     
     //MARK:- UIBUTTON METHODS
     
@@ -810,7 +858,23 @@ class EditVehicleViewController: UIViewController, UIAlertController_UIAlertView
     @IBAction func doneButtonTapped(_ sender: AnyObject) {
         
         self.validateFields()
-        self.callEditVehiclesAPI()
+        
+        if isValidationSuccess == true {
+            
+            DispatchQueue.main.async {
+                
+                print("This is run on the main queue, after the previous code in outer block")
+                self.loading = UIActivityIndicatorView_ActivityClass(text: "Loading")
+                self.view.addSubview(self.loading!)
+            }
+            
+            DispatchQueue.global(qos: .background).async {
+                print("This is run on the background queue")
+                self.callEditVehiclesAPI()
+                
+            }
+            
+        }
     }
     
     @IBAction func removeCard(_ sender: UIButton) {
@@ -855,21 +919,30 @@ class EditVehicleViewController: UIViewController, UIAlertController_UIAlertView
     }
     
     func selectDate() {
-        
+        self.vehicleNameTextField.resignFirstResponder()
+        if self.milesDrivenTextField != nil {
+            self.milesDrivenTextField.resignFirstResponder()
+        }
         datesTableView.reloadData()
         createSemiModalViewController()
         setTableViewPropertiesForModalView(1, tableView: datesTableView)
     }
     
     func selectVehicleMake() {
-        
+        self.vehicleNameTextField.resignFirstResponder()
+        if self.milesDrivenTextField != nil {
+            self.milesDrivenTextField.resignFirstResponder()
+        }
         vehicleMakeTableView.reloadData()
         createSemiModalViewController()
         setTableViewPropertiesForModalView(2, tableView: vehicleMakeTableView)
     }
     
     func selectVehicleModel() {
-        
+        self.vehicleNameTextField.resignFirstResponder()
+        if self.milesDrivenTextField != nil {
+            self.milesDrivenTextField.resignFirstResponder()
+        }
         vehiclesModelTableView.reloadData()
         createSemiModalViewController()
         setTableViewPropertiesForModalView(3, tableView: vehiclesModelTableView)
@@ -929,8 +1002,6 @@ class EditVehicleViewController: UIViewController, UIAlertController_UIAlertView
             print("Internet connection OK")
             
             self.addTracker()
-            let loading = UIActivityIndicatorView_ActivityClass(text: "Loading")
-            self.view.addSubview(loading)
             
             let vehImgBase64String = self.createVehicleImageBase64String()
             let vehInsuBase64String = self.createVehicleInsuranceBase64String()
@@ -952,38 +1023,38 @@ class EditVehicleViewController: UIViewController, UIAlertController_UIAlertView
             let tagExpiryDate = vehicleDetailsArray[7]
             
             let paramsDict: [String : String] = ["vid": vehicleId,
-                                                    "name": name,
-                                                    "uid": userId,
-                                                    "dealer_id": dealerId,
-                                                    "vin": vin,
-                                                    "vehicle_type": type,
-                                                    "make": make,
-                                                    "model": model,
-                                                    "color": "Silver",
-                                                    "photo": vehImgBase64String,
-                                                    "waranty_from": "",
-                                                    "waranty_to": "",
-                                                    "insurance_expiration_date": insuExpirationDate,
-                                                    "tag_expiration_date": tagExpiryDate,
-                                                    "extended_waranty_from": "",
-                                                    "extended_waranty_to": "",
-                                                    "kbb_price": "1000",
-                                                    "manual": "",
-                                                    "loan_amount": "200",
-                                                    "emi": "50",
-                                                    "interest": "9",
-                                                    "loan_tenure": "6",
-                                                    "insurance_document": "",
-                                                    "mileage": miles,
-                                                    "style": "",
-                                                    "trim": "",
-                                                    "year": year] as Dictionary
+                                                 "name": name,
+                                                 "uid": userId,
+                                                 "dealer_id": dealerId,
+                                                 "vin": vin,
+                                                 "vehicle_type": type,
+                                                 "make": make,
+                                                 "model": model,
+                                                 "color": "Silver",
+                                                 "photo": vehImgBase64String,
+                                                 "waranty_from": "",
+                                                 "waranty_to": "",
+                                                 "insurance_expiration_date": insuExpirationDate,
+                                                 "tag_expiration_date": tagExpiryDate,
+                                                 "extended_waranty_from": "",
+                                                 "extended_waranty_to": "",
+                                                 "kbb_price": "1000",
+                                                 "manual": "",
+                                                 "loan_amount": "200",
+                                                 "emi": "50",
+                                                 "interest": "9",
+                                                 "loan_tenure": "6",
+                                                 "insurance_document": "",
+                                                 "mileage": miles,
+                                                 "style": "",
+                                                 "trim": "",
+                                                 "year": year] as Dictionary
             
             print(NSString(format: "Request: %@", paramsDict))
             
-            Alamofire.request(Constant.API.kBaseUrlPath+"vehicle/update", method: .post, parameters: nil, encoding: JSONEncoding.default).responseJSON
+            Alamofire.request(Constant.API.kBaseUrlPath+"vehicle/update", method: .post, parameters: paramsDict).responseJSON
                 { response in
-                    loading.hide ()
+                    self.loading?.hide ()
                     if let JSON = response.result.value {
                         
                         print(NSString(format: "Response: %@", JSON as! NSDictionary))
@@ -1045,16 +1116,27 @@ class EditVehicleViewController: UIViewController, UIAlertController_UIAlertView
     
     func createVehicleImageBase64String() -> String {
         
-        var base64VehicleImagesArray = [String]()
-        for index in 0...(vehicleImagesArray.count - 1) {
+//        var base64VehicleImagesArray = [String]()
+//        for index in 0...(vehicleImagesArray.count - 1) {
+//            
+//            let imagePath = vehicleImagesArray[index].value(forKey: "image_url")
+//            let imageData:Foundation.Data = (imagePath! as! String).data(using: String.Encoding.utf8)!
+//            let imageStringBase64:String = imageData.base64EncodedString(options: .lineLength64Characters)
+//            base64VehicleImagesArray.append(imageStringBase64)
+//        }
+//        oldVehicleImageBase64String = base64VehicleImagesArray.joined(separator: ",")
+    
+        var base64StrArr = [String]()
+        if self.selectedVehicleImagesArray.count > 0 {
+        for index in 0...(self.selectedVehicleImagesArray.count - 1) {
             
-            let imagePath = vehicleImagesArray[index].value(forKey: "image_url")
-            let imageData:Foundation.Data = (imagePath! as! String).data(using: String.Encoding.utf8)!
-            let imageStringBase64:String = imageData.base64EncodedString(options: .lineLength64Characters)
-            base64VehicleImagesArray.append(imageStringBase64)
+            let eachImage: UIImage = self.selectedVehicleImagesArray[index] as! UIImage
+            let eachImageData: Foundation.Data = (data: UIImagePNGRepresentation(eachImage)!)
+            let base64ImageString: String = eachImageData.base64EncodedString(options: NSData.Base64EncodingOptions(rawValue: 0))
+            base64StrArr.append(base64ImageString)
         }
-        oldVehicleImageBase64String = base64VehicleImagesArray.joined(separator: ",")
-        
+        self.editedVehicleImagesBase64String = base64StrArr.joined(separator: ",")
+        }
         if editedVehicleImagesBase64String == nil {
             editedVehicleImagesBase64String = ""
         }
@@ -1063,10 +1145,11 @@ class EditVehicleViewController: UIViewController, UIAlertController_UIAlertView
         }
         
         if editedVehicleImagesBase64String == "" {
-            vehicleImagesBase64String = oldVehicleImageBase64String!
+            vehicleImagesBase64String = ""
         } else {
-            vehicleImagesBase64String = editedVehicleImagesBase64String! + "," + oldVehicleImageBase64String!
+            vehicleImagesBase64String = editedVehicleImagesBase64String!
         }
+        
         return vehicleImagesBase64String!
     }
     
@@ -1114,7 +1197,7 @@ class EditVehicleViewController: UIViewController, UIAlertController_UIAlertView
             let paramsDict: [ String : String] = ["vid": vehicleId,"uid": userId] as Dictionary
             print(NSString(format: "Request: %@", paramsDict))
             
-            Alamofire.request(Constant.API.kBaseUrlPath+"vehicle/delete", method: .post, parameters: nil, encoding: JSONEncoding.default).responseJSON
+            Alamofire.request(Constant.API.kBaseUrlPath+"vehicle/delete", method: .post, parameters: paramsDict).responseJSON
                 { response in
                     loading.hide()
                     if let JSON = response.result.value {

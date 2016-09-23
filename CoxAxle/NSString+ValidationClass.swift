@@ -63,6 +63,20 @@ extension String {
         return stringDate
     }
     
+    func convertDate() -> String {
+        let dateString = self
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
+        let dateObj = dateFormatter.date(from: dateString)
+        
+        
+        dateFormatter.dateFormat = "MMM dd, YYYY HH:mm a"
+        let stringDate = dateFormatter.string(from: dateObj!)
+        print(stringDate)
+        
+        return stringDate
+    }
+    
     func encodeStringTo64() -> String {
         let plainData: Foundation.Data = self.data(using: String.Encoding.utf8)!
         var base64String: String

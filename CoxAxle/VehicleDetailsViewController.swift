@@ -162,20 +162,25 @@ class VehicleDetailsViewController: GAITrackedViewController, UITableViewDataSou
             let cell = self.tableView.dequeueReusableCell(withIdentifier: vehicleProgressReuseIdentifier) as! VehicleProgressTableViewCell!
             
             //MONTHS
-            let warrentyFromDate = self.vehiclesDetailsDict.value(forKey: "waranty_from") as? String
-            let warrentyToDate = self.vehiclesDetailsDict.value(forKey: "waranty_to") as? String
+            let warrentyFromDate = self.vehiclesDetailsDict.value(forKey: "waranty_from") as! String
+            let warrentyToDate = self.vehiclesDetailsDict.value(forKey: "waranty_to") as! String
             let dateFormatter = DateFormatter()
             dateFormatter.dateFormat = "yyyy-mm-dd"
-            let date1 = dateFormatter.date(from: warrentyFromDate!)
-            let date2 = dateFormatter.date(from: warrentyToDate!)
-            let months = calculateNumberOfMonthsFromDates(date1!, secondDate: date2!)
+            let date1 = dateFormatter.date(from: warrentyFromDate)
+            let date2 = dateFormatter.date(from: warrentyToDate)
+            
+            var months: Float = 0
+            if let firstDate = date1 , let secondDate = date2 {
+                
+                months = Float(calculateNumberOfMonthsFromDates(firstDate, secondDate: secondDate))
+            }
             let monthsPercentage = (months / 36) * 100
             
-            let monthsProgressViewWidth: CGFloat = cell!.monthsProgressView.frame.size.width
-            let monthsProgressViewHeight: CGFloat = cell!.monthsProgressView.frame.size.height
+            //            let monthsProgressViewWidth: CGFloat = cell!.monthsProgressView.frame.size.width
+            //            let monthsProgressViewHeight: CGFloat = cell!.monthsProgressView.frame.size.height
             
-            let monthsIndicator = MSSimpleGauge(frame: CGRect(x: 0, y: 0, width: monthsProgressViewWidth - 10, height: monthsProgressViewHeight))
-            monthsIndicator.fillArcFillColor=UIColor.PumpkinColor()
+            let monthsIndicator = MSSimpleGauge(frame: CGRect(x: 0, y: 20, width: (screenWidth/2) - 30, height: (screenWidth/3)))
+            monthsIndicator.fillArcFillColor = UIColor.PumpkinColor()
             monthsIndicator.backgroundArcFillColor = UIColor.vehicleTypeSelectedButtonBackgroundColor()
             monthsIndicator.backgroundGradient = nil
             monthsIndicator.needleView.needleColor = UIColor.PumpkinColor()
@@ -186,7 +191,8 @@ class VehicleDetailsViewController: GAITrackedViewController, UITableViewDataSou
             
             monthsIndicator.arcThickness = 20
             cell?.monthsProgressView.addSubview(monthsIndicator)
-            let monthsCompletedLabel = UILabel(frame: CGRect(x: 0,y: 5,width: monthsProgressViewWidth - 10,height: monthsProgressViewHeight/3))
+            
+            let monthsCompletedLabel = UILabel(frame: CGRect(x: 0,y: 5,width: (screenWidth/2) - 30,height: 45))
             monthsCompletedLabel.numberOfLines = 0
             monthsCompletedLabel.textAlignment = .center
             
@@ -203,22 +209,18 @@ class VehicleDetailsViewController: GAITrackedViewController, UITableViewDataSou
             cell?.monthsProgressView.addSubview(monthsCompletedLabel)
             
             //MILES
-            var mileage = ((self.vehiclesDetailsDict.value(forKey: "mileage")!) as! uint)
-            //            let milesCovered = calculateMilesRemainingPercentage(mileage, totalWarrentyMiles: 36000)
-            let mileagePercentage = Float((Float(mileage) / 36000) * 100)
-            //            let remainingMonths = (36 - Int(months))
+            var mileage = ((self.vehiclesDetailsDict.value(forKey: "mileage")!) as AnyObject).floatValue
+            
+            let mileagePercentage = Float((Float(mileage!) / 36000) * 100)
             
             if mileage == nil {
                 mileage = 0
             }
-            //            let remainingMiles = (36000 - Int(mileage!))
             
+            //            let milesProgressViewWidth: CGFloat = cell!.monthsProgressView.frame.size.width
+            //            let milesProgressViewHeight: CGFloat = cell!.monthsProgressView.frame.size.height
             
-            
-            let milesProgressViewWidth: CGFloat = cell!.monthsProgressView.frame.size.width
-            let milesProgressViewHeight: CGFloat = cell!.monthsProgressView.frame.size.height
-            
-            let milesIndicator = MSSimpleGauge(frame: CGRect(x: 10, y: 0, width: milesProgressViewWidth - 10, height: milesProgressViewHeight))
+            let milesIndicator = MSSimpleGauge(frame: CGRect(x: 10, y: 20, width: (screenWidth/2) - 30, height: (screenWidth/3)))
             milesIndicator.fillArcFillColor = UIColor.AzureColor()
             milesIndicator.backgroundArcFillColor = UIColor.vehicleTypeSelectedButtonBackgroundColor()
             milesIndicator.backgroundGradient = nil
@@ -231,12 +233,12 @@ class VehicleDetailsViewController: GAITrackedViewController, UITableViewDataSou
             milesIndicator.arcThickness = 20
             cell?.milesProgressView.addSubview(milesIndicator)
             
-            let milesCompletedLabel = UILabel(frame: CGRect(x: 10,y: 5,width: milesProgressViewWidth - 10,height: milesProgressViewHeight/3))
+            let milesCompletedLabel = UILabel(frame: CGRect(x: 10,y: 5,width: (screenWidth/2) - 30,height: 45))
             milesCompletedLabel.numberOfLines = 0
             milesCompletedLabel.textAlignment = .center
             let milesAttributedString = NSMutableAttributedString()
             let milessAttributes = [NSFontAttributeName : UIFont.boldFont().withSize(20), NSForegroundColorAttributeName : UIColor.AzureColor()]
-            let milesString = NSMutableAttributedString(string: "\(Int(mileage))", attributes: milessAttributes)
+            let milesString = NSMutableAttributedString(string: "\(Int(mileage!))", attributes: milessAttributes)
             milesAttributedString.append(milesString)
             let newLinesString = NSMutableAttributedString(string: "\n", attributes: monthsAttributes)
             milesAttributedString.append(newLinesString)
@@ -452,10 +454,8 @@ class VehicleDetailsViewController: GAITrackedViewController, UITableViewDataSou
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: vehicleCollectionViewCellReuseIdentifier, for: indexPath) as! VehicleDetailsCollectionViewCell
         
         let imageURLString = self.vehicleImagesArray[(indexPath as NSIndexPath).row].value(forKey: "image_url") as! NSString
-        cell.vehicleImageView.sd_setImage(with: URL(string: imageURLString as String), placeholderImage: UIImage(named: "placeholder"), options: SDWebImageOptions(rawValue: UInt(0)), completed: { (image, error, cacheType, url) -> Void in
-            cell.vehicleImageView.alpha = 1;
-            
-        })
+         cell.vehicleImageView.setImageWith(URL(string: imageURLString as String), placeholderImage: UIImage(named: "placeholder"), options: SDWebImageOptions(rawValue: UInt(0)), usingActivityIndicatorStyle: UIActivityIndicatorViewStyle.gray)
+        
         cell.vehicleTitle.text = self.vehiclesDetailsDict.value(forKey: "name") as? String
         cell.vehicleName.text = String(format: "%@ %@ • %@", (self.vehiclesDetailsDict.value(forKey: "year") as? String)!, (self.vehiclesDetailsDict.value(forKey: "model") as? String)!, (self.vehiclesDetailsDict.value(forKey: "mileage") as? String)!)
         

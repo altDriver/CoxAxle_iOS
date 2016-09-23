@@ -137,11 +137,16 @@ class LoginViewController: GAITrackedViewController,UIAlertController_UIAlertVie
                     self.view.addSubview(loading)
                     
                     let passwordEncryption = passwordField.text?.encodeStringTo64()
+                     let deviceType = UIDevice.current.modelName
+                     let deviceVersion = UIDevice.current.iOSVersion
+                     let model = String(format: "%@,%@", deviceType,deviceVersion)
                     
-                    let paramsDict: [ String : String] = ["email": self.usernameField.text! as String, "password": passwordEncryption! as String] as Dictionary
+                    let deviceToken = UserDefaults.standard.object(forKey: "Device_Token") as! String
+                    
+                    let paramsDict: [ String : String] = ["email": self.usernameField.text! as String, "password": passwordEncryption! as String, "device_token": deviceToken, "device_type": "iOS", "os_version": model] as Dictionary
                     print(NSString(format: "Request: %@", paramsDict))
                     
-                    Alamofire.request(Constant.API.kBaseUrlPath+"customer", method: .post, parameters: nil, encoding: JSONEncoding.default).responseJSON { response in
+                    Alamofire.request(Constant.API.kBaseUrlPath+"customer", method: .post, parameters: paramsDict).responseJSON { response in
                             loading.hide()
                             if let JSON = response.result.value {
                                 

@@ -16,4 +16,5 @@ class InventoryResultsCollectionViewCell: UICollectionViewCell {
     @IBOutlet var vehiclePrice: UILabel!
     @IBOutlet var vehicleMiles: UILabel!
     @IBOutlet var vehicleImageViewHeight: NSLayoutConstraint!
+    @IBOutlet var vehicleNameTopConstraint: NSLayoutConstraint!
 }

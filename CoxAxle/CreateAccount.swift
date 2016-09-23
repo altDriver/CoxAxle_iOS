@@ -95,12 +95,17 @@ class CreateAccount: GAITrackedViewController, UIAlertController_UIAlertView{
             let loading = UIActivityIndicatorView_ActivityClass(text: "Loading")
             self.view.addSubview(loading)
             let passwordEncryption = self.passwordField.text?.encodeStringTo64()
+            let deviceType = UIDevice.current.modelName
+            let deviceVersion = UIDevice.current.iOSVersion
+            let model = String(format: "%@,%@", deviceType,deviceVersion)
             
-             let paramsDict: [String : String] = ["first_name": self.firstNameField.text! as String, "last_name": self.lastNameField.text! as String, "password": passwordEncryption! as String, "email": self.emailField.text! as String, "phone": self.phoneNumberField.text! as String, "dealer_code": "KH001"] as Dictionary
+            let deviceToken = UserDefaults.standard.object(forKey: "Device_Token") as! String
+            
+             let paramsDict: [String : String] = ["first_name": self.firstNameField.text! as String, "last_name": self.lastNameField.text! as String, "password": passwordEncryption! as String, "email": self.emailField.text! as String, "phone": self.phoneNumberField.text! as String, "dealer_code": "KH001", "device_token": deviceToken, "device_type": "iOS", "os_version": model] as Dictionary
             print(NSString(format: "Request: %@", paramsDict))
 
             
-            Alamofire.request(Constant.API.kBaseUrlPath+"register", method: .post, parameters: nil, encoding: JSONEncoding.default).responseJSON
+            Alamofire.request(Constant.API.kBaseUrlPath+"register", method: .post, parameters: paramsDict).responseJSON
                 { response in
                 
                 loading.hide()

@@ -59,17 +59,17 @@ class UIActivityIndicatorView_ActivityClass: UIVisualEffectView {
             
             let activityIndicatorSize: CGFloat = 70
             let deviceType = UIDevice.current.modelName
-            if deviceType == "iPhone 5" || deviceType == "iPhone 5s" || deviceType == "iPhone8,4" {
+            if deviceType == "iPhone 5" || deviceType == "iPhone 5s" || deviceType == "iPhone SE" {
                 activityIndictor.frame = CGRect(x: 9, y: height / 2 - activityIndicatorSize / 2 - 15,
                                                     width: activityIndicatorSize,
                                                     height: activityIndicatorSize)
             }
-            else if deviceType == "iPhone 6" || deviceType == "iPhone 6s" || deviceType == "iPhone9,1" {
+            else if deviceType == "iPhone 6" || deviceType == "iPhone 6s" || deviceType == "iPhone 7" {
             activityIndictor.frame = CGRect(x: 17, y: height / 2 - activityIndicatorSize / 2 - 15,
                                                 width: activityIndicatorSize,
                                                 height: activityIndicatorSize)
             }
-            else if deviceType == "iPhone 6 Plus" || deviceType == "iPhone 6s Plus" || deviceType == "iPhone9,2" {
+            else if deviceType == "iPhone 6 Plus" || deviceType == "iPhone 6s Plus" || deviceType == "iPhone 7 Plus" {
                 activityIndictor.frame = CGRect(x: 23, y: height / 2 - activityIndicatorSize / 2 - 15,
                                                     width: activityIndicatorSize,
                                                     height: activityIndicatorSize)

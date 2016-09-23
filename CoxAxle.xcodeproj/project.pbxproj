@@ -13,6 +13,7 @@
 		CE02E2F71D86B41C00FE60D8 /* InventoryResultsCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE02E2F61D86B41C00FE60D8 /* InventoryResultsCollectionViewCell.swift */; };
 		CE02E2F91D86DBF100FE60D8 /* SelectionTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE02E2F81D86DBF100FE60D8 /* SelectionTableViewCell.swift */; };
 		CE0B5BA81D869BED002FA2D2 /* InventoryResultsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE0B5BA71D869BED002FA2D2 /* InventoryResultsViewController.swift */; };
+		CE16BCDC1D93BA8E00265711 /* FavoriteCarsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE16BCDB1D93BA8E00265711 /* FavoriteCarsViewController.swift */; };
 		CE1C8FBD1D66EF8D004C3123 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE1C8FBC1D66EF8D004C3123 /* SettingsViewController.swift */; };
 		CE1C8FBF1D671430004C3123 /* UserDetails.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE1C8FBE1D671430004C3123 /* UserDetails.swift */; };
 		CE5231CA1D50A63100C51AC0 /* Alamofire.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CE5231C91D50A63100C51AC0 /* Alamofire.framework */; };
@@ -23,6 +24,7 @@
 		CE9CE95A1D6475C1007DA809 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CE9CE9591D6475C1007DA809 /* MapKit.framework */; };
 		CE9CE95C1D6486AE007DA809 /* AddVehicleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE9CE95B1D6486AE007DA809 /* AddVehicleViewController.swift */; };
 		CE9CE9641D649F23007DA809 /* VehiclesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE9CE9631D649F23007DA809 /* VehiclesViewController.swift */; };
+		CEA4A3C41D914FDF00BDE492 /* CarShoppingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEA4A3C31D914FDF00BDE492 /* CarShoppingViewController.swift */; };
 		CEA8BAB31D6C706300331D27 /* demo.docx in Resources */ = {isa = PBXBuildFile; fileRef = CEA8BAB21D6C706300331D27 /* demo.docx */; };
 		CEACB8B11D700BE300464844 /* SessionExpireViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEACB8B01D700BE300464844 /* SessionExpireViewController.swift */; };
 		CEACB8B41D702D4F00464844 /* Logout.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEACB8B31D702D4F00464844 /* Logout.swift */; };
@@ -44,6 +46,7 @@
 		CEC07E511D5B467B0018AE19 /* MyCarsLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEC07E501D5B467B0018AE19 /* MyCarsLayout.swift */; };
 		CEC309A51D48A6740015D6A9 /* UIActivityIndicatorView+ActivityClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEC309A41D48A6740015D6A9 /* UIActivityIndicatorView+ActivityClass.swift */; };
 		CEC309A71D48DC090015D6A9 /* NSString+ValidationClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEC309A61D48DC090015D6A9 /* NSString+ValidationClass.swift */; };
+		CEC429051D926C630087E927 /* SwiftyAccordionCells.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEC429041D926C630087E927 /* SwiftyAccordionCells.swift */; };
 		CEC502701D408E0000DDC19E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEC5026F1D408E0000DDC19E /* AppDelegate.swift */; };
 		CEC502721D408E0000DDC19E /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEC502711D408E0000DDC19E /* ViewController.swift */; };
 		CEC502751D408E0100DDC19E /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CEC502731D408E0100DDC19E /* Main.storyboard */; };
@@ -71,6 +74,9 @@
 		CEC758B71D76E91C00619152 /* VehicleInsuranceDetailsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEC758B01D76E91C00619152 /* VehicleInsuranceDetailsTableViewCell.swift */; };
 		CEC758B81D76E91C00619152 /* InsuranceCardTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEC758B11D76E91C00619152 /* InsuranceCardTableViewCell.swift */; };
 		CEC758B91D76E91C00619152 /* DatePickerTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEC758B21D76E91C00619152 /* DatePickerTableViewCell.swift */; };
+		CEC7798C1D8FD33200FE19DE /* EditSelectionTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEC7798B1D8FD33200FE19DE /* EditSelectionTableViewCell.swift */; };
+		CEC7798E1D90031A00FE19DE /* SavedSearchesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEC7798D1D90031900FE19DE /* SavedSearchesViewController.swift */; };
+		CEC779901D90146800FE19DE /* AutoTraderResults.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEC7798F1D90146800FE19DE /* AutoTraderResults.swift */; };
 		CEC94C6C1D7EC6E800C0C11D /* FindMyVinViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEC94C6B1D7EC6E800C0C11D /* FindMyVinViewController.swift */; };
 		CEC94C6E1D7EC75B00C0C11D /* InsuranceCardsCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEC94C6D1D7EC75B00C0C11D /* InsuranceCardsCollectionViewCell.swift */; };
 		CEC94C701D7ED92200C0C11D /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = CEC94C6F1D7ED92200C0C11D /* GoogleService-Info.plist */; };
@@ -87,6 +93,14 @@
 		CEE3F19A1D5A10E6001FFE02 /* MyCarsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEE3F1991D5A10E6001FFE02 /* MyCarsTableViewCell.swift */; };
 		CEE3F19C1D5A1527001FFE02 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CEE3F19B1D5A1527001FFE02 /* QuartzCore.framework */; };
 		CEE727211D8131DB00FCC8C9 /* InventorySearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEE727201D8131DB00FCC8C9 /* InventorySearchViewController.swift */; };
+		CEF631641D93FC4900AC4E30 /* SavedSearchesList.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEF631631D93FC4900AC4E30 /* SavedSearchesList.swift */; };
+		CEF631661D940F4000AC4E30 /* DealerInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEF631651D940F4000AC4E30 /* DealerInfo.swift */; };
+		CEF6316C1D942F6C00AC4E30 /* BasicFilterOptionsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEF631671D942F6C00AC4E30 /* BasicFilterOptionsTableViewCell.swift */; };
+		CEF6316D1D942F6C00AC4E30 /* PriceRangeTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEF631681D942F6C00AC4E30 /* PriceRangeTableViewCell.swift */; };
+		CEF6316E1D942F6C00AC4E30 /* MoreOptionsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEF631691D942F6C00AC4E30 /* MoreOptionsTableViewCell.swift */; };
+		CEF6316F1D942F6C00AC4E30 /* ColorBodyEngineTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEF6316A1D942F6C00AC4E30 /* ColorBodyEngineTableViewCell.swift */; };
+		CEF631701D942F6C00AC4E30 /* InventorySearchPickerTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEF6316B1D942F6C00AC4E30 /* InventorySearchPickerTableViewCell.swift */; };
+		CEF631721D942FDF00AC4E30 /* SaveSearch.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEF631711D942FDF00AC4E30 /* SaveSearch.swift */; };
 		CEF6A57E1D772219002E66B7 /* NoInternetConnectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEF6A57D1D772219002E66B7 /* NoInternetConnectionViewController.swift */; };
 		CEFDE9961D5DD16A00A3044B /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEFDE9951D5DD16A00A3044B /* LoginViewController.swift */; };
 /* End PBXBuildFile section */
@@ -118,6 +132,7 @@
 		CE02E2F61D86B41C00FE60D8 /* InventoryResultsCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InventoryResultsCollectionViewCell.swift; sourceTree = "<group>"; };
 		CE02E2F81D86DBF100FE60D8 /* SelectionTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SelectionTableViewCell.swift; sourceTree = "<group>"; };
 		CE0B5BA71D869BED002FA2D2 /* InventoryResultsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InventoryResultsViewController.swift; sourceTree = "<group>"; };
+		CE16BCDB1D93BA8E00265711 /* FavoriteCarsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FavoriteCarsViewController.swift; sourceTree = "<group>"; };
 		CE1C8FBC1D66EF8D004C3123 /* SettingsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		CE1C8FBE1D671430004C3123 /* UserDetails.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserDetails.swift; sourceTree = "<group>"; };
 		CE5231C91D50A63100C51AC0 /* Alamofire.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Alamofire.framework; path = "../../../Library/Developer/Xcode/DerivedData/CoxAxle-getleldjrqfjnrazmgxijnkndhcu/Build/Products/Debug-iphonesimulator/Alamofire/Alamofire.framework"; sourceTree = "<group>"; };
@@ -128,6 +143,8 @@
 		CE9CE9591D6475C1007DA809 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 		CE9CE95B1D6486AE007DA809 /* AddVehicleViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddVehicleViewController.swift; sourceTree = "<group>"; };
 		CE9CE9631D649F23007DA809 /* VehiclesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VehiclesViewController.swift; sourceTree = "<group>"; };
+		CEA4A3C31D914FDF00BDE492 /* CarShoppingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CarShoppingViewController.swift; sourceTree = "<group>"; };
+		CEA4A3C51D91650900BDE492 /* UserNotifications.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UserNotifications.framework; path = System/Library/Frameworks/UserNotifications.framework; sourceTree = SDKROOT; };
 		CEA8BAB21D6C706300331D27 /* demo.docx */ = {isa = PBXFileReference; lastKnownFileType = file; path = demo.docx; sourceTree = "<group>"; };
 		CEACB8B01D700BE300464844 /* SessionExpireViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SessionExpireViewController.swift; sourceTree = "<group>"; };
 		CEACB8B31D702D4F00464844 /* Logout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Logout.swift; sourceTree = "<group>"; };
@@ -149,6 +166,7 @@
 		CEC07E501D5B467B0018AE19 /* MyCarsLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyCarsLayout.swift; sourceTree = "<group>"; };
 		CEC309A41D48A6740015D6A9 /* UIActivityIndicatorView+ActivityClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIActivityIndicatorView+ActivityClass.swift"; sourceTree = "<group>"; };
 		CEC309A61D48DC090015D6A9 /* NSString+ValidationClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSString+ValidationClass.swift"; sourceTree = "<group>"; };
+		CEC429041D926C630087E927 /* SwiftyAccordionCells.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwiftyAccordionCells.swift; sourceTree = "<group>"; };
 		CEC5026C1D408E0000DDC19E /* CoxAxle.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CoxAxle.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		CEC5026F1D408E0000DDC19E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		CEC502711D408E0000DDC19E /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -186,6 +204,9 @@
 		CEC758B01D76E91C00619152 /* VehicleInsuranceDetailsTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VehicleInsuranceDetailsTableViewCell.swift; sourceTree = "<group>"; };
 		CEC758B11D76E91C00619152 /* InsuranceCardTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InsuranceCardTableViewCell.swift; sourceTree = "<group>"; };
 		CEC758B21D76E91C00619152 /* DatePickerTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DatePickerTableViewCell.swift; sourceTree = "<group>"; };
+		CEC7798B1D8FD33200FE19DE /* EditSelectionTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditSelectionTableViewCell.swift; sourceTree = "<group>"; };
+		CEC7798D1D90031900FE19DE /* SavedSearchesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SavedSearchesViewController.swift; sourceTree = "<group>"; };
+		CEC7798F1D90146800FE19DE /* AutoTraderResults.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AutoTraderResults.swift; sourceTree = "<group>"; };
 		CEC94C6B1D7EC6E800C0C11D /* FindMyVinViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FindMyVinViewController.swift; sourceTree = "<group>"; };
 		CEC94C6D1D7EC75B00C0C11D /* InsuranceCardsCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InsuranceCardsCollectionViewCell.swift; sourceTree = "<group>"; };
 		CEC94C6F1D7ED92200C0C11D /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
@@ -195,6 +216,7 @@
 		CEC94C771D7EE26900C0C11D /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
 		CEC94C7B1D7EE98700C0C11D /* AdSupport.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AdSupport.framework; path = System/Library/Frameworks/AdSupport.framework; sourceTree = SDKROOT; };
 		CED79F6E1D8297BE00964DB4 /* ForgotPasswordViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ForgotPasswordViewController.swift; sourceTree = "<group>"; };
+		CEDEDED61D91727100D9829E /* CoxAxle.entitlements */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.entitlements; path = CoxAxle.entitlements; sourceTree = "<group>"; };
 		CEE2575B1D8156AD00AE9930 /* AutoTraderSearchFilters.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AutoTraderSearchFilters.swift; sourceTree = "<group>"; };
 		CEE2E88C1D7832AF00511692 /* SideMenuVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SideMenuVC.swift; sourceTree = "<group>"; };
 		CEE3F1951D5A0CC3001FFE02 /* MyCarsCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyCarsCollectionViewCell.swift; sourceTree = "<group>"; };
@@ -202,6 +224,14 @@
 		CEE3F1991D5A10E6001FFE02 /* MyCarsTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyCarsTableViewCell.swift; sourceTree = "<group>"; };
 		CEE3F19B1D5A1527001FFE02 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		CEE727201D8131DB00FCC8C9 /* InventorySearchViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InventorySearchViewController.swift; sourceTree = "<group>"; };
+		CEF631631D93FC4900AC4E30 /* SavedSearchesList.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SavedSearchesList.swift; sourceTree = "<group>"; };
+		CEF631651D940F4000AC4E30 /* DealerInfo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DealerInfo.swift; sourceTree = "<group>"; };
+		CEF631671D942F6C00AC4E30 /* BasicFilterOptionsTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BasicFilterOptionsTableViewCell.swift; sourceTree = "<group>"; };
+		CEF631681D942F6C00AC4E30 /* PriceRangeTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PriceRangeTableViewCell.swift; sourceTree = "<group>"; };
+		CEF631691D942F6C00AC4E30 /* MoreOptionsTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MoreOptionsTableViewCell.swift; sourceTree = "<group>"; };
+		CEF6316A1D942F6C00AC4E30 /* ColorBodyEngineTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ColorBodyEngineTableViewCell.swift; sourceTree = "<group>"; };
+		CEF6316B1D942F6C00AC4E30 /* InventorySearchPickerTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InventorySearchPickerTableViewCell.swift; sourceTree = "<group>"; };
+		CEF631711D942FDF00AC4E30 /* SaveSearch.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SaveSearch.swift; sourceTree = "<group>"; };
 		CEF6A57D1D772219002E66B7 /* NoInternetConnectionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NoInternetConnectionViewController.swift; sourceTree = "<group>"; };
 		CEFDE9951D5DD16A00A3044B /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		E25E3C4BF7F075A0C02D0762 /* Pods-CoxAxleTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CoxAxleTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-CoxAxleTests/Pods-CoxAxleTests.release.xcconfig"; sourceTree = "<group>"; };
@@ -245,6 +275,7 @@
 		623815C8477EF90895DD97A3 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				CEA4A3C51D91650900BDE492 /* UserNotifications.framework */,
 				CEC94C7B1D7EE98700C0C11D /* AdSupport.framework */,
 				CEC94C771D7EE26900C0C11D /* libz.tbd */,
 				CEC94C751D7EE25E00C0C11D /* libsqlite3.tbd */,
@@ -274,6 +305,11 @@
 			isa = PBXGroup;
 			children = (
 				CE02E2F61D86B41C00FE60D8 /* InventoryResultsCollectionViewCell.swift */,
+				CEF631671D942F6C00AC4E30 /* BasicFilterOptionsTableViewCell.swift */,
+				CEF631681D942F6C00AC4E30 /* PriceRangeTableViewCell.swift */,
+				CEF631691D942F6C00AC4E30 /* MoreOptionsTableViewCell.swift */,
+				CEF6316A1D942F6C00AC4E30 /* ColorBodyEngineTableViewCell.swift */,
+				CEF6316B1D942F6C00AC4E30 /* InventorySearchPickerTableViewCell.swift */,
 			);
 			name = Inventory;
 			sourceTree = "<group>";
@@ -293,8 +329,20 @@
 				CEACB8B31D702D4F00464844 /* Logout.swift */,
 				CE5D4A6C1D799F6D0077EA75 /* XTime.swift */,
 				CEE2575B1D8156AD00AE9930 /* AutoTraderSearchFilters.swift */,
+				CEC7798F1D90146800FE19DE /* AutoTraderResults.swift */,
+				CEF631631D93FC4900AC4E30 /* SavedSearchesList.swift */,
+				CEF631651D940F4000AC4E30 /* DealerInfo.swift */,
+				CEF631711D942FDF00AC4E30 /* SaveSearch.swift */,
 			);
 			name = ModalClasses;
+			sourceTree = "<group>";
+		};
+		CE16BCDA1D93BA6900265711 /* FavoriteCars */ = {
+			isa = PBXGroup;
+			children = (
+				CE16BCDB1D93BA8E00265711 /* FavoriteCarsViewController.swift */,
+			);
+			name = FavoriteCars;
 			sourceTree = "<group>";
 		};
 		CE1C8FBB1D66EF12004C3123 /* Settings */ = {
@@ -327,6 +375,14 @@
 				CEC55EF61D7FE0D800A7CD95 /* VehicleDocumentTableViewCell.swift */,
 			);
 			name = VehicleDetails;
+			sourceTree = "<group>";
+		};
+		CEA4A3C21D914FB600BDE492 /* CarShopping */ = {
+			isa = PBXGroup;
+			children = (
+				CEA4A3C31D914FDF00BDE492 /* CarShoppingViewController.swift */,
+			);
+			name = CarShopping;
 			sourceTree = "<group>";
 		};
 		CEACB8B21D700BED00464844 /* SessionExpire */ = {
@@ -439,6 +495,7 @@
 		CEC5026E1D408E0000DDC19E /* CoxAxle */ = {
 			isa = PBXGroup;
 			children = (
+				CEDEDED61D91727100D9829E /* CoxAxle.entitlements */,
 				CEC502A01D40982D00DDC19E /* AppDelegate */,
 				CEC502A11D40983A00DDC19E /* Controllers */,
 				CEB7D7B21D58C6900096BC50 /* Views */,
@@ -490,6 +547,8 @@
 				CEB587021D6304C900683A0D /* Xtime */,
 				CE96F3B71D5C5B3B0026037A /* Vehicles */,
 				CEE727221D81320800FCC8C9 /* Inventory */,
+				CEA4A3C21D914FB600BDE492 /* CarShopping */,
+				CE16BCDA1D93BA6900265711 /* FavoriteCars */,
 				CEB7BC4D1D41E83400A6A251 /* LeftMenu */,
 			);
 			name = Controllers;
@@ -511,6 +570,7 @@
 				CEC502C71D40D17E00DDC19E /* CoxAxle-Bridging-Header.h */,
 				CEC502A31D40993700DDC19E /* Reachability.swift */,
 				CEC502A71D40A65600DDC19E /* Constants.swift */,
+				CEC429041D926C630087E927 /* SwiftyAccordionCells.swift */,
 				CEA8BAB21D6C706300331D27 /* demo.docx */,
 				CEC94C6F1D7ED92200C0C11D /* GoogleService-Info.plist */,
 			);
@@ -559,6 +619,7 @@
 				CEC758B21D76E91C00619152 /* DatePickerTableViewCell.swift */,
 				CEC94C6D1D7EC75B00C0C11D /* InsuranceCardsCollectionViewCell.swift */,
 				CE02E2F81D86DBF100FE60D8 /* SelectionTableViewCell.swift */,
+				CEC7798B1D8FD33200FE19DE /* EditSelectionTableViewCell.swift */,
 			);
 			name = AddVehicle;
 			sourceTree = "<group>";
@@ -568,6 +629,7 @@
 			children = (
 				CEE727201D8131DB00FCC8C9 /* InventorySearchViewController.swift */,
 				CE0B5BA71D869BED002FA2D2 /* InventoryResultsViewController.swift */,
+				CEC7798D1D90031900FE19DE /* SavedSearchesViewController.swift */,
 			);
 			name = Inventory;
 			sourceTree = "<group>";
@@ -663,8 +725,13 @@
 				TargetAttributes = {
 					CEC5026B1D408E0000DDC19E = {
 						CreatedOnToolsVersion = 7.3.1;
-						DevelopmentTeam = EYNV5M442H;
+						DevelopmentTeam = HLUESG39R7;
 						LastSwiftMigration = 0800;
+						SystemCapabilities = {
+							com.apple.Push = {
+								enabled = 1;
+							};
+						};
 					};
 					CEC502821D408E0100DDC19E = {
 						CreatedOnToolsVersion = 7.3.1;
@@ -827,7 +894,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CEC429051D926C630087E927 /* SwiftyAccordionCells.swift in Sources */,
 				CEFDE9961D5DD16A00A3044B /* LoginViewController.swift in Sources */,
+				CEF631701D942F6C00AC4E30 /* InventorySearchPickerTableViewCell.swift in Sources */,
 				CEB2995B1D65B883009F3015 /* Login.swift in Sources */,
 				CEC502D01D4102E600DDC19E /* RootVC.swift in Sources */,
 				CEC94C6C1D7EC6E800C0C11D /* FindMyVinViewController.swift in Sources */,
@@ -839,10 +908,13 @@
 				CEC502701D408E0000DDC19E /* AppDelegate.swift in Sources */,
 				CEB7BC581D423C1500A6A251 /* UIAlertController+UIAlertView.swift in Sources */,
 				CEB6857B1D6B0EC9008FE232 /* UpdateUserDetails.swift in Sources */,
+				CEC779901D90146800FE19DE /* AutoTraderResults.swift in Sources */,
 				CE96F3BE1D5C687C0026037A /* VehicleDetailsCollectionViewCell.swift in Sources */,
 				CE0B5BA81D869BED002FA2D2 /* InventoryResultsViewController.swift in Sources */,
+				CEC7798C1D8FD33200FE19DE /* EditSelectionTableViewCell.swift in Sources */,
 				CEACB8B81D7048EC00464844 /* UIDevice+DeviceType.swift in Sources */,
 				CEC502D21D41036F00DDC19E /* NavigationVC.swift in Sources */,
+				CEF6316C1D942F6C00AC4E30 /* BasicFilterOptionsTableViewCell.swift in Sources */,
 				CEACB8B41D702D4F00464844 /* Logout.swift in Sources */,
 				CEC502CE1D40EA3D00DDC19E /* LandingScreen.swift in Sources */,
 				CED79F6F1D8297BE00964DB4 /* ForgotPasswordViewController.swift in Sources */,
@@ -850,12 +922,17 @@
 				CEC502781D408E0100DDC19E /* CoxAxle.xcdatamodeld in Sources */,
 				CEC502C01D40AB6A00DDC19E /* StringExtension.swift in Sources */,
 				CE9CE9641D649F23007DA809 /* VehiclesViewController.swift in Sources */,
+				CEF6316D1D942F6C00AC4E30 /* PriceRangeTableViewCell.swift in Sources */,
 				CEC758B81D76E91C00619152 /* InsuranceCardTableViewCell.swift in Sources */,
 				CE02E2F91D86DBF100FE60D8 /* SelectionTableViewCell.swift in Sources */,
+				CEF6316E1D942F6C00AC4E30 /* MoreOptionsTableViewCell.swift in Sources */,
+				CEF631661D940F4000AC4E30 /* DealerInfo.swift in Sources */,
 				CE1C8FBF1D671430004C3123 /* UserDetails.swift in Sources */,
+				CEF631641D93FC4900AC4E30 /* SavedSearchesList.swift in Sources */,
 				CEB2995D1D65C0AA009F3015 /* Register.swift in Sources */,
 				CEACB8B11D700BE300464844 /* SessionExpireViewController.swift in Sources */,
 				CEE2575C1D8156AD00AE9930 /* AutoTraderSearchFilters.swift in Sources */,
+				CEC7798E1D90031A00FE19DE /* SavedSearchesViewController.swift in Sources */,
 				CEB7D7BF1D58CACD0096BC50 /* BannerCollectionViewCell.swift in Sources */,
 				CEE3F1981D5A10CD001FFE02 /* BannerTableViewCell.swift in Sources */,
 				CEC502AA1D40A9EF00DDC19E /* UIColor+ColorClass.swift in Sources */,
@@ -873,9 +950,11 @@
 				CEC502AC1D40AA4700DDC19E /* UIFont+FontClass.swift in Sources */,
 				CEC758B91D76E91C00619152 /* DatePickerTableViewCell.swift in Sources */,
 				CEC758AA1D76E86100619152 /* VehicleInsuranceDetailsViewController.swift in Sources */,
+				CE16BCDC1D93BA8E00265711 /* FavoriteCarsViewController.swift in Sources */,
 				CE9CE95C1D6486AE007DA809 /* AddVehicleViewController.swift in Sources */,
 				CEC03D881D6D80A400ED74D9 /* VehiclesListCollectionViewCell.swift in Sources */,
 				CEC758B71D76E91C00619152 /* VehicleInsuranceDetailsTableViewCell.swift in Sources */,
+				CEF6316F1D942F6C00AC4E30 /* ColorBodyEngineTableViewCell.swift in Sources */,
 				CEC502A81D40A65600DDC19E /* Constants.swift in Sources */,
 				CEF6A57E1D772219002E66B7 /* NoInternetConnectionViewController.swift in Sources */,
 				CEC758B41D76E91C00619152 /* VehicleTypeTableViewCell.swift in Sources */,
@@ -883,6 +962,7 @@
 				CEB299651D65D544009F3015 /* EditVehicles.swift in Sources */,
 				CE96F3B91D5C5B720026037A /* VehicleDetailsViewController.swift in Sources */,
 				CEE3F1961D5A0CC3001FFE02 /* MyCarsCollectionViewCell.swift in Sources */,
+				CEA4A3C41D914FDF00BDE492 /* CarShoppingViewController.swift in Sources */,
 				CEB6857D1D6B22BB008FE232 /* DealersList.swift in Sources */,
 				CEC758B61D76E91C00619152 /* VehicleDetailTableViewCell.swift in Sources */,
 				CEB587041D6304FE00683A0D /* XtimeViewController.swift in Sources */,
@@ -890,6 +970,7 @@
 				CE1C8FBD1D66EF8D004C3123 /* SettingsViewController.swift in Sources */,
 				CEB4FBDA1D744EB8002788AA /* VehicleProgressTableViewCell.swift in Sources */,
 				CEE2E88D1D7832AF00511692 /* SideMenuVC.swift in Sources */,
+				CEF631721D942FDF00AC4E30 /* SaveSearch.swift in Sources */,
 				CE0211171D8A7311001F6EE9 /* EditVehicleViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1058,8 +1139,11 @@
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = CoxAxle/CoxAxle.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer: Srinivasa Nimmagadda (2AM7P97NUA)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Srinivasa Nimmagadda (2AM7P97NUA)";
+				DEVELOPMENT_TEAM = HLUESG39R7;
+				ENABLE_BITCODE = YES;
 				GCC_GENERATE_TEST_COVERAGE_FILES = NO;
 				INFOPLIST_FILE = CoxAxle/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
@@ -1071,10 +1155,12 @@
 				PRODUCT_BUNDLE_IDENTIFIER = vensai.CoxAxle;
 				PRODUCT_MODULE_NAME = "$(PRODUCT_NAME:c99extidentifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "eb6b7a67-4d16-41d5-9820-256563f4b326";
+				PROVISIONING_PROFILE = "c963a865-1b80-46c1-a3d0-a37d59e88a85";
+				PROVISIONING_PROFILE_SPECIFIER = CoxAxle_Development;
 				SWIFT_OBJC_BRIDGING_HEADER = "CoxAxle/CoxAxle-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 3.0;
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -1086,8 +1172,11 @@
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = CoxAxle/CoxAxle.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer: Srinivasa Nimmagadda (2AM7P97NUA)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Srinivasa Nimmagadda (2AM7P97NUA)";
+				DEVELOPMENT_TEAM = HLUESG39R7;
+				ENABLE_BITCODE = YES;
 				GCC_GENERATE_TEST_COVERAGE_FILES = NO;
 				INFOPLIST_FILE = CoxAxle/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
@@ -1099,9 +1188,11 @@
 				PRODUCT_BUNDLE_IDENTIFIER = vensai.CoxAxle;
 				PRODUCT_MODULE_NAME = "$(PRODUCT_NAME:c99extidentifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "eb6b7a67-4d16-41d5-9820-256563f4b326";
+				PROVISIONING_PROFILE = "c963a865-1b80-46c1-a3d0-a37d59e88a85";
+				PROVISIONING_PROFILE_SPECIFIER = CoxAxle_Development;
 				SWIFT_OBJC_BRIDGING_HEADER = "CoxAxle/CoxAxle-Bridging-Header.h";
 				SWIFT_VERSION = 3.0;
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};

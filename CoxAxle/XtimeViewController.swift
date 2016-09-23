@@ -52,7 +52,7 @@ class XtimeViewController: GAITrackedViewController,UIWebViewDelegate, UIAlertCo
             let loading = UIActivityIndicatorView_ActivityClass(text: "Loading")
             self.view.addSubview(loading)
             
-            Alamofire.request(Constant.API.kBaseUrlPath+"xtime", method: .get, parameters: nil, encoding: JSONEncoding.default).responseJSON
+            Alamofire.request(Constant.API.kBaseUrlPath+"xtime", method: .get, parameters: nil).responseJSON
                 { response in
                     loading.hide()
                     if let JSON = response.result.value {

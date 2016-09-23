@@ -22,7 +22,7 @@ class SideMenuVC: GAITrackedViewController, UITableViewDelegate, UITableViewData
         UIImage(named: "searchCarsIcon")!,
         UIImage(named: "searchCarsIcon")!,
         UIImage(named: "searchCarsIcon")!,
-        UIImage(named: "callIcon")!,
+        UIImage(named: "sidecallIcon")!,
         UIImage(named: "searchCarsIcon")!,
         UIImage(named: "searchCarsIcon")!
     ]
@@ -121,6 +121,16 @@ class SideMenuVC: GAITrackedViewController, UITableViewDelegate, UITableViewData
             self.frostedViewController.contentViewController = navigationVC
             self.frostedViewController.hideMenuViewController()
             break
+        case 5:
+            let navigationVC = self.storyboard!.instantiateViewController(withIdentifier: "NavigationVC") as! NavigationVC
+            
+            let storyboard = UIStoryboard(name: "Main", bundle: nil)
+            let vc = storyboard .instantiateViewController(withIdentifier: "CarShopping") as! CarShoppingViewController
+            self.navigationController?.pushViewController(vc, animated: true)
+            navigationVC.viewControllers = [vc];
+            self.frostedViewController.contentViewController = navigationVC
+            self.frostedViewController.hideMenuViewController()
+            break
        // case 8:
             //        case 2:
             //            let navigationVC = self.storyboard!.instantiateViewControllerWithIdentifier("NavigationVC") as! NavigationVC
@@ -200,9 +210,9 @@ class SideMenuVC: GAITrackedViewController, UITableViewDelegate, UITableViewData
 //            
 //            break
         default:
-            DispatchQueue.main.async(execute: {
+           // DispatchQueue.main.async(execute: {
                 self.showAlertwithCancelButton("CoxAxle", message: "Functionality in progress", cancelButton: "OK")
-            })
+            //})
             break
         }
         
@@ -279,7 +289,7 @@ class SideMenuVC: GAITrackedViewController, UITableViewDelegate, UITableViewData
                                                      "old_password":oldPassword,
                                                      "new_password": newPassword] as Dictionary
             
-            Alamofire.request(Constant.API.kBaseUrlPath+"customer/updatepwd", method: .post, parameters: nil, encoding: JSONEncoding.default).responseJSON
+            Alamofire.request(Constant.API.kBaseUrlPath+"customer/updatepwd", method: .post, parameters: paramsDict).responseJSON
                 { response in
                     loading.hide()
                     if let JSON = response.result.value {

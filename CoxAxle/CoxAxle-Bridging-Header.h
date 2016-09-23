@@ -13,4 +13,4 @@
 #import <GoogleAnalytics/GAI.h>
 #import <GoogleAnalytics/GAIDictionaryBuilder.h>
 #import <GoogleAnalytics/GAITrackedViewController.h>
-#import "BRImagePicker/BRImagePicker.h"
+ #import <DKImagePickerController/DKImagePickerController.h>

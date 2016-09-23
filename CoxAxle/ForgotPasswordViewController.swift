@@ -83,7 +83,7 @@ class ForgotPasswordViewController: UIViewController, UIAlertController_UIAlertV
                 let paramsDict: [ String : String] = ["email": self.emailTextField.text! as String] as Dictionary
                 print(NSString(format: "Request: %@", paramsDict))
                 
-                Alamofire.request(Constant.API.kBaseUrlPath+"customer/resetpassword", method: .post, parameters: nil, encoding: JSONEncoding.default).responseJSON { response in
+                Alamofire.request(Constant.API.kBaseUrlPath+"customer/resetpassword", method: .post, parameters: paramsDict).responseJSON { response in
                         loading.hide()
                         if let JSON = response.result.value {
                             

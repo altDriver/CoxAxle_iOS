@@ -32,12 +32,15 @@ class LandingScreen: GAITrackedViewController,UITableViewDataSource, UITableView
     @IBOutlet var tableView: UITableView!
     var alreadyLoaded: Bool!
     
+    var dealerDict: DealersInfoResponse?
+    var bannerImagesArray = [AnyObject]()
     var vehiclesArray = [AnyObject]()
     
     //MARK:- LIFE CYCLE METHODS
     override func viewDidLoad() {
 
         self.screenName = "LandingScreen"
+        self.callDealersListAPI()
         self.alreadyLoaded = false
         self.navigationItem.setHidesBackButton(true, animated: true)
         self.setText()
@@ -360,7 +363,7 @@ class LandingScreen: GAITrackedViewController,UITableViewDataSource, UITableView
                     self.performSegue(withIdentifier: "Inventory", sender: self)
                     break
                 case 1:
-                    self.showAlertwithCancelButton("CoxAxle", message: "Functionality in progress", cancelButton: "OK")
+                    self.performSegue(withIdentifier: "SavedSearches", sender: self)
                     break
                 default:
                     break
@@ -470,7 +473,18 @@ class LandingScreen: GAITrackedViewController,UITableViewDataSource, UITableView
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         if collectionView.tag == 1 {
-            return 5
+            if self.bannerImagesArray.count > 0 {
+                self.bannerCollectionView.backgroundView = nil
+            }
+            else {
+                let noDataLabel = UILabel(frame: CGRect(x: 0, y: 0, width: self.bannerCollectionView.bounds.size.width, height: self.bannerCollectionView.bounds.size.height))
+                noDataLabel.text = "No Banners Found!"
+                noDataLabel.textColor = UIColor.init(red: 79/255.0, green: 90/255.0, blue: 113/255.0, alpha: 1)
+                noDataLabel.font = UIFont(name: "HelveticaNeue", size: 15.0)
+                noDataLabel.textAlignment = .center
+                self.bannerCollectionView.backgroundView = noDataLabel
+            }
+            return self.bannerImagesArray.count
         }
         else {
             if self.vehiclesArray.count > 0 {
@@ -509,7 +523,9 @@ class LandingScreen: GAITrackedViewController,UITableViewDataSource, UITableView
         if collectionView.tag == 1 {
              let cell = collectionView.dequeueReusableCell(withReuseIdentifier: bannerCollectionViewCellReuseIdentifier, for: indexPath) as! BannerCollectionViewCell
             
-            cell.bannerImageView.image = UIImage(named: "bannerBg")
+            let imageURLString = (self.bannerImagesArray[indexPath.row] as AnyObject).value(forKey: "banner") as! NSString
+            
+            cell.bannerImageView.setImageWith(URL(string: imageURLString as String), placeholderImage: UIImage(named: "placeholder"), options: SDWebImageOptions(rawValue: UInt(0)), usingActivityIndicatorStyle: UIActivityIndicatorViewStyle.gray)
             return cell;
         }
         else {
@@ -518,14 +534,8 @@ class LandingScreen: GAITrackedViewController,UITableViewDataSource, UITableView
             let imageArray = self.vehiclesArray[(indexPath as NSIndexPath).row].value(forKey: "vechicle_image") as! NSArray
                 let imageURLString = (imageArray[0] as AnyObject).value(forKey: "image_url") as! NSString
             
-            cell.carImageView.sd_setImage(with: URL(string: imageURLString as String), placeholderImage: UIImage(named: "placeholder"), options: SDWebImageOptions(rawValue: UInt(0)), completed: { (image, error, cacheType, url) -> Void in
-                cell.carImageView.alpha = 1;
-                
-            })
-            //            cell.carImageView.setImageWith(URL(string: imageURLString as String), placeholderImage: UIImage(named: "placeholder"), completed: { (image, error, cacheType, url) -> Void in
-//                cell.carImageView.alpha = 1;
-//                
-//                }, usingActivityIndicatorStyle: UIActivityIndicatorViewStyle(rawValue: 2)!)
+             cell.carImageView.setImageWith(URL(string: imageURLString as String), placeholderImage: UIImage(named: "placeholder"), options: SDWebImageOptions(rawValue: UInt(0)), usingActivityIndicatorStyle: UIActivityIndicatorViewStyle.gray)
+        
             cell.carName.text = self.vehiclesArray[(indexPath as NSIndexPath).row].value(forKey: "name") as? String
             cell.carAppointmentDate.text = String(format: "%@ %@ • %@ Miles", (self.vehiclesArray[(indexPath as NSIndexPath).row].value(forKey: "year") as? String)!, (self.vehiclesArray[(indexPath as NSIndexPath).row].value(forKey: "model") as? String)!, (self.vehiclesArray[(indexPath as NSIndexPath).row].value(forKey: "mileage") as? String)!)
             
@@ -573,6 +583,59 @@ class LandingScreen: GAITrackedViewController,UITableViewDataSource, UITableView
         self.dismiss(animated: false, completion: nil)
     }
     
+    //MARK:- DEALERS LIST API
+    func callDealersListAPI() -> Void {
+        if Reachability.isConnectedToNetwork() == true {
+            print("Internet connection OK")
+            let tracker = GAI.sharedInstance().defaultTracker
+            let trackDictionary = GAIDictionaryBuilder.createEvent(withCategory: "API", action: "Fetching Dealers List API Called", label: "Fetching Dealers List", value: nil).build()
+            tracker?.send(trackDictionary as AnyObject as! [AnyHashable: Any])
+            
+            let loading = UIActivityIndicatorView_ActivityClass(text: "Loading")
+            self.view.addSubview(loading)
+            let userId: String = UserDefaults.standard.object(forKey: "UserId") as! String
+            let paramsDict: [ String : String] = ["dealer_id": "37", "uid": userId] as Dictionary
+            print(NSString(format: "Request: %@", paramsDict))
+            
+            Alamofire.request(Constant.API.kBaseUrlPath+"dealers/dealersinfo", method: .post, parameters: paramsDict).responseJSON { response in
+                loading.hide()
+                if let JSON = response.result.value {
+                    
+                    print(NSString(format: "Response: %@", JSON as! NSDictionary))
+                    let status = (JSON as AnyObject).value(forKey: "status") as! String
+                    if status == "True"  {
+                        do {
+                            let dict: DealerInfo = try DealerInfo(dictionary: JSON as! [AnyHashable: Any])
+                        
+                            self.dealerDict = dict.response! as DealersInfoResponse
+                            print(self.dealerDict)
+                            self.bannerImagesArray = self.dealerDict?.value(forKey: "banner_image") as! Array<AnyObject>
+                            DispatchQueue.main.async {
+                                self.bannerPageControl.numberOfPages = self.bannerImagesArray.count
+                                self.bannerCollectionView.reloadData()
+                            }
+                            
+                            
+                        }
+                        catch let error as NSError {
+                            NSLog("Unresolved error \(error), \(error.userInfo)")
+                        }
+                    }
+                    else {
+                        let errorMsg = (JSON as AnyObject).value(forKey: "message") as! String
+                        self.showAlertwithCancelButton("Error", message: errorMsg as NSString, cancelButton: "OK".localized(self.language!) as NSString)
+                    }
+                    
+                }
+            }
+        }
+        else {
+            print("Internet connection FAILED")
+            let vc : AnyObject! = self.storyboard!.instantiateViewController(withIdentifier: "NoInternetConnection")
+            self.present(vc as! UIViewController, animated: true, completion: nil)
+        }
+    }
+    
     //MARK:- FETCH MY CARS API
     func callFetchMyCarsAPI() -> Void {
         if Reachability.isConnectedToNetwork() == true {
@@ -588,7 +651,7 @@ class LandingScreen: GAITrackedViewController,UITableViewDataSource, UITableView
             let paramsDict: [ String : String] = ["uid": userId] as Dictionary
             print(NSString(format: "Request: %@", paramsDict))
             
-            Alamofire.request(Constant.API.kBaseUrlPath+"vehicle/list", method: .post, parameters: nil, encoding: JSONEncoding.default).responseJSON { response in
+            Alamofire.request(Constant.API.kBaseUrlPath+"vehicle/list", method: .post, parameters: paramsDict).responseJSON { response in
                     loading.hide()
                     if let JSON = response.result.value {
                         
@@ -604,13 +667,13 @@ class LandingScreen: GAITrackedViewController,UITableViewDataSource, UITableView
                                 print(self.vehiclesArray)
                                 DispatchQueue.main.async {
                                     let deviceType = UIDevice.current.modelName
-                                    if deviceType == "iPhone 6" || deviceType == "iPhone 6s" || deviceType == "iPhone 6 Plus" || deviceType == "iPhone 6s Plus" {
+                                    if deviceType == "iPhone 6" || deviceType == "iPhone 6s" || deviceType == "iPhone 6 Plus" || deviceType == "iPhone 6s Plus" || deviceType == "iPhone 7" || deviceType == "iPhone 7 Plus" {
                                         self.myCarsPageControl.numberOfPages = self.vehiclesArray.count
                                         self.myCarsCollectionView.reloadData()
                                     }
                                     
                                     if self.alreadyLoaded == true {
-                                        if deviceType == "iPhone 5" || deviceType == "iPhone 5s" || deviceType == "iPhone8,4" {
+                                        if deviceType == "iPhone 5" || deviceType == "iPhone 5s" || deviceType == "iPhone SE" {
                                             self.myCarsPageControl.numberOfPages = self.vehiclesArray.count
                                             self.myCarsCollectionView.reloadData()
                                         }

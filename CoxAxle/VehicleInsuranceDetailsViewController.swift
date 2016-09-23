@@ -380,7 +380,7 @@ class VehicleInsuranceDetailsViewController: GAITrackedViewController, UITableVi
                  "extended_waranty_document": ""] as Dictionary
             
             //          print(NSString(format: "Request: %@", paramsDict))
-            Alamofire.request(Constant.API.kBaseUrlPath+"vehicle/create", method: .post, parameters: nil, encoding: JSONEncoding.default).responseJSON
+            Alamofire.request(Constant.API.kBaseUrlPath+"vehicle/create", method: .post, parameters: paramsDict).responseJSON
                 { response in
                     loading.hide()
                     

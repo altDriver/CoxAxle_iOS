@@ -56,9 +56,6 @@ class ViewController: GAITrackedViewController, EAIntroDelegate, UIAlertControll
         }
         
         self.setText()
-      
-        
-        self.callDealersListAPI()
         
     }
     
@@ -91,55 +88,64 @@ class ViewController: GAITrackedViewController, EAIntroDelegate, UIAlertControll
     }
     
     @IBAction func continueAsGuestClicked(_ sender: UIButton) {
-        self.performSegue(withIdentifier: "LoggedIn", sender: self)
-    }
-    
-    @IBAction func createAnAccountClicked(_ sender: UIButton) {
-        self.performSegue(withIdentifier: "CreateAccount", sender: self)
-    }
-
-    //MARK:- DEALERS LIST API
-    func callDealersListAPI() -> Void {
         if Reachability.isConnectedToNetwork() == true {
             print("Internet connection OK")
-            let tracker = GAI.sharedInstance().defaultTracker
-            let trackDictionary = GAIDictionaryBuilder.createEvent(withCategory: "API", action: "Fetching Dealers List API Called", label: "Fetching Dealers List", value: nil).build()
-            tracker?.send(trackDictionary as AnyObject as! [AnyHashable: Any])
+                    
+                    let tracker = GAI.sharedInstance().defaultTracker
+                    let trackDictionary = GAIDictionaryBuilder.createEvent(withCategory: "API", action: "Guest API Called", label: "Guest", value: nil).build()
+                    tracker?.send(trackDictionary as AnyObject as! [AnyHashable: Any])
+                    
+                    let loading = UIActivityIndicatorView_ActivityClass(text: "Loading".localized(self.language!))
+                    self.view.addSubview(loading)
             
-            let loading = UIActivityIndicatorView_ActivityClass(text: "Loading".localized(self.language!))
-            self.view.addSubview(loading)
-            let paramsDict: [ String : String] = ["dl_id": "3"] as Dictionary
-            print(NSString(format: "Request: %@", paramsDict))
-            
-            Alamofire.request(Constant.API.kBaseUrlPath+"dealers/contact", method: .post, parameters: nil, encoding: JSONEncoding.default).responseJSON { response in
-                    loading.hide()
-                    if let JSON = response.result.value {
-                        
-                        print(NSString(format: "Response: %@", JSON as! NSDictionary))
-                        let status = (JSON as AnyObject).value(forKey: "status") as! String
-                        if status == "True"  {
-                              do {
-                             let dict: DealersList = try DealersList(dictionary: JSON as! [AnyHashable: Any])
-
-                             print(dict.response)
-                             }
-                             catch let error as NSError {
-                             NSLog("Unresolved error \(error), \(error.userInfo)")
-                             }
+                    let deviceType = UIDevice.current.modelName
+                    let deviceVersion = UIDevice.current.iOSVersion
+                    let model = String(format: "%@,%@", deviceType,deviceVersion)
+                    
+                    let deviceToken = UserDefaults.standard.object(forKey: "Device_Token") as! String
+                    
+                    let paramsDict: [ String : String] = ["email": "", "password": "", "device_token": deviceToken, "device_type": "iOS", "os_version": model] as Dictionary
+                    print(NSString(format: "Request: %@", paramsDict))
+                    
+                    Alamofire.request(Constant.API.kBaseUrlPath+"customer", method: .post, parameters: paramsDict).responseJSON { response in
+                        loading.hide()
+                        if let JSON = response.result.value {
+                            
+                            print(NSString(format: "Response: %@", JSON as! NSDictionary))
+                            let status = (JSON as AnyObject).value(forKey:"status") as! String
+                            if status == "True" {
+                                do {
+                                    let dict: Login = try Login.init(dictionary: JSON as! [AnyHashable: Any])
+                                    
+                                    print(dict.response!.data)
+                                    let restArray = dict.response!.data[0] as! NSDictionary
+                                    UserDefaults.standard.set(restArray.value(forKey: "uid"), forKey: "UserId")
+                                    UserDefaults.standard.synchronize()
+                                }
+                                catch let error as NSError {
+                                    NSLog("Unresolved error \(error), \(error.userInfo)")
+                                }
+                                
+                                self.performSegue(withIdentifier: "LoggedIn", sender: self)
+                            }
+                            else
+                            {
+                                let errorMsg = (JSON as AnyObject).value(forKey:"message") as! String
+                                self.showAlertwithCancelButton("Error", message: errorMsg as NSString, cancelButton: "OK")
+                            }
                         }
-                        else {
-                            let errorMsg = (JSON as AnyObject).value(forKey: "message") as! String
-                            self.showAlertwithCancelButton("Error", message: errorMsg as NSString, cancelButton: "OK".localized(self.language!) as NSString)
-                        }
-                        
                     }
-            }
+            
         }
         else {
             print("Internet connection FAILED")
             let vc : AnyObject! = self.storyboard!.instantiateViewController(withIdentifier: "NoInternetConnection")
             self.present(vc as! UIViewController, animated: true, completion: nil)
         }
+    }
+    
+    @IBAction func createAnAccountClicked(_ sender: UIButton) {
+        self.performSegue(withIdentifier: "CreateAccount", sender: self)
     }
     
 }

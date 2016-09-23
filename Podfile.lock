@@ -1,6 +1,10 @@
 PODS:
   - Alamofire (4.0.0)
-  - BRImagePicker (1.0.0)
+  - DKImagePickerController (3.4.0):
+    - DKImagePickerController/Camera (= 3.4.0)
+    - DKImagePickerController/ImageManager (= 3.4.0)
+  - DKImagePickerController/Camera (3.4.0)
+  - DKImagePickerController/ImageManager (3.4.0)
   - EAIntroView (2.9.0):
     - EARestrictedScrollView (~> 1.1.0)
   - EARestrictedScrollView (1.1.0)
@@ -31,13 +35,14 @@ PODS:
     - SDWebImage/Core (= 3.8.2)
   - SDWebImage/Core (3.8.2)
   - SMFloatingLabelTextField (0.2.0)
+  - TTRangeSlider (1.0.4)
   - UIActivityIndicator-for-SDWebImage (1.2):
     - SDWebImage (~> 3.7)
   - YLProgressBar (3.10.0)
 
 DEPENDENCIES:
   - Alamofire (~> 4.0)
-  - BRImagePicker
+  - DKImagePickerController (from `https://github.com/zhangao0086/DKImagePickerController.git`, branch `master`)
   - EAIntroView (~> 2.9.0)
   - Google/Analytics
   - IQKeyboardManagerSwift (= 4.0.6)
@@ -47,12 +52,23 @@ DEPENDENCIES:
   - MSSimpleGauge
   - REFrostedViewController (~> 2.4)
   - SMFloatingLabelTextField
+  - TTRangeSlider
   - UIActivityIndicator-for-SDWebImage
   - YLProgressBar (~> 3.10.0)
 
+EXTERNAL SOURCES:
+  DKImagePickerController:
+    :branch: master
+    :git: https://github.com/zhangao0086/DKImagePickerController.git
+
+CHECKOUT OPTIONS:
+  DKImagePickerController:
+    :commit: 29d9b42c0c495bab0872f5debb9b57b9d179581b
+    :git: https://github.com/zhangao0086/DKImagePickerController.git
+
 SPEC CHECKSUMS:
   Alamofire: fef59f00388f267e52d9b432aa5d93dc97190f14
-  BRImagePicker: 1546dc6c69fe8bb4b58ac2248c54d9bb6e0e4459
+  DKImagePickerController: 5e64adbe34c27cc63bc38cccdaf3a40c3b4f729c
   EAIntroView: 76f68cc56242f2e25359419e6ecc2344ee7e1756
   EARestrictedScrollView: b0c2a3f92fb2610bb44d71c5e4893777c89e45ef
   FirebaseAnalytics: 3f5358d9104adf159cc8d99b7b501e50099a39ad
@@ -70,9 +86,10 @@ SPEC CHECKSUMS:
   REFrostedViewController: a893b4979ba1f200c547aef9ff4c3fd5a18f5923
   SDWebImage: 098e97e6176540799c27e804c96653ee0833d13c
   SMFloatingLabelTextField: 0ba68e9fbb58186effade627beff866e20bf78fb
+  TTRangeSlider: 7c04d9cf84cd5fba96e86b3ded8e5e0b534758b0
   UIActivityIndicator-for-SDWebImage: 7bf7ebbf0ed1747dedc0d6e949c4603a6d0f9e0c
   YLProgressBar: 40a0627522dc1b536e02bf082a1b1ce3085b4668
 
-PODFILE CHECKSUM: 5435bc6171a85a92ce3df32c59ff5f38dfdfabdc
+PODFILE CHECKSUM: 22ebd1a940335f780027b84385b6804b8110b6e3
 
 COCOAPODS: 1.0.1
