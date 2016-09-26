@@ -85,6 +85,7 @@ class CarShoppingViewController: GAITrackedViewController, UITableViewDelegate, 
         
         if item as? SwiftyAccordionCells.HeaderItem != nil {
             cell.backgroundColor = UIColor.clear
+            cellTitle.font = UIFont(name: "HelveticaNeue", size: 17.0)
             switch indexPath.row {
             case 3,7:
                 cell.accessoryType = UITableViewCellAccessoryType.disclosureIndicator
@@ -94,7 +95,9 @@ class CarShoppingViewController: GAITrackedViewController, UITableViewDelegate, 
                 break
             }
         } else {
-            cellTitle.font = UIFont(name: "HelveticaNeue", size: 16.0)
+            
+            cellTitle.font = UIFont(name: "HelveticaNeue", size: 14.0)
+            
             cell.accessoryType = UITableViewCellAccessoryType.disclosureIndicator
             if isChecked {
                // cell.accessoryType = .checkmark
@@ -131,7 +134,9 @@ class CarShoppingViewController: GAITrackedViewController, UITableViewDelegate, 
             
             switch indexPath.row {
             case 2:
-                self.performSegue(withIdentifier: "FavoriteCars", sender: self)
+                DispatchQueue.main.async {
+                    self.performSegue(withIdentifier: "FavoriteCars", sender: self)
+                }
                 break
             default:
                 break

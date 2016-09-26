@@ -131,7 +131,10 @@ class InventorySearchViewController: GAITrackedViewController, UIAlertController
         
         if self.isValidationSuccessfull() == true {
             
-            self.performSegue(withIdentifier: "InventorySearch", sender: self)
+            DispatchQueue.main.async {
+                self.performSegue(withIdentifier: "InventorySearch", sender: self)
+            }
+            
         }
     }
     

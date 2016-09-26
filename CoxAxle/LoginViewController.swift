@@ -96,8 +96,9 @@ class LoginViewController: GAITrackedViewController,UIAlertController_UIAlertVie
     }
     
     @IBAction func forgotPasswordClicked(_ sender: UIButton) {
-        
-        self.performSegue(withIdentifier: "ForgotPasswordView", sender: nil)
+        DispatchQueue.main.async {
+          self.performSegue(withIdentifier: "ForgotPasswordView", sender: nil)
+        }
     }
     
     //MARK:- UISWITCH ACTION
@@ -115,7 +116,9 @@ class LoginViewController: GAITrackedViewController,UIAlertController_UIAlertVie
     }
     
     @IBAction func createAccountButtonClicked(_ sender: UIButton) {
-        self.performSegue(withIdentifier: "Register", sender: self)
+        DispatchQueue.main.async {
+          self.performSegue(withIdentifier: "Register", sender: self)
+        }
     }
     
     //MARK:- LOGIN API
@@ -175,7 +178,9 @@ class LoginViewController: GAITrackedViewController,UIAlertController_UIAlertVie
                                         NSLog("Unresolved error \(error), \(error.userInfo)")
                                     }
                                     
-                                    self.performSegue(withIdentifier: "LoggedIn", sender: self)
+                                    DispatchQueue.main.async {
+                                       self.performSegue(withIdentifier: "LoggedIn", sender: self)
+                                    }
                                 }
                                 else
                                 {

@@ -407,7 +407,7 @@ class VehicleInsuranceDetailsViewController: GAITrackedViewController, UITableVi
                                 
                                 self.delegate?.clearUIFields()
                                 
-                                self.navigationController?.popViewController(animated: true)
+                                self.navigationController!.popViewController(animated: true)
                             })
                             
                             alertController.addAction(defaultAction)

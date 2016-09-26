@@ -137,7 +137,10 @@ class CreateAccount: GAITrackedViewController, UIAlertController_UIAlertView{
                             NSLog("Unresolved error \(error), \(error.userInfo)")
                         }
                         
-                       self.performSegue(withIdentifier: "LoggedIn", sender: self)
+                        DispatchQueue.main.async {
+                            self.performSegue(withIdentifier: "LoggedIn", sender: self)
+                        }
+                       
                     }
                     else
                     {

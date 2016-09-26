@@ -85,6 +85,7 @@
 		CEC94C761D7EE25E00C0C11D /* libsqlite3.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = CEC94C751D7EE25E00C0C11D /* libsqlite3.tbd */; };
 		CEC94C781D7EE26900C0C11D /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = CEC94C771D7EE26900C0C11D /* libz.tbd */; };
 		CEC94C7C1D7EE98700C0C11D /* AdSupport.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CEC94C7B1D7EE98700C0C11D /* AdSupport.framework */; };
+		CED564FB1D95453E00E65DC1 /* FavoriteCars.swift in Sources */ = {isa = PBXBuildFile; fileRef = CED564FA1D95453E00E65DC1 /* FavoriteCars.swift */; };
 		CED79F6F1D8297BE00964DB4 /* ForgotPasswordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CED79F6E1D8297BE00964DB4 /* ForgotPasswordViewController.swift */; };
 		CEE2575C1D8156AD00AE9930 /* AutoTraderSearchFilters.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEE2575B1D8156AD00AE9930 /* AutoTraderSearchFilters.swift */; };
 		CEE2E88D1D7832AF00511692 /* SideMenuVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEE2E88C1D7832AF00511692 /* SideMenuVC.swift */; };
@@ -215,6 +216,7 @@
 		CEC94C751D7EE25E00C0C11D /* libsqlite3.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.tbd; path = usr/lib/libsqlite3.tbd; sourceTree = SDKROOT; };
 		CEC94C771D7EE26900C0C11D /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
 		CEC94C7B1D7EE98700C0C11D /* AdSupport.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AdSupport.framework; path = System/Library/Frameworks/AdSupport.framework; sourceTree = SDKROOT; };
+		CED564FA1D95453E00E65DC1 /* FavoriteCars.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FavoriteCars.swift; sourceTree = "<group>"; };
 		CED79F6E1D8297BE00964DB4 /* ForgotPasswordViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ForgotPasswordViewController.swift; sourceTree = "<group>"; };
 		CEDEDED61D91727100D9829E /* CoxAxle.entitlements */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.entitlements; path = CoxAxle.entitlements; sourceTree = "<group>"; };
 		CEE2575B1D8156AD00AE9930 /* AutoTraderSearchFilters.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AutoTraderSearchFilters.swift; sourceTree = "<group>"; };
@@ -333,6 +335,7 @@
 				CEF631631D93FC4900AC4E30 /* SavedSearchesList.swift */,
 				CEF631651D940F4000AC4E30 /* DealerInfo.swift */,
 				CEF631711D942FDF00AC4E30 /* SaveSearch.swift */,
+				CED564FA1D95453E00E65DC1 /* FavoriteCars.swift */,
 			);
 			name = ModalClasses;
 			sourceTree = "<group>";
@@ -901,6 +904,7 @@
 				CEC502D01D4102E600DDC19E /* RootVC.swift in Sources */,
 				CEC94C6C1D7EC6E800C0C11D /* FindMyVinViewController.swift in Sources */,
 				CEC502721D408E0000DDC19E /* ViewController.swift in Sources */,
+				CED564FB1D95453E00E65DC1 /* FavoriteCars.swift in Sources */,
 				CEC07E511D5B467B0018AE19 /* MyCarsLayout.swift in Sources */,
 				CE5D4A6D1D799F6D0077EA75 /* XTime.swift in Sources */,
 				CE96F3BC1D5C68640026037A /* VehicleDetailsTableViewCell.swift in Sources */,

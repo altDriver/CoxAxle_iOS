@@ -78,14 +78,16 @@ class VehiclesViewController: GAITrackedViewController, UIAlertController_UIAler
         }
         else {
             self.navigationItem.backBarButtonItem = UIBarButtonItem(title: " ", style: .plain, target: nil, action: nil)
-            self.performSegue(withIdentifier: "AddVehicle", sender: self)
+            DispatchQueue.main.async {
+               self.performSegue(withIdentifier: "AddVehicle", sender: self)
+            }
         }
         
     }
     
     func backClicked(_ sender:UIButton!)
     {
-        self.navigationController?.popViewController(animated: true)
+        self.navigationController!.popViewController(animated: true)
     }
     
     @IBAction func menuButtonClicked(_ sender: UIButton) {
@@ -98,6 +100,44 @@ class VehiclesViewController: GAITrackedViewController, UIAlertController_UIAler
             frostingViewController.presentMenuViewController()
         }
     }
+    
+    func carDeleteClicked(deleteButton: UIButton) -> Void {
+        let alertController = UIAlertController(title: "Delete", message: "Are you sure you want to delete this vehicle?", preferredStyle: .alert)
+        
+        let defaultAction = UIAlertAction(title: "YES", style: .default, handler: { (action: UIAlertAction!) in
+            
+            let selectedDict = self.vehiclesListArray[deleteButton.tag] as! NSDictionary
+            self.callCarDeleteAPI(vehiclesDetailsDictionary: selectedDict)
+        })
+        alertController.addAction(defaultAction)
+        
+        let otherAction = UIAlertAction(title: "NO", style: .default, handler: { (action: UIAlertAction!) in
+        })
+        alertController.addAction(otherAction)
+        
+        DispatchQueue.main.async(execute: {
+            self.present(alertController, animated: true, completion: nil)
+        })
+    }
+    
+    func showDeleteVehicleSuccessAlert(_ message: String) {
+        self.callVehiclesListOnBackgroundThread()
+
+        let alertController = UIAlertController(title: "Success", message: message, preferredStyle: .alert)
+        
+        let defaultAction = UIAlertAction(title: "OK", style: .default, handler: { (action: UIAlertAction!) in
+            
+        })
+        
+        alertController.addAction(defaultAction)
+        
+        DispatchQueue.main.async(execute: {
+            self.present(alertController, animated: true, completion: nil)
+        })
+
+    }
+
+    
     //MARK:- UICOLLECTIONVIEW DATA SOURCE METHODS
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAtIndex section: Int) -> CGFloat {
@@ -124,6 +164,8 @@ class VehiclesViewController: GAITrackedViewController, UIAlertController_UIAler
         
         cell.carName.text = self.vehiclesListArray[(indexPath as NSIndexPath).row].value(forKey: "name") as? String
         cell.carAppointmentDate.text = String(format: "%@ %@ • %@ Miles", (self.vehiclesListArray[(indexPath as NSIndexPath).row].value(forKey: "year") as? String)!, (self.vehiclesListArray[(indexPath as NSIndexPath).row].value(forKey: "model") as? String)!, (self.vehiclesListArray[(indexPath as NSIndexPath).row].value(forKey: "mileage") as? String)!)
+        cell.carDeleteButton.addTarget(self, action: #selector(VehiclesViewController.carDeleteClicked(deleteButton:)), for: UIControlEvents.touchUpInside)
+        cell.carDeleteButton.tag = indexPath.row
             return cell;
     }
     
@@ -131,10 +173,14 @@ class VehiclesViewController: GAITrackedViewController, UIAlertController_UIAler
         collectionView.deselectItem(at: indexPath, animated: true)
         self.navigationItem.backBarButtonItem = UIBarButtonItem(title: " ", style: .plain, target: nil, action: nil)
         if (fromXTime != nil) {
-            self.performSegue(withIdentifier: "XTImeWebView", sender: indexPath)
+            DispatchQueue.main.async {
+               self.performSegue(withIdentifier: "XTImeWebView", sender: indexPath)
+            }
         }
         else {
-            self.performSegue(withIdentifier: "VehicleDetails", sender: indexPath)
+            DispatchQueue.main.async {
+               self.performSegue(withIdentifier: "VehicleDetails", sender: indexPath)
+            }
         }
     }
     
@@ -165,8 +211,8 @@ class VehiclesViewController: GAITrackedViewController, UIAlertController_UIAler
                                 do {
                                     let dict: VehiclesList = try VehiclesList(dictionary: JSON as! [AnyHashable: Any])
                                     
-                                    
                                     self.vehiclesListArray = dict.response?.data as! Array<AnyObject>
+                                
                                     print(self.vehiclesListArray)
                                     DispatchQueue.main.async{
                                         
@@ -179,7 +225,117 @@ class VehiclesViewController: GAITrackedViewController, UIAlertController_UIAler
                                 }
                             }
                         else {
-                                let errorMsg = (JSON as AnyObject).value(forKey: "message") as! String
+                                let responseDict = (JSON as AnyObject).value(forKey: "response") as! NSString
+                                if  (responseDict as AnyObject).length == 0 {
+                                    self.vehiclesListArray.removeAll()
+                                }
+                                
+                                DispatchQueue.main.async{
+                                    
+                                    self.collectionView.reloadData()
+                                    
+                                }
+                            let errorMsg = (JSON as AnyObject).value(forKey: "message") as! String
+                            self.showAlertwithCancelButton("Error", message: errorMsg as NSString, cancelButton: "OK")
+                        }
+                    }
+            }
+        }
+        else {
+            print("Internet connection FAILED")
+            let vc : AnyObject! = self.storyboard!.instantiateViewController(withIdentifier: "NoInternetConnection")
+            self.present(vc as! UIViewController, animated: true, completion: nil)
+        }
+    }
+    
+    func callCarDeleteAPI(vehiclesDetailsDictionary: NSDictionary) -> Void {
+        if Reachability.isConnectedToNetwork() == true {
+            print("Internet connection OK")
+            
+            let loading = UIActivityIndicatorView_ActivityClass(text: "Loading")
+            self.view.addSubview(loading)
+            
+            let vehicleId: String = (vehiclesDetailsDictionary.value(forKey: "id"))! as! String
+            let userId: String = UserDefaults.standard.object(forKey: "UserId") as! String
+            let paramsDict: [ String : String] = ["vid": vehicleId,"uid": userId] as Dictionary
+            print(NSString(format: "Request: %@", paramsDict))
+            
+            Alamofire.request(Constant.API.kBaseUrlPath+"vehicle/delete", method: .post, parameters: paramsDict).responseJSON
+                { response in
+                    if let JSON = response.result.value {
+                        
+                        print(NSString(format: "Response: %@", JSON as! NSDictionary))
+                        let status = (JSON as AnyObject).value(forKey: "status") as! String
+                        if status == "True"  {
+                           loading.hide()
+                           let responseMessage = (JSON as AnyObject).value(forKey: "message") as! String
+                           self.showDeleteVehicleSuccessAlert(responseMessage)
+                        }
+                        else {
+                             loading.hide()
+                            let errorMsg = (JSON as AnyObject).value(forKey: "message") as! String
+                            self.showAlertwithCancelButton("Error", message: errorMsg as NSString, cancelButton: "OK")
+                        }
+                    }
+            }
+        } else {
+            print("Internet connection FAILED")
+            let vc : AnyObject! = self.storyboard!.instantiateViewController(withIdentifier: "NoInternetConnection")
+            self.present(vc as! UIViewController, animated: true, completion: nil)
+        }
+    }
+    
+    func callVehiclesListOnBackgroundThread() -> Void {
+        if Reachability.isConnectedToNetwork() == true {
+            print("Internet connection OK")
+            
+            let tracker = GAI.sharedInstance().defaultTracker
+            let trackDictionary = GAIDictionaryBuilder.createEvent(withCategory: "API", action: "Fetching Vehicles List API Called", label: "Vehicles List", value: nil).build()
+            tracker?.send(trackDictionary as AnyObject as! [AnyHashable: Any])
+            
+            let userId: String = UserDefaults.standard.object(forKey: "UserId") as! String
+            let paramsDict: [ String : String] = ["uid": userId] as Dictionary
+            print(NSString(format: "Request: %@", paramsDict))
+            
+            Alamofire.request(Constant.API.kBaseUrlPath+"vehicle/list", method: .post, parameters: paramsDict).responseJSON
+                { response in
+                    if let JSON = response.result.value {
+                        
+                        print(NSString(format: "Response: %@", JSON as! NSDictionary))
+                        let status = (JSON as AnyObject).value(forKey: "status") as! String
+                        if status == "True"  {
+                            do {
+                                let dict: VehiclesList = try VehiclesList(dictionary: JSON as! [AnyHashable: Any])
+                                let responseDict = (JSON as AnyObject).value(forKey: "response") as! NSDictionary
+                                if  (responseDict["data"] as AnyObject).length != 0 {
+                                    self.vehiclesListArray = dict.response?.data as! Array<AnyObject>
+                                }
+                                else {
+                                    self.vehiclesListArray.removeAll()
+                                }
+                                print(self.vehiclesListArray)
+                                DispatchQueue.main.async {
+                                    
+                                    self.collectionView.reloadData()
+                                    
+                                }
+                            }
+                            catch let error as NSError {
+                                NSLog("Unresolved error \(error), \(error.userInfo)")
+                            }
+                        }
+                        else {
+                            let responseDict = (JSON as AnyObject).value(forKey: "response") as! NSString
+                            if  (responseDict as AnyObject).length == 0 {
+                                self.vehiclesListArray.removeAll()
+                            }
+                            
+                            DispatchQueue.main.async {
+                                
+                                self.collectionView.reloadData()
+                                
+                            }
+                            let errorMsg = (JSON as AnyObject).value(forKey: "message") as! String
                             self.showAlertwithCancelButton("Error", message: errorMsg as NSString, cancelButton: "OK")
                         }
                     }

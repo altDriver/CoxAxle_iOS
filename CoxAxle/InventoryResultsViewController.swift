@@ -42,6 +42,12 @@ class InventoryResultsViewController: GAITrackedViewController, UICollectionView
         self.navigationController!.popViewController(animated: true)
     }
     
+    @objc func favoriteButtonClicked(selectedButton: UIButton) -> Void {
+        let clickedDict = self.inventoryResultsArray[selectedButton.tag] as! NSDictionary
+        print(clickedDict)
+        self.callFavouriteCarAPI(dict: clickedDict)
+    }
+    
     //MARK:- UICOLLECTIONVIEW DATA SOURCE METHODS
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAtIndex section: Int) -> CGFloat {
@@ -91,6 +97,9 @@ class InventoryResultsViewController: GAITrackedViewController, UICollectionView
         let trimDict = trimArray.object(at: 0) as! NSDictionary
         let miles = String(format: "%@ • %@", (self.inventoryResultsArray[indexPath.row].value(forKey: "mileage") as? NSNumber)!, trimDict.value(forKey: "name") as! String)
         cell.vehicleMiles.text = miles
+        
+        cell.favoriteButton.addTarget(self, action: #selector(InventoryResultsViewController.favoriteButtonClicked(selectedButton:)), for: UIControlEvents.touchUpInside)
+        cell.favoriteButton.tag = indexPath.row
         return cell;
     }
     
@@ -155,6 +164,123 @@ class InventoryResultsViewController: GAITrackedViewController, UICollectionView
                             self.showAlertwithCancelButton("Error", message: errorMsg as NSString, cancelButton: "OK")
                         }
                     }
+            }
+        }
+        else {
+            print("Internet connection FAILED")
+            let vc : AnyObject! = self.storyboard!.instantiateViewController(withIdentifier: "NoInternetConnection")
+            self.present(vc as! UIViewController, animated: true, completion: nil)
+        }
+    }
+    
+    //MARK:- FAVOURITE CAR API
+    func callFavouriteCarAPI(dict: NSDictionary) -> Void {
+        if Reachability.isConnectedToNetwork() == true {
+            print("Internet connection OK")
+            
+            let tracker = GAI.sharedInstance().defaultTracker
+            let trackDictionary = GAIDictionaryBuilder.createEvent(withCategory: "API", action: "Favourite Cars API Called", label: "Favourite Cars", value: nil).build()
+            tracker?.send(trackDictionary as AnyObject as! [AnyHashable: Any])
+            
+            let loading = UIActivityIndicatorView_ActivityClass(text: "Loading")
+            self.view.addSubview(loading)
+            let userId: String = UserDefaults.standard.object(forKey: "UserId") as! String
+            let imageUrl = dict.value(forKey: "images") as? String ?? ""
+            let vehicleType = dict.value(forKey: "listingType") as? String ?? ""
+            let vehicleName = dict.value(forKey: "make") as? String ?? ""
+            let trimArray = dict.value(forKey: "bodyStyles") as! NSArray
+            let trimDict = trimArray.object(at: 0) as! NSDictionary
+            let subModel = trimDict.value(forKey: "name") as? String ?? ""
+            let miles: String = String(format: "%@", dict.value(forKey: "mileage") as! CVarArg)
+            let price: String = String(format: "%@", dict.value(forKey: "derivedPrice") as! CVarArg)
+            let year: String = String(format: "%@", dict.value(forKey: "year") as! CVarArg)
+            
+            
+            
+            let paramsDict: [ String : String] = ["uid": userId, "image_url": (imageUrl as String), "vehicle_type": (vehicleType as String), "vehicle_name": (vehicleName as String), "sub_model": (subModel as String), "miles": (miles as String), "price": (price as String), "year": (year as String)] as Dictionary
+            print(NSString(format: "Request: %@", paramsDict))
+            
+            Alamofire.request(Constant.API.kBaseUrlPath+"savefavourite", method: .post, parameters: paramsDict).responseJSON
+                { response in
+                    if let JSON = response.result.value {
+                        
+                        print(NSString(format: "Response: %@", JSON as! NSDictionary))
+                        let status = (JSON as AnyObject).value(forKey: "status") as! String
+                        if status == "True"  {
+                                
+                            DispatchQueue.main.async {
+                                 self.callListingAPIONBackgroundThread()
+                                loading.hide()
+                            }
+                          
+                        }
+                        else {
+                            loading.hide()
+                            let errorMsg = (JSON as AnyObject).value(forKey: "message") as! String
+                            self.showAlertwithCancelButton("Error", message: errorMsg as NSString, cancelButton: "OK")
+                        }
+                    }
+            }
+        }
+        else {
+            print("Internet connection FAILED")
+            let vc : AnyObject! = self.storyboard!.instantiateViewController(withIdentifier: "NoInternetConnection")
+            self.present(vc as! UIViewController, animated: true, completion: nil)
+        }
+    }
+    
+    func callListingAPIONBackgroundThread() -> Void {
+        if Reachability.isConnectedToNetwork() == true {
+            print("Internet connection OK")
+            let tracker = GAI.sharedInstance().defaultTracker
+            let trackDictionary = GAIDictionaryBuilder.createEvent(withCategory: "API", action: "Fetching Auto Trader Listing API Called", label: "Auto Trader List", value: nil).build()
+            tracker?.send(trackDictionary as AnyObject as! [AnyHashable: Any])
+
+            let userId: String = UserDefaults.standard.object(forKey: "UserId") as! String
+            
+            let vehicleMake = self.make ?? ""
+            let vehicleModel = self.model ?? ""
+            let vehicleColor = self.color ?? ""
+            let engineType = self.engineGroup ?? ""
+            let vehicleStyle = self.style ?? ""
+            let vehiclePrchasedYear = self.year ?? ""
+            let vehicleSearchName = self.searchName ?? ""
+            
+            let paramsDict: [ String : String] = ["uid": userId,
+                                                  "make": vehicleMake,
+                                                  "model": vehicleModel,
+                                                  "color": vehicleColor,
+                                                  "engineGroup": engineType,
+                                                  "style": vehicleStyle,
+                                                  "year": vehiclePrchasedYear, "search_name": vehicleSearchName] as Dictionary
+            print(NSString(format: "Request: %@", paramsDict))
+            
+            Alamofire.request(Constant.API.kBaseUrlPath+"listing", method: .post, parameters: paramsDict).responseJSON { response in
+                if let JSON = response.result.value {
+                    
+                    print(NSString(format: "Response: %@", JSON as! NSDictionary))
+                    let status = (JSON as AnyObject).value(forKey: "status") as! String
+                    if status == "True"  {
+                        do {
+                            let dict: AutoTraderResults = try AutoTraderResults(dictionary: JSON as! [NSObject : AnyObject])
+                            
+                            self.inventoryResultsArray = dict.response?.data as! Array<AnyObject>
+                            print(self.inventoryResultsArray)
+                            DispatchQueue.main.async{
+                                
+                                self.collectionView.reloadData()
+                                
+                            }
+                        }
+                        catch let error as NSError {
+                            NSLog("Unresolved error \(error), \(error.userInfo)")
+                        }
+                    }
+                    else {
+                        let errorMsg = (JSON as AnyObject).value(forKey: "message") as! String
+                        self.showAlertwithCancelButton("Error", message: errorMsg as NSString, cancelButton: "OK")
+                    }
+                }
             }
         }
         else {

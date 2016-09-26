@@ -756,7 +756,10 @@ class AddVehicleViewController: GAITrackedViewController, UIAlertController_UIAl
             isValidationSuccess = true
         }
         
-        self.performSegue(withIdentifier: "InsuranceDetailsView", sender: self)
+        DispatchQueue.main.async {
+            self.performSegue(withIdentifier: "InsuranceDetailsView", sender: self)
+        }
+        
     }
     
     //MARK:- NAVIGATE

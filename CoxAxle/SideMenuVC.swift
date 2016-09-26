@@ -16,15 +16,14 @@ class SideMenuVC: GAITrackedViewController, UITableViewDelegate, UITableViewData
     
     let menuArray: NSArray = ["Home","My Cars","Service","Roadside Assistance","Accident Help","Car Shopping", "Contact Dealership", "Settings"]
     var logoImage: [UIImage] = [
-        UIImage(named: "searchCarsIcon")!,
-        UIImage(named: "searchCarsIcon")!,
-        UIImage(named: "searchCarsIcon")!,
-        UIImage(named: "searchCarsIcon")!,
-        UIImage(named: "searchCarsIcon")!,
+        UIImage(named: "fill2")!,
+        UIImage(named: "group9")!,
+        UIImage(named: "noun12674Cc")!,
+        UIImage(named: "flatTire")!,
+        UIImage(named: "noun386810Cc")!,
         UIImage(named: "searchCarsIcon")!,
         UIImage(named: "sidecallIcon")!,
-        UIImage(named: "searchCarsIcon")!,
-        UIImage(named: "searchCarsIcon")!
+        UIImage(named: "noun539837Cc")!
     ]
     
     var oldPassword: String?
@@ -49,28 +48,44 @@ class SideMenuVC: GAITrackedViewController, UITableViewDelegate, UITableViewData
     // MARK: UIBUTTON ACTIONS
 
     @IBAction func facebookButtonClicked(_ sender: UIButton) {
-        let navigationVC = self.storyboard!.instantiateViewController(withIdentifier: "NavigationVC") as! NavigationVC
         
-        let storyboard = UIStoryboard(name: "Main", bundle: nil)
-        let vc = storyboard .instantiateViewController(withIdentifier: "SocialContent") as! WebViewController
-        vc.webViewUrl = "https://www.facebook.com/VensaiTechnologies"
-        self.navigationController?.pushViewController(vc, animated: true)
-        navigationVC.viewControllers = [vc];
-        self.frostedViewController.contentViewController = navigationVC
-        self.frostedViewController.hideMenuViewController()
+        let facebookURL = NSURL(string: "fb://profile/VensaiTechnologies")!
+        if UIApplication.shared.canOpenURL(facebookURL as URL) {
+            UIApplication.shared.openURL(facebookURL as URL)
+        } else {
+            UIApplication.shared.openURL(NSURL(string: "https://www.facebook.com/VensaiTechnologies")! as URL)
+        }
+        
+//        let navigationVC = self.storyboard!.instantiateViewController(withIdentifier: "NavigationVC") as! NavigationVC
+//        
+//        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+//        let vc = storyboard .instantiateViewController(withIdentifier: "SocialContent") as! WebViewController
+//        vc.webViewUrl = "https://www.facebook.com/VensaiTechnologies"
+//        self.navigationController?.pushViewController(vc, animated: true)
+//        navigationVC.viewControllers = [vc];
+//        self.frostedViewController.contentViewController = navigationVC
+//        self.frostedViewController.hideMenuViewController()
         
     }
     
     @IBAction func twitterButtonClicked(_ sender: UIButton) {
-        let navigationVC = self.storyboard!.instantiateViewController(withIdentifier: "NavigationVC") as! NavigationVC
         
-        let storyboard = UIStoryboard(name: "Main", bundle: nil)
-        let vc = storyboard .instantiateViewController(withIdentifier: "SocialContent") as! WebViewController
-        vc.webViewUrl = "https://twitter.com/vensaiinc"
-        self.navigationController?.pushViewController(vc, animated: true)
-        navigationVC.viewControllers = [vc];
-        self.frostedViewController.contentViewController = navigationVC
-        self.frostedViewController.hideMenuViewController()
+        let twitterURL = NSURL(string: "twitter:///user?screen_name=vensaiinc")!
+        if UIApplication.shared.canOpenURL(twitterURL as URL) {
+            UIApplication.shared.openURL(twitterURL as URL)
+        } else {
+            UIApplication.shared.openURL(NSURL(string: "https://twitter.com/vensaiinc")! as URL)
+        }
+        
+//        let navigationVC = self.storyboard!.instantiateViewController(withIdentifier: "NavigationVC") as! NavigationVC
+//        
+//        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+//        let vc = storyboard .instantiateViewController(withIdentifier: "SocialContent") as! WebViewController
+//        vc.webViewUrl = "https://twitter.com/vensaiinc"
+//        self.navigationController?.pushViewController(vc, animated: true)
+//        navigationVC.viewControllers = [vc];
+//        self.frostedViewController.contentViewController = navigationVC
+//        self.frostedViewController.hideMenuViewController()
     }
     
     

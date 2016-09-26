@@ -67,8 +67,9 @@ class XtimeViewController: GAITrackedViewController,UIWebViewDelegate, UIAlertCo
                                 let lastname = UserDefaults.standard.object(forKey: "LastName") as! String
                                 let email = UserDefaults.standard.object(forKey: "Email") as! String
                                 let phone = UserDefaults.standard.object(forKey: "Phone") as! String
+                                let vin = self.vinNumber ?? ""
                                 
-                                let deepLinkingURL = NSString(format: "https://consumer-ptr1.xtime.com/scheduling/?webKey=%@&VIN=%@&Provider=%@&Keyword=%@&cfn=%@&cln=%@&cpn=%@&cem=%@&NOTE=NOTE4Q3&extid=%@&extctxt=%@&dest=VEHICLE", (dict.response?.WebKey)!,self.vinNumber!,(dict.response?.Provider)!, (dict.response?.Keyword)!, firstName, lastname, phone, email, (dict.response?.Extid)!, (dict.response?.Extctxt)!)
+                                let deepLinkingURL = NSString(format: "https://consumer-ptr1.xtime.com/scheduling/?webKey=%@&VIN=%@&Provider=%@&Keyword=%@&cfn=%@&cln=%@&cpn=%@&cem=%@&NOTE=NOTE4Q3&extid=%@&extctxt=%@&dest=VEHICLE", (dict.response?.WebKey)!,vin,(dict.response?.Provider)!, (dict.response?.Keyword)!, firstName, lastname, phone, email, (dict.response?.Extid)!, (dict.response?.Extctxt)!)
                                 self.webView.loadRequest(NSURLRequest(url: NSURL(string: deepLinkingURL as String)! as URL) as URLRequest)
 
                             }

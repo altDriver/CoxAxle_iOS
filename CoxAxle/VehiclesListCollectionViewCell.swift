@@ -14,5 +14,6 @@ class VehiclesListCollectionViewCell: UICollectionViewCell {
     @IBOutlet var carAppointmentDate: UILabel!
     @IBOutlet var carName: UILabel!
     
+    @IBOutlet var carDeleteButton: UIButton!
     
 }

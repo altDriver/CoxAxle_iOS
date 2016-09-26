@@ -85,13 +85,15 @@ class VehicleDetailsViewController: GAITrackedViewController, UITableViewDataSou
     
     //MARK:- UIBUTTONS ACTIONS
     func openBrowserButtonClicked() -> Void {
-        
-        self.performSegue(withIdentifier: "CarManualWebView", sender: nil)
+        DispatchQueue.main.async {
+           self.performSegue(withIdentifier: "CarManualWebView", sender: nil)
+        }
     }
     
     @IBAction func editVehicleButtonClicked(_ sender: AnyObject) {
-        
-        self.performSegue(withIdentifier: "editVehicleView", sender: nil)
+        DispatchQueue.main.async {
+           self.performSegue(withIdentifier: "editVehicleView", sender: nil)
+        }
     }
     
     //MARK:- SET PROGRESS BAR

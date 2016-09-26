@@ -67,22 +67,20 @@ class FavoriteCarsViewController: GAITrackedViewController, UICollectionViewDele
         
         cell.vehicleImageViewHeight.constant = Constant.iPhoneScreen.Ratio*150
         
-//        if let imageURLString = self.inventoryResultsArray[indexPath.row].value(forKey: "images") as? NSString {
-//            
-//            cell.vehicleImageView.setImageWith(URL(string: imageURLString as String), placeholderImage: UIImage(named: "placeholder"), options: SDWebImageOptions(rawValue: UInt(0)), usingActivityIndicatorStyle: UIActivityIndicatorViewStyle.gray)
-//            
-//        }
-//        else {
-//            cell.vehicleImageView.image = UIImage(named: "placeholder")
-//        }
-//        cell.vehicleType.text = self.inventoryResultsArray[indexPath.row].value(forKey: "listingType") as? String
-//        let model = String(format: "%@ %@", self.inventoryResultsArray[indexPath.row].value(forKey: "year") as! NSNumber, self.inventoryResultsArray[indexPath.row].value(forKey: "make") as! String)
-//        cell.vehicleModel.text = model
-//        cell.vehiclePrice.text = String(format: "$%@", (self.inventoryResultsArray[indexPath.row].value(forKey: "derivedPrice") as? NSNumber)!)
-//        let trimArray = self.inventoryResultsArray[indexPath.row].value(forKey: "bodyStyles") as! NSArray
-//        let trimDict = trimArray.object(at: 0) as! NSDictionary
-//        let miles = String(format: "%@ • %@", (self.inventoryResultsArray[indexPath.row].value(forKey: "mileage") as? NSNumber)!, trimDict.value(forKey: "name") as! String)
-//        cell.vehicleMiles.text = miles
+        if let imageURLString = self.favoriteCarsArray[indexPath.row].value(forKey: "image_url") as? NSString {
+            
+            cell.vehicleImageView.setImageWith(URL(string: imageURLString as String), placeholderImage: UIImage(named: "placeholder"), options: SDWebImageOptions(rawValue: UInt(0)), usingActivityIndicatorStyle: UIActivityIndicatorViewStyle.gray)
+            
+        }
+        else {
+            cell.vehicleImageView.image = UIImage(named: "placeholder")
+        }
+        cell.vehicleType.text = self.favoriteCarsArray[indexPath.row].value(forKey: "vehicle_type") as? String
+        let model = String(format: "%@ %@", self.favoriteCarsArray[indexPath.row].value(forKey: "year") as! NSString , self.favoriteCarsArray[indexPath.row].value(forKey: "vehicle_name") as! String)  //,
+        cell.vehicleModel.text = model
+        cell.vehiclePrice.text = String(format: "$%@", (self.favoriteCarsArray[indexPath.row].value(forKey: "price") as? NSString)!)
+        let miles = String(format: "%@ • %@", (self.favoriteCarsArray[indexPath.row].value(forKey: "miles") as? NSString)!, self.favoriteCarsArray[indexPath.row].value(forKey: "vehicle_name") as! String)
+        cell.vehicleMiles.text = miles
         return cell;
     }
     
@@ -114,7 +112,7 @@ class FavoriteCarsViewController: GAITrackedViewController, UICollectionViewDele
                         let status = (JSON as AnyObject).value(forKey: "status") as! String
                         if status == "True"  {
                             do {
-                                let dict: VehiclesList = try VehiclesList(dictionary: JSON as! [AnyHashable: Any])
+                                let dict: FavoriteCars = try FavoriteCars(dictionary: JSON as! [AnyHashable: Any])
                                 
                                 
                                 self.favoriteCarsArray = dict.response?.data as! Array<AnyObject>

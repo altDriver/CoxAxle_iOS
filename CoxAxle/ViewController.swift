@@ -84,7 +84,9 @@ class ViewController: GAITrackedViewController, EAIntroDelegate, UIAlertControll
     
     //MARK- UIBUTON ACTIONS
       @IBAction func loginButtonClicked(_ sender: UIButton) {
-        self.performSegue(withIdentifier: "Login", sender: self)
+        DispatchQueue.main.async {
+          self.performSegue(withIdentifier: "Login", sender: self)
+        }
     }
     
     @IBAction func continueAsGuestClicked(_ sender: UIButton) {
@@ -126,7 +128,9 @@ class ViewController: GAITrackedViewController, EAIntroDelegate, UIAlertControll
                                     NSLog("Unresolved error \(error), \(error.userInfo)")
                                 }
                                 
-                                self.performSegue(withIdentifier: "LoggedIn", sender: self)
+                                DispatchQueue.main.async {
+                                   self.performSegue(withIdentifier: "LoggedIn", sender: self)
+                                }
                             }
                             else
                             {
@@ -145,7 +149,9 @@ class ViewController: GAITrackedViewController, EAIntroDelegate, UIAlertControll
     }
     
     @IBAction func createAnAccountClicked(_ sender: UIButton) {
-        self.performSegue(withIdentifier: "CreateAccount", sender: self)
+        DispatchQueue.main.async {
+           self.performSegue(withIdentifier: "CreateAccount", sender: self)
+        }
     }
     
 }

@@ -117,22 +117,96 @@ class LandingScreen: GAITrackedViewController,UITableViewDataSource, UITableView
             }
             else {
             self.navigationItem.backBarButtonItem = UIBarButtonItem(title: " ", style: .plain, target: nil, action: nil)
-            self.performSegue(withIdentifier: "AddVehicle", sender: self)
+                DispatchQueue.main.async {
+                    self.performSegue(withIdentifier: "AddVehicle", sender: self)
+                }
            }
         }
-     //   self.showAlertwithCancelButton("CoxAxle", message: "Functionality in progress", cancelButton: "OK")
+        else {
+            
+            let alertController = UIAlertController(title: "CoxAxle", message: "Please log in into the coxaxle application in order to use the services", preferredStyle: .alert)
+            
+            let defaultAction = UIAlertAction(title: "OK", style: .default, handler: { (action: UIAlertAction!) in
+                
+            })
+            alertController.addAction(defaultAction)
+            
+            let otherAction = UIAlertAction(title: "Cancel", style: .default, handler: { (action: UIAlertAction!) in
+            })
+            alertController.addAction(otherAction)
+            
+            DispatchQueue.main.async(execute: {
+                self.present(alertController, animated: true, completion: nil)
+            })
+        }
     }
     
     
     func callButtonClicked(_ sender: UIButton) {
-        let phoneNumber: String = "+919912841997"
-        let phoneUrl: URL = URL(string: "telprompt:\(phoneNumber)")!
-        if UIApplication.shared.canOpenURL(phoneUrl) {
-            UIApplication.shared.openURL(phoneUrl)
-        }
-        else {
-            self.showAlertwithCancelButton("Error", message: "Call facility is not available!!!", cancelButton: "OK")
-        }
+        
+        let alertController = UIAlertController(title: "CoxAxle", message: "Call Dealer", preferredStyle: .actionSheet)
+        
+        let mainNumber = String(format: "Main %@", self.dealerDict?.value(forKey: "main_contact_number") as! String)
+        let mainAction = UIAlertAction(title: mainNumber, style: .default, handler: { (action: UIAlertAction!) in
+            DispatchQueue.main.async {
+                self.callNumber(phoneNumber: mainNumber)
+            }
+        })
+        alertController.addAction(mainAction)
+        
+        let saleNumber = String(format: "Sale %@", self.dealerDict?.value(forKey: "sale_contact") as! String)
+        let saleAction = UIAlertAction(title: saleNumber, style: .default, handler: { (action: UIAlertAction!) in
+            DispatchQueue.main.async {
+                self.callNumber(phoneNumber: saleNumber)
+            }
+        })
+        alertController.addAction(saleAction)
+        
+        let serviceNumber = String(format: "Service %@", self.dealerDict?.value(forKey: "service_desk_contact") as! String)
+        let serviceAction = UIAlertAction(title: serviceNumber, style: .default, handler: { (action: UIAlertAction!) in
+            DispatchQueue.main.async {
+                self.callNumber(phoneNumber: serviceNumber)
+            }
+        })
+        alertController.addAction(serviceAction)
+        
+        let collisionNumber = String(format: "Collision %@", self.dealerDict?.value(forKey: "collision_desk_contact") as! String)
+        let collisionAction = UIAlertAction(title: collisionNumber, style: .default, handler: { (action: UIAlertAction!) in
+            DispatchQueue.main.async {
+                self.callNumber(phoneNumber: collisionNumber)
+            }
+        })
+        alertController.addAction(collisionAction)
+        
+        let otherAction = UIAlertAction(title: "Cancel", style: .default, handler: { (action: UIAlertAction!) in
+        })
+        alertController.addAction(otherAction)
+        
+        DispatchQueue.main.async(execute: {
+            self.present(alertController, animated: true, completion: nil)
+        })
+        
+       
+    }
+    
+    func callNumber(phoneNumber: String) -> Void {
+         var phoneNumber = phoneNumber
+         phoneNumber = phoneNumber.replacingOccurrences(of: "(", with: "")
+         phoneNumber = phoneNumber.replacingOccurrences(of: ")", with: "")
+         phoneNumber = phoneNumber.replacingOccurrences(of: "-", with: "")
+         phoneNumber = phoneNumber.replacingOccurrences(of: " ", with: "")
+         phoneNumber = phoneNumber.replacingOccurrences(of: "Main", with: "")
+         phoneNumber = phoneNumber.replacingOccurrences(of: "Sale", with: "")
+         phoneNumber = phoneNumber.replacingOccurrences(of: "Service", with: "")
+         phoneNumber = phoneNumber.replacingOccurrences(of: "Collision", with: "")
+         
+         let phoneUrl: URL = URL(string: "telprompt:\(phoneNumber)")!
+         if UIApplication.shared.canOpenURL(phoneUrl) {
+         UIApplication.shared.openURL(phoneUrl)
+         }
+         else {
+         self.showAlertwithCancelButton("Error", message: "Call facility is not available!!!", cancelButton: "OK")
+         }
     }
    
     func emailButtonClicked(_ sender: UIButton) {
@@ -148,7 +222,8 @@ class LandingScreen: GAITrackedViewController,UITableViewDataSource, UITableView
         let mailComposerVC = MFMailComposeViewController()
         mailComposerVC.mailComposeDelegate = self // Extremely important to set the --mailComposeDelegate-- property, NOT the --delegate-- property
         
-        mailComposerVC.setToRecipients(["info@coxaxle.com"])
+        let recipient = self.dealerDict?.value(forKey: "email") as! String
+        mailComposerVC.setToRecipients([recipient])
         mailComposerVC.setSubject("Feedback")
         mailComposerVC.setMessageBody("Hi", isHTML: false)
         
@@ -157,12 +232,26 @@ class LandingScreen: GAITrackedViewController,UITableViewDataSource, UITableView
     
     func directionButtonClicked(_ sender: UIButton) {
         
-        if UIApplication.shared.canOpenURL(URL(string:"http://maps.apple.com")!) {
-            UIApplication.shared.openURL(URL(string: "http://maps.apple.com/?daddr=Atlanta+GA&saddr=Cumming")!)
-//             UIApplication.sharedApplication().openURL(NSURL(string: "http://maps.apple.com/?saddr=36.7783,119.4179&daddr=40.7128,74.0059")!)
-        } else {
-            self.showAlertwithCancelButton("Error", message: "Cannot use Apple maps", cancelButton: "OK")
-        }
+        let alertController = UIAlertController(title: "Directions", message: "Are you sure you want to open the maps?", preferredStyle: .alert)
+        
+        let defaultAction = UIAlertAction(title: "YES", style: .default, handler: { (action: UIAlertAction!) in
+            if UIApplication.shared.canOpenURL(URL(string:"http://maps.apple.com")!) {
+                UIApplication.shared.openURL(URL(string: "http://maps.apple.com/?daddr=Atlanta+GA&saddr=Cumming")!)
+                //             UIApplication.sharedApplication().openURL(NSURL(string: "http://maps.apple.com/?saddr=36.7783,119.4179&daddr=40.7128,74.0059")!)
+            } else {
+                self.showAlertwithCancelButton("Error", message: "Cannot use Apple maps", cancelButton: "OK")
+            }
+           
+        })
+        alertController.addAction(defaultAction)
+        
+        let otherAction = UIAlertAction(title: "NO", style: .default, handler: { (action: UIAlertAction!) in
+        })
+        alertController.addAction(otherAction)
+        
+        DispatchQueue.main.async(execute: {
+            self.present(alertController, animated: true, completion: nil)
+        })
         
     }
     
@@ -231,24 +320,20 @@ class LandingScreen: GAITrackedViewController,UITableViewDataSource, UITableView
             
             let cellImageView: UIImageView = cell.viewWithTag(501) as! UIImageView
             let cellTitle: UILabel = cell.viewWithTag(502) as! UILabel
-            let cellSubTitle: UILabel = cell.viewWithTag(503) as! UILabel
             
             switch (indexPath as NSIndexPath).row {
             case 0:
                   cellImageView.image = UIImage(named: "calendarIcon")
                   cellTitle.text = "Schedule Appointment".localized(self.language!)
-                  cellSubTitle.text = "At vero eos et accusamus et iusto odio dignissimos"
                   break
             case 1:
                 cellImageView.image = UIImage(named: "serviceHistoryIcon")
                 cellTitle.text = "Service History".localized(self.language!)
-                cellSubTitle.text = "At vero eos et accusamus et iusto odio dignissimos"
                 break
             default:
                 break
             }
-            
-            cell.accessoryType = UITableViewCellAccessoryType.disclosureIndicator
+        
             if UserDefaults.standard.bool(forKey: "USER_LOGGED_IN") {
                 cell.isUserInteractionEnabled = true
             }
@@ -280,23 +365,19 @@ class LandingScreen: GAITrackedViewController,UITableViewDataSource, UITableView
             let cell:UITableViewCell = self.tableView.dequeueReusableCell(withIdentifier: dealerReuseIdentifier) as UITableViewCell!
             let cellImageView: UIImageView = cell.viewWithTag(501) as! UIImageView
             let cellTitle: UILabel = cell.viewWithTag(502) as! UILabel
-            let cellSubTitle: UILabel = cell.viewWithTag(503) as! UILabel
             
             switch (indexPath as NSIndexPath).row {
             case 0:
                 cellImageView.image = UIImage(named: "searchCarsIcon")
                 cellTitle.text = "Search New and Used Cars".localized(self.language!)
-                cellSubTitle.text = "At vero eos et accusamus et iusto odio dignissimos"
                 break
             case 1:
                 cellImageView.image = UIImage(named: "savedCarsIcon")
-                cellTitle.text = "Saved Cars".localized(self.language!)
-                cellSubTitle.text = "At vero eos et accusamus et iusto odio dignissimos"
+                cellTitle.text = "Saved Searches".localized(self.language!)
                 break
             default:
                 break
             }
-            cell.accessoryType = UITableViewCellAccessoryType.disclosureIndicator
             return cell
         case 4:
             let cell:UITableViewCell = self.tableView.dequeueReusableCell(withIdentifier: contactReuseIdentifier) as UITableViewCell!
@@ -349,10 +430,51 @@ class LandingScreen: GAITrackedViewController,UITableViewDataSource, UITableView
             switch (indexPath as NSIndexPath).row {
             case 0:
                 self.navigationItem.backBarButtonItem = UIBarButtonItem(title: " ", style: .plain, target: nil, action: nil)
-                self.performSegue(withIdentifier: "XTime", sender: self)
+                if UserDefaults.standard.bool(forKey: "USER_LOGGED_IN") {
+                    DispatchQueue.main.async {
+                        self.performSegue(withIdentifier: "XTime", sender: self)
+                    }
+                    
+                }
+                else {
+                    
+                    let alertController = UIAlertController(title: "CoxAxle", message: "Please log in into the coxaxle application in order to use the services", preferredStyle: .alert)
+                    
+                    let defaultAction = UIAlertAction(title: "OK", style: .default, handler: { (action: UIAlertAction!) in
+                        
+                    })
+                    alertController.addAction(defaultAction)
+                    
+                    let otherAction = UIAlertAction(title: "Cancel", style: .default, handler: { (action: UIAlertAction!) in
+                    })
+                    alertController.addAction(otherAction)
+                    
+                    DispatchQueue.main.async(execute: {
+                        self.present(alertController, animated: true, completion: nil)
+                    })
+                }
                 break
             case 1:
-                self.showAlertwithCancelButton("CoxAxle", message: "Functionality in progress", cancelButton: "OK")
+                if UserDefaults.standard.bool(forKey: "USER_LOGGED_IN") {
+                    self.showAlertwithCancelButton("CoxAxle", message: "Functionality in progress", cancelButton: "OK")
+                }
+                else {
+                    
+                    let alertController = UIAlertController(title: "CoxAxle", message: "Please log in into the coxaxle application in order to use the services", preferredStyle: .alert)
+                    
+                    let defaultAction = UIAlertAction(title: "OK", style: .default, handler: { (action: UIAlertAction!) in
+                        
+                    })
+                    alertController.addAction(defaultAction)
+                    
+                    let otherAction = UIAlertAction(title: "Cancel", style: .default, handler: { (action: UIAlertAction!) in
+                    })
+                    alertController.addAction(otherAction)
+                    
+                    DispatchQueue.main.async(execute: {
+                        self.present(alertController, animated: true, completion: nil)
+                    })
+                }
                 break
             default:
                 break
@@ -360,10 +482,14 @@ class LandingScreen: GAITrackedViewController,UITableViewDataSource, UITableView
             case 3:
                 switch (indexPath as NSIndexPath).row {
                 case 0:
-                    self.performSegue(withIdentifier: "Inventory", sender: self)
+                    DispatchQueue.main.async {
+                      self.performSegue(withIdentifier: "Inventory", sender: self)
+                    }
                     break
                 case 1:
-                    self.performSegue(withIdentifier: "SavedSearches", sender: self)
+                    DispatchQueue.main.async {
+                      self.performSegue(withIdentifier: "SavedSearches", sender: self)
+                    }
                     break
                 default:
                     break
@@ -547,7 +673,29 @@ class LandingScreen: GAITrackedViewController,UITableViewDataSource, UITableView
         collectionView.deselectItem(at: indexPath, animated: true)
         if collectionView.tag == 2 {
         self.navigationItem.backBarButtonItem = UIBarButtonItem(title: " ", style: .plain, target: nil, action: nil)
-        self.performSegue(withIdentifier: "VehicleDetails", sender: indexPath)
+            if UserDefaults.standard.bool(forKey: "USER_LOGGED_IN") {
+                DispatchQueue.main.async {
+                    self.performSegue(withIdentifier: "VehicleDetails", sender: indexPath)
+                }
+                
+            }
+            else {
+                
+                let alertController = UIAlertController(title: "CoxAxle", message: "Please log in into the coxaxle application in order to use the services", preferredStyle: .alert)
+                
+                let defaultAction = UIAlertAction(title: "OK", style: .default, handler: { (action: UIAlertAction!) in
+                    
+                })
+                alertController.addAction(defaultAction)
+                
+                let otherAction = UIAlertAction(title: "Cancel", style: .default, handler: { (action: UIAlertAction!) in
+                })
+                alertController.addAction(otherAction)
+                
+                DispatchQueue.main.async(execute: {
+                    self.present(alertController, animated: true, completion: nil)
+                })
+            }
         }
     }
     
@@ -687,8 +835,8 @@ class LandingScreen: GAITrackedViewController,UITableViewDataSource, UITableView
                              }
                         }
                         else {
-                            let errorMsg = (JSON as AnyObject).value(forKey: "message") as! String
-                            self.showAlertwithCancelButton("Error", message: errorMsg as NSString, cancelButton: "OK".localized(self.language!) as NSString)
+//                            let errorMsg = (JSON as AnyObject).value(forKey: "message") as! String
+//                            self.showAlertwithCancelButton("Error", message: errorMsg as NSString, cancelButton: "OK".localized(self.language!) as NSString)
                             }
                     }
             }

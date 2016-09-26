@@ -1226,7 +1226,7 @@ class EditVehicleViewController: UIViewController, UIAlertController_UIAlertView
         
         let defaultAction = UIAlertAction(title: "OK", style: .default, handler: { (action: UIAlertAction!) in
             
-            self.navigationController?.popToRootViewController(animated: true)
+            self.navigationController!.popToRootViewController(animated: true)
         })
         
         alertController.addAction(defaultAction)
