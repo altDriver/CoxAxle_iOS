@@ -8,19 +8,19 @@
 
 import UIKit
 import Alamofire
+import SDWebImage
 
 class SideMenuVC: GAITrackedViewController, UITableViewDelegate, UITableViewDataSource, UIAlertController_UIAlertView {
 
      let MenuReuseIdentifier = "MenuCell"
     @IBOutlet weak var sideMenuTbl: UITableView!
     
-    let menuArray: NSArray = ["Home","My Cars","Service","Roadside Assistance","Accident Help","Car Shopping", "Contact Dealership", "Settings"]
+    let menuArray: NSArray = ["Home","My Cars","Service","Roadside Assistance","Car Shopping", "Contact Dealership", "Settings"]
     var logoImage: [UIImage] = [
         UIImage(named: "fill2")!,
         UIImage(named: "group9")!,
         UIImage(named: "noun12674Cc")!,
         UIImage(named: "flatTire")!,
-        UIImage(named: "noun386810Cc")!,
         UIImage(named: "searchCarsIcon")!,
         UIImage(named: "sidecallIcon")!,
         UIImage(named: "noun539837Cc")!
@@ -30,11 +30,15 @@ class SideMenuVC: GAITrackedViewController, UITableViewDelegate, UITableViewData
     var newPassword: String?
     var confirmNewPassword: String?
     
+    @IBOutlet var logoImageView: UIImageView!
     //MARK:- LIFE CYCLE METHODS
     override func viewDidLoad() {
         super.viewDidLoad()
         self.screenName = "SideMenuVC"
         // Do any additional setup after loading the view.
+        
+        let imageURLString = UserDefaults.standard.object(forKey: "Dealer_Logo") as! NSString
+        self.logoImageView.setImageWith(URL(string: imageURLString as String), placeholderImage: nil, options: SDWebImageOptions(rawValue: UInt(0)), usingActivityIndicatorStyle: UIActivityIndicatorViewStyle.gray)
         
         sideMenuTbl.tableFooterView = UIView(frame: CGRect.zero)
 
@@ -49,11 +53,11 @@ class SideMenuVC: GAITrackedViewController, UITableViewDelegate, UITableViewData
 
     @IBAction func facebookButtonClicked(_ sender: UIButton) {
         
-        let facebookURL = NSURL(string: "fb://profile/VensaiTechnologies")!
-        if UIApplication.shared.canOpenURL(facebookURL as URL) {
-            UIApplication.shared.openURL(facebookURL as URL)
+        let facebook = UserDefaults.standard.object(forKey: "Dealer_FB") as! String
+        if UIApplication.shared.canOpenURL(NSURL(string: facebook)! as URL) {
+            UIApplication.shared.openURL(NSURL(string: facebook)! as URL)
         } else {
-            UIApplication.shared.openURL(NSURL(string: "https://www.facebook.com/VensaiTechnologies")! as URL)
+            UIApplication.shared.openURL(NSURL(string: facebook)! as URL)
         }
         
 //        let navigationVC = self.storyboard!.instantiateViewController(withIdentifier: "NavigationVC") as! NavigationVC
@@ -70,11 +74,12 @@ class SideMenuVC: GAITrackedViewController, UITableViewDelegate, UITableViewData
     
     @IBAction func twitterButtonClicked(_ sender: UIButton) {
         
-        let twitterURL = NSURL(string: "twitter:///user?screen_name=vensaiinc")!
-        if UIApplication.shared.canOpenURL(twitterURL as URL) {
-            UIApplication.shared.openURL(twitterURL as URL)
+        let twitterURL = UserDefaults.standard.object(forKey: "Dealer_TW") as! String
+        
+        if UIApplication.shared.canOpenURL(NSURL(string: twitterURL)! as URL) {
+            UIApplication.shared.openURL(NSURL(string: twitterURL)! as URL)
         } else {
-            UIApplication.shared.openURL(NSURL(string: "https://twitter.com/vensaiinc")! as URL)
+            UIApplication.shared.openURL(NSURL(string: twitterURL)! as URL)
         }
         
 //        let navigationVC = self.storyboard!.instantiateViewController(withIdentifier: "NavigationVC") as! NavigationVC
@@ -136,7 +141,32 @@ class SideMenuVC: GAITrackedViewController, UITableViewDelegate, UITableViewData
             self.frostedViewController.contentViewController = navigationVC
             self.frostedViewController.hideMenuViewController()
             break
-        case 5:
+        case 2:
+            let navigationVC = self.storyboard!.instantiateViewController(withIdentifier: "NavigationVC") as! NavigationVC
+            
+            let storyboard = UIStoryboard(name: "Main", bundle: nil)
+            let vc = storyboard .instantiateViewController(withIdentifier: "VehiclesList") as! VehiclesViewController
+            vc.fromXTime = true
+            self.navigationController?.pushViewController(vc, animated: true)
+            navigationVC.viewControllers = [vc];
+            self.frostedViewController.contentViewController = navigationVC
+            self.frostedViewController.hideMenuViewController()
+            break
+        case 3:
+            var phoneNumber = UserDefaults.standard.object(forKey: "Dealer_Collision") as! String
+            phoneNumber = phoneNumber.replacingOccurrences(of: "(", with: "")
+            phoneNumber = phoneNumber.replacingOccurrences(of: ")", with: "")
+            phoneNumber = phoneNumber.replacingOccurrences(of: "-", with: "")
+            phoneNumber = phoneNumber.replacingOccurrences(of: " ", with: "")
+            let phoneUrl: URL = URL(string: "telprompt:\(phoneNumber)")!
+            if UIApplication.shared.canOpenURL(phoneUrl) {
+                UIApplication.shared.openURL(phoneUrl)
+            }
+            else {
+                self.showAlertwithCancelButton("Error", message: "Call facility is not available!!!", cancelButton: "OK")
+            }
+            break
+        case 4:
             let navigationVC = self.storyboard!.instantiateViewController(withIdentifier: "NavigationVC") as! NavigationVC
             
             let storyboard = UIStoryboard(name: "Main", bundle: nil)
@@ -145,6 +175,54 @@ class SideMenuVC: GAITrackedViewController, UITableViewDelegate, UITableViewData
             navigationVC.viewControllers = [vc];
             self.frostedViewController.contentViewController = navigationVC
             self.frostedViewController.hideMenuViewController()
+            break
+        case 5:
+            let alertController = UIAlertController(title: "CoxAxle", message: "Call Dealer", preferredStyle: .actionSheet)
+            
+            let main = UserDefaults.standard.object(forKey: "Dealer_Main") as! String
+            let mainNumber = String(format: "Main: %@", main)
+            let mainAction = UIAlertAction(title: mainNumber, style: .default, handler: { (action: UIAlertAction!) in
+                DispatchQueue.main.async {
+                    self.callNumber(phoneNumber: mainNumber)
+                }
+            })
+            alertController.addAction(mainAction)
+            
+            let sales = UserDefaults.standard.object(forKey: "Dealer_Sales") as! String
+            let saleNumber = String(format: "Sales: %@", sales)
+            let saleAction = UIAlertAction(title: saleNumber, style: .default, handler: { (action: UIAlertAction!) in
+                DispatchQueue.main.async {
+                    self.callNumber(phoneNumber: saleNumber)
+                }
+            })
+            alertController.addAction(saleAction)
+            
+            let service = UserDefaults.standard.object(forKey: "Dealer_Services") as! String
+            let serviceNumber = String(format: "Service: %@", service)
+            let serviceAction = UIAlertAction(title: serviceNumber, style: .default, handler: { (action: UIAlertAction!) in
+                DispatchQueue.main.async {
+                    self.callNumber(phoneNumber: serviceNumber)
+                }
+            })
+            alertController.addAction(serviceAction)
+            
+            let collision = UserDefaults.standard.object(forKey: "Dealer_Collision") as! String
+            let collisionNumber = String(format: "Collision: %@", collision)
+            let collisionAction = UIAlertAction(title: collisionNumber, style: .default, handler: { (action: UIAlertAction!) in
+                DispatchQueue.main.async {
+                    self.callNumber(phoneNumber: collisionNumber)
+                }
+            })
+            alertController.addAction(collisionAction)
+            
+            let otherAction = UIAlertAction(title: "Cancel", style: .default, handler: { (action: UIAlertAction!) in
+            })
+            alertController.addAction(otherAction)
+            
+            DispatchQueue.main.async(execute: {
+                self.present(alertController, animated: true, completion: nil)
+            })
+
             break
        // case 8:
             //        case 2:
@@ -302,7 +380,7 @@ class SideMenuVC: GAITrackedViewController, UITableViewDelegate, UITableViewData
             
             let paramsDict: [ String : String] = ["uid": userId!,
                                                      "old_password":oldPassword,
-                                                     "new_password": newPassword] as Dictionary
+                                                     "new_password": newPassword, "dealer_code": Constant.Dealer.DealerCode] as Dictionary
             
             Alamofire.request(Constant.API.kBaseUrlPath+"customer/updatepwd", method: .post, parameters: paramsDict).responseJSON
                 { response in
@@ -328,6 +406,28 @@ class SideMenuVC: GAITrackedViewController, UITableViewDelegate, UITableViewData
             self.present(vc as! UIViewController, animated: true, completion: nil)
         }
     }
+    
+    //CALL
+    func callNumber(phoneNumber: String) -> Void {
+        var phoneNumber = phoneNumber
+        phoneNumber = phoneNumber.replacingOccurrences(of: "(", with: "")
+        phoneNumber = phoneNumber.replacingOccurrences(of: ")", with: "")
+        phoneNumber = phoneNumber.replacingOccurrences(of: "-", with: "")
+        phoneNumber = phoneNumber.replacingOccurrences(of: " ", with: "")
+        phoneNumber = phoneNumber.replacingOccurrences(of: "Main:", with: "")
+        phoneNumber = phoneNumber.replacingOccurrences(of: "Sales:", with: "")
+        phoneNumber = phoneNumber.replacingOccurrences(of: "Service:", with: "")
+        phoneNumber = phoneNumber.replacingOccurrences(of: "Collision:", with: "")
+        
+        let phoneUrl: URL = URL(string: "telprompt:\(phoneNumber)")!
+        if UIApplication.shared.canOpenURL(phoneUrl) {
+            UIApplication.shared.openURL(phoneUrl)
+        }
+        else {
+            self.showAlertwithCancelButton("Error", message: "Call facility is not available!!!", cancelButton: "OK")
+        }
+    }
+
 
     
 }

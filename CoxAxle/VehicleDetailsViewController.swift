@@ -35,7 +35,6 @@ class VehicleDetailsViewController: GAITrackedViewController, UITableViewDataSou
     @IBOutlet var progressBar: YLProgressBar!
     
     var vehiclesDetailsDict: NSDictionary!
-    var vehicleImagesArray = [AnyObject]()
     let needleView = MSNeedleView(frame: CGRect(x: 0, y: 0, width: 8, height: 40))
     
     //MARK:- LIFE CYCLE METHODS
@@ -44,8 +43,6 @@ class VehicleDetailsViewController: GAITrackedViewController, UITableViewDataSou
         self.screenName = "VehicleDetailsViewController"
         self.setText()
         print(self.vehiclesDetailsDict)
-        self.vehicleImagesArray = self.vehiclesDetailsDict.value(forKey: "vechicle_image") as! Array<AnyObject>
-        //self.callEditVehiclesAPI()
         self.setProgressBarProperties()
         
         // Do any additional setup after loading the view.
@@ -57,13 +54,6 @@ class VehicleDetailsViewController: GAITrackedViewController, UITableViewDataSou
         if UserDefaults.standard.bool(forKey: "SESSION_EXPIRED") {
             let vc : AnyObject! = self.storyboard!.instantiateViewController(withIdentifier: "SessionExpired")
             self.present(vc as! UIViewController, animated: true, completion: nil)
-        }
-        
-        if UserDefaults.standard.bool(forKey: "CALL_API") {
-            UserDefaults.standard.set(false, forKey: "CALL_API")
-            UserDefaults.standard.synchronize()
-            self.fetchVehicleDetails()
-            //self.callEditVehiclesAPI()
         }
     }
     
@@ -86,13 +76,14 @@ class VehicleDetailsViewController: GAITrackedViewController, UITableViewDataSou
     //MARK:- UIBUTTONS ACTIONS
     func openBrowserButtonClicked() -> Void {
         DispatchQueue.main.async {
-           self.performSegue(withIdentifier: "CarManualWebView", sender: nil)
+            self.performSegue(withIdentifier: "CarManualWebView", sender: nil)
         }
     }
     
     @IBAction func editVehicleButtonClicked(_ sender: AnyObject) {
         DispatchQueue.main.async {
-           self.performSegue(withIdentifier: "editVehicleView", sender: nil)
+           // self.performSegue(withIdentifier: "editVehicleView", sender: nil)
+            self.showAlertwithCancelButton("CoxAxle", message: "Functionality in progress", cancelButton: "OK")
         }
     }
     
@@ -148,7 +139,9 @@ class VehicleDetailsViewController: GAITrackedViewController, UITableViewDataSou
             
             self.bannerCollectionView = cell?.vehicleBannerCollectionView
             self.pageControl = cell?.vehicleDetailsPageControl
-            self.pageControl.numberOfPages = self.vehicleImagesArray.count
+            self.pageControl.numberOfPages = 1
+            self.pageControl.isHidden = true
+            
             return cell!
         case 1:
             switch (indexPath as NSIndexPath).row {
@@ -441,7 +434,8 @@ class VehicleDetailsViewController: GAITrackedViewController, UITableViewDataSou
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return self.vehicleImagesArray.count;
+        
+        return 1
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: IndexPath) -> CGSize {
@@ -455,13 +449,13 @@ class VehicleDetailsViewController: GAITrackedViewController, UITableViewDataSou
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: vehicleCollectionViewCellReuseIdentifier, for: indexPath) as! VehicleDetailsCollectionViewCell
         
-        let imageURLString = self.vehicleImagesArray[(indexPath as NSIndexPath).row].value(forKey: "image_url") as! NSString
-         cell.vehicleImageView.setImageWith(URL(string: imageURLString as String), placeholderImage: UIImage(named: "placeholder"), options: SDWebImageOptions(rawValue: UInt(0)), usingActivityIndicatorStyle: UIActivityIndicatorViewStyle.gray)
+        let imageURLString = self.vehiclesDetailsDict.value(forKey: "photo") as! NSString
+        cell.vehicleImageView.setImageWith(URL(string: imageURLString as String), placeholderImage: UIImage(named: "placeholder"), options: SDWebImageOptions(rawValue: UInt(0)), usingActivityIndicatorStyle: UIActivityIndicatorViewStyle.gray)
         
         cell.vehicleTitle.text = self.vehiclesDetailsDict.value(forKey: "name") as? String
         cell.vehicleName.text = String(format: "%@ %@ • %@", (self.vehiclesDetailsDict.value(forKey: "year") as? String)!, (self.vehiclesDetailsDict.value(forKey: "model") as? String)!, (self.vehiclesDetailsDict.value(forKey: "mileage") as? String)!)
         
-        return cell;
+        return cell
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
@@ -474,52 +468,6 @@ class VehicleDetailsViewController: GAITrackedViewController, UITableViewDataSou
         
         let pageWidth = scrollView.frame.width
         self.pageControl.currentPage = Int(bannerCollectionView.contentOffset.x / pageWidth)
-    }
-    
-    //MARK:- VEHICLE DETAILS API
-    
-    func fetchVehicleDetails() -> Void {
-        if Reachability.isConnectedToNetwork() == true {
-            print("Internet connection OK")
-            
-            let tracker = GAI.sharedInstance().defaultTracker
-            let trackDictionary = GAIDictionaryBuilder.createEvent(withCategory: "API", action: "Fetching Vehicle Details API Called", label: "Fetching Vehicle Details", value: nil).build()
-            tracker?.send(trackDictionary as AnyObject as! [AnyHashable: Any])
-            
-            let loading = UIActivityIndicatorView_ActivityClass(text: "Loading")
-            self.view.addSubview(loading)
-            let paramsDict: [ String : String] = ["vid": "7", "uid": "21"] as Dictionary
-            print(NSString(format: "Request: %@", paramsDict))
-            
-            Alamofire.request(Constant.API.kBaseUrlPath+"vehicle/view", method: .post, parameters: nil, encoding: JSONEncoding.default).responseJSON
-                { response in
-                    loading.hide()
-                    if let JSON = response.result.value {
-                        
-                        print(NSString(format: "Response: %@", JSON as! NSDictionary))
-                        let status = (JSON as AnyObject).value(forKey: "status") as! String
-                        if status == "True"  {
-                            /*  do {
-                             let dict: VehicleDetails = try VehicleDetails(dictionary: JSON as! [NSObject : AnyObject])
-                             
-                             print(dict)
-                             }
-                             catch let error as NSError {
-                             NSLog("Unresolved error \(error), \(error.userInfo)")
-                             }*/
-                        }
-                        else {
-                            let errorMsg = (JSON as AnyObject).value(forKey: "message") as! String
-                            self.showAlertwithCancelButton("Error", message: errorMsg as NSString, cancelButton: "OK")
-                        }
-                    }
-            }
-        }
-        else {
-            print("Internet connection FAILED")
-            let vc : AnyObject! = self.storyboard!.instantiateViewController(withIdentifier: "NoInternetConnection")
-            self.present(vc as! UIViewController, animated: true, completion: nil)
-        }
     }
     
     // MARK: - Navigation

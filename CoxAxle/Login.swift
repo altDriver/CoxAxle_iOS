@@ -8,7 +8,7 @@
 import UIKit
 import JSONModel
 
-class Data: JSONModel {
+class LoginData: JSONModel {
     var uid: String!
     var first_name: String!
     var last_name: String!
@@ -22,8 +22,8 @@ class Data: JSONModel {
         return true
     }
 }
-class Response: JSONModel {
-     var data: NSArray = [Data()]
+class LoginResponse: JSONModel {
+     var data: NSArray = [LoginData()]
 
 
     func propertyIsOptional(_ propertyName: String) -> Bool {
@@ -33,7 +33,7 @@ class Response: JSONModel {
 class Login: JSONModel {
     var status: String!
     var message: String!
-    var response: Response?
+    var response: LoginResponse?
 
 
     func propertyIsOptional(_ propertyName: String) -> Bool {

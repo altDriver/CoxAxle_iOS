@@ -23,7 +23,6 @@ class VehicleInsuranceDetailsViewController: GAITrackedViewController, UITableVi
     @IBOutlet var vehicleInsuranceTableView : UITableView!
     
     var imagePicker = UIImagePickerController()
-    var insuranceCardImageView   = UIImageView()
     var insuranceCardImagesArray = [UIImage]()
     
     let screenWidth  = UIScreen.main.bounds.width
@@ -192,7 +191,13 @@ class VehicleInsuranceDetailsViewController: GAITrackedViewController, UITableVi
         alert.addAction(gallaryAction)
         alert.addAction(cancelAction)
         alert.view.tintColor = UIColor.SlateColor()
-        self.present(alert, animated: true, completion: nil)
+        
+        if self.insuranceCardImagesArray.count < 5 {
+            self.present(alert, animated: true, completion: nil)
+        } else {
+            self.showAlertwithCancelButton("Maximum photos limit reached", message: "You can select 5 items", cancelButton: "OK")
+            return
+        }
         
         let imagePickerController = UIImagePickerController()
         imagePickerController.delegate = self
@@ -212,10 +217,42 @@ class VehicleInsuranceDetailsViewController: GAITrackedViewController, UITableVi
         }
     }
     
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
+        
+        picker.dismiss(animated: true, completion: nil)
+        
+        let pickedImage = info[UIImagePickerControllerOriginalImage] as! UIImage
+        
+        if insuranceCardImagesArray.count < 5 {
+            
+            self.insuranceCardImagesArray.append(pickedImage)
+        }
+        self.vehicleInsuranceTableView.reloadData()
+    }
+    
+    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+        
+        dismiss(animated: true, completion: nil)
+    }
+    
     func openGallary() {
         
-        imagePicker.sourceType = UIImagePickerControllerSourceType.photoLibrary
-        self.present(imagePicker, animated: true, completion: nil)
+        //        imagePicker.sourceType = UIImagePickerControllerSourceType.photoLibrary
+        //        self.present(imagePicker, animated: true, completion: nil)
+        let pickerController = DKImagePickerController()
+        
+        pickerController.maxSelectableCount = 5 - insuranceCardImagesArray.count
+        pickerController.didSelectAssets = { (assets: [DKAsset]) in
+            
+            for asset in assets {
+                asset.fetchOriginalImageWithCompleteBlock({ (pickedImage, info) in
+                    
+                    self.insuranceCardImagesArray.append(pickedImage!)
+                    self.vehicleInsuranceTableView.reloadData()
+                })
+            }
+        }
+        self.present(pickerController, animated: true) {}
     }
     
     func selectInsuranceExpirationExpirationDate(_ sender: UIButton) {
@@ -241,21 +278,20 @@ class VehicleInsuranceDetailsViewController: GAITrackedViewController, UITableVi
     
     //MARK:- Image PickerView Methods
     
-    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
-        
-        picker.dismiss(animated: true, completion: nil)
-        let image = info[UIImagePickerControllerOriginalImage] as? UIImage
-        insuranceCardImageView.image = image
-        
-        insuranceCardImagesArray.append(image!)
-        
-        vehicleInsuranceTableView.reloadData()
-    }
-    
-    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
-        
-        dismiss(animated: true, completion: nil)
-    }
+    //    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
+    //
+    //        picker.dismiss(animated: true, completion: nil)
+    //        let image = info[UIImagePickerControllerOriginalImage] as? UIImage
+    //
+    //        insuranceCardImagesArray.append(image!)
+    //
+    //        vehicleInsuranceTableView.reloadData()
+    //    }
+    //
+    //    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+    //
+    //        dismiss(animated: true, completion: nil)
+    //    }
     
     //MARK:- IBAction Methods
     
@@ -267,13 +303,13 @@ class VehicleInsuranceDetailsViewController: GAITrackedViewController, UITableVi
             return
         }
         
-        if insuranceCardImageView.image == nil || insuranceCardImagesArray.count == 0 {
+        if self.insuranceCardImagesArray.count == 0 {
             
             showAlertwithCancelButton("Error", message: "Please upload insurance card", cancelButton: "OK")
             return
         }
         
-        callAddVehicleAPI()
+        self.callAddVehicleAPI()
     }
     
     @IBAction func datePickerChanged(_ datePicker: UIDatePicker) {
@@ -314,70 +350,62 @@ class VehicleInsuranceDetailsViewController: GAITrackedViewController, UITableVi
         if Reachability.isConnectedToNetwork() == true {
             print("Internet connection OK")
             
-            let tracker = GAI.sharedInstance().defaultTracker
-            let trackDictionary = GAIDictionaryBuilder.createEvent(withCategory: "API", action: "Add Vehicle API Called", label: "Add Vehicle", value: nil).build()
-            tracker?.send(trackDictionary as AnyObject as! [AnyHashable: Any])
+            self.addTrackerForAddVehicle()
             
             let loading = UIActivityIndicatorView_ActivityClass(text: "Loading")
             self.view.addSubview(loading)
             let userId: String = UserDefaults.standard.object(forKey: "UserId") as! String
             
-            var base64VehicleImagesArray = [String]()
-            for index in 0...(vehicleImagesArray.count - 1) {
-                
-                let eachImage: UIImage = vehicleImagesArray[index]
-                //                let eachImageData: NSData = UIImagePNGRepresentation(eachImage)!
-                let eachImageData = eachImage.highQualityJPEGNSData
-                let base64ImageString: String = eachImageData.base64EncodedString(options: NSData.Base64EncodingOptions(rawValue: 0))
-                base64VehicleImagesArray.append(base64ImageString)
-            }
-            let vehicleImagesBase64String = base64VehicleImagesArray.joined(separator: ",")
+            //            var base64VehicleImagesArray = [String]()
+            //            for index in 0...(vehicleImagesArray.count - 1) {
+            //
+            //                let eachImage: UIImage = vehicleImagesArray[index]
+            //                //                let eachImageData: NSData = UIImagePNGRepresentation(eachImage)!
+            //                let eachImageData = eachImage.highQualityJPEGNSData
+            //                let base64ImageString: String = eachImageData.base64EncodedString(options: NSData.Base64EncodingOptions(rawValue: 0))
+            //                base64VehicleImagesArray.append(base64ImageString)
+            //            }
+            //            let vehicleImagesBase64String = base64VehicleImagesArray.joined(separator: ",")
+            
+            let imgData = (vehicleImagesArray.last)?.highQualityJPEGNSData
+            let base64ImgStr = imgData!.base64EncodedString(options: NSData.Base64EncodingOptions(rawValue: 0))
             
             var base64InsurancecardsArray = [String]()
             for index in 0...(insuranceCardImagesArray.count - 1) {
                 
                 let eachImage: UIImage = insuranceCardImagesArray[index]
-                //                let eachImageData: NSData = UIImagePNGRepresentation(eachImage)!
                 let eachImageData = eachImage.highQualityJPEGNSData
                 let base64ImageString: String = eachImageData.base64EncodedString(options: NSData.Base64EncodingOptions(rawValue: 0))
                 base64InsurancecardsArray.append(base64ImageString)
             }
             let insuranceCardImagesBase64String = base64InsurancecardsArray.joined(separator: ",")
             
-            //            let fileURL = NSBundle.mainBundle().URLForResource("demo", withExtension: "docx")
-            //            let data: NSData = NSData(contentsOfURL: fileURL!)!
-            //            let insuranceBase64:String = data.base64EncodedStringWithOptions(NSDataBase64EncodingOptions(rawValue: 0))
             let expirationDate = insuranceExpirationDate!.convertStringToDate()
             let tagExpiryDate = tagExpirationDate!.convertStringToDate()
-
             
             let paramsDict: [String : String] = [
-                "name": vehicleName!,
                 "uid": userId,
-                "dealer_id": "2",
-                "vehicle_type": vehicleType!,
-                "make": vehicleMake!,
+                "name": vehicleName!,
                 "vin": vinNumber!,
-                "model": vehicleModel!,
+                "make": vehicleMake!,
                 "year": vehiclePurchaseYear!,
-                "color": "White",
-                "waranty_from": "2015-01-10",
-                "waranty_to": "2016-12-31",
-                "extended_waranty_from": "3",
-                "extended_waranty_to": "8",
-                "insurance_expiration_date" : expirationDate,
-                "tag_expiration_date" : tagExpiryDate,
-                "kbb_price": "",
-                "loan_amount": "",
-                "emi": "",
-                "interest": "",
-                "loan_tenure": "",
+                "model": vehicleModel!,
                 "mileage": milesDriven!,
+                "dealer_code": Constant.Dealer.DealerCode,
+                "vehicle_type": vehicleType!,
+                "photo": base64ImgStr,
+                "insurance_document": insuranceCardImagesBase64String,
+                "tag_expiration_date" : tagExpiryDate,
+                "insurance_expiration_date": expirationDate,
+                "color": "White",
                 "style": "sedan",
                 "trim": "vxi",
-                "photo": vehicleImagesBase64String,
-                "insurance_document": insuranceCardImagesBase64String,
-                 "extended_waranty_document": ""] as Dictionary
+                "waranty_from": "2015-01-10",
+                "waranty_to": "2026-12-31",
+                "extended_waranty_from": "3",
+                "extended_waranty_to": "8",
+                "extended_waranty_document": "",
+                "manual": ""] as Dictionary
             
             //          print(NSString(format: "Request: %@", paramsDict))
             Alamofire.request(Constant.API.kBaseUrlPath+"vehicle/create", method: .post, parameters: paramsDict).responseJSON
@@ -386,7 +414,7 @@ class VehicleInsuranceDetailsViewController: GAITrackedViewController, UITableVi
                     
                     if let JSON = response.result.value {
                         
-                        //          print(NSString(format: "Response: %@", JSON as! NSDictionary))
+                        print(NSString(format: "Response: %@", JSON as! NSDictionary))
                         
                         let responseMessage = (JSON as AnyObject).value(forKey: "message") as! String
                         let status = (JSON as AnyObject).value(forKey: "status") as! String
@@ -405,9 +433,9 @@ class VehicleInsuranceDetailsViewController: GAITrackedViewController, UITableVi
                             
                             let defaultAction = UIAlertAction(title: "OK", style: .default, handler: { (action: UIAlertAction!) in
                                 
-                                self.delegate?.clearUIFields()
-                                
-                                self.navigationController!.popViewController(animated: true)
+                                //                 self.delegate?.clearUIFields()
+                                //                 self.navigationController!.popViewController(animated: true)
+                                self.navigationController!.popToRootViewController(animated: true)
                             })
                             
                             alertController.addAction(defaultAction)
@@ -429,6 +457,12 @@ class VehicleInsuranceDetailsViewController: GAITrackedViewController, UITableVi
         }
     }
     
+    func addTrackerForAddVehicle() {
+        
+        let tracker = GAI.sharedInstance().defaultTracker
+        let trackDictionary = GAIDictionaryBuilder.createEvent(withCategory: "API", action: "Add Vehicle API Called", label: "Add Vehicle", value: nil).build()
+        tracker?.send(trackDictionary as AnyObject as! [AnyHashable: Any])
+    }
 }
 
 //MARK:- Image Extension to Compress Images

@@ -85,6 +85,8 @@ strip_invalid_archs() {
 
 if [[ "$CONFIGURATION" == "Debug" ]]; then
   install_framework "$BUILT_PRODUCTS_DIR/Alamofire/Alamofire.framework"
+  install_framework "${PODS_ROOT}/CAIVINScannerLite/CAIVINScannerLite/CAIVINScannerLite/Framework/CAIVINScannerLite.framework"
+  install_framework "$BUILT_PRODUCTS_DIR/CCBottomRefreshControl/CCBottomRefreshControl.framework"
   install_framework "$BUILT_PRODUCTS_DIR/DKImagePickerController/DKImagePickerController.framework"
   install_framework "$BUILT_PRODUCTS_DIR/EAIntroView/EAIntroView.framework"
   install_framework "$BUILT_PRODUCTS_DIR/EARestrictedScrollView/EARestrictedScrollView.framework"
@@ -93,6 +95,7 @@ if [[ "$CONFIGURATION" == "Debug" ]]; then
   install_framework "$BUILT_PRODUCTS_DIR/JTMaterialSwitch/JTMaterialSwitch.framework"
   install_framework "$BUILT_PRODUCTS_DIR/LGSemiModalNavController/LGSemiModalNavController.framework"
   install_framework "$BUILT_PRODUCTS_DIR/MSSimpleGauge/MSSimpleGauge.framework"
+  install_framework "$BUILT_PRODUCTS_DIR/Masonry/Masonry.framework"
   install_framework "$BUILT_PRODUCTS_DIR/REFrostedViewController/REFrostedViewController.framework"
   install_framework "$BUILT_PRODUCTS_DIR/SDWebImage/SDWebImage.framework"
   install_framework "$BUILT_PRODUCTS_DIR/SMFloatingLabelTextField/SMFloatingLabelTextField.framework"
@@ -102,6 +105,8 @@ if [[ "$CONFIGURATION" == "Debug" ]]; then
 fi
 if [[ "$CONFIGURATION" == "Release" ]]; then
   install_framework "$BUILT_PRODUCTS_DIR/Alamofire/Alamofire.framework"
+  install_framework "${PODS_ROOT}/CAIVINScannerLite/CAIVINScannerLite/CAIVINScannerLite/Framework/CAIVINScannerLite.framework"
+  install_framework "$BUILT_PRODUCTS_DIR/CCBottomRefreshControl/CCBottomRefreshControl.framework"
   install_framework "$BUILT_PRODUCTS_DIR/DKImagePickerController/DKImagePickerController.framework"
   install_framework "$BUILT_PRODUCTS_DIR/EAIntroView/EAIntroView.framework"
   install_framework "$BUILT_PRODUCTS_DIR/EARestrictedScrollView/EARestrictedScrollView.framework"
@@ -110,6 +115,7 @@ if [[ "$CONFIGURATION" == "Release" ]]; then
   install_framework "$BUILT_PRODUCTS_DIR/JTMaterialSwitch/JTMaterialSwitch.framework"
   install_framework "$BUILT_PRODUCTS_DIR/LGSemiModalNavController/LGSemiModalNavController.framework"
   install_framework "$BUILT_PRODUCTS_DIR/MSSimpleGauge/MSSimpleGauge.framework"
+  install_framework "$BUILT_PRODUCTS_DIR/Masonry/Masonry.framework"
   install_framework "$BUILT_PRODUCTS_DIR/REFrostedViewController/REFrostedViewController.framework"
   install_framework "$BUILT_PRODUCTS_DIR/SDWebImage/SDWebImage.framework"
   install_framework "$BUILT_PRODUCTS_DIR/SMFloatingLabelTextField/SMFloatingLabelTextField.framework"

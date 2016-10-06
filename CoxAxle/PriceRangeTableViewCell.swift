@@ -10,14 +10,14 @@ import UIKit
 import TTRangeSlider
 
 class PriceRangeTableViewCell: UITableViewCell {
-
+    
     @IBOutlet var rangeSliderCustom: TTRangeSlider!
     
     @IBOutlet var sliderTitleLabel: UILabel!
     
     override func awakeFromNib() {
         super.awakeFromNib()
-
+        
         rangeSliderCustom.minLabelColour = UIColor.SlateColor()
         rangeSliderCustom.maxLabelColour = UIColor.SlateColor()
         rangeSliderCustom.minLabelFont = UIFont.regularFont().withSize(10)
@@ -31,17 +31,12 @@ class PriceRangeTableViewCell: UITableViewCell {
         rangeSliderCustom.handleColor = UIColor.AzureColor()
         
         rangeSliderCustom.lineHeight = 2
-        
-        let formatter = NumberFormatter()
-        formatter.numberStyle = .currency
-        formatter.positivePrefix = "$"
-        rangeSliderCustom.numberFormatterOverride = formatter
     }
-
+    
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
-
+        
         // Configure the view for the selected state
     }
-
+    
 }

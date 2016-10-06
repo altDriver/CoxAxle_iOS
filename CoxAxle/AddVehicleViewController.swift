@@ -11,16 +11,16 @@ import Alamofire
 import YLProgressBar
 import LGSemiModalNavController
 
-fileprivate func < <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
-    switch (lhs, rhs) {
-    case let (l?, r?):
-        return l < r
-    case (nil, _?):
-        return true
-    default:
-        return false
-    }
-}
+/*fileprivate func < <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
+ switch (lhs, rhs) {
+ case let (l?, r?):
+ return l < r
+ case (nil, _?):
+ return true
+ default:
+ return false
+ }
+ }*/
 
 
 class AddVehicleViewController: GAITrackedViewController, UIAlertController_UIAlertView, UITableViewDataSource, UITableViewDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, VehicleAddedDelegate, UITextFieldDelegate {
@@ -173,8 +173,8 @@ class AddVehicleViewController: GAITrackedViewController, UIAlertController_UIAl
                 
                 vehicleNameTableViewCell.vehicleNameTextField.autocorrectionType = .no
                 
-                vehicleNameTableViewCell.vehicleNameTextField.tag = 1
-                vehicleNameTableViewCell.vehicleNameTextField.delegate = self
+                vehicleNameTableViewCell.vehicleNameTextField.tag = 0
+                //                vehicleNameTableViewCell.vehicleNameTextField.delegate = self
                 
                 self.vehicleNameTextField = vehicleNameTableViewCell.vehicleNameTextField
                 return vehicleNameTableViewCell
@@ -207,12 +207,13 @@ class AddVehicleViewController: GAITrackedViewController, UIAlertController_UIAl
                 let vinTableViewCell = tableView.dequeueReusableCell(withIdentifier: "VINTableViewCell", for: indexPath) as! VehicleDetailTableViewCell
                 
                 let findVinButtonAttrinutes = [
-                    NSFontAttributeName : UIFont.systemFont(ofSize: 11),
+                    NSFontAttributeName : UIFont.systemFont(ofSize: 10),
                     NSUnderlineStyleAttributeName : 1] as [String : Any]
                 let attributedString = NSMutableAttributedString(string:"")
                 
                 let buttonTitleString = NSMutableAttributedString(string:"Find My VIN", attributes: findVinButtonAttrinutes)
                 vinTableViewCell.findMyVinButton.titleLabel?.numberOfLines = 2
+                vinTableViewCell.findMyVinButton.titleLabel?.textAlignment = .center
                 attributedString.append(buttonTitleString)
                 vinTableViewCell.findMyVinButton.setAttributedTitle(attributedString, for: UIControlState())
                 
@@ -281,7 +282,7 @@ class AddVehicleViewController: GAITrackedViewController, UIAlertController_UIAl
                 milesDrivenTableViewCell.milesDrivenTextField.autocorrectionType = .no
                 
                 milesDrivenTableViewCell.milesDrivenTextField.tag = 2
-                milesDrivenTableViewCell.milesDrivenTextField.delegate = self
+                //                milesDrivenTableViewCell.milesDrivenTextField.delegate = self
                 
                 self.milesDrivenTextField = milesDrivenTableViewCell.milesDrivenTextField
                 return milesDrivenTableViewCell
@@ -335,6 +336,16 @@ class AddVehicleViewController: GAITrackedViewController, UIAlertController_UIAl
             
             cell?.selectionButton.addTarget(self, action: #selector(AddVehicleViewController.yearSelected(_:)), for: .touchUpInside)
             
+            if self.selectedYear != "" && self.selectedYear != nil && self.selectedYear?.isEmpty  == false && self.selectedYear?.characters.count != 0 {
+                
+                let selectedYearText = cell?.cellValue.text ?? ""
+                
+                if selectedYearText == self.selectedYear {
+                    cell?.selectionButton.setImage(UIImage(named: "checkbox.png"), for: .normal)
+                    cell?.selectionButton.backgroundColor = UIColor.white
+                }
+            }
+            
             cell?.layoutMargins = UIEdgeInsets.zero
             return cell!
         case 2:
@@ -349,6 +360,16 @@ class AddVehicleViewController: GAITrackedViewController, UIAlertController_UIAl
             cell?.selectionButton.tag = (indexPath as NSIndexPath).row
             cell?.selectionButton.addTarget(self, action: #selector(AddVehicleViewController.vehicleMakeSelected(_:)), for: .touchUpInside)
             
+            if self.selectedVehicleMake != "" && self.selectedVehicleMake != nil && self.selectedVehicleMake?.isEmpty  == false && self.selectedVehicleMake?.characters.count != 0 {
+                
+                let selectedMakeText = cell?.cellValue.text ?? ""
+                
+                if selectedMakeText == self.selectedVehicleMake {
+                    cell?.selectionButton.setImage(UIImage(named: "checkbox.png"), for: .normal)
+                    cell?.selectionButton.backgroundColor = UIColor.white
+                }
+            }
+            
             cell?.layoutMargins = UIEdgeInsets.zero
             return cell!
         case 3:
@@ -362,6 +383,16 @@ class AddVehicleViewController: GAITrackedViewController, UIAlertController_UIAl
             cell?.selectionButton.layer.cornerRadius = 12.0
             cell?.selectionButton.tag = (indexPath as NSIndexPath).row
             cell?.selectionButton.addTarget(self, action: #selector(AddVehicleViewController.vehicleModelSelected(_:)), for: .touchUpInside)
+            
+            if self.selectedVehicleModel != "" && self.selectedVehicleModel != nil && self.selectedVehicleModel?.isEmpty  == false && self.selectedVehicleModel?.characters.count != 0 {
+                
+                let selectedModelText = cell?.cellValue.text ?? ""
+                
+                if selectedModelText == self.selectedVehicleModel {
+                    cell?.selectionButton.setImage(UIImage(named: "checkbox.png"), for: .normal)
+                    cell?.selectionButton.backgroundColor = UIColor.white
+                }
+            }
             
             cell?.layoutMargins = UIEdgeInsets.zero
             return cell!
@@ -441,7 +472,7 @@ class AddVehicleViewController: GAITrackedViewController, UIAlertController_UIAl
         if self.vehicleAdded == true {
             NotificationCenter.default.post(name: Notification.Name(rawValue: "VehicleAdded"), object: nil)
         }
-        self.navigationController?.popViewController(animated: true)
+        self.navigationController!.popViewController(animated: true)
     }
     func pickerDoneButtonAction() {
         
@@ -458,15 +489,9 @@ class AddVehicleViewController: GAITrackedViewController, UIAlertController_UIAl
         addVehicleTableView.reloadData()
     }
     
-    func selectTagExpirationExpirationDate() {
-        
-        isDatePickerSelected = true
-        addVehicleTableView.reloadData()
-        self.addVehicleTableView.scrollToRow(at: IndexPath(row: 9, section: 0), at: .bottom, animated: true)
-    }
-    
     func newVehicleTypeSelected(_ sender: UIButton) {
         
+        self.resignFirstResponders()
         selectedButtonProperties(newButton)
         deselectOtherButtons(usedButton, button2: cpoButton)
         addVehicleTableView.reloadData()
@@ -474,6 +499,7 @@ class AddVehicleViewController: GAITrackedViewController, UIAlertController_UIAl
     
     func usedVehicleTypeSelected(_ sender: UIButton) {
         
+        self.resignFirstResponders()
         selectedButtonProperties(usedButton)
         deselectOtherButtons(newButton, button2: cpoButton)
         addVehicleTableView.reloadData()
@@ -481,6 +507,7 @@ class AddVehicleViewController: GAITrackedViewController, UIAlertController_UIAl
     
     func cpoVehicleTypeSelected(_ sender: UIButton) {
         
+        self.resignFirstResponders()
         selectedButtonProperties(cpoButton)
         deselectOtherButtons(newButton, button2: usedButton)
         addVehicleTableView.reloadData()
@@ -539,6 +566,50 @@ class AddVehicleViewController: GAITrackedViewController, UIAlertController_UIAl
         dismissModalAfterSelection(sender)
     }
     
+    func selectTagExpirationExpirationDate() {
+        
+        self.resignFirstResponders()
+        isDatePickerSelected = true
+        addVehicleTableView.reloadData()
+        self.addVehicleTableView.scrollToRow(at: IndexPath(row: 9, section: 0), at: .bottom, animated: true)
+    }
+    
+    func resignFirstResponders() {
+        
+        if self.vehicleNameTextField != nil {
+            
+            self.vehicleNameTextField.resignFirstResponder()
+        }
+        if self.vinTextField != nil {
+            
+            self.vinTextField.resignFirstResponder()
+        }
+        if self.milesDrivenTextField != nil {
+            
+            self.milesDrivenTextField.resignFirstResponder()
+        }
+    }
+    
+    //    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+    //
+    //        if let _ = touches.first {
+    //
+    //            if self.vehicleNameTextField != nil {
+    //
+    //                self.vehicleNameTextField.resignFirstResponder()
+    //            }
+    //            if self.vinTextField != nil {
+    //
+    //                self.vinTextField.resignFirstResponder()
+    //            }
+    //            if self.milesDrivenTextField != nil {
+    //
+    //                self.milesDrivenTextField.resignFirstResponder()
+    //            }
+    //        }
+    //        super.touchesBegan(touches, with: event)
+    //    }
+    
     func dismissModalAfterSelection(_ sender: UIButton) {
         
         sender.setImage(UIImage(named: "checkbox.png"), for: UIControlState())
@@ -547,6 +618,8 @@ class AddVehicleViewController: GAITrackedViewController, UIAlertController_UIAl
         self.semiModalViewController.dismiss(animated: true, completion: nil)
     }
     
+    //MARK:- UPLOAD IMAGE METHODS
+    
     func uploadVehiclePic() {
         
         //        if vehicleImagesArray.count == 3  || vehicleImagesArray.count > 3 {
@@ -554,6 +627,8 @@ class AddVehicleViewController: GAITrackedViewController, UIAlertController_UIAl
         //            showAlertwithCancelButton("", message: "You can upload upto only Three photos", cancelButton: "OK")
         //            return
         //        }
+        
+        self.resignFirstResponders()
         
         let alert:UIAlertController=UIAlertController(title: nil, message: nil, preferredStyle: UIAlertControllerStyle.actionSheet)
         
@@ -603,14 +678,17 @@ class AddVehicleViewController: GAITrackedViewController, UIAlertController_UIAl
         
         let pickerController = DKImagePickerController()
         
-        pickerController.maxSelectableCount = 5
+        pickerController.maxSelectableCount = 1
         pickerController.didSelectAssets = { (assets: [DKAsset]) in
             
             for asset in assets {
-                asset.fetchOriginalImageWithCompleteBlock({ (image, info) in
-                    self.vehicleImagesArray.append(image!)
+                asset.fetchOriginalImageWithCompleteBlock({ (pickedImage, info) in
+                    self.vehicleImagesArray = [pickedImage!]
                     self.imageView.image = self.vehicleImagesArray[0]
                     self.addVehicleTableView.reloadData()
+                    
+                    let indexPath = IndexPath(row: 0, section: 0)
+                    self.addVehicleTableView.scrollToRow(at: indexPath, at: UITableViewScrollPosition.top, animated: true)
                 })
             }
         }
@@ -619,14 +697,78 @@ class AddVehicleViewController: GAITrackedViewController, UIAlertController_UIAl
         }
     }
     
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
+        
+        picker.dismiss(animated: true, completion: nil)
+        
+        self.vehicleImagesArray.removeAll()
+        let pickedImage = info[UIImagePickerControllerOriginalImage] as! UIImage
+        self.vehicleImagesArray = [pickedImage]
+        self.imageView.image = self.vehicleImagesArray[0]
+        self.addVehicleTableView.reloadData()
+        
+        let indexPath = IndexPath(row: 0, section: 0)
+        self.addVehicleTableView.scrollToRow(at: indexPath, at: UITableViewScrollPosition.top, animated: true)
+        self.addVehicleTableView.reloadData()
+    }
+    
+    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+        
+        dismiss(animated: true, completion: nil)
+    }
+    
     //MARK:- UITextField Delegate Methods
     
     func textFieldDidEndEditing(_ textField: UITextField) {
-        if textField.tag == 1 {
+        if textField.tag == 0 {
             vehicleName = textField.text
         }
-        else {
+        else if textField.tag == 1 {
+            vinNumber = textField.text
+        }
+        else if textField.tag == 2 {
             milesDriven = textField.text
+        }
+    }
+    
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        
+        switch textField.tag {
+            
+        case 0: //Vehicle Name
+            
+            let charactersCount = textField.text?.characters.count
+            if charactersCount! >= 20 && range.length == 0 {
+                return false
+            } else {
+                return true
+            }
+            
+        case 1: //VIN
+            
+            if string.characters.count == 0 {
+                return true
+            }
+            
+            let currentText = textField.text ?? ""
+            let prospectiveText = (currentText as NSString).replacingCharacters(in: range, with: string)
+            
+            return prospectiveText.containsOnlyCharactersIn("0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ") && prospectiveText.characters.count <= 16
+            
+        case 2: //Miles Driven
+            
+            if (textField.text?.characters.count)! >= 7 && range.length == 0 {
+                return false
+            } else {
+                
+                let newCharacters = CharacterSet(charactersIn: string)
+                let shouldChangeCharactersInRange = CharacterSet.decimalDigits.isSuperset(of: newCharacters)
+                
+                return shouldChangeCharactersInRange
+            }
+            
+        default:
+            return true
         }
     }
     
@@ -684,7 +826,7 @@ class AddVehicleViewController: GAITrackedViewController, UIAlertController_UIAl
             isValidationSuccess = true
         }
         
-        if vehicleName?.isEmpty == true || vehicleName == nil {
+        if vehicleName?.isEmpty == true || vehicleName == nil || vehicleName?.characters.count == 0 || vehicleName == "" || vehicleName?.containsOnlyCharactersIn(" ") == true {
             
             isValidationSuccess = false
             showAlertwithCancelButton("Error", message: "Please enter vehicle name", cancelButton: "OK")
@@ -693,7 +835,7 @@ class AddVehicleViewController: GAITrackedViewController, UIAlertController_UIAl
             isValidationSuccess = true
         }
         
-        if selectedVehicleType?.characters.count < 3 {
+        if selectedVehicleType == "" || selectedVehicleType?.isEmpty == true || selectedVehicleType == nil {
             
             isValidationSuccess = false
             showAlertwithCancelButton("Error", message: "Please select vehicle type", cancelButton: "OK")
@@ -702,7 +844,7 @@ class AddVehicleViewController: GAITrackedViewController, UIAlertController_UIAl
             isValidationSuccess = true
         }
         
-        if vinNumber?.characters.count != 16 {
+        if vinNumber?.characters.count != 16 || vinNumber?.isEmpty == true || vinNumber == nil || vinNumber == "" {
             
             isValidationSuccess = false
             showAlertwithCancelButton("Error", message: "Please enter 16 digit VIN number", cancelButton: "OK")
@@ -738,8 +880,17 @@ class AddVehicleViewController: GAITrackedViewController, UIAlertController_UIAl
             isValidationSuccess = true
         }
         
-        if milesDriven?.isEmpty == true {
+        if milesDriven?.isEmpty == true || milesDriven?.characters.count == 0 || milesDriven == nil || milesDriven == "" {
             
+            if milesDrivenTextField != nil {
+                
+                if milesDrivenTextField.text == "" || milesDrivenTextField.text?.characters.count == 0 || milesDrivenTextField.text?.isEmpty == true || milesDrivenTextField.text == nil {
+                    
+                    isValidationSuccess = false
+                    showAlertwithCancelButton("Error", message: "Please enter miles driven", cancelButton: "OK")
+                    return
+                }
+            }
             isValidationSuccess = false
             showAlertwithCancelButton("Error", message: "Please enter miles driven", cancelButton: "OK")
             return
@@ -757,9 +908,9 @@ class AddVehicleViewController: GAITrackedViewController, UIAlertController_UIAl
         }
         
         DispatchQueue.main.async {
+            
             self.performSegue(withIdentifier: "InsuranceDetailsView", sender: self)
         }
-        
     }
     
     //MARK:- NAVIGATE
@@ -779,30 +930,33 @@ class AddVehicleViewController: GAITrackedViewController, UIAlertController_UIAl
     }
     
     func selectDate() {
-        self.vehicleNameTextField.resignFirstResponder()
-        if self.milesDrivenTextField != nil {
-            self.milesDrivenTextField.resignFirstResponder()
-        }
+        //        self.vehicleNameTextField.resignFirstResponder()
+        //        if self.milesDrivenTextField != nil {
+        //            self.milesDrivenTextField.resignFirstResponder()
+        //        }
+        self.resignFirstResponders()
         datesTableView.reloadData()
         createSemiModalViewController()
         setTableViewPropertiesForModalView(1, tableView: datesTableView)
     }
     
     func selectVehicleMake() {
-        self.vehicleNameTextField.resignFirstResponder()
-        if self.milesDrivenTextField != nil {
-            self.milesDrivenTextField.resignFirstResponder()
-        }
+        //        self.vehicleNameTextField.resignFirstResponder()
+        //        if self.milesDrivenTextField != nil {
+        //            self.milesDrivenTextField.resignFirstResponder()
+        //        }
+        self.resignFirstResponders()
         vehicleMakeTableView.reloadData()
         createSemiModalViewController()
         setTableViewPropertiesForModalView(2, tableView: vehicleMakeTableView)
     }
     
     func selectVehicleModel() {
-        self.vehicleNameTextField.resignFirstResponder()
-        if self.milesDrivenTextField != nil {
-            self.milesDrivenTextField.resignFirstResponder()
-        }
+        //        self.vehicleNameTextField.resignFirstResponder()
+        //        if self.milesDrivenTextField != nil {
+        //            self.milesDrivenTextField.resignFirstResponder()
+        //        }
+        self.resignFirstResponders()
         vehiclesModelTableView.reloadData()
         createSemiModalViewController()
         setTableViewPropertiesForModalView(3, tableView: vehiclesModelTableView)
@@ -834,7 +988,7 @@ class AddVehicleViewController: GAITrackedViewController, UIAlertController_UIAl
     
     func passValuesToInsuranceDetailScene(_ nextViewController: VehicleInsuranceDetailsViewController) {
         
-        nextViewController.vehicleImagesArray  = vehicleImagesArray
+        nextViewController.vehicleImagesArray  = [vehicleImagesArray.last!]
         nextViewController.vehicleName         = vehicleName!
         nextViewController.vehicleType         = selectedVehicleType!
         nextViewController.vinNumber           = vinNumber!

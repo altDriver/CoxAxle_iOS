@@ -18,11 +18,11 @@ class VehiclesViewController: GAITrackedViewController, UIAlertController_UIAler
     var language: String?
     var vehiclesListArray = [AnyObject]()
     var fromXTime: Bool!
-
+    
     //MARK:- LIFE CYCLE METHODS
     override func viewDidLoad() {
         super.viewDidLoad()
-         self.screenName = "VehiclesViewController"
+        self.screenName = "VehiclesViewController"
         
         let viewControllers = self.navigationController!.viewControllers as NSArray
         for VC in viewControllers {
@@ -39,8 +39,8 @@ class VehiclesViewController: GAITrackedViewController, UIAlertController_UIAler
                 break
             }
         }
-
-         self.setText()
+        
+        self.setText()
         // Do any additional setup after loading the view.
     }
     
@@ -52,14 +52,14 @@ class VehiclesViewController: GAITrackedViewController, UIAlertController_UIAler
             self.present(vc as! UIViewController, animated: true, completion: nil)
         }
         
-//        if NSUserDefaults.standardUserDefaults().boolForKey("CALL_API") {
-//            NSUserDefaults.standardUserDefaults().setBool(false, forKey: "CALL_API")
-//            NSUserDefaults.standardUserDefaults().synchronize()
-            self.fetchVehiclesListAPI()
-      //  }
+        //        if NSUserDefaults.standardUserDefaults().boolForKey("CALL_API") {
+        //            NSUserDefaults.standardUserDefaults().setBool(false, forKey: "CALL_API")
+        //            NSUserDefaults.standardUserDefaults().synchronize()
+        self.fetchVehiclesListAPI()
+        //  }
         
     }
-
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
@@ -79,7 +79,7 @@ class VehiclesViewController: GAITrackedViewController, UIAlertController_UIAler
         else {
             self.navigationItem.backBarButtonItem = UIBarButtonItem(title: " ", style: .plain, target: nil, action: nil)
             DispatchQueue.main.async {
-               self.performSegue(withIdentifier: "AddVehicle", sender: self)
+                self.performSegue(withIdentifier: "AddVehicle", sender: self)
             }
         }
         
@@ -122,7 +122,7 @@ class VehiclesViewController: GAITrackedViewController, UIAlertController_UIAler
     
     func showDeleteVehicleSuccessAlert(_ message: String) {
         self.callVehiclesListOnBackgroundThread()
-
+        
         let alertController = UIAlertController(title: "Success", message: message, preferredStyle: .alert)
         
         let defaultAction = UIAlertAction(title: "OK", style: .default, handler: { (action: UIAlertAction!) in
@@ -134,14 +134,14 @@ class VehiclesViewController: GAITrackedViewController, UIAlertController_UIAler
         DispatchQueue.main.async(execute: {
             self.present(alertController, animated: true, completion: nil)
         })
-
+        
     }
-
+    
     
     //MARK:- UICOLLECTIONVIEW DATA SOURCE METHODS
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAtIndex section: Int) -> CGFloat {
-            return 15
+        return 15
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -150,23 +150,22 @@ class VehiclesViewController: GAITrackedViewController, UIAlertController_UIAler
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: IndexPath) -> CGSize {
         
-            let position: CGSize = CGSize(width: self.view.frame.size.width-30, height: Constant.iPhoneScreen.Ratio * 230)
-            
-            return position
+        let position: CGSize = CGSize(width: self.view.frame.size.width-30, height: Constant.iPhoneScreen.Ratio * 230)
+        
+        return position
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: vehicleListReuseIdentifier, for: indexPath) as! VehiclesListCollectionViewCell
-            
-        let imageArray = self.vehiclesListArray[(indexPath as NSIndexPath).row].value(forKey: "vechicle_image") as! NSArray
-        let imageURLString = (imageArray[0] as AnyObject).value(forKey: "image_url") as! NSString
-         cell.carImageView.setImageWith(URL(string: imageURLString as String), placeholderImage: UIImage(named: "placeholder"), options: SDWebImageOptions(rawValue: UInt(0)), usingActivityIndicatorStyle: UIActivityIndicatorViewStyle.gray)
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: vehicleListReuseIdentifier, for: indexPath) as! VehiclesListCollectionViewCell
+        
+        let imageURLString = self.vehiclesListArray[(indexPath as NSIndexPath).row].value(forKey: "photo") as! NSString
+        cell.carImageView.setImageWith(URL(string: imageURLString as String), placeholderImage: UIImage(named: "placeholder"), options: SDWebImageOptions(rawValue: UInt(0)), usingActivityIndicatorStyle: UIActivityIndicatorViewStyle.gray)
         
         cell.carName.text = self.vehiclesListArray[(indexPath as NSIndexPath).row].value(forKey: "name") as? String
         cell.carAppointmentDate.text = String(format: "%@ %@ • %@ Miles", (self.vehiclesListArray[(indexPath as NSIndexPath).row].value(forKey: "year") as? String)!, (self.vehiclesListArray[(indexPath as NSIndexPath).row].value(forKey: "model") as? String)!, (self.vehiclesListArray[(indexPath as NSIndexPath).row].value(forKey: "mileage") as? String)!)
         cell.carDeleteButton.addTarget(self, action: #selector(VehiclesViewController.carDeleteClicked(deleteButton:)), for: UIControlEvents.touchUpInside)
         cell.carDeleteButton.tag = indexPath.row
-            return cell;
+        return cell;
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
@@ -174,12 +173,12 @@ class VehiclesViewController: GAITrackedViewController, UIAlertController_UIAler
         self.navigationItem.backBarButtonItem = UIBarButtonItem(title: " ", style: .plain, target: nil, action: nil)
         if (fromXTime != nil) {
             DispatchQueue.main.async {
-               self.performSegue(withIdentifier: "XTImeWebView", sender: indexPath)
+                self.performSegue(withIdentifier: "XTImeWebView", sender: indexPath)
             }
         }
         else {
             DispatchQueue.main.async {
-               self.performSegue(withIdentifier: "VehicleDetails", sender: indexPath)
+                self.performSegue(withIdentifier: "VehicleDetails", sender: indexPath)
             }
         }
     }
@@ -196,8 +195,8 @@ class VehiclesViewController: GAITrackedViewController, UIAlertController_UIAler
             
             let loading = UIActivityIndicatorView_ActivityClass(text: "Loading")
             self.view.addSubview(loading)
-             let userId: String = UserDefaults.standard.object(forKey: "UserId") as! String
-            let paramsDict: [ String : String] = ["uid": userId] as Dictionary
+            let userId: String = UserDefaults.standard.object(forKey: "UserId") as! String
+            let paramsDict: [ String : String] = ["uid": userId, "dealer_code": Constant.Dealer.DealerCode] as Dictionary
             print(NSString(format: "Request: %@", paramsDict))
             
             Alamofire.request(Constant.API.kBaseUrlPath+"vehicle/list", method: .post, parameters: paramsDict).responseJSON
@@ -207,34 +206,34 @@ class VehiclesViewController: GAITrackedViewController, UIAlertController_UIAler
                         
                         print(NSString(format: "Response: %@", JSON as! NSDictionary))
                         let status = (JSON as AnyObject).value(forKey: "status") as! String
-                            if status == "True"  {
-                                do {
-                                    let dict: VehiclesList = try VehiclesList(dictionary: JSON as! [AnyHashable: Any])
-                                    
-                                    self.vehiclesListArray = dict.response?.data as! Array<AnyObject>
+                        if status == "True"  {
+                            do {
+                                let dict: VehiclesList = try VehiclesList(dictionary: JSON as! [AnyHashable: Any])
                                 
-                                    print(self.vehiclesListArray)
-                                    DispatchQueue.main.async{
-                                        
-                                        self.collectionView.reloadData()
-                                        
-                                    }
-                                }
-                                catch let error as NSError {
-                                    NSLog("Unresolved error \(error), \(error.userInfo)")
-                                }
-                            }
-                        else {
-                                let responseDict = (JSON as AnyObject).value(forKey: "response") as! NSString
-                                if  (responseDict as AnyObject).length == 0 {
-                                    self.vehiclesListArray.removeAll()
-                                }
+                                self.vehiclesListArray = dict.response?.data as! Array<AnyObject>
                                 
+                                print(self.vehiclesListArray)
                                 DispatchQueue.main.async{
                                     
                                     self.collectionView.reloadData()
                                     
                                 }
+                            }
+                            catch let error as NSError {
+                                NSLog("Unresolved error \(error), \(error.userInfo)")
+                            }
+                        }
+                        else {
+                            let responseDict = (JSON as AnyObject).value(forKey: "response") as! NSString
+                            if  (responseDict as AnyObject).length == 0 {
+                                self.vehiclesListArray.removeAll()
+                            }
+                            
+                            DispatchQueue.main.async{
+                                
+                                self.collectionView.reloadData()
+                                
+                            }
                             let errorMsg = (JSON as AnyObject).value(forKey: "message") as! String
                             self.showAlertwithCancelButton("Error", message: errorMsg as NSString, cancelButton: "OK")
                         }
@@ -257,7 +256,7 @@ class VehiclesViewController: GAITrackedViewController, UIAlertController_UIAler
             
             let vehicleId: String = (vehiclesDetailsDictionary.value(forKey: "id"))! as! String
             let userId: String = UserDefaults.standard.object(forKey: "UserId") as! String
-            let paramsDict: [ String : String] = ["vid": vehicleId,"uid": userId] as Dictionary
+            let paramsDict: [ String : String] = ["vid": vehicleId,"uid": userId, "dealer_code": Constant.Dealer.DealerCode] as Dictionary
             print(NSString(format: "Request: %@", paramsDict))
             
             Alamofire.request(Constant.API.kBaseUrlPath+"vehicle/delete", method: .post, parameters: paramsDict).responseJSON
@@ -267,12 +266,12 @@ class VehiclesViewController: GAITrackedViewController, UIAlertController_UIAler
                         print(NSString(format: "Response: %@", JSON as! NSDictionary))
                         let status = (JSON as AnyObject).value(forKey: "status") as! String
                         if status == "True"  {
-                           loading.hide()
-                           let responseMessage = (JSON as AnyObject).value(forKey: "message") as! String
-                           self.showDeleteVehicleSuccessAlert(responseMessage)
+                            loading.hide()
+                            let responseMessage = (JSON as AnyObject).value(forKey: "message") as! String
+                            self.showDeleteVehicleSuccessAlert(responseMessage)
                         }
                         else {
-                             loading.hide()
+                            loading.hide()
                             let errorMsg = (JSON as AnyObject).value(forKey: "message") as! String
                             self.showAlertwithCancelButton("Error", message: errorMsg as NSString, cancelButton: "OK")
                         }
@@ -294,7 +293,7 @@ class VehiclesViewController: GAITrackedViewController, UIAlertController_UIAler
             tracker?.send(trackDictionary as AnyObject as! [AnyHashable: Any])
             
             let userId: String = UserDefaults.standard.object(forKey: "UserId") as! String
-            let paramsDict: [ String : String] = ["uid": userId] as Dictionary
+            let paramsDict: [ String : String] = ["uid": userId, "dealer_code": Constant.Dealer.DealerCode] as Dictionary
             print(NSString(format: "Request: %@", paramsDict))
             
             Alamofire.request(Constant.API.kBaseUrlPath+"vehicle/list", method: .post, parameters: paramsDict).responseJSON
@@ -347,10 +346,10 @@ class VehiclesViewController: GAITrackedViewController, UIAlertController_UIAler
             self.present(vc as! UIViewController, animated: true, completion: nil)
         }
     }
-
+    
     
     // MARK: - Navigation
-
+    
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         // Get the new view controller using segue.destinationViewController.
@@ -365,9 +364,9 @@ class VehiclesViewController: GAITrackedViewController, UIAlertController_UIAler
             let xTimeWebView = (segue.destination as! XtimeViewController)
             let xTimeDict = self.vehiclesListArray[(indexPath as NSIndexPath).row] as! NSDictionary
             xTimeWebView.vinNumber = xTimeDict.value(forKey: "vin") as? String
-
+            
         }
     }
     
-
+    
 }

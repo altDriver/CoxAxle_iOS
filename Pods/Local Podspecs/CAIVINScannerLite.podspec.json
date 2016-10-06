@@ -1,0 +1,29 @@
+{
+  "name": "CAIVINScannerLite",
+  "version": "3.0.0",
+  "summary": "A framework that provides a complete user interface solution to VIN scanning and a keyboard for manual try of VIN numbers.",
+  "description": "The CAIVINSCannerLite framework provides two solutions to a industry wide problem, data entry for VIN numbers. The framework extends vAuto's work in this area by providing a Swift wrapper for the VinScan library along with a re-implementation of the VIN keyboard in Swift using auto layout to support all iOS devices.\nBecause of this, the framework is broken down into two components: the VIN Scanner and the VIN Keyboard. They are independent of each other but both have a dependence on the VinScan library.\n\nDocumentation is located in this directory: \"CAIVINScannerLite/CAIVINScannerLite/Docs\". The format is html so just open the index.html.",
+  "homepage": "https://ghe.coxautoinc.com/MPDG/vinscannerlite_pod",
+  "license": {
+    "type": "text",
+    "file": "CAIVINScannerLite/LICENSE"
+  },
+  "authors": {
+    "Cox Automotive Inc": "peter.hornsby@coxautoinc.com"
+  },
+  "source": {
+    "git": "git@ghe.coxautoinc.com:MPDG/vinscannerlite_pod.git",
+    "tag": "3.0.0"
+  },
+  "platforms": {
+    "ios": "8.1"
+  },
+  "vendored_frameworks": "CAIVINScannerLite/CAIVINScannerLite/Framework/CAIVINScannerLite.framework",
+  "xcconfig": {
+    "OTHER_LDFLAGS": "-lC++ -ObjC"
+  },
+  "preserve_paths": [
+    "CAIVINScannerLite/CAIVINScannerLite/Docs/**",
+    "CAIVINScannerLite/CAIVINScannerLite/Framework/CAIVINScannerLite.framework.dSYM"
+  ]
+}

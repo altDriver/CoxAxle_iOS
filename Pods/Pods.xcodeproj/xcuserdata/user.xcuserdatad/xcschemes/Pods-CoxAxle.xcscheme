@@ -14,7 +14,7 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "62284199D1C55C5A315830FAD5192D3A"
+               BlueprintIdentifier = "6E334B004ED15C0E47FB2AFB5A33127F"
                BuildableName = "Pods_CoxAxle.framework"
                BlueprintName = "Pods-CoxAxle"
                ReferencedContainer = "container:Pods.xcodeproj">
@@ -45,7 +45,7 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "62284199D1C55C5A315830FAD5192D3A"
+            BlueprintIdentifier = "6E334B004ED15C0E47FB2AFB5A33127F"
             BuildableName = "Pods_CoxAxle.framework"
             BlueprintName = "Pods-CoxAxle"
             ReferencedContainer = "container:Pods.xcodeproj">

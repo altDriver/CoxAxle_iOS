@@ -9,7 +9,7 @@
 import UIKit
 import Alamofire
 import SMFloatingLabelTextField
-
+import SDWebImage
 
 class CreateAccount: GAITrackedViewController, UIAlertController_UIAlertView{
     
@@ -21,12 +21,16 @@ class CreateAccount: GAITrackedViewController, UIAlertController_UIAlertView{
     
     @IBOutlet var passwordField: SMFloatingLabelTextField!
     var language: String?
+    var logoImage: String?
     
+    @IBOutlet var logoImageView: UIImageView!
     @IBOutlet var phoneNumberField: SMFloatingLabelTextField!
     //MARK:- LIFE CYCLE METHODS
     override func viewDidLoad() {
         self.screenName = "CreateAccount"
         self.setText()
+        
+         self.logoImageView.setImageWith(URL(string: logoImage!), placeholderImage: nil, options: SDWebImageOptions(rawValue: UInt(0)), usingActivityIndicatorStyle: UIActivityIndicatorViewStyle.gray)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -65,6 +69,7 @@ class CreateAccount: GAITrackedViewController, UIAlertController_UIAlertView{
             self.showAlertwithCancelButton("Error", message: "Please enter your password", cancelButton: "OK")
         }
         else {
+            if (self.passwordField.text!.isValidPassword()) {
             if (self.phoneNumberField.text!.isValidPhoneNumber()) {
                 if (self.emailField.text!.isValidEmail()) {
                     self.callRegisterationAPI()
@@ -75,6 +80,10 @@ class CreateAccount: GAITrackedViewController, UIAlertController_UIAlertView{
             }
             else {
                 self.showAlertwithCancelButton("Error", message: "Invalid mobile number", cancelButton: "OK")
+            }
+        }
+            else {
+                self.showAlertwithCancelButton("Error", message: "Password should be minimum 6 characters and maxmimum 10 characters length with one alphabet and one number", cancelButton: "OK")
             }
         }
         
@@ -101,7 +110,7 @@ class CreateAccount: GAITrackedViewController, UIAlertController_UIAlertView{
             
             let deviceToken = UserDefaults.standard.object(forKey: "Device_Token") as! String
             
-             let paramsDict: [String : String] = ["first_name": self.firstNameField.text! as String, "last_name": self.lastNameField.text! as String, "password": passwordEncryption! as String, "email": self.emailField.text! as String, "phone": self.phoneNumberField.text! as String, "dealer_code": "KH001", "device_token": deviceToken, "device_type": "iOS", "os_version": model] as Dictionary
+             let paramsDict: [String : String] = ["first_name": self.firstNameField.text! as String, "last_name": self.lastNameField.text! as String, "password": passwordEncryption! as String, "email": self.emailField.text! as String, "phone": self.phoneNumberField.text! as String, "dealer_code": Constant.Dealer.DealerCode, "device_token": deviceToken, "device_type": "iOS", "os_version": model] as Dictionary
             print(NSString(format: "Request: %@", paramsDict))
 
             

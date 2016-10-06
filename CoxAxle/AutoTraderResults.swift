@@ -76,6 +76,7 @@ class AutoTraderResults: JSONModel {
     var status: String!
     var message: String!
     var response: AutoTraderResultsResponse?
+    var total_count: String!
     
     func propertyIsOptional(_ propertyName: String) -> Bool {
         return true

@@ -16,6 +16,10 @@
 		CE16BCDC1D93BA8E00265711 /* FavoriteCarsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE16BCDB1D93BA8E00265711 /* FavoriteCarsViewController.swift */; };
 		CE1C8FBD1D66EF8D004C3123 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE1C8FBC1D66EF8D004C3123 /* SettingsViewController.swift */; };
 		CE1C8FBF1D671430004C3123 /* UserDetails.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE1C8FBE1D671430004C3123 /* UserDetails.swift */; };
+		CE38CC191D9A4E200058295A /* SavedSearchTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE38CC181D9A4E200058295A /* SavedSearchTableViewCell.swift */; };
+		CE4F66F91DA695A000E81ED1 /* RecentSearches+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE4F66F71DA695A000E81ED1 /* RecentSearches+CoreDataClass.swift */; };
+		CE4F66FA1DA695A000E81ED1 /* RecentSearches+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE4F66F81DA695A000E81ED1 /* RecentSearches+CoreDataProperties.swift */; };
+		CE4F66FC1DA6BE1200E81ED1 /* RecentSearchesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE4F66FB1DA6BE1200E81ED1 /* RecentSearchesViewController.swift */; };
 		CE5231CA1D50A63100C51AC0 /* Alamofire.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CE5231C91D50A63100C51AC0 /* Alamofire.framework */; };
 		CE5D4A6D1D799F6D0077EA75 /* XTime.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE5D4A6C1D799F6D0077EA75 /* XTime.swift */; };
 		CE96F3B91D5C5B720026037A /* VehicleDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE96F3B81D5C5B720026037A /* VehicleDetailsViewController.swift */; };
@@ -24,6 +28,7 @@
 		CE9CE95A1D6475C1007DA809 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CE9CE9591D6475C1007DA809 /* MapKit.framework */; };
 		CE9CE95C1D6486AE007DA809 /* AddVehicleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE9CE95B1D6486AE007DA809 /* AddVehicleViewController.swift */; };
 		CE9CE9641D649F23007DA809 /* VehiclesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE9CE9631D649F23007DA809 /* VehiclesViewController.swift */; };
+		CE9D09CA1D9D33FD004E47CD /* DealerInventoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE9D09C91D9D33FD004E47CD /* DealerInventoryViewController.swift */; };
 		CEA4A3C41D914FDF00BDE492 /* CarShoppingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEA4A3C31D914FDF00BDE492 /* CarShoppingViewController.swift */; };
 		CEA8BAB31D6C706300331D27 /* demo.docx in Resources */ = {isa = PBXBuildFile; fileRef = CEA8BAB21D6C706300331D27 /* demo.docx */; };
 		CEACB8B11D700BE300464844 /* SessionExpireViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEACB8B01D700BE300464844 /* SessionExpireViewController.swift */; };
@@ -136,6 +141,10 @@
 		CE16BCDB1D93BA8E00265711 /* FavoriteCarsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FavoriteCarsViewController.swift; sourceTree = "<group>"; };
 		CE1C8FBC1D66EF8D004C3123 /* SettingsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		CE1C8FBE1D671430004C3123 /* UserDetails.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserDetails.swift; sourceTree = "<group>"; };
+		CE38CC181D9A4E200058295A /* SavedSearchTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SavedSearchTableViewCell.swift; sourceTree = "<group>"; };
+		CE4F66F71DA695A000E81ED1 /* RecentSearches+CoreDataClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "RecentSearches+CoreDataClass.swift"; sourceTree = "<group>"; };
+		CE4F66F81DA695A000E81ED1 /* RecentSearches+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "RecentSearches+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		CE4F66FB1DA6BE1200E81ED1 /* RecentSearchesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RecentSearchesViewController.swift; sourceTree = "<group>"; };
 		CE5231C91D50A63100C51AC0 /* Alamofire.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Alamofire.framework; path = "../../../Library/Developer/Xcode/DerivedData/CoxAxle-getleldjrqfjnrazmgxijnkndhcu/Build/Products/Debug-iphonesimulator/Alamofire/Alamofire.framework"; sourceTree = "<group>"; };
 		CE5D4A6C1D799F6D0077EA75 /* XTime.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = XTime.swift; sourceTree = "<group>"; };
 		CE96F3B81D5C5B720026037A /* VehicleDetailsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VehicleDetailsViewController.swift; sourceTree = "<group>"; };
@@ -144,6 +153,7 @@
 		CE9CE9591D6475C1007DA809 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 		CE9CE95B1D6486AE007DA809 /* AddVehicleViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddVehicleViewController.swift; sourceTree = "<group>"; };
 		CE9CE9631D649F23007DA809 /* VehiclesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VehiclesViewController.swift; sourceTree = "<group>"; };
+		CE9D09C91D9D33FD004E47CD /* DealerInventoryViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DealerInventoryViewController.swift; sourceTree = "<group>"; };
 		CEA4A3C31D914FDF00BDE492 /* CarShoppingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CarShoppingViewController.swift; sourceTree = "<group>"; };
 		CEA4A3C51D91650900BDE492 /* UserNotifications.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UserNotifications.framework; path = System/Library/Frameworks/UserNotifications.framework; sourceTree = SDKROOT; };
 		CEA8BAB21D6C706300331D27 /* demo.docx */ = {isa = PBXFileReference; lastKnownFileType = file; path = demo.docx; sourceTree = "<group>"; };
@@ -356,6 +366,23 @@
 			name = Settings;
 			sourceTree = "<group>";
 		};
+		CE38CC171D9A4DE50058295A /* SavedSearches */ = {
+			isa = PBXGroup;
+			children = (
+				CE38CC181D9A4E200058295A /* SavedSearchTableViewCell.swift */,
+			);
+			name = SavedSearches;
+			sourceTree = "<group>";
+		};
+		CE4F66F61DA6956C00E81ED1 /* DBClasses */ = {
+			isa = PBXGroup;
+			children = (
+				CE4F66F71DA695A000E81ED1 /* RecentSearches+CoreDataClass.swift */,
+				CE4F66F81DA695A000E81ED1 /* RecentSearches+CoreDataProperties.swift */,
+			);
+			name = DBClasses;
+			sourceTree = "<group>";
+		};
 		CE96F3B71D5C5B3B0026037A /* Vehicles */ = {
 			isa = PBXGroup;
 			children = (
@@ -449,6 +476,7 @@
 				CEC55EF31D7FDF9000A7CD95 /* WebView */,
 				CEC758AB1D76E8F900619152 /* AddVehicle */,
 				CE02E2F51D86B3EE00FE60D8 /* Inventory */,
+				CE38CC171D9A4DE50058295A /* SavedSearches */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -503,6 +531,7 @@
 				CEC502A11D40983A00DDC19E /* Controllers */,
 				CEB7D7B21D58C6900096BC50 /* Views */,
 				CEC502A21D40991B00DDC19E /* Modals */,
+				CE4F66F61DA6956C00E81ED1 /* DBClasses */,
 				CEC502C11D40B70600DDC19E /* Supporting Files */,
 				CEC502731D408E0100DDC19E /* Main.storyboard */,
 				CEB7D7B01D58C3190096BC50 /* Assets.xcassets */,
@@ -630,9 +659,11 @@
 		CEE727221D81320800FCC8C9 /* Inventory */ = {
 			isa = PBXGroup;
 			children = (
+				CE9D09C91D9D33FD004E47CD /* DealerInventoryViewController.swift */,
 				CEE727201D8131DB00FCC8C9 /* InventorySearchViewController.swift */,
 				CE0B5BA71D869BED002FA2D2 /* InventoryResultsViewController.swift */,
 				CEC7798D1D90031900FE19DE /* SavedSearchesViewController.swift */,
+				CE4F66FB1DA6BE1200E81ED1 /* RecentSearchesViewController.swift */,
 			);
 			name = Inventory;
 			sourceTree = "<group>";
@@ -897,6 +928,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CE9D09CA1D9D33FD004E47CD /* DealerInventoryViewController.swift in Sources */,
 				CEC429051D926C630087E927 /* SwiftyAccordionCells.swift in Sources */,
 				CEFDE9961D5DD16A00A3044B /* LoginViewController.swift in Sources */,
 				CEF631701D942F6C00AC4E30 /* InventorySearchPickerTableViewCell.swift in Sources */,
@@ -948,8 +980,10 @@
 				CEC55EF51D7FDFAF00A7CD95 /* WebViewController.swift in Sources */,
 				CEB299631D65C5D6009F3015 /* VehiclesList.swift in Sources */,
 				CEC309A51D48A6740015D6A9 /* UIActivityIndicatorView+ActivityClass.swift in Sources */,
+				CE4F66F91DA695A000E81ED1 /* RecentSearches+CoreDataClass.swift in Sources */,
 				CEE3F19A1D5A10E6001FFE02 /* MyCarsTableViewCell.swift in Sources */,
 				CEE727211D8131DB00FCC8C9 /* InventorySearchViewController.swift in Sources */,
+				CE38CC191D9A4E200058295A /* SavedSearchTableViewCell.swift in Sources */,
 				CEC758B51D76E91C00619152 /* VehicleDetailSelectionTableViewCell.swift in Sources */,
 				CEC502AC1D40AA4700DDC19E /* UIFont+FontClass.swift in Sources */,
 				CEC758B91D76E91C00619152 /* DatePickerTableViewCell.swift in Sources */,
@@ -962,6 +996,7 @@
 				CEC502A81D40A65600DDC19E /* Constants.swift in Sources */,
 				CEF6A57E1D772219002E66B7 /* NoInternetConnectionViewController.swift in Sources */,
 				CEC758B41D76E91C00619152 /* VehicleTypeTableViewCell.swift in Sources */,
+				CE4F66FA1DA695A000E81ED1 /* RecentSearches+CoreDataProperties.swift in Sources */,
 				CEC309A71D48DC090015D6A9 /* NSString+ValidationClass.swift in Sources */,
 				CEB299651D65D544009F3015 /* EditVehicles.swift in Sources */,
 				CE96F3B91D5C5B720026037A /* VehicleDetailsViewController.swift in Sources */,
@@ -976,6 +1011,7 @@
 				CEE2E88D1D7832AF00511692 /* SideMenuVC.swift in Sources */,
 				CEF631721D942FDF00AC4E30 /* SaveSearch.swift in Sources */,
 				CE0211171D8A7311001F6EE9 /* EditVehicleViewController.swift in Sources */,
+				CE4F66FC1DA6BE1200E81ED1 /* RecentSearchesViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

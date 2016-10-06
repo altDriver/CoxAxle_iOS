@@ -11,6 +11,7 @@ import Alamofire
 import YLProgressBar
 import LGSemiModalNavController
 import SDWebImage
+import Photos
 
 class EditVehicleViewController: UIViewController, UIAlertController_UIAlertView, UITableViewDataSource, UITableViewDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UICollectionViewDataSource, UICollectionViewDelegate, UITextFieldDelegate {
     
@@ -27,10 +28,11 @@ class EditVehicleViewController: UIViewController, UIAlertController_UIAlertView
     var newButton: UIButton!
     var usedButton: UIButton!
     var cpoButton: UIButton!
-    var vehicleImagesArray: [AnyObject] = []
-    var selectedVehicleImagesArray: [AnyObject] = []
-    var insuranceCardImagesArray = [UIImage]()
-    var fromVehicleImage: Bool!
+    var vehicleImagesArray = [UIImage]()
+    var selectedVehicleImagesArray = [AnyObject]()
+    var insuranceCardImagesArray = [AnyObject]()
+    var selectedInsuranceImagesArray = [AnyObject]()
+    var oldInsuranceImgStringArray = [NSURL]()
     
     var language                 : String?
     var vehicleName              : String?
@@ -40,6 +42,7 @@ class EditVehicleViewController: UIViewController, UIAlertController_UIAlertView
     var vehicleMake              : String?
     var vehicleModel             : String?
     var tagExpirationDate        : String?
+    var selectedVehicleImage     : UIImage?
     var selectedVehicleType      : String?
     var selectedYear             : String?
     var selectedVehicleMake      : String?
@@ -54,8 +57,14 @@ class EditVehicleViewController: UIViewController, UIAlertController_UIAlertView
     var editedVehicleImagesBase64String         : String?
     var oldVehicleImageBase64String             : String?
     var selectedInsuranceExpirationDate         : String?
+    var insuranceDocsCount                      : Int?
     var isTagExpirationDatePickerSelected       : Bool?
     var isInsuranceExpirationDatePickerSelected : Bool?
+    var isVehicleImageChanged                   : Bool? = false
+    var isInsuranceCardUpdated                  : Bool? = false
+    var isInsuranceCameraPic                    : Bool? = false
+    var isVehicleCameraPic                      : Bool? = false
+    var isVehImgFromGallery                     : Bool? = false
     
     var vinTextField: UITextField!
     var vehicleNameTextField: UITextField!
@@ -91,8 +100,29 @@ class EditVehicleViewController: UIViewController, UIAlertController_UIAlertView
     
     func parseVehicleDetailsDictionary() {
         
-        vehicleImagesArray = (vehiclesDetailsDictionary?.value(forKey: "vechicle_image")!)! as! [UIImage]
-        //        insuranceCardImagesArray = (vehiclesDetailsDictionary?.valueForKey("insurance_document")!)! as! [UIImage]
+        let existingInsuranceDocsArray = (vehiclesDetailsDictionary?.value(forKey: "insurance_document")!)! as! NSArray
+        
+        for index in 0...existingInsuranceDocsArray.count - 1 {
+            
+            let imageString = (existingInsuranceDocsArray[index] as AnyObject).value(forKey: "insurence_url")
+            let imageURLString = NSURL(string: imageString as! String)
+            oldInsuranceImgStringArray.append(imageURLString!)
+        }
+        
+        for indx in 0...oldInsuranceImgStringArray.count - 1 {
+            
+            let url = oldInsuranceImgStringArray[indx]
+            if let data = NSData(contentsOf: url as URL) {
+                let img = UIImage(data: data as Data)
+                insuranceCardImagesArray.append(img!)
+            }
+            
+            //            let imageData = NSData(contentsOf: oldInsuranceImgStringArray[indx] as URL)
+            //            let img = UIImage(data: imageData as! Data)
+            //            vehicleImagesArray.append(img!)
+            //            print(vehicleImagesArray)
+        }
+        
         vehicleName = vehiclesDetailsDictionary?.value(forKey: "name") as? String
         selectedVehicleType = vehiclesDetailsDictionary?.value(forKey: "vehicle_type") as? String
         vinNumber = vehiclesDetailsDictionary?.value(forKey: "vin") as? String
@@ -152,16 +182,20 @@ class EditVehicleViewController: UIViewController, UIAlertController_UIAlertView
             case 0:
                 
                 let addVehicleImageTableViewCell = tableView.dequeueReusableCell(withIdentifier: "AddVehicleImageTableViewCell", for: indexPath) as! AddVehicleImageTableViewCell
-                
                 addVehicleImageTableViewCell.uploadVehiclePictureButton.addTarget(self, action: #selector(EditVehicleViewController.uploadVehiclePic), for: .touchUpInside)
                 
                 let tapGestureForUpoadImage = UITapGestureRecognizer(target: self, action: #selector(EditVehicleViewController.uploadVehiclePic))
                 addVehicleImageTableViewCell.vehicleImageView.isUserInteractionEnabled = true
                 addVehicleImageTableViewCell.vehicleImageView.addGestureRecognizer(tapGestureForUpoadImage)
                 
-                let imagesArray = vehicleImagesArray as NSArray
-                let imageURLString = (imagesArray[0] as AnyObject).value(forKey: "image_url") as! NSString
-                 addVehicleImageTableViewCell.vehicleImageView.setImageWith(URL(string: imageURLString as String), placeholderImage: UIImage(named: "placeholder"), options: SDWebImageOptions(rawValue: UInt(0)), usingActivityIndicatorStyle: UIActivityIndicatorViewStyle.gray)
+                if self.selectedVehicleImage != nil {
+                    addVehicleImageTableViewCell.vehicleImageView.image = self.selectedVehicleImage
+                } else {
+                    
+                    let imageURLString = (vehiclesDetailsDictionary?.value(forKey: "photo")!)! as! NSString
+                    
+                    addVehicleImageTableViewCell.vehicleImageView.setImageWith(URL(string: imageURLString as String), placeholderImage: UIImage(named: "placeholder"), options: SDWebImageOptions(rawValue: UInt(0)), usingActivityIndicatorStyle: UIActivityIndicatorViewStyle.gray)
+                }
                 
                 return addVehicleImageTableViewCell
             case 1:
@@ -169,8 +203,6 @@ class EditVehicleViewController: UIViewController, UIAlertController_UIAlertView
                 let vehicleNameTableViewCell = tableView.dequeueReusableCell(withIdentifier: "VehicleNameTableViewCell", for: indexPath) as! VehicleDetailTableViewCell
                 
                 vehicleNameTableViewCell.vehicleNameTextField.autocorrectionType = .no
-                
-                vehicleNameTableViewCell.vehicleNameTextField.delegate = self;
                 
                 self.vehicleNameTextField = vehicleNameTableViewCell.vehicleNameTextField
                 
@@ -181,7 +213,6 @@ class EditVehicleViewController: UIViewController, UIAlertController_UIAlertView
                     break
                 }
                 vehicleNameTableViewCell.vehicleNameTextField.text = name
-                
                 
                 return vehicleNameTableViewCell
                 
@@ -227,12 +258,13 @@ class EditVehicleViewController: UIViewController, UIAlertController_UIAlertView
                 let vinTableViewCell = tableView.dequeueReusableCell(withIdentifier: "VINTableViewCell", for: indexPath) as! VehicleDetailTableViewCell
                 
                 let findVinButtonAttrinutes = [
-                    NSFontAttributeName : UIFont.systemFont(ofSize: 11),
+                    NSFontAttributeName : UIFont.systemFont(ofSize: 10),
                     NSUnderlineStyleAttributeName : 1] as [String : Any]
                 let attributedString = NSMutableAttributedString(string:"")
                 
                 let buttonTitleString = NSMutableAttributedString(string:"Find My VIN", attributes: findVinButtonAttrinutes)
                 vinTableViewCell.findMyVinButton.titleLabel?.numberOfLines = 2
+                vinTableViewCell.findMyVinButton.titleLabel?.textAlignment = .center
                 attributedString.append(buttonTitleString)
                 vinTableViewCell.findMyVinButton.setAttributedTitle(attributedString, for: UIControlState())
                 
@@ -265,8 +297,8 @@ class EditVehicleViewController: UIViewController, UIAlertController_UIAlertView
                 
                 vehiclePurchasedYear = selectYearTableViewCell.selectYearButton.titleLabel?.text
                 
-                
                 return selectYearTableViewCell
+                
             case 5:
                 
                 let selectMakeTableViewCell = tableView.dequeueReusableCell(withIdentifier: "SelectMakeTableViewCell", for: indexPath) as! VehicleDetailSelectionTableViewCell
@@ -281,8 +313,8 @@ class EditVehicleViewController: UIViewController, UIAlertController_UIAlertView
                 
                 vehicleMake = selectMakeTableViewCell.selectVehicleMakeButton.titleLabel?.text
                 
-                
                 return selectMakeTableViewCell
+                
             case 6:
                 
                 let selectModelTableViewCell = tableView.dequeueReusableCell(withIdentifier: "SelectModelTableViewCell", for: indexPath) as! VehicleDetailSelectionTableViewCell
@@ -297,8 +329,8 @@ class EditVehicleViewController: UIViewController, UIAlertController_UIAlertView
                 
                 vehicleModel = selectModelTableViewCell.selectVehicleModelButton.titleLabel?.text
                 
-                
                 return selectModelTableViewCell
+                
             case 7:
                 
                 let milesDrivenTableViewCell = tableView.dequeueReusableCell(withIdentifier: "MilesDrivenTableViewCell", for: indexPath) as! VehicleDetailTableViewCell
@@ -312,10 +344,9 @@ class EditVehicleViewController: UIViewController, UIAlertController_UIAlertView
                     break
                 }
                 milesDrivenTableViewCell.milesDrivenTextField.text = name
-                milesDrivenTableViewCell.milesDrivenTextField.delegate = self
-                
                 
                 return milesDrivenTableViewCell
+                
             case 8:
                 
                 let tagExpirationTableViewCell = tableView.dequeueReusableCell(withIdentifier: "tagExpirationDateCell", for: indexPath) as! VehicleInsuranceDetailsTableViewCell
@@ -370,31 +401,32 @@ class EditVehicleViewController: UIViewController, UIAlertController_UIAlertView
                 let insuranceCardTableViewCell: InsuranceCardTableViewCell = tableView.dequeueReusableCell(withIdentifier: "InsuranceCardTableViewCell", for: indexPath) as! InsuranceCardTableViewCell
                 insuranceCardTableViewCell.uploadInsuranceCardPictureButton.addTarget(self, action: #selector(EditVehicleViewController.uploadInsuranceCardPic), for: .touchUpInside)
                 
+                //                insuranceCardTableViewCell.insuranceCardsCollectionView.delegate = self
+                //                insuranceCardTableViewCell.insuranceCardsCollectionView.dataSource = self
                 insuranceCardTableViewCell.insuranceCardsCollectionView.reloadData()
                 
-                
                 return insuranceCardTableViewCell
+                
             default:
-                let vehicleNameTableViewCell = tableView.dequeueReusableCell(withIdentifier: "VehicleNameTableViewCell", for: indexPath) as! VehicleDetailTableViewCell
+                //                let vehicleNameTableViewCell = tableView.dequeueReusableCell(withIdentifier: "VehicleNameTableViewCell", for: indexPath) as! VehicleDetailTableViewCell
+                //
+                //                vehicleNameTableViewCell.vehicleNameTextField.autocorrectionType = .no
+                //
+                ////                vehicleNameTableViewCell.vehicleNameTextField.delegate = self;
+                //
+                //                self.vehicleNameTextField = vehicleNameTableViewCell.vehicleNameTextField
+                //
+                //                guard let name = (self.vehicleNameTextField.text) , name != "" else {
+                //
+                //                    vehicleNameTableViewCell.vehicleNameTextField.text = vehicleName
+                //
+                //                    break
+                //                }
+                //                vehicleNameTableViewCell.vehicleNameTextField.text = name
                 
-                vehicleNameTableViewCell.vehicleNameTextField.autocorrectionType = .no
-                
-                vehicleNameTableViewCell.vehicleNameTextField.delegate = self;
-                
-                self.vehicleNameTextField = vehicleNameTableViewCell.vehicleNameTextField
-                
-                guard let name = (self.vehicleNameTextField.text) , name != "" else {
-                    
-                    vehicleNameTableViewCell.vehicleNameTextField.text = vehicleName
-                    
-                    break
-                }
-                vehicleNameTableViewCell.vehicleNameTextField.text = name
-                
-                
-                return vehicleNameTableViewCell
+                //                return vehicleNameTableViewCell
+                return UITableViewCell()
             }
-            
             
         case 1:
             
@@ -411,9 +443,27 @@ class EditVehicleViewController: UIViewController, UIAlertController_UIAlertView
             
             cell?.cellButton.addTarget(self, action: #selector(EditVehicleViewController.yearSelected(_:)), for: .touchUpInside)
             
+            if self.selectedYear != "" && self.selectedYear != nil && self.selectedYear?.isEmpty  == false && self.selectedYear?.characters.count != 0 {
+                
+                let selectedYearText = cell?.cellValue.text ?? ""
+                
+                if selectedYearText == self.selectedYear {
+                    cell?.cellButton.setImage(UIImage(named: "checkbox.png"), for: .normal)
+                    cell?.cellButton.backgroundColor = UIColor.white
+                }
+            }
+            else if self.vehiclePurchasedYear != "" && self.vehiclePurchasedYear != nil && self.vehiclePurchasedYear?.isEmpty == false && self.vehiclePurchasedYear?.characters.count != 0 {
+                
+                let selectedYearText = cell?.cellValue.text ?? ""
+                
+                if selectedYearText == self.vehiclePurchasedYear {
+                    cell?.cellButton.setImage(UIImage(named: "checkbox.png"), for: .normal)
+                    cell?.cellButton.backgroundColor = UIColor.white
+                }
+            }
+            
             cell?.layoutMargins = UIEdgeInsets.zero
             return cell!
-            
             
         case 2:
             
@@ -427,6 +477,25 @@ class EditVehicleViewController: UIViewController, UIAlertController_UIAlertView
             cell?.cellButton.tag = (indexPath as NSIndexPath).row
             cell?.cellButton.addTarget(self, action: #selector(EditVehicleViewController.vehicleMakeSelected(_:)), for: .touchUpInside)
             
+            if self.selectedVehicleMake != "" && self.selectedVehicleMake != nil && self.selectedVehicleMake?.isEmpty  == false && self.selectedVehicleMake?.characters.count != 0 {
+                
+                let selectedMakeText = cell?.cellValue.text ?? ""
+                
+                if selectedMakeText == self.selectedVehicleMake {
+                    cell?.cellButton.setImage(UIImage(named: "checkbox.png"), for: .normal)
+                    cell?.cellButton.backgroundColor = UIColor.white
+                }
+            }
+            else if self.vehicleMake != "" && self.vehicleMake != nil && self.vehicleMake?.isEmpty == false && self.vehicleMake?.characters.count != 0 {
+                
+                let selectedMakeText = cell?.cellValue.text ?? ""
+                
+                if selectedMakeText == self.vehicleMake {
+                    cell?.cellButton.setImage(UIImage(named: "checkbox.png"), for: .normal)
+                    cell?.cellButton.backgroundColor = UIColor.white
+                }
+            }
+            
             cell?.layoutMargins = UIEdgeInsets.zero
             return cell!
             
@@ -438,11 +507,29 @@ class EditVehicleViewController: UIViewController, UIAlertController_UIAlertView
             
             cell?.cellValue.text = String(vehiclesModelArray[(indexPath as NSIndexPath).row])
             
-            
             cell?.cellButton.backgroundColor = UIColor.uncheckButtonBackgroundColor()
             cell?.cellButton.layer.cornerRadius = 12.0
             cell?.cellButton.tag = (indexPath as NSIndexPath).row
             cell?.cellButton.addTarget(self, action: #selector(EditVehicleViewController.vehicleModelSelected(_:)), for: .touchUpInside)
+            
+            if self.selectedVehicleModel != "" && self.selectedVehicleModel != nil && self.selectedVehicleModel?.isEmpty  == false && self.selectedVehicleModel?.characters.count != 0 {
+                
+                let selectedModelText = cell?.cellValue.text ?? ""
+                
+                if selectedModelText == self.selectedVehicleModel {
+                    cell?.cellButton.setImage(UIImage(named: "checkbox.png"), for: .normal)
+                    cell?.cellButton.backgroundColor = UIColor.white
+                }
+            }
+            else if self.vehicleModel != "" && self.vehicleModel != nil && self.vehicleModel?.isEmpty == false && self.vehicleModel?.characters.count != 0 {
+                
+                let selectedMakeText = cell?.cellValue.text ?? ""
+                
+                if selectedMakeText == self.vehicleModel {
+                    cell?.cellButton.setImage(UIImage(named: "checkbox.png"), for: .normal)
+                    cell?.cellButton.backgroundColor = UIColor.white
+                }
+            }
             
             cell?.layoutMargins = UIEdgeInsets.zero
             return cell!
@@ -521,18 +608,30 @@ class EditVehicleViewController: UIViewController, UIAlertController_UIAlertView
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         
-        return insuranceCardImagesArray.count
+        //        insuranceDocsCount = oldInsuranceImgStringArray.count + selectedInsuranceImagesArray.count
+        //        //        return 2
+        //        if isInsuranceCardUpdated == true {
+        //            return 4
+        //        } else {
+        //            return 0
+        //        }
+        return self.insuranceCardImagesArray.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
         let insuranceCardsCollectionViewCell: InsuranceCardsCollectionViewCell = collectionView.dequeueReusableCell(withReuseIdentifier: "InsuranceCardsCollectionViewCell", for: indexPath) as! InsuranceCardsCollectionViewCell
         
-        insuranceCardsCollectionViewCell.insuranceCardsImageView.tag = (indexPath as NSIndexPath).row
-        insuranceCardsCollectionViewCell.removeCardButton.tag = (indexPath as NSIndexPath).row
+        insuranceCardsCollectionViewCell.insuranceCardsImageView.tag = indexPath.row
+        insuranceCardsCollectionViewCell.removeCardButton.tag = indexPath.row
         
-        insuranceCardsCollectionViewCell.insuranceCardsImageView.image = insuranceCardImagesArray[(indexPath as NSIndexPath).row]
+        //        if isInsuranceCardUpdated == false {
+        //
+        //            insuranceCardsCollectionViewCell.insuranceCardsImageView.setImageWith(URL(string: oldInsuranceImgStringArray[indexPath.row] as! String), placeholderImage: UIImage(named: "placeholder"), options: SDWebImageOptions(rawValue: UInt(0)), usingActivityIndicatorStyle: UIActivityIndicatorViewStyle.gray)
+        //        } else {
         
+        insuranceCardsCollectionViewCell.insuranceCardsImageView.image = insuranceCardImagesArray[indexPath.row] as? UIImage
+        //        }
         return insuranceCardsCollectionViewCell
     }
     
@@ -666,67 +765,22 @@ class EditVehicleViewController: UIViewController, UIAlertController_UIAlertView
     
     //MARK:- UPLOAD IMAGE METHODS
     
-    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
-        
-        if isInsuranceCardSelected == false {
-            //        if vehicleImagesArray.count == 5  || vehicleImagesArray.count > 5 {
-            //
-            //            showAlertwithCancelButton("", message: "You can upload upto only Five photos", cancelButton: "OK")
-            //            picker.dismissViewControllerAnimated(true, completion: nil)
-            //            return
-            //        }
-            
-            picker.dismiss(animated: true, completion: nil)
-            let image: UIImage = (info[UIImagePickerControllerOriginalImage] as? UIImage)!
-            imageView.image = image
-            
-            vehicleImagesArray.append(image)
-            
-            vehicleImage = imageView.image
-            self.addVehicleTableView.reloadData()
-            
-        } else {
-            
-            picker.dismiss(animated: true, completion: nil)
-            let image: UIImage = (info[UIImagePickerControllerOriginalImage] as? UIImage)!
-            if self.fromVehicleImage == true {
-               self.selectedVehicleImagesArray.append(image)
-            }
-            else {
-            insuranceCardImagesArray.append(image)
-            }
-            
-            self.addVehicleTableView.reloadData()
-            
-        }
-    }
-    
-    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
-        
-        isInsuranceCardSelected = false
-        dismiss(animated: true, completion: nil)
-    }
-    
     func uploadVehiclePic() {
-        
-        //        if vehicleImagesArray.count == 5  || vehicleImagesArray.count > 5 {
-        //
-        //            showAlertwithCancelButton("Error", message: "You can upload upto only Five photos", cancelButton: "OK")
-        //            return
-        //        }
         
         let alert:UIAlertController=UIAlertController(title: nil, message: nil, preferredStyle: UIAlertControllerStyle.actionSheet)
         
         let cameraAction = UIAlertAction(title: "Take a Photo", style: UIAlertActionStyle.default) {
             
             UIAlertAction in
-            self.openCamera(isVehicleImage: true)
+            self.isVehicleCameraPic = true
+            self.isInsuranceCameraPic = false
+            self.openCamera()
         }
         
         let gallaryAction = UIAlertAction(title: "Choose from Camera Roll", style: UIAlertActionStyle.default) {
             
             UIAlertAction in
-            self.openGallery()
+            self.openGallery(isVehicleImage: true)
         }
         
         let cancelAction = UIAlertAction(title: "Cancel", style: UIAlertActionStyle.cancel) {
@@ -750,11 +804,10 @@ class EditVehicleViewController: UIViewController, UIAlertController_UIAlertView
         present(imagePickerController, animated: true, completion: nil)
     }
     
-    func openCamera(isVehicleImage:Bool) {
+    func openCamera() {
         
         if(UIImagePickerController .isSourceTypeAvailable(UIImagePickerControllerSourceType.camera)) {
             
-            self.fromVehicleImage = isVehicleImage
             imagePicker.sourceType = UIImagePickerControllerSourceType.camera
             self .present(imagePicker, animated: true, completion: nil)
         }
@@ -768,13 +821,16 @@ class EditVehicleViewController: UIViewController, UIAlertController_UIAlertView
         let cameraAction = UIAlertAction(title: "Take a Photo", style: UIAlertActionStyle.default) {
             
             UIAlertAction in
-            self.openCamera(isVehicleImage: false)
+            self.openCamera()
+            self.isInsuranceCameraPic = true
+            self.isVehicleCameraPic = false
         }
         
         let gallaryAction = UIAlertAction(title: "Choose from Camera Roll", style: UIAlertActionStyle.default) {
             
             UIAlertAction in
-            self.openGallery()
+            self.openGallery(isVehicleImage: false)
+            self.addVehicleTableView.reloadData()
         }
         
         let cancelAction = UIAlertAction(title: "Cancel", style: UIAlertActionStyle.cancel) {
@@ -787,7 +843,14 @@ class EditVehicleViewController: UIViewController, UIAlertController_UIAlertView
         alert.addAction(gallaryAction)
         alert.addAction(cancelAction)
         alert.view.tintColor = UIColor.SlateColor()
-        self.present(alert, animated: true, completion: nil)
+        
+        if self.insuranceCardImagesArray.count < 5 {
+            
+            self.present(alert, animated: true, completion: nil)
+        } else {
+            self.showAlertwithCancelButton("Maximum photos limit reached", message: "You can select 5 items", cancelButton: "OK")
+            return
+        }
         
         let imagePickerController = UIImagePickerController()
         imagePickerController.delegate = self
@@ -800,39 +863,139 @@ class EditVehicleViewController: UIViewController, UIAlertController_UIAlertView
     
     //MARK:- Image Picker
     
-    func openGallery() {
+    func openGallery(isVehicleImage: Bool) {
         
-        self.selectedVehicleImagesArray.removeAll()
-        let pickerController = DKImagePickerController()
-        
-        pickerController.maxSelectableCount = 5
-        pickerController.didSelectAssets = { (assets: [DKAsset]) in
-            
-            for asset in assets {
-                asset.fetchOriginalImageWithCompleteBlock({ (image, info) in
-                    
-                    self.selectedVehicleImagesArray.append(image!)
-                    self.addVehicleTableView.reloadData()
-            
-                })
-            }
-        }
-        
-        self.present(pickerController, animated: true) {
-            
-        }
-    }
-    //MARK:- UITextField Delegate Methods
-    
-    func textFieldDidEndEditing(_ textField: UITextField) {
-        if textField.tag == 1 {
-            vehicleName = textField.text
+        if isVehicleImage == true {
+            imagePicker.sourceType = UIImagePickerControllerSourceType.photoLibrary
+            self.present(imagePicker, animated: true, completion: nil)
+            isVehImgFromGallery = true
         }
         else {
-            milesDriven = textField.text
+            
+            let pickerController = DKImagePickerController()
+            pickerController.maxSelectableCount = 5 - self.insuranceCardImagesArray.count
+            pickerController.didSelectAssets = { (assets: [DKAsset]) in
+                
+                for asset in assets {
+                    asset.fetchOriginalImageWithCompleteBlock({ (pickedImage, info) in
+                        
+                        //                        self.selectedInsuranceImagesArray.append(pickedImage!)
+                        self.insuranceCardImagesArray.append(pickedImage!)
+                        self.isInsuranceCardUpdated = true
+                        self.addVehicleTableView.reloadData()
+                        //                        let imageData:NSData = UIImagePNGRepresentation(pickedImage!)! as NSData
+                        //                        let base64ImgStr = imageData.base64EncodedString(options: NSData.Base64EncodingOptions(rawValue: 0))
+                        //                        print(base64ImgStr)
+                        //                        let url: String = info?[DKImageLocalizedStringWithKey("PHImageFileURLKey")] as! String
+                        
+                        
+                    })
+                }
+            }
+            self.present(pickerController, animated: true) {}
         }
+        self.addVehicleTableView.reloadData()
     }
     
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
+        
+        picker.dismiss(animated: true, completion: nil)
+        
+        let pickedImage = info[UIImagePickerControllerOriginalImage] as! UIImage
+        
+        if isVehImgFromGallery == true || isVehicleCameraPic == true {
+            
+            isVehImgFromGallery = false
+            isVehicleCameraPic = false
+            self.vehicleImagesArray.removeAll()
+            self.isVehicleImageChanged = true
+            imageView.image = pickedImage
+            vehicleImagesArray = [pickedImage]
+            self.selectedVehicleImage = pickedImage
+            vehicleImage = imageView.image
+            self.addVehicleTableView.reloadData()
+        }
+        if isInsuranceCameraPic == true {
+            
+            if self.insuranceCardImagesArray.count < 5 {
+                self.insuranceCardImagesArray.append(pickedImage)
+                self.addVehicleTableView.reloadData()
+            }
+        }
+        else if isVehicleCameraPic == false {
+            self.vehicleImagesArray.removeAll()
+            self.isVehicleImageChanged = true
+            imageView.image = pickedImage
+            vehicleImagesArray = [pickedImage]
+            self.selectedVehicleImage = pickedImage
+            vehicleImage = imageView.image
+            self.addVehicleTableView.reloadData()
+        }
+        
+    }
+    
+    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+        
+        isInsuranceCardSelected = false
+        dismiss(animated: true, completion: nil)
+    }
+    
+    //MARK:- UITEXTFIELD DELEGATE METHODS
+    
+    func textFieldDidEndEditing(_ textField: UITextField) {
+        
+        if textField.tag == 0 {
+            vehicleName = textField.text
+            self.vehicleNameTextField.text = textField.text
+        }
+        
+        if textField.tag == 2 {
+            milesDriven = textField.text
+            self.milesDrivenTextField.text = textField.text
+        }
+        // self.addVehicleTableView.reloadData()
+    }
+    
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        
+        switch textField.tag {
+            
+        case 0: //Vehicle Name
+            
+            let charactersCount = textField.text?.characters.count
+            if charactersCount! >= 20 && range.length == 0 {
+                return false
+            } else {
+                return true
+            }
+            
+        case 1: //VIN
+            
+            if string.characters.count == 0 {
+                return true
+            }
+            
+            let currentText = textField.text ?? ""
+            let prospectiveText = (currentText as NSString).replacingCharacters(in: range, with: string)
+            
+            return prospectiveText.containsOnlyCharactersIn("0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ") && prospectiveText.characters.count <= 16
+            
+        case 2: //Miles Driven
+            
+            if (textField.text?.characters.count)! >= 7 && range.length == 0 {
+                return false
+            } else {
+                
+                let newCharacters = CharacterSet(charactersIn: string)
+                let shouldChangeCharactersInRange = CharacterSet.decimalDigits.isSuperset(of: newCharacters)
+                
+                return shouldChangeCharactersInRange
+            }
+            
+        default:
+            return true
+        }
+    }
     
     //MARK:- UIBUTTON METHODS
     
@@ -871,7 +1034,6 @@ class EditVehicleViewController: UIViewController, UIAlertController_UIAlertView
             DispatchQueue.global(qos: .background).async {
                 print("This is run on the background queue")
                 self.callEditVehiclesAPI()
-                
             }
             
         }
@@ -883,6 +1045,7 @@ class EditVehicleViewController: UIViewController, UIAlertController_UIAlertView
         
         let okAction = UIAlertAction(title: "YES", style: UIAlertActionStyle.default) {
             UIAlertAction in
+            
             self.insuranceCardImagesArray.remove(at: sender.tag)
             self.addVehicleTableView.reloadData()
         }
@@ -899,10 +1062,11 @@ class EditVehicleViewController: UIViewController, UIAlertController_UIAlertView
     
     func validateFields() {
         
-        if vehicleName?.isEmpty == true {
+        if vehicleName?.isEmpty == true || self.vehicleNameTextField.text == "" || (self.vehicleNameTextField.text?.characters.count)! == 0 || self.vehicleNameTextField.text?.containsOnlyCharactersIn(" ") == true {
             
             isValidationSuccess = false
             showAlertwithCancelButton("Error", message: "Please enter vehicle name", cancelButton: "OK")
+            self.addVehicleTableView.reloadData()
             return
         } else {
             isValidationSuccess = true
@@ -912,6 +1076,15 @@ class EditVehicleViewController: UIViewController, UIAlertController_UIAlertView
             
             isValidationSuccess = false
             showAlertwithCancelButton("Error", message: "Please enter miles driven", cancelButton: "OK")
+            return
+        } else {
+            isValidationSuccess = true
+        }
+        
+        if self.insuranceCardImagesArray.count == 0 {
+            
+            isValidationSuccess = false
+            showAlertwithCancelButton("Error", message: "Please upload insurance documents", cancelButton: "OK")
             return
         } else {
             isValidationSuccess = true
@@ -1005,6 +1178,7 @@ class EditVehicleViewController: UIViewController, UIAlertController_UIAlertView
             
             let vehImgBase64String = self.createVehicleImageBase64String()
             let vehInsuBase64String = self.createVehicleInsuranceBase64String()
+            //            print(vehInsuBase64String)
             
             let idValuesArray = self.parseIdValues()
             let userId = idValuesArray[0]
@@ -1022,35 +1196,32 @@ class EditVehicleViewController: UIViewController, UIAlertController_UIAlertView
             let insuExpirationDate = vehicleDetailsArray[6]
             let tagExpiryDate = vehicleDetailsArray[7]
             
-            let paramsDict: [String : String] = ["vid": vehicleId,
-                                                 "name": name,
-                                                 "uid": userId,
-                                                 "dealer_id": dealerId,
-                                                 "vin": vin,
-                                                 "vehicle_type": type,
-                                                 "make": make,
-                                                 "model": model,
-                                                 "color": "Silver",
-                                                 "photo": vehImgBase64String,
-                                                 "waranty_from": "",
-                                                 "waranty_to": "",
-                                                 "insurance_expiration_date": insuExpirationDate,
-                                                 "tag_expiration_date": tagExpiryDate,
-                                                 "extended_waranty_from": "",
-                                                 "extended_waranty_to": "",
-                                                 "kbb_price": "1000",
-                                                 "manual": "",
-                                                 "loan_amount": "200",
-                                                 "emi": "50",
-                                                 "interest": "9",
-                                                 "loan_tenure": "6",
-                                                 "insurance_document": "",
-                                                 "mileage": miles,
-                                                 "style": "",
-                                                 "trim": "",
-                                                 "year": year] as Dictionary
+            let paramsDict: [String : String] = [
+                "vid": vehicleId,
+                "name": name,
+                "uid": userId,
+                "dealer_code": dealerId,
+                "vin": vin,
+                "vehicle_type": type,
+                "make": make,
+                "model": model,
+                "photo": vehImgBase64String,
+                "waranty_from": "2015-01-10",
+                "waranty_to": "2018-10-31",
+                "insurance_expiration_date": insuExpirationDate,
+                "tag_expiration_date": tagExpiryDate,
+                "extended_waranty_from": "3",
+                "extended_waranty_to": "9",
+                "insurance_document": vehInsuBase64String,
+                "mileage": miles,
+                "year": year,
+                "color": "Silver",
+                "style": "sedan",
+                "trim": "vxi",
+                "manual": "",
+                "extended_waranty_document": ""] as Dictionary
             
-            print(NSString(format: "Request: %@", paramsDict))
+            //print(NSString(format: "Request: %@", paramsDict))
             
             Alamofire.request(Constant.API.kBaseUrlPath+"vehicle/update", method: .post, parameters: paramsDict).responseJSON
                 { response in
@@ -1063,7 +1234,7 @@ class EditVehicleViewController: UIViewController, UIAlertController_UIAlertView
                             do {
                                 let dict: EditVehicles = try EditVehicles(dictionary: JSON as! [AnyHashable: Any])
                                 
-                                print(dict)
+                                //  print(dict)
                                 let message = (JSON as AnyObject).value(forKey: "message") as! String
                                 self.showUpdateVehicleSuccessAlert(message)
                                 
@@ -1095,7 +1266,7 @@ class EditVehicleViewController: UIViewController, UIAlertController_UIAlertView
         let userId: String = UserDefaults.standard.object(forKey: "UserId") as! String
         let vin: String = self.vehiclesDetailsDictionary?.value(forKey: "vin") as! String
         let vehicleId: String = (self.vehiclesDetailsDictionary?.value(forKey: "id"))! as! String
-        let dealerId: String = (self.vehiclesDetailsDictionary?.value(forKey: "dealer_id"))! as! String
+        let dealerId = Constant.Dealer.DealerCode
         
         return [userId, vin, vehicleId, dealerId]
     }
@@ -1116,54 +1287,70 @@ class EditVehicleViewController: UIViewController, UIAlertController_UIAlertView
     
     func createVehicleImageBase64String() -> String {
         
-//        var base64VehicleImagesArray = [String]()
-//        for index in 0...(vehicleImagesArray.count - 1) {
-//            
-//            let imagePath = vehicleImagesArray[index].value(forKey: "image_url")
-//            let imageData:Foundation.Data = (imagePath! as! String).data(using: String.Encoding.utf8)!
-//            let imageStringBase64:String = imageData.base64EncodedString(options: .lineLength64Characters)
-//            base64VehicleImagesArray.append(imageStringBase64)
-//        }
-//        oldVehicleImageBase64String = base64VehicleImagesArray.joined(separator: ",")
-    
-        var base64StrArr = [String]()
-        if self.selectedVehicleImagesArray.count > 0 {
-        for index in 0...(self.selectedVehicleImagesArray.count - 1) {
+        var base64ImgStr: String? = ""
+        
+        if isVehicleImageChanged == true {
             
-            let eachImage: UIImage = self.selectedVehicleImagesArray[index] as! UIImage
-            let eachImageData: Foundation.Data = (data: UIImagePNGRepresentation(eachImage)!)
-            let base64ImageString: String = eachImageData.base64EncodedString(options: NSData.Base64EncodingOptions(rawValue: 0))
-            base64StrArr.append(base64ImageString)
+            let imgData = (self.vehicleImagesArray[0]).highQualityJPEGNSData
+            base64ImgStr = imgData.base64EncodedString(options: NSData.Base64EncodingOptions(rawValue: 0))
         }
-        self.editedVehicleImagesBase64String = base64StrArr.joined(separator: ",")
+        else {
+            base64ImgStr = ""
         }
-        if editedVehicleImagesBase64String == nil {
-            editedVehicleImagesBase64String = ""
-        }
-        if oldVehicleImageBase64String == nil {
-            oldVehicleImageBase64String = ""
-        }
-        
-        if editedVehicleImagesBase64String == "" {
-            vehicleImagesBase64String = ""
-        } else {
-            vehicleImagesBase64String = editedVehicleImagesBase64String!
-        }
-        
-        return vehicleImagesBase64String!
+        return base64ImgStr!
     }
     
-    func createVehicleInsuranceBase64String() {
+    //        var base64StrArr = [String]()
+    //        if self.selectedVehicleImagesArray.count > 0 {
+    //        for index in 0...(self.selectedVehicleImagesArray.count - 1) {
+    //
+    //            let eachImage: UIImage = self.selectedVehicleImagesArray[index] as! UIImage
+    //            let eachImageData: Foundation.Data = (data: UIImagePNGRepresentation(eachImage)!)
+    //            let base64ImageString: String = eachImageData.base64EncodedString(options: NSData.Base64EncodingOptions(rawValue: 0))
+    //            base64StrArr.append(base64ImageString)
+    //        }
+    //        self.editedVehicleImagesBase64String = base64StrArr.joined(separator: ",")
+    //        }
+    //        if editedVehicleImagesBase64String == nil {
+    //            editedVehicleImagesBase64String = ""
+    //        }
+    //        if oldVehicleImageBase64String == nil {
+    //            oldVehicleImageBase64String = ""
+    //        }
+    //
+    //        if editedVehicleImagesBase64String == "" {
+    //            vehicleImagesBase64String = ""
+    //        } else {
+    //            vehicleImagesBase64String = editedVehicleImagesBase64String!
+    //        }
+    //        return vehicleImagesBase64String!
+    
+    func createVehicleInsuranceBase64String() -> String {
         
-        //            var base64InsurancecardsArray = [String]()
-        //            for index in 0...(insuranceCardImagesArray.count - 1) {
-        //
-        //                let imagePath = insuranceCardImagesArray[index].valueForKey("image_url")
-        //                let imageData:NSData = imagePath!.dataUsingEncoding(NSUTF8StringEncoding)!
-        //                let imageStringBase64:String = imageData.base64EncodedStringWithOptions(.Encoding64CharacterLineLength)
-        //                base64InsurancecardsArray.append(imageStringBase64)
-        //            }
-        //            let insuranceCardImagesBase64String = base64InsurancecardsArray.joinWithSeparator(",")
+        var insuranceCardImagesBase64String: String? = ""
+        if self.insuranceCardImagesArray.count == 0 {
+            isInsuranceCardUpdated = false
+        }
+        //        if isInsuranceCardUpdated == true {
+        
+        var base64InsurancecardsArray = [String]()
+        
+        if self.vehicleImagesArray.count != 0 {
+            for index in 0...(vehicleImagesArray.count - 1) {
+                
+                let eachImage: UIImage = vehicleImagesArray[index]
+                let eachImageData = eachImage.highQualityJPEGNSData
+                let base64ImageString: String = eachImageData.base64EncodedString(options: NSData.Base64EncodingOptions(rawValue: 0))
+                base64InsurancecardsArray.append(base64ImageString)
+            }
+            insuranceCardImagesBase64String = base64InsurancecardsArray.joined(separator: ",")
+        }
+        //        }
+        //        else {
+        //            insuranceCardImagesBase64String = ""
+        //        }
+        //        print(insuranceCardImagesBase64String!)
+        return insuranceCardImagesBase64String!
     }
     
     func showUpdateVehicleSuccessAlert(_ message: String) {
@@ -1172,7 +1359,9 @@ class EditVehicleViewController: UIViewController, UIAlertController_UIAlertView
         
         let defaultAction = UIAlertAction(title: "OK", style: .default, handler: { (action: UIAlertAction!) in
             
-            self.navigationController?.popToRootViewController(animated: true)
+            NotificationCenter.default.post(name: NSNotification.Name(rawValue: "VehicleAdded"), object: nil)
+            
+            self.navigationController!.popToRootViewController(animated: true)
         })
         
         alertController.addAction(defaultAction)
@@ -1194,15 +1383,15 @@ class EditVehicleViewController: UIViewController, UIAlertController_UIAlertView
             
             let vehicleId: String = (vehiclesDetailsDictionary?.value(forKey: "id"))! as! String
             let userId: String = UserDefaults.standard.object(forKey: "UserId") as! String
-            let paramsDict: [ String : String] = ["vid": vehicleId,"uid": userId] as Dictionary
-            print(NSString(format: "Request: %@", paramsDict))
+            let paramsDict: [ String : String] = ["vid": vehicleId,"uid": userId, "dealer_code": Constant.Dealer.DealerCode] as Dictionary
+            //            print(NSString(format: "Request: %@", paramsDict))
             
             Alamofire.request(Constant.API.kBaseUrlPath+"vehicle/delete", method: .post, parameters: paramsDict).responseJSON
                 { response in
                     loading.hide()
                     if let JSON = response.result.value {
                         
-                        print(NSString(format: "Response: %@", JSON as! NSDictionary))
+                        //                        print(NSString(format: "Response: %@", JSON as! NSDictionary))
                         let status = (JSON as AnyObject).value(forKey: "status") as! String
                         if status == "True"  {
                             
@@ -1226,6 +1415,7 @@ class EditVehicleViewController: UIViewController, UIAlertController_UIAlertView
         
         let defaultAction = UIAlertAction(title: "OK", style: .default, handler: { (action: UIAlertAction!) in
             
+            NotificationCenter.default.post(name: NSNotification.Name(rawValue: "VehicleAdded"), object: nil)
             self.navigationController!.popToRootViewController(animated: true)
         })
         
@@ -1241,5 +1431,13 @@ class EditVehicleViewController: UIViewController, UIAlertController_UIAlertView
         print("Internet connection FAILED")
         let vc : AnyObject! = self.storyboard!.instantiateViewController(withIdentifier: "NoInternetConnection")
         self.present(vc as! UIViewController, animated: true, completion: nil)
+    }
+}
+
+extension String {
+    
+    func containsOnlyCharactersIn(_ matchCharacters: String) -> Bool {
+        let disallowedCharacterSet = CharacterSet(charactersIn: matchCharacters).inverted
+        return self.rangeOfCharacter(from: disallowedCharacterSet) == nil
     }
 }

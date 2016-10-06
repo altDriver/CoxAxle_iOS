@@ -16,6 +16,7 @@ class CarShoppingViewController: GAITrackedViewController, UITableViewDelegate, 
         UIImage(named: "blueCar")!,
         UIImage(named: "searchCarsIcon")!,
         UIImage(named: "savedCarsIcon")!,
+        UIImage(),
         UIImage(named: "searchCarsIcon")!,
         UIImage(),
         UIImage(),
@@ -53,6 +54,7 @@ class CarShoppingViewController: GAITrackedViewController, UITableViewDelegate, 
         self.cells.append(SwiftyAccordionCells.HeaderItem(value: "Dealer Inventory" as AnyObject))
         self.cells.append(SwiftyAccordionCells.HeaderItem(value: "Saved Searches" as AnyObject))
         self.cells.append(SwiftyAccordionCells.HeaderItem(value: "Favorite Cars" as AnyObject))
+        self.cells.append(SwiftyAccordionCells.HeaderItem(value: "Recent Searches" as AnyObject))
         self.cells.append(SwiftyAccordionCells.HeaderItem(value: "Calculators" as AnyObject))
         self.cells.append(SwiftyAccordionCells.Item(value: "Payment Calculator" as AnyObject))
         self.cells.append(SwiftyAccordionCells.Item(value: "Affordability Calculator" as AnyObject))
@@ -87,7 +89,7 @@ class CarShoppingViewController: GAITrackedViewController, UITableViewDelegate, 
             cell.backgroundColor = UIColor.clear
             cellTitle.font = UIFont(name: "HelveticaNeue", size: 17.0)
             switch indexPath.row {
-            case 3,7:
+            case 4,8:
                 cell.accessoryType = UITableViewCellAccessoryType.disclosureIndicator
                 break
             default:
@@ -133,9 +135,23 @@ class CarShoppingViewController: GAITrackedViewController, UITableViewDelegate, 
             }
             
             switch indexPath.row {
+            case 0:
+                DispatchQueue.main.async {
+                    self.performSegue(withIdentifier: "CarDealerInventory", sender: self)
+                }
+                break
+            case 1:
+                DispatchQueue.main.async {
+                    self.performSegue(withIdentifier: "CarSavedSearches", sender: self)
+                }
+                break
             case 2:
                 DispatchQueue.main.async {
                     self.performSegue(withIdentifier: "FavoriteCars", sender: self)
+                }
+            case 3:
+                DispatchQueue.main.async {
+                    self.performSegue(withIdentifier: "RecentSearches", sender: self)
                 }
                 break
             default:

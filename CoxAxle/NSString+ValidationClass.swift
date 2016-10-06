@@ -31,6 +31,13 @@ extension String {
         }
     }
     
+    func isValidPassword() -> Bool {
+        let emailRegEx = "^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d]{6,10}$"
+        
+        let emailTest = NSPredicate(format:"SELF MATCHES %@", emailRegEx)
+        return emailTest.evaluate(with: self)
+    }
+    
     func convertDateToString() -> String {
         //String to Date Convert
         

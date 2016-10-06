@@ -72,7 +72,7 @@ class SettingsViewController: GAITrackedViewController, UIAlertController_UIAler
             let loading = UIActivityIndicatorView_ActivityClass(text: "Loading")
             self.view.addSubview(loading)
             let userId: String = UserDefaults.standard.object(forKey: "UserId") as! String
-            let paramsDict: [ String : String] = ["uid": userId] as Dictionary
+            let paramsDict: [ String : String] = ["uid": userId, "dealer_code": Constant.Dealer.DealerCode] as Dictionary
             print(NSString(format: "Request: %@", paramsDict))
             
             Alamofire.request(Constant.API.kBaseUrlPath+"user/list", method: .post, parameters: paramsDict).responseJSON
@@ -119,7 +119,7 @@ class SettingsViewController: GAITrackedViewController, UIAlertController_UIAler
             let loading = UIActivityIndicatorView_ActivityClass(text: "Loading")
             self.view.addSubview(loading)
              let userId: String = UserDefaults.standard.object(forKey: "UserId") as! String
-            let paramsDict: [ String : String] = ["uid": userId, "first_name": "Pru", "last_name": "Krish", "email": "pru@gmail.com", "phone": "7799002145", "language": "EN"] as Dictionary
+            let paramsDict: [ String : String] = ["uid": userId, "first_name": "Pru", "last_name": "Krish", "email": "pru@gmail.com", "phone": "7799002145", "language": "EN", "dealer_code": Constant.Dealer.DealerCode] as Dictionary
             print(NSString(format: "Request: %@", paramsDict))
             
             Alamofire.request(Constant.API.kBaseUrlPath+"user/update", method: .post, parameters: paramsDict).responseJSON

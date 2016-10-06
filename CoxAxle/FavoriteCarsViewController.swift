@@ -100,7 +100,7 @@ class FavoriteCarsViewController: GAITrackedViewController, UICollectionViewDele
             let loading = UIActivityIndicatorView_ActivityClass(text: "Loading")
             self.view.addSubview(loading)
             let userId: String = UserDefaults.standard.object(forKey: "UserId") as! String
-            let paramsDict: [ String : String] = ["uid": userId] as Dictionary
+            let paramsDict: [ String : String] = ["uid": userId, "dealer_code": Constant.Dealer.DealerCode] as Dictionary
             print(NSString(format: "Request: %@", paramsDict))
             
             Alamofire.request(Constant.API.kBaseUrlPath+"favouritelist", method: .post, parameters: paramsDict).responseJSON

@@ -11,6 +11,8 @@ import UIKit
 import Alamofire
 import JTMaterialSwitch
 import SMFloatingLabelTextField
+import SDWebImage
+
 fileprivate func < <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
   switch (lhs, rhs) {
   case let (l?, r?):
@@ -43,7 +45,9 @@ class LoginViewController: GAITrackedViewController,UIAlertController_UIAlertVie
     @IBOutlet weak var switchView: UIView!
     
     var language: String?
+    var logoImageStr: String?
     
+    @IBOutlet var logoImageView: UIImageView!
     //MARK:- LIFE CYCLE METHODS
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -51,6 +55,8 @@ class LoginViewController: GAITrackedViewController,UIAlertController_UIAlertVie
         // Do any additional setup after loading the view.
         
         self.navigationController?.isNavigationBarHidden = true
+        
+        self.logoImageView.setImageWith(URL(string: logoImageStr!), placeholderImage: nil, options: SDWebImageOptions(rawValue: UInt(0)), usingActivityIndicatorStyle: UIActivityIndicatorViewStyle.gray)
         
         let swi: JTMaterialSwitch = JTMaterialSwitch.init(size: JTMaterialSwitchSizeSmall, style: JTMaterialSwitchStyleDefault, state: JTMaterialSwitchStateOff)
         swi.frame = CGRect(x: 0, y: 0, width: 30, height: 25)
@@ -146,7 +152,7 @@ class LoginViewController: GAITrackedViewController,UIAlertController_UIAlertVie
                     
                     let deviceToken = UserDefaults.standard.object(forKey: "Device_Token") as! String
                     
-                    let paramsDict: [ String : String] = ["email": self.usernameField.text! as String, "password": passwordEncryption! as String, "device_token": deviceToken, "device_type": "iOS", "os_version": model] as Dictionary
+                    let paramsDict: [ String : String] = ["email": self.usernameField.text! as String, "password": passwordEncryption! as String, "device_token": deviceToken, "device_type": "iOS", "os_version": model, "dealer_code": Constant.Dealer.DealerCode] as Dictionary
                     print(NSString(format: "Request: %@", paramsDict))
                     
                     Alamofire.request(Constant.API.kBaseUrlPath+"customer", method: .post, parameters: paramsDict).responseJSON { response in
@@ -221,6 +227,18 @@ class LoginViewController: GAITrackedViewController,UIAlertController_UIAlertVie
             textField.resignFirstResponder()
         }
         return true
+    }
+    
+    // MARK: - Navigation
+    
+    // In a storyboard-based application, you will often want to do a little preparation before navigation
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        // Get the new view controller using segue.destinationViewController.
+        // Pass the selected object to the new view controller.
+        if segue.identifier == "ForgotPasswordView" {
+            let logo = (segue.destination as! ForgotPasswordViewController)
+            logo.logoStr = self.logoImageStr
+        }
     }
     
 }

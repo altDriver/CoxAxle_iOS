@@ -4,7 +4,6 @@ platform :ios, "9.0"
 use_frameworks!
 
 target 'CoxAxle' do
-    #pod 'AFNetworking' , '3.0.4'
  pod 'Alamofire', '~> 4.0'
  pod 'JSONModel'
  pod 'EAIntroView', '~> 2.9.0'
@@ -19,6 +18,8 @@ target 'CoxAxle' do
  pod 'MSSimpleGauge'
  pod 'DKImagePickerController', :git => 'https://github.com/zhangao0086/DKImagePickerController.git', :branch => 'master'
  pod 'TTRangeSlider'
+ pod 'CAIVINScannerLite', :git => 'git@ghe.coxautoinc.com:MPDG/vinscannerlite_pod.git', :branch => 'master'
+ pod 'CCBottomRefreshControl'
 end
 
 target 'CoxAxleTests' do

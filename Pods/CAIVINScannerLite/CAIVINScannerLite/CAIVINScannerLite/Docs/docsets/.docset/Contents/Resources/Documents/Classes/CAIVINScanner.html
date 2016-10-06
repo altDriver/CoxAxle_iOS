@@ -1,0 +1,1181 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>CAIVINScanner Class Reference</title>
+    <link rel="stylesheet" type="text/css" href="../css/jazzy.css" />
+    <link rel="stylesheet" type="text/css" href="../css/highlight.css" />
+    <meta charset='utf-8'>
+    <script src="../js/jquery.min.js" defer></script>
+    <script src="../js/jazzy.js" defer></script>
+    
+  </head>
+  <body>
+    <a name="//apple_ref/swift/Class/CAIVINScanner" class="dashAnchor"></a>
+    <a title="CAIVINScanner Class Reference"></a>
+    <header>
+      <div class="content-wrapper">
+        <p><a href="../index.html"> Docs</a> (77% documented)</p>
+      </div>
+    </header>
+    <div class="content-wrapper">
+      <p id="breadcrumbs">
+        <a href="../index.html"> Reference</a>
+        <img id="carat" src="../img/carat.png" />
+        CAIVINScanner Class Reference
+      </p>
+    </div>
+    <div class="content-wrapper">
+      <nav class="sidebar">
+        <ul class="nav-groups">
+          <li class="nav-group-name">
+            <a href="../Classes.html">Classes</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Classes/CAIVINScanner.html">CAIVINScanner</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="../Enums.html">Enums</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Enums.html#/s:O13CAIVINScanner21CAIVINScannerLogLevel">CAIVINScannerLogLevel</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Enums.html#/s:O13CAIVINScanner12ScannerStyle">ScannerStyle</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="../Protocols.html">Protocols</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Protocols/CAIVINKeyboardDelegate.html">CAIVINKeyboardDelegate</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/CAIVINScannerDelegate.html">CAIVINScannerDelegate</a>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </nav>
+      <article class="main-content">
+        <section>
+          <section class="section">
+            <h1>CAIVINScanner</h1>
+              <div class="declaration">
+                <div class="language">
+                  <pre class="highlight"><code><span class="kd">public</span> <span class="kd">class</span> <span class="kt">CAIVINScanner</span><span class="p">:</span> <span class="kt">NSObject</span></code></pre>
+
+                </div>
+              </div>
+            <p>This class represents the public interface to the VIN scanner framework.</p>
+
+          </section>
+          <section class="section task-group-section">
+            <div class="task-group">
+              <div class="task-name-container">
+                <a name="/VIN%20Scanner%20Properties"></a>
+                <a name="//apple_ref/swift/Section/VIN Scanner Properties" class="dashAnchor"></a>
+                <a href="#/VIN%20Scanner%20Properties">
+                  <h3 class="section-name">VIN Scanner Properties</h3>
+                </a>
+              </div>
+              <ul>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:ZvC13CAIVINScanner13CAIVINScanner19backgroundFillColorCSo7UIColor"></a>
+                    <a name="//apple_ref/swift/Variable/backgroundFillColor" class="dashAnchor"></a>
+                    <a class="token" href="#/s:ZvC13CAIVINScanner13CAIVINScanner19backgroundFillColorCSo7UIColor">backgroundFillColor</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>The color that is used with a fill drawing command on the scanner&rsquo;s background</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">static</span> <span class="kd">public</span> <span class="k">var</span> <span class="nv">backgroundFillColor</span> <span class="o">=</span> <span class="kt">UIColor</span><span class="p">(</span><span class="nv">red</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="nv">green</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="nv">blue</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="nv">alpha</span><span class="p">:</span> <span class="mf">0.5</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:ZvC13CAIVINScanner13CAIVINScanner21backgroundBorderColorCSo7UIColor"></a>
+                    <a name="//apple_ref/swift/Variable/backgroundBorderColor" class="dashAnchor"></a>
+                    <a class="token" href="#/s:ZvC13CAIVINScanner13CAIVINScanner21backgroundBorderColorCSo7UIColor">backgroundBorderColor</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>The color that is used as the border color to the scanner&rsquo;s background.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">static</span> <span class="kd">public</span> <span class="k">var</span> <span class="nv">backgroundBorderColor</span> <span class="o">=</span> <span class="kt">UIColor</span><span class="o">.</span><span class="nf">blackColor</span><span class="p">()</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:ZvC13CAIVINScanner13CAIVINScanner14showHelpButtonSb"></a>
+                    <a name="//apple_ref/swift/Variable/showHelpButton" class="dashAnchor"></a>
+                    <a class="token" href="#/s:ZvC13CAIVINScanner13CAIVINScanner14showHelpButtonSb">showHelpButton</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>A boolean indicating whether or not to show the help button</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">static</span> <span class="kd">public</span> <span class="k">var</span> <span class="nv">showHelpButton</span> <span class="o">=</span> <span class="kc">false</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:ZvC13CAIVINScanner13CAIVINScanner18showKeyboardButtonSb"></a>
+                    <a name="//apple_ref/swift/Variable/showKeyboardButton" class="dashAnchor"></a>
+                    <a class="token" href="#/s:ZvC13CAIVINScanner13CAIVINScanner18showKeyboardButtonSb">showKeyboardButton</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>A boolean indicating whether or not to show the keyboard button</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">static</span> <span class="kd">public</span> <span class="k">var</span> <span class="nv">showKeyboardButton</span> <span class="o">=</span> <span class="kc">false</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:ZvC13CAIVINScanner13CAIVINScanner9logoImageGSqCSo7UIImage_"></a>
+                    <a name="//apple_ref/swift/Variable/logoImage" class="dashAnchor"></a>
+                    <a class="token" href="#/s:ZvC13CAIVINScanner13CAIVINScanner9logoImageGSqCSo7UIImage_">logoImage</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>The logo that appears in the top right of the scanner screen</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">static</span> <span class="kd">public</span> <span class="k">var</span> <span class="nv">logoImage</span> <span class="p">:</span> <span class="kt">UIImage</span><span class="p">?</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:ZvC13CAIVINScanner13CAIVINScanner9titleTextGSqSS_"></a>
+                    <a name="//apple_ref/swift/Variable/titleText" class="dashAnchor"></a>
+                    <a class="token" href="#/s:ZvC13CAIVINScanner13CAIVINScanner9titleTextGSqSS_">titleText</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>The text to use for the scanner&rsquo;s title</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">static</span> <span class="kd">public</span> <span class="k">var</span> <span class="nv">titleText</span> <span class="p">:</span> <span class="kt">String</span><span class="p">?</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:ZvC13CAIVINScanner13CAIVINScanner14titleLabelFontCSo6UIFont"></a>
+                    <a name="//apple_ref/swift/Variable/titleLabelFont" class="dashAnchor"></a>
+                    <a class="token" href="#/s:ZvC13CAIVINScanner13CAIVINScanner14titleLabelFontCSo6UIFont">titleLabelFont</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>The font to use for the scanner&rsquo;s title</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">static</span> <span class="kd">public</span> <span class="k">var</span> <span class="nv">titleLabelFont</span> <span class="o">=</span>  <span class="kt">UIFont</span><span class="o">.</span><span class="nf">boldSystemFontOfSize</span><span class="p">(</span><span class="mi">23</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:ZvC13CAIVINScanner13CAIVINScanner14titleTextColorCSo7UIColor"></a>
+                    <a name="//apple_ref/swift/Variable/titleTextColor" class="dashAnchor"></a>
+                    <a class="token" href="#/s:ZvC13CAIVINScanner13CAIVINScanner14titleTextColorCSo7UIColor">titleTextColor</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>The color to use for the Scanner&rsquo;s title text</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">static</span> <span class="kd">public</span> <span class="k">var</span> <span class="nv">titleTextColor</span> <span class="o">=</span> <span class="kt">UIColor</span><span class="o">.</span><span class="nf">whiteColor</span><span class="p">()</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:ZvC13CAIVINScanner13CAIVINScanner13alignmentTextGSqSS_"></a>
+                    <a name="//apple_ref/swift/Variable/alignmentText" class="dashAnchor"></a>
+                    <a class="token" href="#/s:ZvC13CAIVINScanner13CAIVINScanner13alignmentTextGSqSS_">alignmentText</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>The text to use for the scanner&rsquo;s alignment message</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">static</span> <span class="kd">public</span> <span class="k">var</span> <span class="nv">alignmentText</span> <span class="p">:</span> <span class="kt">String</span><span class="p">?</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:ZvC13CAIVINScanner13CAIVINScanner18alignmentLabelFontCSo6UIFont"></a>
+                    <a name="//apple_ref/swift/Variable/alignmentLabelFont" class="dashAnchor"></a>
+                    <a class="token" href="#/s:ZvC13CAIVINScanner13CAIVINScanner18alignmentLabelFontCSo6UIFont">alignmentLabelFont</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>The font to use  for the scanner&rsquo;s alignment message</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">static</span> <span class="kd">public</span> <span class="k">var</span> <span class="nv">alignmentLabelFont</span> <span class="o">=</span>  <span class="kt">UIFont</span><span class="o">.</span><span class="nf">systemFontOfSize</span><span class="p">(</span><span class="mi">12</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:ZvC13CAIVINScanner13CAIVINScanner18alignmentTextColorCSo7UIColor"></a>
+                    <a name="//apple_ref/swift/Variable/alignmentTextColor" class="dashAnchor"></a>
+                    <a class="token" href="#/s:ZvC13CAIVINScanner13CAIVINScanner18alignmentTextColorCSo7UIColor">alignmentTextColor</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>The color to use for the Scanner&rsquo;s alignment message text</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">static</span> <span class="kd">public</span> <span class="k">var</span> <span class="nv">alignmentTextColor</span> <span class="o">=</span> <span class="kt">UIColor</span><span class="o">.</span><span class="nf">whiteColor</span><span class="p">()</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:ZvC13CAIVINScanner13CAIVINScanner11targetColorCSo7UIColor"></a>
+                    <a name="//apple_ref/swift/Variable/targetColor" class="dashAnchor"></a>
+                    <a class="token" href="#/s:ZvC13CAIVINScanner13CAIVINScanner11targetColorCSo7UIColor">targetColor</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>The color of the scanner&rsquo;s target reticule</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">static</span> <span class="kd">public</span> <span class="k">var</span> <span class="nv">targetColor</span> <span class="o">=</span> <span class="kt">UIColor</span><span class="o">.</span><span class="nf">whiteColor</span><span class="p">()</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:ZvC13CAIVINScanner13CAIVINScanner15guidelinesColorCSo7UIColor"></a>
+                    <a name="//apple_ref/swift/Variable/guidelinesColor" class="dashAnchor"></a>
+                    <a class="token" href="#/s:ZvC13CAIVINScanner13CAIVINScanner15guidelinesColorCSo7UIColor">guidelinesColor</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>The color of the scanner&rsquo;s guidelines.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">static</span> <span class="kd">public</span> <span class="k">var</span> <span class="nv">guidelinesColor</span> <span class="o">=</span> <span class="kt">UIColor</span><span class="p">(</span><span class="nv">red</span><span class="p">:</span> <span class="mf">1.0</span><span class="p">,</span> <span class="nv">green</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="nv">blue</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="nv">alpha</span><span class="p">:</span> <span class="mf">0.4</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:ZvC13CAIVINScanner13CAIVINScanner21helpButtonNormalImageGSqCSo7UIImage_"></a>
+                    <a name="//apple_ref/swift/Variable/helpButtonNormalImage" class="dashAnchor"></a>
+                    <a class="token" href="#/s:ZvC13CAIVINScanner13CAIVINScanner21helpButtonNormalImageGSqCSo7UIImage_">helpButtonNormalImage</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>The image to use for the help button in the normal state</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">static</span> <span class="kd">public</span> <span class="k">var</span> <span class="nv">helpButtonNormalImage</span> <span class="p">:</span> <span class="kt">UIImage</span><span class="p">?</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:ZvC13CAIVINScanner13CAIVINScanner24helpButtonHighlightImageGSqCSo7UIImage_"></a>
+                    <a name="//apple_ref/swift/Variable/helpButtonHighlightImage" class="dashAnchor"></a>
+                    <a class="token" href="#/s:ZvC13CAIVINScanner13CAIVINScanner24helpButtonHighlightImageGSqCSo7UIImage_">helpButtonHighlightImage</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>The iamge to use for the help button in a highlighted state</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">static</span> <span class="kd">public</span> <span class="k">var</span> <span class="nv">helpButtonHighlightImage</span> <span class="p">:</span> <span class="kt">UIImage</span><span class="p">?</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:ZvC13CAIVINScanner13CAIVINScanner25keyboardButtonNormalImageGSqCSo7UIImage_"></a>
+                    <a name="//apple_ref/swift/Variable/keyboardButtonNormalImage" class="dashAnchor"></a>
+                    <a class="token" href="#/s:ZvC13CAIVINScanner13CAIVINScanner25keyboardButtonNormalImageGSqCSo7UIImage_">keyboardButtonNormalImage</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>The image to use for the keyboard button in the normal state</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">static</span> <span class="kd">public</span> <span class="k">var</span> <span class="nv">keyboardButtonNormalImage</span> <span class="p">:</span> <span class="kt">UIImage</span><span class="p">?</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:ZvC13CAIVINScanner13CAIVINScanner28keyboardButtonHighlightImageGSqCSo7UIImage_"></a>
+                    <a name="//apple_ref/swift/Variable/keyboardButtonHighlightImage" class="dashAnchor"></a>
+                    <a class="token" href="#/s:ZvC13CAIVINScanner13CAIVINScanner28keyboardButtonHighlightImageGSqCSo7UIImage_">keyboardButtonHighlightImage</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>The image to use for the keyboard button in a highlighted state</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">static</span> <span class="kd">public</span> <span class="k">var</span> <span class="nv">keyboardButtonHighlightImage</span> <span class="p">:</span> <span class="kt">UIImage</span><span class="p">?</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:ZvC13CAIVINScanner13CAIVINScanner23cancelButtonNormalImageGSqCSo7UIImage_"></a>
+                    <a name="//apple_ref/swift/Variable/cancelButtonNormalImage" class="dashAnchor"></a>
+                    <a class="token" href="#/s:ZvC13CAIVINScanner13CAIVINScanner23cancelButtonNormalImageGSqCSo7UIImage_">cancelButtonNormalImage</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>The image to use for the cancel button in the normal state</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">static</span> <span class="kd">public</span> <span class="k">var</span> <span class="nv">cancelButtonNormalImage</span> <span class="p">:</span> <span class="kt">UIImage</span><span class="p">?</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:ZvC13CAIVINScanner13CAIVINScanner26cancelButtonHighlightImageGSqCSo7UIImage_"></a>
+                    <a name="//apple_ref/swift/Variable/cancelButtonHighlightImage" class="dashAnchor"></a>
+                    <a class="token" href="#/s:ZvC13CAIVINScanner13CAIVINScanner26cancelButtonHighlightImageGSqCSo7UIImage_">cancelButtonHighlightImage</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>The image to use for the cancel button in a highlighted state</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">static</span> <span class="kd">public</span> <span class="k">var</span> <span class="nv">cancelButtonHighlightImage</span> <span class="p">:</span> <span class="kt">UIImage</span><span class="p">?</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:ZvC13CAIVINScanner13CAIVINScanner22flashButtonNormalImageGSqCSo7UIImage_"></a>
+                    <a name="//apple_ref/swift/Variable/flashButtonNormalImage" class="dashAnchor"></a>
+                    <a class="token" href="#/s:ZvC13CAIVINScanner13CAIVINScanner22flashButtonNormalImageGSqCSo7UIImage_">flashButtonNormalImage</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>The image to use for the flash button in the normal state</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">static</span> <span class="kd">public</span> <span class="k">var</span> <span class="nv">flashButtonNormalImage</span> <span class="p">:</span> <span class="kt">UIImage</span><span class="p">?</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:ZvC13CAIVINScanner13CAIVINScanner25flashButtonHighlightImageGSqCSo7UIImage_"></a>
+                    <a name="//apple_ref/swift/Variable/flashButtonHighlightImage" class="dashAnchor"></a>
+                    <a class="token" href="#/s:ZvC13CAIVINScanner13CAIVINScanner25flashButtonHighlightImageGSqCSo7UIImage_">flashButtonHighlightImage</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>The image to use for the flash button in a highlighted state</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">static</span> <span class="kd">public</span> <span class="k">var</span> <span class="nv">flashButtonHighlightImage</span> <span class="p">:</span> <span class="kt">UIImage</span><span class="p">?</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="task-group">
+              <div class="task-name-container">
+                <a name="/VIN%20Keyboard%20Properties"></a>
+                <a name="//apple_ref/swift/Section/VIN Keyboard Properties" class="dashAnchor"></a>
+                <a href="#/VIN%20Keyboard%20Properties">
+                  <h3 class="section-name">VIN Keyboard Properties</h3>
+                </a>
+              </div>
+              <ul>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:ZvC13CAIVINScanner13CAIVINScanner14keyBorderColorCSo7UIColor"></a>
+                    <a name="//apple_ref/swift/Variable/keyBorderColor" class="dashAnchor"></a>
+                    <a class="token" href="#/s:ZvC13CAIVINScanner13CAIVINScanner14keyBorderColorCSo7UIColor">keyBorderColor</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>The color to use as a key&rsquo;s border color</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">static</span> <span class="kd">public</span> <span class="k">var</span> <span class="nv">keyBorderColor</span> <span class="o">=</span> <span class="kt">UIColor</span><span class="o">.</span><span class="nf">lightGrayColor</span><span class="p">()</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:ZvC13CAIVINScanner13CAIVINScanner18keyBackgroundColorCSo7UIColor"></a>
+                    <a name="//apple_ref/swift/Variable/keyBackgroundColor" class="dashAnchor"></a>
+                    <a class="token" href="#/s:ZvC13CAIVINScanner13CAIVINScanner18keyBackgroundColorCSo7UIColor">keyBackgroundColor</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>The color to use as a key&rsquo;s background color</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">static</span> <span class="kd">public</span> <span class="k">var</span> <span class="nv">keyBackgroundColor</span> <span class="o">=</span> <span class="kt">UIColor</span><span class="o">.</span><span class="nf">whiteColor</span><span class="p">()</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:ZvC13CAIVINScanner13CAIVINScanner12keyTextColorCSo7UIColor"></a>
+                    <a name="//apple_ref/swift/Variable/keyTextColor" class="dashAnchor"></a>
+                    <a class="token" href="#/s:ZvC13CAIVINScanner13CAIVINScanner12keyTextColorCSo7UIColor">keyTextColor</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>The color to use for the key&rsquo;s character</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">static</span> <span class="kd">public</span> <span class="k">var</span> <span class="nv">keyTextColor</span> <span class="o">=</span> <span class="kt">UIColor</span><span class="o">.</span><span class="nf">blackColor</span><span class="p">()</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:ZvC13CAIVINScanner13CAIVINScanner20disabledKeyTextColorCSo7UIColor"></a>
+                    <a name="//apple_ref/swift/Variable/disabledKeyTextColor" class="dashAnchor"></a>
+                    <a class="token" href="#/s:ZvC13CAIVINScanner13CAIVINScanner20disabledKeyTextColorCSo7UIColor">disabledKeyTextColor</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>The color to use for a disabled key&rsquo;s border</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">static</span> <span class="kd">public</span> <span class="k">var</span> <span class="nv">disabledKeyTextColor</span> <span class="o">=</span> <span class="kt">UIColor</span><span class="o">.</span><span class="nf">lightGrayColor</span><span class="p">()</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:ZvC13CAIVINScanner13CAIVINScanner26disabledKeyBackgroundColorCSo7UIColor"></a>
+                    <a name="//apple_ref/swift/Variable/disabledKeyBackgroundColor" class="dashAnchor"></a>
+                    <a class="token" href="#/s:ZvC13CAIVINScanner13CAIVINScanner26disabledKeyBackgroundColorCSo7UIColor">disabledKeyBackgroundColor</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>THe color to use for a disabled key&rsquo;s background</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">static</span> <span class="kd">public</span> <span class="k">var</span> <span class="nv">disabledKeyBackgroundColor</span> <span class="o">=</span> <span class="kt">UIColor</span><span class="p">(</span><span class="nv">red</span><span class="p">:</span><span class="mf">0.82</span><span class="p">,</span> <span class="nv">green</span><span class="p">:</span><span class="mf">0.84</span><span class="p">,</span> <span class="nv">blue</span><span class="p">:</span><span class="mf">0.86</span><span class="p">,</span> <span class="nv">alpha</span><span class="p">:</span><span class="mf">1.0</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:ZvC13CAIVINScanner13CAIVINScanner23keyboardBackgroundColorCSo7UIColor"></a>
+                    <a name="//apple_ref/swift/Variable/keyboardBackgroundColor" class="dashAnchor"></a>
+                    <a class="token" href="#/s:ZvC13CAIVINScanner13CAIVINScanner23keyboardBackgroundColorCSo7UIColor">keyboardBackgroundColor</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>The color of the keyboard&rsquo;s background</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">static</span> <span class="kd">public</span> <span class="k">var</span> <span class="nv">keyboardBackgroundColor</span> <span class="o">=</span> <span class="kt">UIColor</span><span class="p">(</span><span class="nv">red</span><span class="p">:</span><span class="mf">0.71</span><span class="p">,</span> <span class="nv">green</span><span class="p">:</span><span class="mf">0.74</span><span class="p">,</span> <span class="nv">blue</span><span class="p">:</span><span class="mf">0.79</span><span class="p">,</span> <span class="nv">alpha</span><span class="p">:</span><span class="mf">1.0</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:ZvC13CAIVINScanner13CAIVINScanner23keyboardBackgroundImageGSqCSo7UIImage_"></a>
+                    <a name="//apple_ref/swift/Variable/keyboardBackgroundImage" class="dashAnchor"></a>
+                    <a class="token" href="#/s:ZvC13CAIVINScanner13CAIVINScanner23keyboardBackgroundImageGSqCSo7UIImage_">keyboardBackgroundImage</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Te image to use instead of the keyboard&rsquo;s background color</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">static</span> <span class="kd">public</span> <span class="k">var</span> <span class="nv">keyboardBackgroundImage</span> <span class="p">:</span> <span class="kt">UIImage</span><span class="p">?</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="task-group">
+              <div class="task-name-container">
+                <a name="/Starting%20and%20stopping%20the%20scanner"></a>
+                <a name="//apple_ref/swift/Section/Starting and stopping the scanner" class="dashAnchor"></a>
+                <a href="#/Starting%20and%20stopping%20the%20scanner">
+                  <h3 class="section-name">Starting and stopping the scanner</h3>
+                </a>
+              </div>
+              <ul>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:ZFC13CAIVINScanner13CAIVINScanner13startScanningFT_T_"></a>
+                    <a name="//apple_ref/swift/Method/startScanning()" class="dashAnchor"></a>
+                    <a class="token" href="#/s:ZFC13CAIVINScanner13CAIVINScanner13startScanningFT_T_">startScanning()</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>You can manually manage the activation of the scanning process. You this method to start
+the scanner. Note you must have called <code>scannerViewControllerWithStyle</code> before using this 
+method.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">static</span> <span class="kd">public</span> <span class="kd">func</span> <span class="nf">startScanning</span><span class="p">()</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:ZFC13CAIVINScanner13CAIVINScanner12stopScanningFT_T_"></a>
+                    <a name="//apple_ref/swift/Method/stopScanning()" class="dashAnchor"></a>
+                    <a class="token" href="#/s:ZFC13CAIVINScanner13CAIVINScanner12stopScanningFT_T_">stopScanning()</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>You can manually manage the activation of the scanning process. You this method to stop
+the scanner. Note you must have called <code>scannerViewControllerWithStyle</code> before using this
+method.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">static</span> <span class="kd">public</span> <span class="kd">func</span> <span class="nf">stopScanning</span><span class="p">()</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="task-group">
+              <div class="task-name-container">
+                <a name="/VIN%20Scanner"></a>
+                <a name="//apple_ref/swift/Section/VIN Scanner" class="dashAnchor"></a>
+                <a href="#/VIN%20Scanner">
+                  <h3 class="section-name">VIN Scanner</h3>
+                </a>
+              </div>
+              <ul>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:ZFC13CAIVINScanner13CAIVINScanner30scannerViewControllerWithStyleFTOS_12ScannerStyle8delegateGSqPs9AnyObject__10completionGSqFT7successSb3VINGSqSS_9didCancelSb_T___CSo16UIViewController"></a>
+                    <a name="//apple_ref/swift/Method/scannerViewControllerWithStyle(_:delegate:completion:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:ZFC13CAIVINScanner13CAIVINScanner30scannerViewControllerWithStyleFTOS_12ScannerStyle8delegateGSqPs9AnyObject__10completionGSqFT7successSb3VINGSqSS_9didCancelSb_T___CSo16UIViewController">scannerViewControllerWithStyle(_:delegate:completion:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Provides a VIN scanner of type <code>UIViewController</code>. You should provide either a delegate object or
+a completion handler. If you provide both, then the completion handler will be used and the delegate
+will be ignored.</p>
+
+<pre class="highlight plaintext"><code>// Example use:
+
+let VINScanner = CAIVINScanner.scannerViewControllerWithStyle(.Default, delegate: nil, completion: {(success, VIN, didCancel) in
+
+       if didCancel == true {
+           self.dismissViewControllerAnimated(true, completion: nil)
+       }
+
+
+       if success == true {
+           self.dismissViewControllerAnimated(true, completion: {
+
+           if let capturedVIN = VIN {
+               self.showVINCaptureAlert(capturedVIN)
+           }
+
+       })
+   }
+
+})
+
+</code></pre>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">static</span> <span class="kd">public</span> <span class="kd">func</span> <span class="nf">scannerViewControllerWithStyle</span><span class="p">(</span><span class="nv">style</span><span class="p">:</span> <span class="kt">ScannerStyle</span><span class="p">,</span> <span class="nv">delegate</span><span class="p">:</span> <span class="kt">AnyObject</span><span class="p">?,</span> <span class="nv">completion</span><span class="p">:</span> <span class="p">((</span><span class="nv">success</span><span class="p">:</span> <span class="kt">Bool</span><span class="p">,</span> <span class="kt">VIN</span><span class="p">:</span> <span class="kt">String</span><span class="p">?,</span> <span class="nv">didCancel</span><span class="p">:</span> <span class="kt">Bool</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Void</span><span class="p">)?)</span> <span class="o">-&gt;</span> <span class="kt">UIViewController</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>style</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The style to use for the scanner&rsquo;s user interface</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>delegate</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The object or type that acts as the delegate of the VIN scanner</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>completion</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The closure to excute on a successful or canceled scan</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>A view controller</p>
+
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="task-group">
+              <div class="task-name-container">
+                <a name="/VIN%20Keyboard"></a>
+                <a name="//apple_ref/swift/Section/VIN Keyboard" class="dashAnchor"></a>
+                <a href="#/VIN%20Keyboard">
+                  <h3 class="section-name">VIN Keyboard</h3>
+                </a>
+              </div>
+              <ul>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:ZFC13CAIVINScanner13CAIVINScanner20VINKeyboardInputViewFT9textFieldCSo11UITextField8delegateGSqPs9AnyObject___CSo6UIView"></a>
+                    <a name="//apple_ref/swift/Method/VINKeyboardInputView(textField:delegate:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:ZFC13CAIVINScanner13CAIVINScanner20VINKeyboardInputViewFT9textFieldCSo11UITextField8delegateGSqPs9AnyObject___CSo6UIView">VINKeyboardInputView(textField:delegate:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Returns an input view for use with a textField</p>
+
+<pre class="highlight plaintext"><code>// Example use: 
+
+let VINTextField = UITextField(frame: aFrame)
+
+let inputKeyboard = CAIVINScanner.VINKeyboardInputView(textField: VINTextField, delegate: self)
+
+VINTextField.inputView = inputKeyboard
+
+</code></pre>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">static</span> <span class="kd">public</span> <span class="kd">func</span> <span class="kt">VINKeyboardInputView</span><span class="p">(</span><span class="n">textField</span> <span class="nv">textField</span><span class="p">:</span> <span class="kt">UITextField</span><span class="p">,</span> <span class="nv">delegate</span><span class="p">:</span> <span class="kt">AnyObject</span><span class="p">?)</span> <span class="o">-&gt;</span> <span class="kt">UIView</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>textField</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The textField you want the keyboard to use for input</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>delegate</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The object or type that acts as the delegate of the VIN keyboard</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>The input view to use with the passed in textField.</p>
+
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:ZFC13CAIVINScanner13CAIVINScanner16resetVINKeyboardFCSo11UITextFieldT_"></a>
+                    <a name="//apple_ref/swift/Method/resetVINKeyboard(_:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:ZFC13CAIVINScanner13CAIVINScanner16resetVINKeyboardFCSo11UITextFieldT_">resetVINKeyboard(_:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Resets the keyboard to it&rsquo;s default state and clears the text from it&rsquo;s assoicated textField.
+If the input view of the textField is not the VIN Keyboard this method will do nothing.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">static</span> <span class="kd">public</span> <span class="kd">func</span> <span class="nf">resetVINKeyboard</span><span class="p">(</span><span class="nv">textfield</span><span class="p">:</span> <span class="kt">UITextField</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>textfield</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The textField for which the input view is the VIN Keyboard.</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </section>
+        </section>
+        <section id="footer">
+          <p>&copy; 2016 <a class="link" href="" target="_blank" rel="external">Cox Automotive Inc</a>. All rights reserved. (Last updated: 2016-08-31)</p>
+          <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.6.2</a>, a <a class="link" href="http://realm.io" target="_blank" rel="external">Realm</a> project.</p>
+        </section>
+      </article>
+    </div>
+  </body>
+</div>
+</html>

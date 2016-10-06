@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>CAIVINScannerDelegate Protocol Reference</title>
+    <link rel="stylesheet" type="text/css" href="../css/jazzy.css" />
+    <link rel="stylesheet" type="text/css" href="../css/highlight.css" />
+    <meta charset='utf-8'>
+    <script src="../js/jquery.min.js" defer></script>
+    <script src="../js/jazzy.js" defer></script>
+    
+  </head>
+  <body>
+    <a name="//apple_ref/swift/Protocol/CAIVINScannerDelegate" class="dashAnchor"></a>
+    <a title="CAIVINScannerDelegate Protocol Reference"></a>
+    <header>
+      <div class="content-wrapper">
+        <p><a href="../index.html"> Docs</a> (77% documented)</p>
+      </div>
+    </header>
+    <div class="content-wrapper">
+      <p id="breadcrumbs">
+        <a href="../index.html"> Reference</a>
+        <img id="carat" src="../img/carat.png" />
+        CAIVINScannerDelegate Protocol Reference
+      </p>
+    </div>
+    <div class="content-wrapper">
+      <nav class="sidebar">
+        <ul class="nav-groups">
+          <li class="nav-group-name">
+            <a href="../Classes.html">Classes</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Classes/CAIVINScanner.html">CAIVINScanner</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="../Enums.html">Enums</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Enums.html#/s:O13CAIVINScanner21CAIVINScannerLogLevel">CAIVINScannerLogLevel</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Enums.html#/s:O13CAIVINScanner12ScannerStyle">ScannerStyle</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="../Protocols.html">Protocols</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Protocols/CAIVINKeyboardDelegate.html">CAIVINKeyboardDelegate</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/CAIVINScannerDelegate.html">CAIVINScannerDelegate</a>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </nav>
+      <article class="main-content">
+        <section>
+          <section class="section">
+            <h1>CAIVINScannerDelegate</h1>
+              <div class="declaration">
+                <div class="language">
+                  <pre class="highlight"><code><span class="kd">public</span> <span class="kd">protocol</span> <span class="kt">CAIVINScannerDelegate</span></code></pre>
+
+                </div>
+              </div>
+            <p>The <code>CoxAutomotiveVINScannerDelegate</code> protocol is adopted by an object or type  to receive information 
+ about the VIN scanning process. This information is also provided via the use of completion handlers.</p>
+
+<p>Messages related to the scanner&rsquo;s user iterface are also sent to the delegate , allowing you to provide 
+your own implementations for handling help and keyboard display requests.</p>
+
+          </section>
+          <section class="section task-group-section">
+            <div class="task-group">
+              <ul>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:FP13CAIVINScanner21CAIVINScannerDelegate22scannerDidCompleteScanFT_T_"></a>
+                    <a name="//apple_ref/swift/Method/scannerDidCompleteScan()" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FP13CAIVINScanner21CAIVINScannerDelegate22scannerDidCompleteScanFT_T_">scannerDidCompleteScan()</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>A scan has be completed. This does not mean that the scan was successful, only that scanner completed
+the process of scanning a VIN.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">optional</span> <span class="kd">func</span> <span class="nf">scannerDidCompleteScan</span><span class="p">()</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:FP13CAIVINScanner21CAIVINScannerDelegate19scannerDidDecodeVINFSST_"></a>
+                    <a name="//apple_ref/swift/Method/scannerDidDecodeVIN(_:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FP13CAIVINScanner21CAIVINScannerDelegate19scannerDidDecodeVINFSST_">scannerDidDecodeVIN(_:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>A VIN has been successfully scanned and decoded into a string representation.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">optional</span> <span class="kd">func</span> <span class="nf">scannerDidDecodeVIN</span><span class="p">(</span><span class="kt">VIN</span><span class="p">:</span> <span class="kt">String</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>VIN</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The VIN number decoded by the scanner.</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:FP13CAIVINScanner21CAIVINScannerDelegate25scannerDidRequestKeyboardFT_T_"></a>
+                    <a name="//apple_ref/swift/Method/scannerDidRequestKeyboard()" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FP13CAIVINScanner21CAIVINScannerDelegate25scannerDidRequestKeyboardFT_T_">scannerDidRequestKeyboard()</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>The function called when the user interface has fired an event calling for keyboard functionality. 
+It is left to you to provide the requested keyboard. If the <code>showKeyboardButton</code> property is set
+to false the delegate will not receive this call.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">func</span> <span class="nf">scannerDidRequestKeyboard</span><span class="p">()</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:FP13CAIVINScanner21CAIVINScannerDelegate21scannerDidRequestHelpFT_T_"></a>
+                    <a name="//apple_ref/swift/Method/scannerDidRequestHelp()" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FP13CAIVINScanner21CAIVINScannerDelegate21scannerDidRequestHelpFT_T_">scannerDidRequestHelp()</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>The function called when the user interface has fired an event calling for help functionality. It is
+left to you to provide any help functionality. If the <code>showHelpButton</code> property is set
+to false the delegate will not receive this call.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">func</span> <span class="nf">scannerDidRequestHelp</span><span class="p">()</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </section>
+        </section>
+        <section id="footer">
+          <p>&copy; 2016 <a class="link" href="" target="_blank" rel="external">Cox Automotive Inc</a>. All rights reserved. (Last updated: 2016-08-31)</p>
+          <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.6.2</a>, a <a class="link" href="http://realm.io" target="_blank" rel="external">Realm</a> project.</p>
+        </section>
+      </article>
+    </div>
+  </body>
+</div>
+</html>

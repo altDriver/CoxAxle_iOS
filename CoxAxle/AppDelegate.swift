@@ -60,21 +60,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
         
         if #available(iOS 10.0, *) {
-           /* let center = UNUserNotificationCenter.current()
-            
-            center.requestAuthorization(options: [.alert, .sound, .badge]) { (granted, error) in
-                
-                // Enable or disable features based on authorization.
-                if granted == true
-                {
-                    print("Allow")
-                    UIApplication.shared.registerForRemoteNotifications()
-                }
-                else
-                {
-                    print("Don't Allow")
-                }
-            }*/
             DispatchQueue.main.async {
                 let settings = UIUserNotificationSettings(types: [.badge, .sound, .alert], categories: nil)
                 UIApplication.shared.registerUserNotificationSettings(settings)
@@ -84,7 +69,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             registerForPushNotifications(application)
         }
        
-
+        if Constant.Platform.isSimulator {
+           let deviceTokenString = "fd9deb706e78af16d5fb8d96c1174668b03908dedfa3d27aa2b9c77e424b62fc"
+            UserDefaults.standard.set(deviceTokenString, forKey: "Device_Token")
+            UserDefaults.standard.synchronize()
+        }
+        
         
         return true
     }
@@ -113,6 +103,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         self.saveContext()
     }
     
+    
     //MARK:- SETTING ROOTVIEWCONTROLLER
     func LoginView() {
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
@@ -135,13 +126,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
-        let characterSet :CharacterSet = CharacterSet(charactersIn: "<>")
-        let deviceTokenString: String = (deviceToken.description)
-            .trimmingCharacters(in: characterSet)
-            .replacingOccurrences(of: " ", with: "")
-        UserDefaults.standard.set(deviceTokenString, forKey: "Device_Token")
+        var token = ""
+        for i in 0..<deviceToken.count {
+            token = token + String(format: "%02.2hhx", arguments: [deviceToken[i]])
+        }
+        print(token)
+        UserDefaults.standard.set(token, forKey: "Device_Token")
         UserDefaults.standard.synchronize()
-        print(deviceTokenString)
     }
     
     func application(_ application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: Error) {

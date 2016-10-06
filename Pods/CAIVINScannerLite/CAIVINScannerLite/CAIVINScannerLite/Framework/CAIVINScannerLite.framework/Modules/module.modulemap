@@ -1,0 +1,13 @@
+framework module CAIVINScannerLite {
+
+	umbrella header "CAIVINScannerLite.h"
+
+	header "CAIVINScannerLite-Swift.h"
+	header "../vinscan/VaVinPrefixTable.h"
+	header"../vinscan/VaVinScanResult.h"
+	header "../vinscan/VaSimpleVinReader.h"
+	header "../vinscan/VaUIImageGrayData.h"
+
+	export *
+	module * { export * }
+}

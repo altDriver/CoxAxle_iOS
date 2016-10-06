@@ -12,6 +12,7 @@ class ColorBodyEngineTableViewCell: UITableViewCell {
 
     @IBOutlet var colorBodyEngineLabel: UILabel!
     
+    @IBOutlet var selectedValue: UILabel!
     @IBOutlet var disclosureButton: UIButton!
     
     override func awakeFromNib() {

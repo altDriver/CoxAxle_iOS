@@ -49,16 +49,15 @@ class SavedSearchesViewController: GAITrackedViewController, UITableViewDelegate
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-         let cell:UITableViewCell = self.tableView.dequeueReusableCell(withIdentifier: savedSearchesCellReuseIdentifier) as UITableViewCell!
+         let cell = self.tableView.dequeueReusableCell(withIdentifier: savedSearchesCellReuseIdentifier) as! SavedSearchTableViewCell!
         
-        let searchName: UILabel = cell.viewWithTag(151) as! UILabel
-        let searchTime: UILabel = cell.viewWithTag(152) as! UILabel
-        
-        searchName.text = savedSearchesArray[indexPath.row].value(forKey: "name") as? String
+        cell?.searchName.text = savedSearchesArray[indexPath.row].value(forKey: "name") as? String
         let time = (savedSearchesArray[indexPath.row].value(forKey: "date") as? String)?.convertDate()
-        searchTime.text = String(format: "Saved on %@", time!)
+       cell?.searchTime.text = String(format: "Saved on %@", time!)
+        cell?.searchDeleteButton.addTarget(self, action: #selector(SavedSearchesViewController.deleteSearch(sender:)), for: UIControlEvents.touchUpInside)
+        cell?.searchDeleteButton.tag = indexPath.row
         
-        return cell
+        return cell!
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
@@ -89,7 +88,7 @@ class SavedSearchesViewController: GAITrackedViewController, UITableViewDelegate
             let loading = UIActivityIndicatorView_ActivityClass(text: "Loading")
             self.view.addSubview(loading)
             let userId: String = UserDefaults.standard.object(forKey: "UserId") as! String
-            let paramsDict: [ String : String] = ["uid": userId] as Dictionary
+            let paramsDict: [ String : String] = ["uid": userId, "dealer_code": Constant.Dealer.DealerCode] as Dictionary
             print(NSString(format: "Request: %@", paramsDict))
             
             Alamofire.request(Constant.API.kBaseUrlPath+"savedsearch", method: .post, parameters: paramsDict).responseJSON
@@ -127,6 +126,78 @@ class SavedSearchesViewController: GAITrackedViewController, UITableViewDelegate
             let vc : AnyObject! = self.storyboard!.instantiateViewController(withIdentifier: "NoInternetConnection")
             self.present(vc as! UIViewController, animated: true, completion: nil)
         }
+    }
+    
+    func callDeleteSearchAPI(deleteDict: NSDictionary) -> Void {
+        if Reachability.isConnectedToNetwork() == true {
+            print("Internet connection OK")
+            
+            let tracker = GAI.sharedInstance().defaultTracker
+            let trackDictionary = GAIDictionaryBuilder.createEvent(withCategory: "API", action: "Delete Saved Searches List API Called", label: "Delete Saved Searches List", value: nil).build()
+            tracker?.send(trackDictionary as AnyObject as! [AnyHashable: Any])
+            
+            let loading = UIActivityIndicatorView_ActivityClass(text: "Loading")
+            self.view.addSubview(loading)
+            let userId: String = UserDefaults.standard.object(forKey: "UserId") as! String
+            let searchName = deleteDict.value(forKey: "name") as! String
+            let paramsDict: [ String : String] = ["uid": userId, "search_name": searchName, "dealer_code": Constant.Dealer.DealerCode] as Dictionary
+            print(NSString(format: "Request: %@", paramsDict))
+            
+            Alamofire.request(Constant.API.kBaseUrlPath+"removesearch", method: .post, parameters: paramsDict).responseJSON
+                { response in
+                    loading.hide()
+                    if let JSON = response.result.value {
+                        
+                        print(NSString(format: "Response: %@", JSON as! NSDictionary))
+                        let status = (JSON as AnyObject).value(forKey: "status") as! String
+                        if status == "True"  {
+                            do {
+                                let dict: SavedSearchesList = try SavedSearchesList(dictionary: JSON as! [AnyHashable: Any])
+                                
+                                self.savedSearchesArray = dict.response?.data as! Array<AnyObject>
+                                print(self.savedSearchesArray)
+                                DispatchQueue.main.async{
+                                    
+                                    self.tableView.reloadData()
+                                    
+                                }
+                            }
+                            catch let error as NSError {
+                                NSLog("Unresolved error \(error), \(error.userInfo)")
+                            }
+                        }
+                        else {
+                            let errorMsg = (JSON as AnyObject).value(forKey: "message") as! String
+                            self.showAlertwithCancelButton("Error", message: errorMsg as NSString, cancelButton: "OK")
+                        }
+                    }
+            }
+        }
+        else {
+            print("Internet connection FAILED")
+            let vc : AnyObject! = self.storyboard!.instantiateViewController(withIdentifier: "NoInternetConnection")
+            self.present(vc as! UIViewController, animated: true, completion: nil)
+        }
+    }
+    
+    //MARK:- UIBUTTON ACTIONS
+    func deleteSearch(sender: UIButton) -> Void {
+        let alertController = UIAlertController(title: "Delete", message: "Are you sure you want to delete this search?", preferredStyle: .alert)
+        
+        let defaultAction = UIAlertAction(title: "YES", style: .default, handler: { (action: UIAlertAction!) in
+            let dict = self.savedSearchesArray[sender.tag] as! NSDictionary
+            self.callDeleteSearchAPI(deleteDict: dict)
+        })
+        alertController.addAction(defaultAction)
+        
+        let otherAction = UIAlertAction(title: "NO", style: .default, handler: { (action: UIAlertAction!) in
+        })
+        alertController.addAction(otherAction)
+        
+        DispatchQueue.main.async(execute: {
+            self.present(alertController, animated: true, completion: nil)
+        })
+       
     }
     
     // MARK: - Navigation

@@ -21,6 +21,7 @@ class InventorySearchViewController: GAITrackedViewController, UIAlertController
     @IBOutlet var saveSearchNameButton: UIButton!
     @IBOutlet var cancelSearchNameButton: UIButton!
     
+    @IBOutlet var pickerMenuView: UIView!
     //MARK:- CELL REUSE IDENTIFIERS
     
     let basicFilterOptionsCellReuseIdentifier = "BasicFilterOptionsCell"
@@ -85,7 +86,7 @@ class InventorySearchViewController: GAITrackedViewController, UIAlertController
         
         self.searchNameView?.backgroundColor = UIColor.SlateColor().withAlphaComponent(0.7)
         self.searchNameView.isHidden = true
-        pkrView.isHidden = true
+        pickerMenuView.isHidden = true
         
         self.setViewBorder(saveSearchNameButton)
         self.setViewBorder(searchNameTextField)
@@ -107,19 +108,19 @@ class InventorySearchViewController: GAITrackedViewController, UIAlertController
     //MARK:- BUTTON ACTION METHODS
     
     @IBAction func makeButtonTapped(_ sender: AnyObject) {
-        pkrView.isHidden = false
+        pickerMenuView.isHidden = false
         pkrView.tag = 1
         self.setData(tag: 1)
     }
     
     @IBAction func modelButtonTapped(_ sender: AnyObject) {
-        pkrView.isHidden = false
+        pickerMenuView.isHidden = false
         pkrView.tag = 2
         self.setData(tag: 2)
     }
     
     @IBAction func yearButtonTapped(_ sender: AnyObject) {
-        pkrView.isHidden = false
+        pickerMenuView.isHidden = false
         pkrView.tag = 3
         self.setData(tag: 3)
     }
@@ -179,6 +180,26 @@ class InventorySearchViewController: GAITrackedViewController, UIAlertController
         return true
     }
     
+    @IBAction func doneButtonClicked(_ sender: UIButton) {
+        pickerMenuView.isHidden = true
+        
+        self.inventorySearchTableView.reloadData()
+    }
+    
+    func moreOptionsClicked() -> Void {
+        isMoreOptionsButtonSelected = !isMoreOptionsButtonSelected
+        isColorCellSelected = false
+        isBodyStyleCellSelected = false
+        isEngineTypeCellSelected = false
+        
+        if isMoreOptionsButtonSelected == true {
+            self.inventorySearchTableView.reloadData()
+            let indexPath = IndexPath(row: 6, section: 0)
+            self.inventorySearchTableView.scrollToRow(at: indexPath, at: UITableViewScrollPosition.middle, animated: true)
+        }
+        
+        self.inventorySearchTableView.reloadData()
+    }
     //MARK:- SETTING DATA
     
     func setData(tag: Int) -> Void {
@@ -203,7 +224,7 @@ class InventorySearchViewController: GAITrackedViewController, UIAlertController
             }
             else {
                 self.showAlertwithCancelButton("Alert", message: "Please select make", cancelButton: "OK")
-                self.pkrView.isHidden = true
+                self.pickerMenuView.isHidden = true
             }
         } else if tag == 3 {
             self.yearNamesArray.removeAll()
@@ -214,7 +235,7 @@ class InventorySearchViewController: GAITrackedViewController, UIAlertController
             }
             else {
                 self.showAlertwithCancelButton("Alert", message: "No Years found for this model", cancelButton: "OK")
-                self.pkrView.isHidden = true
+                self.pickerMenuView.isHidden = true
             }
         }
         else if tag == 4 {
@@ -223,6 +244,8 @@ class InventorySearchViewController: GAITrackedViewController, UIAlertController
                 for (_, value) in self.extColorGroupsArray.enumerated() {
                     self.colorsNamesArray.append(value.value(forKey: "name")! as! String)
                 }
+                
+              //  self.selectedColor = self.colorsNamesArray[0]
             }
             else {
                 //                self.showAlertwithCancelButton("Alert", message: "Please select color for this model", cancelButton: "OK")
@@ -234,6 +257,8 @@ class InventorySearchViewController: GAITrackedViewController, UIAlertController
                 for (_, value) in self.stylesArray.enumerated() {
                     self.styleNamesArray.append(value.value(forKey: "name")! as! String)
                 }
+                
+              //  self.selectedStyle = self.styleNamesArray[0]
             }
             else {
                 //                self.showAlertwithCancelButton("Alert", message: "No Styles found for this model", cancelButton: "OK")
@@ -245,6 +270,8 @@ class InventorySearchViewController: GAITrackedViewController, UIAlertController
                 for (_, value) in self.engineGroupsArray.enumerated() {
                     self.engineGroupsNamesArray.append(value.value(forKey: "name")! as! String)
                 }
+                
+             //   self.selectedEngineType = self.engineGroupsNamesArray[0]
             }
             else {
                 //                self.showAlertwithCancelButton("Alert", message: "No Engine Groups found for this model", cancelButton: "OK")
@@ -315,19 +342,26 @@ class InventorySearchViewController: GAITrackedViewController, UIAlertController
             cell?.selectionStyle = UITableViewCellSelectionStyle.none
             
             cell?.rangeSliderCustom.minValue = 0
-            cell?.rangeSliderCustom.maxValue = 50000
+            cell?.rangeSliderCustom.maxValue = 100000
+            
+            let formatter = NumberFormatter()
+            formatter.numberStyle = .currency
+            formatter.positivePrefix = "$"
+            cell?.rangeSliderCustom.numberFormatterOverride = formatter
             
             if selectedPriceMinValue != nil {
                 
                 cell?.rangeSliderCustom.selectedMinimum = NSString(string: self.selectedPriceMinValue!).floatValue
             } else {
                 cell?.rangeSliderCustom.selectedMinimum = 0
+                self.selectedPriceMinValue = "0.0"
             }
             if selectedPriceMaxValue != nil {
                 
                 cell?.rangeSliderCustom.selectedMaximum = NSString(string: self.selectedPriceMaxValue!).floatValue
             } else {
-                cell?.rangeSliderCustom.selectedMaximum = 50000
+                cell?.rangeSliderCustom.selectedMaximum = 100000
+                self.selectedPriceMaxValue = "100000.00"
             }
             
             cell?.sliderTitleLabel.text = "Price"
@@ -341,15 +375,22 @@ class InventorySearchViewController: GAITrackedViewController, UIAlertController
             cell?.rangeSliderCustom.minValue = 0
             cell?.rangeSliderCustom.maxValue = 50000
             
+            let formatter = NumberFormatter()
+            formatter.numberStyle = .none
+            formatter.positivePrefix = ""
+            cell?.rangeSliderCustom.numberFormatterOverride = formatter
+            
             if selectedMileageMinValue != nil {
                 cell?.rangeSliderCustom.selectedMinimum = NSString(string: self.selectedMileageMinValue!).floatValue
             } else {
                 cell?.rangeSliderCustom.selectedMinimum = 0
+                self.selectedMileageMinValue = "0.0"
             }
             if selectedMileageMaxValue != nil {
                 cell?.rangeSliderCustom.selectedMaximum = NSString(string: self.selectedMileageMaxValue!).floatValue
             } else {
                 cell?.rangeSliderCustom.selectedMaximum = 50000
+                self.selectedMileageMaxValue = "50000.00"
             }
             
             cell?.sliderTitleLabel.text = "Mileage"
@@ -367,6 +408,8 @@ class InventorySearchViewController: GAITrackedViewController, UIAlertController
                 cell?.moreOptionsButton.setImage(UIImage(named: "addVehicleBtnPlus.png"), for: .normal)
             }
             
+            cell?.moreOptionsButton.addTarget(self, action: #selector(InventorySearchViewController.moreOptionsClicked), for: .touchUpInside)
+            cell?.selectionStyle = UITableViewCellSelectionStyle.none
             return cell!
             
         case 4:
@@ -379,6 +422,7 @@ class InventorySearchViewController: GAITrackedViewController, UIAlertController
                 cell?.disclosureButton.setImage(UIImage(named: "learnMoreArrow.png"), for: .normal)
             }
             
+            cell?.selectedValue.text = self.selectedColor
             return cell!
             
         case 5:
@@ -401,6 +445,7 @@ class InventorySearchViewController: GAITrackedViewController, UIAlertController
                 cell?.disclosureButton.setImage(UIImage(named: "learnMoreArrow.png"), for: .normal)
             }
             
+            cell?.selectedValue.text = self.selectedStyle
             return cell!
             
         case 7:
@@ -423,6 +468,7 @@ class InventorySearchViewController: GAITrackedViewController, UIAlertController
                 cell?.disclosureButton.setImage(UIImage(named: "learnMoreArrow.png"), for: .normal)
             }
             
+            cell?.selectedValue.text = self.selectedEngineType
             return cell!
             
         case 9:
@@ -442,19 +488,6 @@ class InventorySearchViewController: GAITrackedViewController, UIAlertController
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         switch indexPath.row {
-        case 3:
-            
-            isMoreOptionsButtonSelected = !isMoreOptionsButtonSelected
-            isColorCellSelected = false
-            isBodyStyleCellSelected = false
-            isEngineTypeCellSelected = false
-            
-            if isMoreOptionsButtonSelected == true {
-                self.inventorySearchTableView.reloadData()
-                let indexPath = IndexPath(row: 6, section: 0)
-                self.inventorySearchTableView.scrollToRow(at: indexPath, at: UITableViewScrollPosition.middle, animated: true)
-            }
-            
         case 4:
             
             isColorCellSelected = !isColorCellSelected
@@ -462,6 +495,9 @@ class InventorySearchViewController: GAITrackedViewController, UIAlertController
             isEngineTypeCellSelected = false
             
             if isColorCellSelected == true {
+                if self.selectedColor == nil {
+                   self.selectedColor = self.colorsNamesArray[0]
+                }
                 self.inventorySearchTableView.reloadData()
                 let indexPath = IndexPath(row: 5, section: 0)
                 self.inventorySearchTableView.scrollToRow(at: indexPath, at: UITableViewScrollPosition.bottom, animated: true)
@@ -474,6 +510,9 @@ class InventorySearchViewController: GAITrackedViewController, UIAlertController
             isEngineTypeCellSelected = false
             
             if isBodyStyleCellSelected == true {
+                if self.selectedStyle == nil {
+                   self.selectedStyle = self.styleNamesArray[0]
+                }
                 self.inventorySearchTableView.reloadData()
                 let indexPath = IndexPath(row: 7, section: 0)
                 self.inventorySearchTableView.scrollToRow(at: indexPath, at: UITableViewScrollPosition.bottom, animated: true)
@@ -486,6 +525,9 @@ class InventorySearchViewController: GAITrackedViewController, UIAlertController
             isBodyStyleCellSelected = false
             
             if isEngineTypeCellSelected == true {
+                if self.selectedEngineType == nil {
+                     self.selectedEngineType = self.engineGroupsNamesArray[0]
+                }
                 self.inventorySearchTableView.reloadData()
                 let indexPath = IndexPath(row: 9, section: 0)
                 self.inventorySearchTableView.scrollToRow(at: indexPath, at: UITableViewScrollPosition.bottom, animated: true)
@@ -581,21 +623,24 @@ class InventorySearchViewController: GAITrackedViewController, UIAlertController
             
         else if pickerView.tag == 4 {
             self.selectedColor = self.colorsNamesArray[row]
-            self.isColorCellSelected = false
+           // self.isColorCellSelected = false
+            self.inventorySearchTableView.reloadData()
         }
             
         else if pickerView.tag == 5 {
             self.selectedStyle = self.styleNamesArray[row]
-            self.isBodyStyleCellSelected = false
+           // self.isBodyStyleCellSelected = false
+            self.inventorySearchTableView.reloadData()
         }
             
         else {
             self.selectedEngineType = self.engineGroupsNamesArray[row]
-            self.isEngineTypeCellSelected = false
+           // self.isEngineTypeCellSelected = false
+            self.inventorySearchTableView.reloadData()
         }
         
-        pickerView.isHidden = true
-        self.inventorySearchTableView.reloadData()
+       // pickerView.isHidden = true
+       // self.inventorySearchTableView.reloadData()
     }
     
     // MARK: - Navigation
@@ -612,6 +657,8 @@ class InventorySearchViewController: GAITrackedViewController, UIAlertController
             searchDetails.color = self.selectedColor ?? ""
             searchDetails.style = self.selectedStyle ?? ""
             searchDetails.engineGroup = self.selectedEngineType ?? ""
+            searchDetails.price = String(format: "%@-%@", self.selectedPriceMinValue!, self.selectedPriceMaxValue!) 
+            searchDetails.mileage = String(format: "%@-%@", self.selectedMileageMinValue!, self.selectedMileageMaxValue!) 
         }
     }
     
@@ -642,6 +689,7 @@ class InventorySearchViewController: GAITrackedViewController, UIAlertController
                                 self.intColorGroupsArray = dict.response?.intColorGroups as! Array<AnyObject>
                                 self.stylesArray = dict.response?.styles as! Array<AnyObject>
                                 self.yearsArray = dict.response?.years as! Array<AnyObject>
+                                
                                 
                             }
                             catch let error as NSError {
@@ -676,6 +724,8 @@ class InventorySearchViewController: GAITrackedViewController, UIAlertController
             let color = self.selectedColor ?? ""
             let style = self.selectedStyle ?? ""
             let engine = self.selectedEngineType ?? ""
+            let price = String(format: "%@-%@", self.selectedPriceMinValue!, self.selectedPriceMaxValue!)
+            let mileage = String(format: "%@-%@", self.selectedMileageMinValue!, self.selectedMileageMaxValue!)
             
             let paramsDict: [ String : String] = ["uid": userId,
                                                   "make": make,
@@ -684,7 +734,10 @@ class InventorySearchViewController: GAITrackedViewController, UIAlertController
                                                   "color": color,
                                                   "style": style,
                                                   "engineGroup": engine,
-                                                  "search_name": searchName] as Dictionary
+                                                  "search_name": searchName,
+                                                  "price": price,
+                                                  "mileage": mileage,
+                                                  "dealer_code": Constant.Dealer.DealerCode] as Dictionary
             print(NSString(format: "Request: %@", paramsDict))
             
             Alamofire.request(Constant.API.kBaseUrlPath+"savesearch", method: .post, parameters: paramsDict).responseJSON

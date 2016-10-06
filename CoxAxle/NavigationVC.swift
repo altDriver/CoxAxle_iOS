@@ -12,9 +12,7 @@ class NavigationVC: UINavigationController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-         if UserDefaults.standard.bool(forKey: "USER_LOGGED_IN") {
       //  self.view.addGestureRecognizer(UIPanGestureRecognizer(target: self, action: #selector(self.panGestureRecognized)))
-        }
 
         // Do any additional setup after loading the view.
     }

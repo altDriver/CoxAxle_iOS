@@ -9,6 +9,7 @@
 import UIKit
 import Alamofire
 import SMFloatingLabelTextField
+import SDWebImage
 
 class ForgotPasswordViewController: UIViewController, UIAlertController_UIAlertView {
 
@@ -17,7 +18,9 @@ class ForgotPasswordViewController: UIViewController, UIAlertController_UIAlertV
     @IBOutlet var resetPasswordButton: UIButton!
     
     var language: String?
+    var logoStr: String?
 
+    @IBOutlet var logoImageView: UIImageView!
     //MARK:- VIEW LIFECYCLE METHODS
     
     override func viewDidLoad() {
@@ -26,6 +29,8 @@ class ForgotPasswordViewController: UIViewController, UIAlertController_UIAlertV
         self.navigationController?.isNavigationBarHidden = true
         emailTextField.layer.cornerRadius = 5
         self.setText()
+        
+         self.logoImageView.setImageWith(URL(string: logoStr!), placeholderImage: nil, options: SDWebImageOptions(rawValue: UInt(0)), usingActivityIndicatorStyle: UIActivityIndicatorViewStyle.gray)
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -80,7 +85,7 @@ class ForgotPasswordViewController: UIViewController, UIAlertController_UIAlertV
                 let loading = UIActivityIndicatorView_ActivityClass(text: "Loading".localized(self.language!))
                 self.view.addSubview(loading)
                 
-                let paramsDict: [ String : String] = ["email": self.emailTextField.text! as String] as Dictionary
+                let paramsDict: [ String : String] = ["email": self.emailTextField.text! as String, "dealer_code": Constant.Dealer.DealerCode] as Dictionary
                 print(NSString(format: "Request: %@", paramsDict))
                 
                 Alamofire.request(Constant.API.kBaseUrlPath+"customer/resetpassword", method: .post, parameters: paramsDict).responseJSON { response in

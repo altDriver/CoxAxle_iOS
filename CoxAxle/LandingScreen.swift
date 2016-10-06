@@ -11,6 +11,7 @@ import MessageUI
 import MapKit
 import Alamofire
 import UIActivityIndicator_for_SDWebImage
+import CAIVINScannerLite
 
 class LandingScreen: GAITrackedViewController,UITableViewDataSource, UITableViewDelegate, UICollectionViewDataSource, UICollectionViewDelegate, UIScrollViewDelegate, UIAlertController_UIAlertView, MFMailComposeViewControllerDelegate  {
     
@@ -38,7 +39,7 @@ class LandingScreen: GAITrackedViewController,UITableViewDataSource, UITableView
     
     //MARK:- LIFE CYCLE METHODS
     override func viewDidLoad() {
-
+        
         self.screenName = "LandingScreen"
         self.callDealersListAPI()
         self.alreadyLoaded = false
@@ -50,32 +51,25 @@ class LandingScreen: GAITrackedViewController,UITableViewDataSource, UITableView
     }
     
     override func viewWillAppear(_ animated: Bool) {
-       
+        
         self.navigationController?.isNavigationBarHidden = false
-        if UserDefaults.standard.bool(forKey: "USER_LOGGED_IN") {
             self.callFetchMyCarsAPI()
             self.hamBurgerButton.isHidden = false
-        }
-        else {
-            self.hamBurgerButton.isHidden = true
-        }
-       
+        
         if UserDefaults.standard.bool(forKey: "SESSION_EXPIRED") {
             let vc : AnyObject! = self.storyboard!.instantiateViewController(withIdentifier: "SessionExpired")
             self.present(vc as! UIViewController, animated: true, completion: nil)
         }
         
         if UserDefaults.standard.bool(forKey: "CALL_API") {
-            if UserDefaults.standard.bool(forKey: "USER_LOGGED_IN") {
                 UserDefaults.standard.set(false, forKey: "CALL_API")
                 UserDefaults.standard.synchronize()
                 self.callFetchMyCarsAPI()
-                
-            }
+            
         }
         
         NotificationCenter.default.addObserver(self, selector: #selector(LandingScreen.reloadCollectionView), name: NSNotification.Name(rawValue: "VehicleAdded"), object: nil)
-         super.viewWillAppear(animated)
+        super.viewWillAppear(animated)
         
     }
     
@@ -106,39 +100,20 @@ class LandingScreen: GAITrackedViewController,UITableViewDataSource, UITableView
         }
     }
     
-//    @IBAction func btnSideMenuPressed(sender: UIButton) {
-//        sideMenuVC.toggleMenu()
-//    }
+    //    @IBAction func btnSideMenuPressed(sender: UIButton) {
+    //        sideMenuVC.toggleMenu()
+    //    }
     
     func addButtonClicked() -> Void {
-        if UserDefaults.standard.bool(forKey: "USER_LOGGED_IN") {
             if self.vehiclesArray.count >= 5 {
                 self.showAlertwithCancelButton("Alert", message: "You can't add more than 5 vehicles. Please delete vehicles before adding a vehicle", cancelButton: "OK")
             }
             else {
-            self.navigationItem.backBarButtonItem = UIBarButtonItem(title: " ", style: .plain, target: nil, action: nil)
+                self.navigationItem.backBarButtonItem = UIBarButtonItem(title: " ", style: .plain, target: nil, action: nil)
                 DispatchQueue.main.async {
                     self.performSegue(withIdentifier: "AddVehicle", sender: self)
                 }
-           }
-        }
-        else {
-            
-            let alertController = UIAlertController(title: "CoxAxle", message: "Please log in into the coxaxle application in order to use the services", preferredStyle: .alert)
-            
-            let defaultAction = UIAlertAction(title: "OK", style: .default, handler: { (action: UIAlertAction!) in
-                
-            })
-            alertController.addAction(defaultAction)
-            
-            let otherAction = UIAlertAction(title: "Cancel", style: .default, handler: { (action: UIAlertAction!) in
-            })
-            alertController.addAction(otherAction)
-            
-            DispatchQueue.main.async(execute: {
-                self.present(alertController, animated: true, completion: nil)
-            })
-        }
+            }
     }
     
     
@@ -146,7 +121,7 @@ class LandingScreen: GAITrackedViewController,UITableViewDataSource, UITableView
         
         let alertController = UIAlertController(title: "CoxAxle", message: "Call Dealer", preferredStyle: .actionSheet)
         
-        let mainNumber = String(format: "Main %@", self.dealerDict?.value(forKey: "main_contact_number") as! String)
+        let mainNumber = String(format: "Main: %@", self.dealerDict?.value(forKey: "main_contact_number") as! String)
         let mainAction = UIAlertAction(title: mainNumber, style: .default, handler: { (action: UIAlertAction!) in
             DispatchQueue.main.async {
                 self.callNumber(phoneNumber: mainNumber)
@@ -154,7 +129,7 @@ class LandingScreen: GAITrackedViewController,UITableViewDataSource, UITableView
         })
         alertController.addAction(mainAction)
         
-        let saleNumber = String(format: "Sale %@", self.dealerDict?.value(forKey: "sale_contact") as! String)
+        let saleNumber = String(format: "Sales: %@", self.dealerDict?.value(forKey: "sale_contact") as! String)
         let saleAction = UIAlertAction(title: saleNumber, style: .default, handler: { (action: UIAlertAction!) in
             DispatchQueue.main.async {
                 self.callNumber(phoneNumber: saleNumber)
@@ -162,7 +137,7 @@ class LandingScreen: GAITrackedViewController,UITableViewDataSource, UITableView
         })
         alertController.addAction(saleAction)
         
-        let serviceNumber = String(format: "Service %@", self.dealerDict?.value(forKey: "service_desk_contact") as! String)
+        let serviceNumber = String(format: "Service: %@", self.dealerDict?.value(forKey: "service_desk_contact") as! String)
         let serviceAction = UIAlertAction(title: serviceNumber, style: .default, handler: { (action: UIAlertAction!) in
             DispatchQueue.main.async {
                 self.callNumber(phoneNumber: serviceNumber)
@@ -170,7 +145,7 @@ class LandingScreen: GAITrackedViewController,UITableViewDataSource, UITableView
         })
         alertController.addAction(serviceAction)
         
-        let collisionNumber = String(format: "Collision %@", self.dealerDict?.value(forKey: "collision_desk_contact") as! String)
+        let collisionNumber = String(format: "Collision: %@", self.dealerDict?.value(forKey: "collision_desk_contact") as! String)
         let collisionAction = UIAlertAction(title: collisionNumber, style: .default, handler: { (action: UIAlertAction!) in
             DispatchQueue.main.async {
                 self.callNumber(phoneNumber: collisionNumber)
@@ -186,35 +161,34 @@ class LandingScreen: GAITrackedViewController,UITableViewDataSource, UITableView
             self.present(alertController, animated: true, completion: nil)
         })
         
-       
     }
     
     func callNumber(phoneNumber: String) -> Void {
-         var phoneNumber = phoneNumber
-         phoneNumber = phoneNumber.replacingOccurrences(of: "(", with: "")
-         phoneNumber = phoneNumber.replacingOccurrences(of: ")", with: "")
-         phoneNumber = phoneNumber.replacingOccurrences(of: "-", with: "")
-         phoneNumber = phoneNumber.replacingOccurrences(of: " ", with: "")
-         phoneNumber = phoneNumber.replacingOccurrences(of: "Main", with: "")
-         phoneNumber = phoneNumber.replacingOccurrences(of: "Sale", with: "")
-         phoneNumber = phoneNumber.replacingOccurrences(of: "Service", with: "")
-         phoneNumber = phoneNumber.replacingOccurrences(of: "Collision", with: "")
-         
-         let phoneUrl: URL = URL(string: "telprompt:\(phoneNumber)")!
-         if UIApplication.shared.canOpenURL(phoneUrl) {
-         UIApplication.shared.openURL(phoneUrl)
-         }
-         else {
-         self.showAlertwithCancelButton("Error", message: "Call facility is not available!!!", cancelButton: "OK")
-         }
+        var phoneNumber = phoneNumber
+        phoneNumber = phoneNumber.replacingOccurrences(of: "(", with: "")
+        phoneNumber = phoneNumber.replacingOccurrences(of: ")", with: "")
+        phoneNumber = phoneNumber.replacingOccurrences(of: "-", with: "")
+        phoneNumber = phoneNumber.replacingOccurrences(of: " ", with: "")
+        phoneNumber = phoneNumber.replacingOccurrences(of: "Main:", with: "")
+        phoneNumber = phoneNumber.replacingOccurrences(of: "Sales:", with: "")
+        phoneNumber = phoneNumber.replacingOccurrences(of: "Service:", with: "")
+        phoneNumber = phoneNumber.replacingOccurrences(of: "Collision:", with: "")
+        
+        let phoneUrl: URL = URL(string: "telprompt:\(phoneNumber)")!
+        if UIApplication.shared.canOpenURL(phoneUrl) {
+            UIApplication.shared.openURL(phoneUrl)
+        }
+        else {
+            self.showAlertwithCancelButton("Error", message: "Call facility is not available!!!", cancelButton: "OK")
+        }
     }
-   
+    
     func emailButtonClicked(_ sender: UIButton) {
         let mailComposeViewController = configuredMailComposeViewController()
         if MFMailComposeViewController.canSendMail() {
             self.present(mailComposeViewController, animated: true, completion: nil)
         } else {
-//            self.showAlertwithCancelButton("Could Not Send Email", message: "Your device could not send e-mail.  Please check e-mail configuration and try again.", cancelButton: "OK")
+            //            self.showAlertwithCancelButton("Could Not Send Email", message: "Your device could not send e-mail.  Please check e-mail configuration and try again.", cancelButton: "OK")
         }
     }
     
@@ -241,7 +215,7 @@ class LandingScreen: GAITrackedViewController,UITableViewDataSource, UITableView
             } else {
                 self.showAlertwithCancelButton("Error", message: "Cannot use Apple maps", cancelButton: "OK")
             }
-           
+            
         })
         alertController.addAction(defaultAction)
         
@@ -256,29 +230,10 @@ class LandingScreen: GAITrackedViewController,UITableViewDataSource, UITableView
     }
     
     @IBAction func notificationButtonClicked(_ sender: UIButton) {
-        if UserDefaults.standard.bool(forKey: "USER_LOGGED_IN") {
-        self.showAlertwithCancelButton("CoxAxle", message: "Functionality in progress", cancelButton: "OK")
-        }
-        else {
-            
-            let alertController = UIAlertController(title: "CoxAxle", message: "Please log in into the coxaxle application in order to use the services", preferredStyle: .alert)
-            
-            let defaultAction = UIAlertAction(title: "OK", style: .default, handler: { (action: UIAlertAction!) in
-               
-            })
-            alertController.addAction(defaultAction)
-            
-            let otherAction = UIAlertAction(title: "Cancel", style: .default, handler: { (action: UIAlertAction!) in
-            })
-            alertController.addAction(otherAction)
-            
-            DispatchQueue.main.async(execute: {
-                self.present(alertController, animated: true, completion: nil)
-            })
-        }
+            self.showAlertwithCancelButton("CoxAxle", message: "Functionality in progress", cancelButton: "OK")
     }
     
-   func reloadCollectionView() -> Void {
+    func reloadCollectionView() -> Void {
         self.alreadyLoaded = true
     }
     
@@ -307,13 +262,13 @@ class LandingScreen: GAITrackedViewController,UITableViewDataSource, UITableView
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         switch (indexPath as NSIndexPath).section {
         case 0:
-             let cell = self.tableView.dequeueReusableCell(withIdentifier: bannerReuseIdentifier) as! BannerTableViewCell!
-             
-             cell?.bannerCollectionView.tag = 1
-             cell?.bannerCollectionView.backgroundColor = UIColor.WhiteColor()
-             
-             self.bannerCollectionView = cell?.bannerCollectionView
-             self.bannerPageControl = cell?.pageControl
+            let cell = self.tableView.dequeueReusableCell(withIdentifier: bannerReuseIdentifier) as! BannerTableViewCell!
+            
+            cell?.bannerCollectionView.tag = 1
+            cell?.bannerCollectionView.backgroundColor = UIColor.WhiteColor()
+            
+            self.bannerCollectionView = cell?.bannerCollectionView
+            self.bannerPageControl = cell?.pageControl
             return cell!
         case 1:
             let cell:UITableViewCell = self.tableView.dequeueReusableCell(withIdentifier: dealerReuseIdentifier) as UITableViewCell!
@@ -323,9 +278,9 @@ class LandingScreen: GAITrackedViewController,UITableViewDataSource, UITableView
             
             switch (indexPath as NSIndexPath).row {
             case 0:
-                  cellImageView.image = UIImage(named: "calendarIcon")
-                  cellTitle.text = "Schedule Appointment".localized(self.language!)
-                  break
+                cellImageView.image = UIImage(named: "calendarIcon")
+                cellTitle.text = "Schedule Appointment".localized(self.language!)
+                break
             case 1:
                 cellImageView.image = UIImage(named: "serviceHistoryIcon")
                 cellTitle.text = "Service History".localized(self.language!)
@@ -333,13 +288,7 @@ class LandingScreen: GAITrackedViewController,UITableViewDataSource, UITableView
             default:
                 break
             }
-        
-            if UserDefaults.standard.bool(forKey: "USER_LOGGED_IN") {
-                cell.isUserInteractionEnabled = true
-            }
-            else {
-                cell.isUserInteractionEnabled = false
-            }
+            
             return cell
         case 2:
             let cell = self.tableView.dequeueReusableCell(withIdentifier: myCarsReuseIdentifier) as! MyCarsTableViewCell!
@@ -354,12 +303,6 @@ class LandingScreen: GAITrackedViewController,UITableViewDataSource, UITableView
                 self.myCarsPageControl.numberOfPages = self.vehiclesArray.count
             }
             
-            if UserDefaults.standard.bool(forKey: "USER_LOGGED_IN") {
-                cell?.isUserInteractionEnabled = true
-            }
-            else {
-                cell?.isUserInteractionEnabled = false
-            }
             return cell!
         case 3:
             let cell:UITableViewCell = self.tableView.dequeueReusableCell(withIdentifier: dealerReuseIdentifier) as UITableViewCell!
@@ -409,15 +352,15 @@ class LandingScreen: GAITrackedViewController,UITableViewDataSource, UITableView
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         switch (indexPath as NSIndexPath).section {
         case 0:
-             return 225
+            return 225
         case 1:
-             return 99
+            return 99
         case 2:
-             return 319
+            return 319
         case 3:
-             return 99
+            return 99
         case 4:
-             return 99
+            return 99
         default:
             return 0
         }
@@ -430,69 +373,30 @@ class LandingScreen: GAITrackedViewController,UITableViewDataSource, UITableView
             switch (indexPath as NSIndexPath).row {
             case 0:
                 self.navigationItem.backBarButtonItem = UIBarButtonItem(title: " ", style: .plain, target: nil, action: nil)
-                if UserDefaults.standard.bool(forKey: "USER_LOGGED_IN") {
                     DispatchQueue.main.async {
                         self.performSegue(withIdentifier: "XTime", sender: self)
                     }
-                    
-                }
-                else {
-                    
-                    let alertController = UIAlertController(title: "CoxAxle", message: "Please log in into the coxaxle application in order to use the services", preferredStyle: .alert)
-                    
-                    let defaultAction = UIAlertAction(title: "OK", style: .default, handler: { (action: UIAlertAction!) in
-                        
-                    })
-                    alertController.addAction(defaultAction)
-                    
-                    let otherAction = UIAlertAction(title: "Cancel", style: .default, handler: { (action: UIAlertAction!) in
-                    })
-                    alertController.addAction(otherAction)
-                    
-                    DispatchQueue.main.async(execute: {
-                        self.present(alertController, animated: true, completion: nil)
-                    })
-                }
                 break
             case 1:
-                if UserDefaults.standard.bool(forKey: "USER_LOGGED_IN") {
                     self.showAlertwithCancelButton("CoxAxle", message: "Functionality in progress", cancelButton: "OK")
-                }
-                else {
-                    
-                    let alertController = UIAlertController(title: "CoxAxle", message: "Please log in into the coxaxle application in order to use the services", preferredStyle: .alert)
-                    
-                    let defaultAction = UIAlertAction(title: "OK", style: .default, handler: { (action: UIAlertAction!) in
-                        
-                    })
-                    alertController.addAction(defaultAction)
-                    
-                    let otherAction = UIAlertAction(title: "Cancel", style: .default, handler: { (action: UIAlertAction!) in
-                    })
-                    alertController.addAction(otherAction)
-                    
-                    DispatchQueue.main.async(execute: {
-                        self.present(alertController, animated: true, completion: nil)
-                    })
-                }
                 break
             default:
                 break
             }
-            case 3:
-                switch (indexPath as NSIndexPath).row {
-                case 0:
-                    DispatchQueue.main.async {
-                      self.performSegue(withIdentifier: "Inventory", sender: self)
-                    }
-                    break
-                case 1:
-                    DispatchQueue.main.async {
-                      self.performSegue(withIdentifier: "SavedSearches", sender: self)
-                    }
-                    break
-                default:
-                    break
+        case 3:
+            switch (indexPath as NSIndexPath).row {
+            case 0:
+                DispatchQueue.main.async {
+                    self.performSegue(withIdentifier: "DealerInventory", sender: self)
+                }
+                break
+            case 1:
+                DispatchQueue.main.async {
+                    self.performSegue(withIdentifier: "SavedSearches", sender: self)
+                }
+                break
+            default:
+                break
             }
             
         default:
@@ -563,9 +467,9 @@ class LandingScreen: GAITrackedViewController,UITableViewDataSource, UITableView
         case 1:
             return 60
         case 2:
-             return 60
+            return 60
         case 3:
-             return 60
+            return 60
         case 4:
             return 1
         default:
@@ -573,7 +477,7 @@ class LandingScreen: GAITrackedViewController,UITableViewDataSource, UITableView
         }
     }
     
-     func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
+    func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
         switch section {
         case 0:
             return 0.00002
@@ -584,7 +488,7 @@ class LandingScreen: GAITrackedViewController,UITableViewDataSource, UITableView
     }
     
     //MARK:- UICOLLECTIONVIEW DATA SOURCE METHODS
-
+    
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAtIndex section: Int) -> CGFloat {
         
@@ -624,7 +528,7 @@ class LandingScreen: GAITrackedViewController,UITableViewDataSource, UITableView
                 noDataLabel.textAlignment = .center
                 self.myCarsCollectionView.backgroundView = noDataLabel
             }
-
+            
             return self.vehiclesArray.count
         }
     }
@@ -647,7 +551,7 @@ class LandingScreen: GAITrackedViewController,UITableViewDataSource, UITableView
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         if collectionView.tag == 1 {
-             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: bannerCollectionViewCellReuseIdentifier, for: indexPath) as! BannerCollectionViewCell
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: bannerCollectionViewCellReuseIdentifier, for: indexPath) as! BannerCollectionViewCell
             
             let imageURLString = (self.bannerImagesArray[indexPath.row] as AnyObject).value(forKey: "banner") as! NSString
             
@@ -657,11 +561,10 @@ class LandingScreen: GAITrackedViewController,UITableViewDataSource, UITableView
         else {
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: myCarsCollectionViewCellReuseIdentifier, for: indexPath) as! MyCarsCollectionViewCell
             
-            let imageArray = self.vehiclesArray[(indexPath as NSIndexPath).row].value(forKey: "vechicle_image") as! NSArray
-                let imageURLString = (imageArray[0] as AnyObject).value(forKey: "image_url") as! NSString
+            let imageURLString = self.vehiclesArray[(indexPath as NSIndexPath).row].value(forKey: "photo") as! NSString
             
-             cell.carImageView.setImageWith(URL(string: imageURLString as String), placeholderImage: UIImage(named: "placeholder"), options: SDWebImageOptions(rawValue: UInt(0)), usingActivityIndicatorStyle: UIActivityIndicatorViewStyle.gray)
-        
+            cell.carImageView.setImageWith(URL(string: imageURLString as String), placeholderImage: UIImage(named: "placeholder"), options: SDWebImageOptions(rawValue: UInt(0)), usingActivityIndicatorStyle: UIActivityIndicatorViewStyle.gray)
+            
             cell.carName.text = self.vehiclesArray[(indexPath as NSIndexPath).row].value(forKey: "name") as? String
             cell.carAppointmentDate.text = String(format: "%@ %@ • %@ Miles", (self.vehiclesArray[(indexPath as NSIndexPath).row].value(forKey: "year") as? String)!, (self.vehiclesArray[(indexPath as NSIndexPath).row].value(forKey: "model") as? String)!, (self.vehiclesArray[(indexPath as NSIndexPath).row].value(forKey: "mileage") as? String)!)
             
@@ -672,30 +575,10 @@ class LandingScreen: GAITrackedViewController,UITableViewDataSource, UITableView
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         collectionView.deselectItem(at: indexPath, animated: true)
         if collectionView.tag == 2 {
-        self.navigationItem.backBarButtonItem = UIBarButtonItem(title: " ", style: .plain, target: nil, action: nil)
-            if UserDefaults.standard.bool(forKey: "USER_LOGGED_IN") {
+            self.navigationItem.backBarButtonItem = UIBarButtonItem(title: " ", style: .plain, target: nil, action: nil)
                 DispatchQueue.main.async {
                     self.performSegue(withIdentifier: "VehicleDetails", sender: indexPath)
                 }
-                
-            }
-            else {
-                
-                let alertController = UIAlertController(title: "CoxAxle", message: "Please log in into the coxaxle application in order to use the services", preferredStyle: .alert)
-                
-                let defaultAction = UIAlertAction(title: "OK", style: .default, handler: { (action: UIAlertAction!) in
-                    
-                })
-                alertController.addAction(defaultAction)
-                
-                let otherAction = UIAlertAction(title: "Cancel", style: .default, handler: { (action: UIAlertAction!) in
-                })
-                alertController.addAction(otherAction)
-                
-                DispatchQueue.main.async(execute: {
-                    self.present(alertController, animated: true, completion: nil)
-                })
-            }
         }
     }
     
@@ -741,8 +624,7 @@ class LandingScreen: GAITrackedViewController,UITableViewDataSource, UITableView
             
             let loading = UIActivityIndicatorView_ActivityClass(text: "Loading")
             self.view.addSubview(loading)
-            let userId: String = UserDefaults.standard.object(forKey: "UserId") as! String
-            let paramsDict: [ String : String] = ["dealer_id": "37", "uid": userId] as Dictionary
+            let paramsDict: [ String : String] = ["dealer_code": Constant.Dealer.DealerCode] as Dictionary
             print(NSString(format: "Request: %@", paramsDict))
             
             Alamofire.request(Constant.API.kBaseUrlPath+"dealers/dealersinfo", method: .post, parameters: paramsDict).responseJSON { response in
@@ -754,9 +636,24 @@ class LandingScreen: GAITrackedViewController,UITableViewDataSource, UITableView
                     if status == "True"  {
                         do {
                             let dict: DealerInfo = try DealerInfo(dictionary: JSON as! [AnyHashable: Any])
-                        
+                            
                             self.dealerDict = dict.response! as DealersInfoResponse
                             print(self.dealerDict)
+                            
+                            let main = self.dealerDict?.value(forKey: "main_contact_number") as! String
+                            let sales = self.dealerDict?.value(forKey: "sale_contact") as! String
+                            let service = self.dealerDict?.value(forKey: "service_desk_contact") as! String
+                            let collision = self.dealerDict?.value(forKey: "collision_desk_contact") as! String
+                            
+                            UserDefaults.standard.set(main, forKey: "Dealer_Main")
+                            UserDefaults.standard.synchronize()
+                            UserDefaults.standard.set(sales, forKey: "Dealer_Sales")
+                            UserDefaults.standard.synchronize()
+                            UserDefaults.standard.set(service, forKey: "Dealer_Services")
+                            UserDefaults.standard.synchronize()
+                            UserDefaults.standard.set(collision, forKey: "Dealer_Collision")
+                            UserDefaults.standard.synchronize()
+                            
                             self.bannerImagesArray = self.dealerDict?.value(forKey: "banner_image") as! Array<AnyObject>
                             DispatchQueue.main.async {
                                 self.bannerPageControl.numberOfPages = self.bannerImagesArray.count
@@ -796,49 +693,49 @@ class LandingScreen: GAITrackedViewController,UITableViewDataSource, UITableView
             let loading = UIActivityIndicatorView_ActivityClass(text: "Loading".localized(self.language!))
             self.view.addSubview(loading)
             let userId: String = UserDefaults.standard.object(forKey: "UserId") as! String
-            let paramsDict: [ String : String] = ["uid": userId] as Dictionary
+            let paramsDict: [ String : String] = ["uid": userId, "dealer_code": Constant.Dealer.DealerCode] as Dictionary
             print(NSString(format: "Request: %@", paramsDict))
             
             Alamofire.request(Constant.API.kBaseUrlPath+"vehicle/list", method: .post, parameters: paramsDict).responseJSON { response in
-                    loading.hide()
-                    if let JSON = response.result.value {
-                        
-                        print(NSString(format: "Response: %@", JSON as! NSDictionary))
-                        let status = (JSON as AnyObject).value(forKey: "status") as! String
-                        if status == "True"  {
-                               do {
-                             let dict: VehiclesList = try VehiclesList(dictionary: JSON as! [AnyHashable: Any])
-                             
-                             
-                             self.vehiclesArray = dict.response?.data as! Array<AnyObject>
-                             
-                                print(self.vehiclesArray)
-                                DispatchQueue.main.async {
-                                    let deviceType = UIDevice.current.modelName
-                                    if deviceType == "iPhone 6" || deviceType == "iPhone 6s" || deviceType == "iPhone 6 Plus" || deviceType == "iPhone 6s Plus" || deviceType == "iPhone 7" || deviceType == "iPhone 7 Plus" {
+                loading.hide()
+                if let JSON = response.result.value {
+                    
+                    print(NSString(format: "Response: %@", JSON as! NSDictionary))
+                    let status = (JSON as AnyObject).value(forKey: "status") as! String
+                    if status == "True"  {
+                        do {
+                            let dict: VehiclesList = try VehiclesList(dictionary: JSON as! [AnyHashable: Any])
+                            
+                            
+                            self.vehiclesArray = dict.response?.data as! Array<AnyObject>
+                            
+                            print(self.vehiclesArray)
+                            DispatchQueue.main.async {
+                                let deviceType = UIDevice.current.modelName
+                                if deviceType == "iPhone 6" || deviceType == "iPhone 6s" || deviceType == "iPhone 6 Plus" || deviceType == "iPhone 6s Plus" || deviceType == "iPhone 7" || deviceType == "iPhone 7 Plus" {
+                                    self.myCarsPageControl.numberOfPages = self.vehiclesArray.count
+                                    self.myCarsCollectionView.reloadData()
+                                }
+                                
+                                if self.alreadyLoaded == true {
+                                    if deviceType == "iPhone 5" || deviceType == "iPhone 5s" || deviceType == "iPhone SE" {
                                         self.myCarsPageControl.numberOfPages = self.vehiclesArray.count
                                         self.myCarsCollectionView.reloadData()
                                     }
                                     
-                                    if self.alreadyLoaded == true {
-                                        if deviceType == "iPhone 5" || deviceType == "iPhone 5s" || deviceType == "iPhone SE" {
-                                            self.myCarsPageControl.numberOfPages = self.vehiclesArray.count
-                                            self.myCarsCollectionView.reloadData()
-                                        }
-                                        
-                                    }
-                                
                                 }
-                             }
-                             catch let error as NSError {
-                             NSLog("Unresolved error \(error), \(error.userInfo)")
-                             }
-                        }
-                        else {
-//                            let errorMsg = (JSON as AnyObject).value(forKey: "message") as! String
-//                            self.showAlertwithCancelButton("Error", message: errorMsg as NSString, cancelButton: "OK".localized(self.language!) as NSString)
+                                
                             }
+                        }
+                        catch let error as NSError {
+                            NSLog("Unresolved error \(error), \(error.userInfo)")
+                        }
                     }
+                    else {
+                        //                            let errorMsg = (JSON as AnyObject).value(forKey: "message") as! String
+                        //                            self.showAlertwithCancelButton("Error", message: errorMsg as NSString, cancelButton: "OK".localized(self.language!) as NSString)
+                    }
+                }
             }
         }
         else {
@@ -864,5 +761,5 @@ class LandingScreen: GAITrackedViewController,UITableViewDataSource, UITableView
             vehiclesList.fromXTime = true
         }
     }
-
+    
 }

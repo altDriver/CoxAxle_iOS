@@ -18,4 +18,10 @@ class InventoryResultsCollectionViewCell: UICollectionViewCell {
     @IBOutlet var vehicleImageViewHeight: NSLayoutConstraint!
     @IBOutlet var vehicleNameTopConstraint: NSLayoutConstraint!
     @IBOutlet var favoriteButton: UIButton!
+    
+    
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        favoriteButton.removeTarget(nil, action: nil, for: .allEvents)
+    }
 }

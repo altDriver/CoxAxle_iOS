@@ -12,11 +12,27 @@ struct Constant {
     
     //MARK:- BASE URL
     struct API {
-        // Local Base URL
-        static let kBaseUrlPath = "http://192.168.8.101/ecommerce_crm/coxaxle_api/public/"
+        //Staging Local COX Live URL
+      //  static let kBaseUrlPath = "http://192.168.8.101/ecommerce_crm/uatcoxapi/public/"
         
-        //UAT Base URL
-       // static let kBaseUrlPath = "http://123.176.36.197/ecommerce_crm/coxaxle_api/public/"
+        //UAT Public COX Live URL
+        static let kBaseUrlPath = "http://123.176.36.197/ecommerce_crm/uatcoxapi/public/"
+    }
+    
+    struct Dealer {
+        // Staging Dealer code
+       // static let DealerCode = "KH002"
+        
+        // UAT COX Dealer Code
+        static let DealerCode = "1000"
+    }
+    
+    struct Platform {
+        
+        static var isSimulator: Bool {
+            return TARGET_OS_SIMULATOR != 0 // Use this line in Xcode 7 or newer
+            //return TARGET_IPHONE_SIMULATOR != 0 // Use this line in Xcode 6
+        }
     }
     
     struct iPhoneScreen {
